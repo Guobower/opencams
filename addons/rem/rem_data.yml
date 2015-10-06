@@ -1,0 +1,51 @@
+-
+  !record {model: rem.unit.type, id: rem_unit_type_1}:
+    name: Flats / Appartments
+    active: True
+
+-
+  !record {model: rem.unit.type, id: rem_unit_type_2}:
+    name: Houses
+    active: True
+    
+-
+  !record {model: rem.unit.type, id: rem_unit_type_3}:
+    name: Bungalows
+    active: True    
+-
+  !record {model: rem.unit.type, id: rem_unit_type_4}:
+    name: Land
+    active: True
+-
+  !record {model: rem.unit.type, id: rem_unit_type_5}:
+    name: Commercial Property
+    active: True
+    
+-
+  !record {model: rem.unit.type, id: rem_unit_type_6}:
+    name: Other
+    active: True
+
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_1}:
+    name: Disabled
+
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_2}:
+    name: For Rent
+    
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_3}:
+    name: Rented
+    
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_4}:
+    name: For Sale
+    
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_5}:
+    name: Sold
+    
+-
+  !record {model: rem.unit.stage, id: rem_unit_stage_4}:
+    name: In Refurbishment

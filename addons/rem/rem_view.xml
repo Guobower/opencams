@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+        <!-- Top menu item -->
+        <menuitem name="Real Estate"
+            id="menu_rem"
+            groups="base.group_user"
+            sequence="50"/>
+		<menuitem id="menu_rem_obj" parent="menu_rem" name="Asset Data"/>
+		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration"/>
+		
+        <!-- 
+        	Realestate Asset 
+        -->
+        <!-- Realestate Asset Tree View -->
+
+        <record model="ir.ui.view" id="view_rem_unit_tree">
+            <field name="name">rem.unit.tree</field>
+            <field name="model">rem.unit</field>
+            <field name="arch" type="xml">
+                <tree string="Real Estate Unit">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Realestate Asset Search View -->
+
+        <record id="view_rem_unit_filter" model="ir.ui.view">
+            <field name="name">rem.unit.filter</field>
+            <field name="model">rem.unit</field>
+            <field name="arch" type="xml">
+                <search string="Search Real Estate Unit">
+                    <field name="name"/>
+                    <separator/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Realestate Asset Form View -->
+        
+        <record model="ir.ui.view" id="view_rem_unit_form">
+            <field name="name">rem.unit.form</field>
+            <field name="model">rem.unit</field>
+            <field name="arch" type="xml">
+                <form string="Real Estate Unit">
+                <header>
+                </header>
+                <sheet>
+				    <div class="oe_right oe_button_box" name="buttons">
+				        <field name="stage_id" widget="statusbar"/>
+				    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Describe the unit ..."/></h1>
+                    </div>
+                    <group>
+	                    <group>
+		                    <field name="stage_id"/>
+		                    <field name="create_date"/>
+		                    <field name="user_id" placeholder="Salesman"/>
+		                    <field name="active"/>
+	                    </group>
+	                    <group>
+		                    <field name="bedrooms"/>
+		                    <field name="bathrooms"/>
+	                    </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Realestate Asset Action Window -->
+        
+        <record id="action_rem_unit" model="ir.actions.act_window">
+            <field name="name">Real Estate Units</field>
+            <field name="res_model">rem.unit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a real estate unit.
+	            </p><p>
+	                The real estate units can be rentable or sellable
+	                being owned or just commissioned by your company.
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit" sequence="10"/>
+        
+        <!-- 
+        	Unit Type
+        -->
+        <!-- Unit Type Tree View -->
+
+        <record model="ir.ui.view" id="view_rem_unit_type_tree">
+            <field name="name">rem.unit.type.tree</field>
+            <field name="model">rem.unit.type</field>
+            <field name="arch" type="xml">
+                <tree string="Unit Type">
+                    <field name="name" string="Name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Unit Type Search View -->
+
+        <record id="view_rem_unit_type_filter" model="ir.ui.view">
+            <field name="name">rem.unit.type.filter</field>
+            <field name="model">rem.unit.type</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit Type">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Unit Type Form View -->
+        
+        <record model="ir.ui.view" id="view_rem_unit_type_form">
+            <field name="name">rem.unit.type.form</field>
+            <field name="model">rem.unit.type</field>
+            <field name="arch" type="xml">
+                <form string="Unit Type">
+	                <sheet>
+	                	<group>
+		                    <field name="name" string="Name"/>
+		                    <field name="active"/>
+	                    </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Unit Type Action Window -->
+        
+        <record id="action_rem_unit_type" model="ir.actions.act_window">
+            <field name="name">Unit Type</field>
+            <field name="res_model">rem.unit.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Type.
+	            </p><p>
+	                The Unit Type are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_type" name="Unit Type" parent="menu_rem_conf" action="action_rem_unit_type" sequence="100"/>
+
+        <!-- 
+        	Unit Stage 
+		-->
+        <!-- Unit Stage Tree View -->
+
+        <record model="ir.ui.view" id="view_rem_unit_stage_tree">
+            <field name="name">rem.unit.stage.tree</field>
+            <field name="model">rem.unit.stage</field>
+            <field name="arch" type="xml">
+                <tree string="Unit Stage">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Unit Stage Search View -->
+
+        <record id="view_rem_unit_stage_filter" model="ir.ui.view">
+            <field name="name">rem.unit.stage.filter</field>
+            <field name="model">rem.unit.stage</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit Stage">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Unit Stage Form View -->
+        
+        <record model="ir.ui.view" id="view_rem_unit_stage_form">
+            <field name="name">rem.unit.stage.form</field>
+            <field name="model">rem.unit.stage</field>
+            <field name="arch" type="xml">
+                <form string="Unit Stage">
+	                <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Describe the unit ..."/></h1>
+                        </div>
+	                	<group>
+	                	    <group>
+		                        <field name="create_date" string="Date"/>
+		                        <field name="active"/>
+	                        </group>
+	                    </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Unit Stage Action Window -->
+        
+        <record id="action_rem_unit_stage" model="ir.actions.act_window">
+            <field name="name">Unit Stage</field>
+            <field name="res_model">rem.unit.stage</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Stage.
+	            </p><p>
+	                The Unit Stage are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_stage" name="Unit Stage"  parent="menu_rem_conf" action="action_rem_unit_stage" sequence="100"/>
+</data>
+</openerp>
