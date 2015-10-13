@@ -11,11 +11,13 @@
 -
   !record {model: rem.unit.type, id: rem_unit_type_3}:
     name: Bungalows
-    active: True    
+    active: True
+
 -
   !record {model: rem.unit.type, id: rem_unit_type_4}:
     name: Land
     active: True
+
 -
   !record {model: rem.unit.type, id: rem_unit_type_5}:
     name: Commercial Property
@@ -29,23 +31,29 @@
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_1}:
     name: Disabled
+    active: True
 
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_2}:
     name: For Rent
+    active: True
     
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_3}:
     name: Rented
+    active: True
     
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_4}:
     name: For Sale
+    active: True
     
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_5}:
     name: Sold
+    active: True
     
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_4}:
     name: In Refurbishment
+    active: True

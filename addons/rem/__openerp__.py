@@ -10,7 +10,7 @@ Manage real estate assets for sale and rent management purposes
 
 
     """,
-    'website': 'https://diogocduarte.github.io',
+    'website': 'http://diogocduarte.github.io',
     'depends': ['base', 'account'],
     'category': 'Real Estate',
     'demo': [
@@ -26,5 +26,3 @@ Manage real estate assets for sale and rent management purposes
     'application': True,
     'auto_install': False,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

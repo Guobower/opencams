@@ -1,5 +1,5 @@
 -
-  !record {model: rem.unit, id: rem_unit_1}:
+  !record {model: rem.unit.type, id: rem_unit_type_1}:
     name: 2 bedroom flat near Hide Park
     active: True
 
@@ -11,7 +11,8 @@
 -
   !record {model: rem.unit.type, id: rem_unit_type_3}:
     name: Bungalow
-    active: True    
+    active: True
+
 -
   !record {model: rem.unit.type, id: rem_unit_type_4}:
     name: Land
