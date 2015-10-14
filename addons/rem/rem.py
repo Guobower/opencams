@@ -54,5 +54,5 @@ class RemUnit(models.Model):
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     bedrooms = fields.Integer(string='Number of bedrooms', default=1)
     bathrooms = fields.Integer(string='Number of bathrooms', default=1)
-    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id)
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
 

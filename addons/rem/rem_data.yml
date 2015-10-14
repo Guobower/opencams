@@ -1,7 +1,5 @@
 -
   Unit Types
--
-
 
 -
   !record {model: rem.unit.type, id: rem_unit_type_1}:
@@ -33,11 +31,8 @@
     name: Other
     active: True
 
-
 -
   Unit Contract Types
--
-
 
 -
   !record {model: contract.type, id: rem_unit_contract_type_sale}:
@@ -59,11 +54,8 @@
     name: Exchange
     active: True
 
- 
 -
   Unit Stages
--
-
 
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_1}:
