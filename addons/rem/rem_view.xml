@@ -167,6 +167,7 @@
             <field name="arch" type="xml">
                 <tree string="Unit Stage">
                     <field name="name"/>
+                    <field name="contract_type_id"/>
                 </tree>
             </field>
         </record>
@@ -179,6 +180,7 @@
             <field name="arch" type="xml">
                 <search string="Search Unit Stage">
                     <field name="name"/>
+                    <field name="contract_type_id"/>
                 </search>
             </field>
         </record>
@@ -197,6 +199,7 @@
                         </div>
 	                	<group>
 	                	    <group>
+	                	    	<field name="contract_type_id"/>
 		                        <field name="create_date" string="Date"/>
 		                        <field name="active"/>
 	                        </group>
