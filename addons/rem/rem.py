@@ -43,7 +43,7 @@ class RemUnit(models.Model):
 
     @api.model
     def _get_stage(self):
-        res = self.env['rem.unit.stage'].search([('contracttype_id', '=', False)], limit=1, order='sequence')
+        res = self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
         print res
         return res
 

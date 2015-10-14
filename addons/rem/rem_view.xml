@@ -181,6 +181,9 @@
                 <search string="Search Unit Stage">
                     <field name="name"/>
                     <field name="contract_type_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Type" domain="[]" help="Contract Type" context="{'group_by':'contract_type_id'}" name="grouppertype"/>
+                    </group>
                 </search>
             </field>
         </record>
@@ -215,6 +218,7 @@
             <field name="name">Unit Stage</field>
             <field name="res_model">rem.unit.stage</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_grouppertype': 1}</field>
 	        <field name="help" type="html">
 	            <p class="oe_view_nocontent_create">
 	                Click to add a Unit Stage.
