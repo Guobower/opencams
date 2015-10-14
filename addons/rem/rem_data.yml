@@ -10,7 +10,7 @@
   !record {model: rem.unit.type, id: rem_unit_type_2}:
     name: Houses
     active: True
-    
+
 -
   !record {model: rem.unit.type, id: rem_unit_type_3}:
     name: Bungalows
@@ -25,7 +25,7 @@
   !record {model: rem.unit.type, id: rem_unit_type_5}:
     name: Commercial Property
     active: True
-        
+
 -
   !record {model: rem.unit.type, id: rem_unit_type_6}:
     name: Other
@@ -38,17 +38,17 @@
   !record {model: contract.type, id: rem_unit_contract_type_sale}:
     name: Sale
     active: True
-    
+
 -
   !record {model: contract.type, id: rem_unit_contract_type_rent}:
     name: Rent
     active: True
-    
+
 -
   !record {model: contract.type, id: rem_unit_contract_type_share}:
     name: Share
     active: True
-    
+
 -
   !record {model: contract.type, id: rem_unit_contract_type_exchange}:
     name: Exchange
@@ -67,24 +67,25 @@
     name: For Rent
     active: True
     contract_type_id: rem.rem_unit_contract_type_rent
-    
+
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_3}:
     name: Rented
     active: True
     contract_type_id: rem.rem_unit_contract_type_rent
+
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_4}:
     name: For Sale
     active: True
     contract_type_id: rem.rem_unit_contract_type_sale
-    
+
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_5}:
     name: Sold
     active: True
     contract_type_id: rem.rem_unit_contract_type_sale
-    
+
 -
   !record {model: rem.unit.stage, id: rem_unit_stage_6}:
     name: In Refurbishment

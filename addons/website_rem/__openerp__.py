@@ -9,8 +9,9 @@ Public real estate agency website showroom
 ==========================================
 This Module allows to sell/rent real estate units
 
+
     """,
-    'website': 'https://diogocduarte.github.io',
+    'website': 'http://diogocduarte.github.io',
     'depends': ['rem', 'website'],
     'category': 'Real Estate',
     'demo': [
@@ -24,5 +25,3 @@ This Module allows to sell/rent real estate units
     'application': True,
     'auto_install': False,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
