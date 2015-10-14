@@ -43,9 +43,7 @@ class RemUnit(models.Model):
 
     @api.model
     def _get_stage(self):
-        res = self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
-        print res
-        return res
+        return self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
 
     name = fields.Char(string='Unit', size=32, required=True, help="Unit description (like house near riverside).")
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
@@ -55,4 +53,5 @@ class RemUnit(models.Model):
     bedrooms = fields.Integer(string='Number of bedrooms', default=1)
     bathrooms = fields.Integer(string='Number of bathrooms', default=1)
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
+    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True)
 
