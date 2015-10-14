@@ -225,6 +225,75 @@
 	        </field>
         </record>
 
-        <menuitem id="menu_rem_unit_stage" name="Unit Stage"  parent="menu_rem_conf" action="action_rem_unit_stage" sequence="100"/>
+        <menuitem id="menu_rem_unit_stage" name="Unit Stage" parent="menu_rem_conf" action="action_rem_unit_stage" sequence="100"/>
+        
+        <!-- 
+        	Real Estate Contract Type 
+		-->
+        <!-- Real Estate Contract Type Tree View -->
+
+        <record model="ir.ui.view" id="view_re_contract_type_tree">
+            <field name="name">contract.type.tree</field>
+            <field name="model">contract.type</field>
+            <field name="arch" type="xml">
+                <tree string="Real Estate Contract Type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Real Estate Contract Type Search View -->
+
+        <record id="view_re_contract_type_filter" model="ir.ui.view">
+            <field name="name">contract.type.filter</field>
+            <field name="model">contract.type</field>
+            <field name="arch" type="xml">
+                <search string="Search Real Estate Contract Type">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Real Estate Contract Type Form View -->
+        
+        <record model="ir.ui.view" id="view_re_contract_type_form">
+            <field name="name">contract.type.form</field>
+            <field name="model">contract.type</field>
+            <field name="arch" type="xml">
+                <form string="Real Estate Contract Type">
+	                <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Contract Type Description"/></h1>
+                        </div>
+	                	<group>
+	                	    <group>
+		                        <field name="create_date" string="Date"/>
+		                        <field name="active"/>
+	                        </group>
+	                    </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Real Estate Contract Type Action Window -->
+        
+        <record id="action_re_contract_type" model="ir.actions.act_window">
+            <field name="name">Real Estate Contract Type</field>
+            <field name="res_model">contract.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Real Estate Contract Type.
+	            </p><p>
+	                The Real Estate Contract Type 
+	                allowing you to define the type of contract
+	                established for your units: rent, sale, share ...
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_re_contract_type" name="Real Estate Contract Type" parent="menu_rem_conf" action="action_re_contract_type" sequence="100"/>
 </data>
 </openerp>
