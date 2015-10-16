@@ -15,7 +15,7 @@ PPR = 4  # Products Per Row
 
 
 class WebsiteRem(openerp.addons.web.controllers.main.Home):
-    @http.route('/website_rem', type='http', auth="public", website=True)
+    @http.route('/rem', type='http', auth="public", website=True)
     def index(self, **kw):
         return http.request.render('website_rem.index')
 
