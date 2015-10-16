@@ -36,6 +36,11 @@
     font-size: 1.2em;
 }
 
+#index-body-container .unit-info-icon.mdi-maps-local-hotel
+{
+    font-size: 1.4em;
+}
+
 #index-body-container .unit-info-number,
 #search-container label
 {
