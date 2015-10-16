@@ -1,104 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
+    <data>
+        <template id="index" name="Real Estate">
+            <t t-call="website_rem.skeleton"/>
+        </template>
 
-<!-- Layout and common templates -->
+        <template id="skeleton" name="Skeleton">
+            <html lang="en">
+                <head>
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                    <meta http-equiv="content-language" content="PT"/>
+                    <meta name="robots" content="index,follow"/>
+                    <meta name="description" content=""/>
+                    <meta name="Keywords" content=""/>
+                    <meta property="og:title" content=""/>
+                    <meta property="og:description" content=""/>
+                    <meta property="og:url" content=""/>
+                    <meta property="og:image" content=""/>
+                    <meta property="og:site_name" content=""/>
+                    <meta property="og:type" content=""/>
+                    <link rel="icon" type="image/ico" href=""/>
+                    <t t-call="website_rem.css-dependencies"/>
+                    <title></title>
+                </head>
+                <body>
+                    <t t-call="website_rem.main-navbar"/>
+                    <t t-call="website_rem.index-content"/>
+                    <t t-call="website_rem.js-dependencies"/>
+                    <t t-call="website_rem.main-footer"/>
+                </body>
+            </html>
+        </template>
 
-<template id="assets_frontend" inherit_id="website.assets_frontend" name="REM">
-  <xpath expr="." position="inside">
-      <link rel='stylesheet' href='/website_rem/static/src/css/website_rem.css'/>
-      <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"></script>
-  </xpath>
-</template>
+        <template id="css-dependencies" name="CSS Dependencies">
+            <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/bootstrap.min.css"/>
+            <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/bootstrap-select.min.css"/>
+            <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/font-awesome.min.css"/>
+            <link href="/website_rem/static/src/css/roboto.min.css" rel="stylesheet"/>
+            <link href="/website_rem/static/src/css/material.min.css" rel="stylesheet"/>
+            <link href="/website_rem/static/src/css/ripples.min.css" rel="stylesheet"/>
+            <link href="/website_rem/static/src/css/opensans.css" rel="stylesheet"/>
+            <link href="/website_rem/static/src/css/defaults.css" rel="stylesheet"/>
+            <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/index.css"/>
+        </template>
 
-<template id="404">
-  <t t-call="website.layout">
-      <div id="wrap">
-          <div class="oe_structure oe_empty">
-              <div class="container">
-                  <h1 class="mt32">Unit not found!</h1>
-                  <p>Sorry, this unit is not available anymore.</p>
-                  <p><a t-attf-href="/rem">Return to the unit list.</a></p>
+        <template id="js-dependencies" name="JS Dependencies">
+            <script type="text/javascript" src="/website_rem/static/src/js/jquery.min.js"></script>
+            <script type="text/javascript" src="/website_rem/static/src/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="/website_rem/static/src/js/bootstrap-select.min.js"></script>
+            <script src="/website_rem/static/src/js/material.min.js"></script>
+            <script src="/website_rem/static/src/js/ripples.min.js"></script>
+            <script>$(document).ready(function() {$.material.init();});</script>
+        </template>
+
+        <template id="main-navbar" name="Header">
+            <div id="container-fluid" class="clearfix">
+                <div id="row">
+                    <div class="col-xs-12">
+                        <div class="navbar navbar-warning">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-warning-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="javascript:void(0)">Brand</a>
+                            </div>
+                            <div class="navbar-collapse collapse navbar-warning-collapse">
+                                <form class="navbar-form navbar-left">
+                                    <input type="text" class="form-control col-lg-8" placeholder="Search"/>
+                                </form>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="javascript:void(0)"><i class="mdi-communication-business mdi-material-white"></i></a></li>
+                                    <li><a href="javascript:void(0)"><i class="mdi-maps-local-post-office mdi-material-white"></i></a></li>
+                                    <li><a href="javascript:void(0)"><i class="mdi-action-account-circle mdi-material-white"></i></a></li>
+                                    <li class="dropdown">
+                                        <a href="index.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="mdi-navigation-more-vert mdi-material-white"></i><div class="ripple-wrapper"></div></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:void(0)">Action</a></li>
+                                            <li><a href="javascript:void(0)">Another action</a></li>
+                                            <li><a href="javascript:void(0)">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="javascript:void(0)">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="main-footer" name="Footer">
+            <div id="container-fluid">
+                <div id="row">
+                    <div class="col-xs-12">
+                        <div id="footer-container" class="clearfix">
+                            <div class="pull-left">
+                                   © Copyright 2015
+                               </div>
+                               <div class="pull-right">
+                                   <span class="footer-social">
+                                       <i class="fa fa-facebook"></i>
+                                   </span>
+                                    <span class="footer-social">
+                                       <i class="fa fa-twitter"></i>
+                                   </span>
+                               </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="index-content" name="Index">
+            <div id="index-body-container" class="container clearfix">
+                <div class="row">
+                    <div class="col-md-9 col-sx-12">
+                        <div class="row">
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail default-box-radius">
+                                    <img src="/website_rem/static/src/img/1.jpg" alt=""/>
+                                    <span class="unit-price default-border-radius">$63.152</span>
+                                    <div class="caption">
+                                        <div class="unit-type">House</div>
+                                        <div class="unit-location">Porto, Maia</div>
+                                        <div class="unit-info">
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-bed unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-tint unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-car unit-info-icon"></i>
+                                                <span class="unit-info-number">1</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-building unit-info-icon"></i>
+                                                <span class="unit-info-number">253m<sup>2</sup></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail default-box-radius">
+                                    <img src="/website_rem/static/src/img/2.jpg" alt=""/>
+                                    <span class="unit-price default-border-radius">$23.466</span>
+                                    <div class="caption">
+                                        <div class="unit-type">Land</div>
+                                        <div class="unit-location">Braga, Guimarães</div>
+                                        <div class="unit-info">
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-bed unit-info-icon"></i>
+                                                <span class="unit-info-number">4</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-tint unit-info-icon"></i>
+                                                <span class="unit-info-number">1</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-building unit-info-icon"></i>
+                                                <span class="unit-info-number">452m<sup>2</sup></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail default-box-radius">
+                                    <img src="/website_rem/static/src/img/3.jpg" alt=""/>
+                                    <span class="unit-price default-border-radius">$6.845</span>
+                                    <div class="caption">
+                                        <div class="unit-type">Bungalow</div>
+                                        <div class="unit-location">Viseu, Tábua</div>
+                                        <div class="unit-info">
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-bed unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-tint unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-car unit-info-icon"></i>
+                                                <span class="unit-info-number">1</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-building unit-info-icon"></i>
+                                                <span class="unit-info-number">253m<sup>2</sup></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail default-box-radius">
+                                    <img src="/website_rem/static/src/img/1.jpg" alt=""/>
+                                    <span class="unit-price default-border-radius">21.345</span>
+                                    <div class="caption">
+                                        <div class="unit-type">House</div>
+                                        <div class="unit-location">Viseu, Tábua</div>
+                                        <div class="unit-info">
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-bed unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-tint unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-building unit-info-icon"></i>
+                                                <span class="unit-info-number">253m<sup>2</sup></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail default-box-radius">
+                                    <img src="/website_rem/static/src/img/2.jpg" alt=""/>
+                                    <span class="unit-price default-border-radius">$632.152</span>
+                                    <div class="caption">
+                                        <div class="unit-type">Land</div>
+                                        <div class="unit-location">Porto, Maia</div>
+                                        <div class="unit-info">
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-bed unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-tint unit-info-icon"></i>
+                                                <span class="unit-info-number">2</span>
+                                            </span>
+                                            <span class="unit-info-container">
+                                                <i class="fa fa-building unit-info-icon"></i>
+                                                <span class="unit-info-number">253m<sup>2</sup></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sx-12">
+                        <div id="search-container" class="default-border-radius default-box-radius">
+                            <label>Location</label>
+                            <select class="form-control default-border-radius">
+                                <option>-</option>
+                                <option>Braga</option>
+                                <option>Viseu</option>
+                            </select>
+                            <label>Type</label>
+                            <select class="form-control default-border-radius">
+                                <option>-</option>
+                                <option>Braga</option>
+                                <option>Viseu</option>
+                            </select>
+                            <label>Beds</label>
+                            <select class="form-control default-border-radius">
+                                <option>-</option>
+                                <option>Braga</option>
+                                <option>Viseu</option>
+                            </select>
+                            <label>Baths</label>
+                            <select class="form-control default-border-radius">
+                                <option>-</option>
+                                <option>Braga</option>
+                                <option>Viseu</option>
+                            </select>
+                            <input type="text" class="form-control floating-label" placeholder="Property ID"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    <!-- Layout and common templates -->
+    <!--
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="REM">
+      <xpath expr="." position="inside">
+          <link rel='stylesheet' href='/website_rem/static/src/css/website_rem.css'/>
+          <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"></script>
+      </xpath>
+    </template>
+
+    <template id="404">
+      <t t-call="website.layout">
+          <div id="wrap">
+              <div class="oe_structure oe_empty">
+                  <div class="container">
+                      <h1 class="mt32">Unit not found!</h1>
+                      <p>Sorry, this unit is not available anymore.</p>
+                      <p><a t-attf-href="/rem">Return to the unit list.</a></p>
+                  </div>
               </div>
           </div>
-      </div>
-  </t>
-</template>
+      </t>
+    </template>
 
-<template id="website.layout_footer_copyright" inherit_id="website.layout" name="Footer Copyright">
-    <xpath expr="//footer" position="inside">
-        <div class="container mt16 mb8">
-            <div class="pull-right" t-ignore="true" t-if="not editable">
-                Powered by <a class="label label-danger" href="http://www.it4real.com/page/rem-system">Odoo</a>,
-                the Real Estate Management System.
+    <template id="website.layout_footer_copyright" inherit_id="website.layout" name="Footer Copyright">
+        <xpath expr="//footer" position="inside">
+            <div class="container mt16 mb8">
+                <div class="pull-right" t-ignore="true" t-if="not editable">
+                    Powered by <a class="label label-danger" href="http://www.it4real.com/page/rem-system">Odoo</a>,
+                    the Real Estate Management System.
+                </div>
+                <div class="pull-left text-muted">
+                    Copyright &amp;copy; www.it4real.com
+                </div>
             </div>
-            <div class="pull-left text-muted">
-                Copyright &amp;copy; www.it4real.com
-            </div>
-        </div>
-    </xpath>
-</template>
+        </xpath>
+    </template>
+    -->
+    <!-- /rem product listing -->
+    <!--
+    <template id="unit_list" name="Unit List">
+      <t t-call="website.layout">
+          <t t-set="additional_title">Unit List</t>
+          <div id="wrap" class="js_sale">
+            <div class="oe_structure"/>
+            <div class="container oe_website_rem">
+              <div class="units_pager">
+                <div class="row" style="width: 100%;">
+                  <t t-set="search_class">pagination form-inline col-md-3</t></t>
+                  <t t-call="website.pager"/>
+                </div>
+              </div>
+              <div class='row'>
+                <div class="hidden" id="units_grid_before"></div>
+                <div class="col-md-12" id="units_grid">
+                  <table width="100%">
+                    <tbody>
+                      <tr t-ignore="true">
+                        <td t-foreach="range(0,rows)" t-as="row" t-attf-width="#{100/rows}%"></td>
+                      </tr>
+                      <tr t-foreach="bins" t-as="tr_unit">
+                        <t t-foreach="tr_unit" t-as="td_unit">
+                          <t t-if="td_unit">
+                          <t t-set="unit" t-value="td_unit['unit']"/>
+                          <td t-att-colspan="td_unit[['x'] != 1 and td_unit[['x']"
+                              t-att-rowspan="td_unit[['y'] != 1 and td_unit['y']"
+                              t-attf-class="oe_unit oe_grid oe-height-#{td_unit['y']*2} #{ td_unit['class'] }">
 
-<!-- /rem product listing -->
+                              <div class="oe_unit_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+                                <t t-set="product_image_big" t-value="td_unit['x']+td_unit['y'] > 2"/>
+                              </div>
 
-<template id="unit_list" name="Unit List">
-  <t t-call="website.layout">
-      <t t-set="additional_title">Unit List</t>
-      <div id="wrap" class="js_sale">
-        <div class="oe_structure"/>
-        <div class="container oe_website_rem">
-          <div class="units_pager">
-            <div class="row" style="width: 100%;">
-              <t t-set="search_class">pagination form-inline col-md-3</t></t>
-              <t t-call="website.pager"/>
-            </div>
-          </div>
-          <div class='row'>
-            <div class="hidden" id="units_grid_before"></div>
-            <div class="col-md-12" id="units_grid">
-              <table width="100%">
-                <tbody>
-                  <tr t-ignore="true">
-                    <td t-foreach="range(0,rows)" t-as="row" t-attf-width="#{100/rows}%"></td>
-                  </tr>
-                  <tr t-foreach="bins" t-as="tr_unit">
-                    <t t-foreach="tr_unit" t-as="td_unit">
-                      <t t-if="td_unit">
-                      <t t-set="unit" t-value="td_unit['unit']"/>
-                      <td t-att-colspan="td_unit[['x'] != 1 and td_unit[['x']"
-                          t-att-rowspan="td_unit[['y'] != 1 and td_unit['y']"
-                          t-attf-class="oe_unit oe_grid oe-height-#{td_unit['y']*2} #{ td_unit['class'] }">
-
-                          <div class="oe_unit_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
-                            <t t-set="product_image_big" t-value="td_unit['x']+td_unit['y'] > 2"/>
-<!--                             <t t-call="website_rem.units_item"/> -->
-                          </div>
-
-                      </td>
+                          </td>
+                          </t>
+                          <td t-if="not td_unit" class="oe-height-2"/>
+                        </t>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <t t-if="not bins">
+                    <div class="text-center text-muted">
+                      <h3 class="css_editable_display">No product defined.</h3>
+                      <t groups="base.group_website_publisher">
+                        <p groups="base.group_sale_manager">Use the <i>'Content'</i> top menu to create a new product.</p>
                       </t>
-                      <td t-if="not td_unit" class="oe-height-2"/>
-                    </t>
-                  </tr>
-                </tbody>
-              </table>
-              <t t-if="not bins">
-                <div class="text-center text-muted">
-                  <h3 class="css_editable_display">No product defined.</h3>
-                  <t groups="base.group_website_publisher">
-                    <p groups="base.group_sale_manager">Use the <i>'Content'</i> top menu to create a new product.</p>
+                    </div>
                   </t>
                 </div>
-              </t>
+              </div>
+              <div class="units_pager">
+                  <t t-call="website.pager"/>
+              </div>
             </div>
+            <div class="oe_structure mb32"/>
           </div>
-          <div class="units_pager">
-              <t t-call="website.pager"/>
-          </div>
-        </div>
-        <div class="oe_structure mb32"/>
-      </div>
-  </t>
-</template>
-
-</data>
+      </t>
+    </template>
+    -->
+    </data>
 </openerp>

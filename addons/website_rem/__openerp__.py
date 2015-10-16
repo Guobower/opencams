@@ -12,12 +12,12 @@ This Module allows to sell/rent real estate units
 
     """,
     'website': 'http://diogocduarte.github.io',
-    'depends': ['rem', 'website'],
+    'depends': ['rem', 'web', 'web_editor', 'web_planner', 'website'],
     'category': 'Real Estate',
     'demo': [
     ],
     'data': [
-        'views/templates.xml',
+        'views/templates.xml'
     ],
     'test': [
     ],

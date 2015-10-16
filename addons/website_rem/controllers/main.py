@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import werkzeug
+import openerp
 
 from openerp import SUPERUSER_ID
 from openerp import http
@@ -7,10 +9,16 @@ from openerp import tools
 from openerp.http import request
 from openerp.tools.translate import _
 from openerp.addons.website.models.website import slug
-from openerp.addons.web.controllers.main import login_redirect
 
 PPG = 20 # Products Per Page
 PPR = 4  # Products Per Row
+
+
+class WebsiteRem(openerp.addons.web.controllers.main.Home):
+    @http.route('/website_rem', type='http', auth="public", website=True)
+    def index(self, **kw):
+        return http.request.render('website_rem.index')
+
 
 class table_compute(object):
     def __init__(self):
@@ -563,7 +571,7 @@ class website_sale(http.Controller):
             orm_partner.write(cr, SUPERUSER_ID, [partner_id], billing_info, context=context)
         else:
             # create partner
-            billing_info['team_id'] = request.registry.get('ir.model.data').xmlid_to_res_id(cr, uid, 'website.salesteam_website_sales') 
+            billing_info['team_id'] = request.registry.get('ir.model.data').xmlid_to_res_id(cr, uid, 'website.salesteam_website_sales')
             partner_id = orm_partner.create(cr, SUPERUSER_ID, billing_info, context=context)
 
         # create a new shipping partner
