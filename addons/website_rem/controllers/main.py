@@ -28,5 +28,10 @@ class website_rem(http.Controller):
         values = {
             'units': units
         }
-        return request.website.render("website_rem.units", values)
+
+        RemUnits = http.request.env['rem.unit']
+
+        return http.request.render('website_rem.units', {
+            'rem_units': RemUnits.search([])
+        })
     

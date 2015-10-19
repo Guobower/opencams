@@ -31,32 +31,20 @@
       <div id="wrap">
         <div class="oe_structure"/>
         <div class="container oe_website_rem">
-
-  
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://imobitabua.com/wp-content/uploads/2015/10/A521_1-270x200.jpg"/>
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-        <p>...</p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://imobitabua.com/wp-content/uploads/2015/10/A521_1-270x200.jpg"/>
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-        <p>...</p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
-</div>
- 
-		
+            <div class="row">
+                <t t-foreach="rem_units" t-as="rem_unit">
+                  <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                      <img src="http://imobitabua.com/wp-content/uploads/2015/10/A521_1-270x200.jpg"/>
+                      <div class="caption">
+                        <h3><t t-esc="rem_unit.name"/></h3>
+                        <p>...</p>
+                        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </t>
+            </div>
         </div>
         <div class="oe_structure mb32"/>
       </div>
