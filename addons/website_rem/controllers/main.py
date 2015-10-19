@@ -10,8 +10,7 @@ from openerp.http import request
 from openerp.tools.translate import _
 from openerp.addons.website.models.website import slug
 
-PPG = 5 # Products Per Page
-PPR = 2  # Products Per Row
+PPG = 2 # Products Per Page
 
 class table_compute(object):
     def __init__(self):
@@ -33,15 +32,13 @@ class website_rem(http.Controller):
             ppg = PPG
 
         domain = []# later we will use for search
-        pager_offset = PPR * (page - 1)
-        if pager_offset < 0: pager_offset = 0
 
         url = "/rem"
 
         units_obj = pool.get('rem.unit')
         units_count = units_obj.search_count(cr, uid, domain, context=context)
-        pager = request.website.pager(url=url, total=units_count, page=page, step=PPR, scope=7, url_args=post)
-        unit_ids = units_obj.search(cr, uid, domain, limit=PPR, offset=pager_offset, context=context)
+        pager = request.website.pager(url=url, total=units_count, page=page, step=PPG, scope=7, url_args=post)
+        unit_ids = units_obj.search(cr, uid, domain, limit=PPG, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, uid, unit_ids, context=context)
 
         values = {
