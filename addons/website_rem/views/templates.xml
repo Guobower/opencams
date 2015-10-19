@@ -32,6 +32,7 @@
         <div class="oe_structure"/>
         <div class="container oe_website_rem">
             <div class="row">
+                <t t-set="i" t-value="0"/>
                 <t t-foreach="rem_units" t-as="rem_unit">
                   <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
@@ -43,7 +44,19 @@
                       </div>
                     </div>
                   </div>
+                  <t t-set="i" t-value="i+1"/>
                 </t>
+                <div t-if="i==0">
+                    <h1>Sorry, no units available :(</h1>
+                </div>
+                <div t-if="i!=0">
+                    <div t-if="i==1">
+                        <h1><t t-esc="i"/> unit available!</h1>
+                    </div>
+                    <div t-if="i!=1">
+                        <h1><t t-esc="i"/> units available!</h1>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="oe_structure mb32"/>
