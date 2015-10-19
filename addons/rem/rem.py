@@ -37,6 +37,33 @@ class RemUnitStage(models.Model):
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=False)
 
+
+class RemImage(models.Model):
+    _name = 'rem.image'
+    _description = 'Unit Image'
+    
+    name = fields.Char(string='Unit', size=32, required=True, help="Unit description (like house near riverside).")
+    unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
+    # image: all image fields are base64 encoded and PIL-supported
+    image = fields.Binary("Image", attachment=True, help="Unit image, limited to 1024x1024px.")
+    image_medium = fields.Binary("Medium-sized image", compute='_compute_images', inverse='_inverse_image_medium', store=True, attachment=True)
+    image_small = fields.Binary("Small-sized image", compute='_compute_images', inverse='_inverse_image_small', store=True, attachment=True)
+    
+    @api.depends('image')
+    def _compute_images(self):
+        for rec in self:
+            rec.image_medium = tools.image_resize_image_medium(rec.image, avoid_if_small=True)
+            rec.image_small = tools.image_resize_image_small(rec.image)
+
+    def _inverse_image_medium(self):
+        for rec in self:
+            rec.image = tools.image_resize_image_big(rec.image_medium)
+
+    def _inverse_image_small(self):
+        for rec in self:
+            rec.image = tools.image_resize_image_big(rec.image_small)
+
+
 class RemUnit(models.Model):
     _name = 'rem.unit'
     _description = 'Real Estate Unit'
@@ -54,4 +81,5 @@ class RemUnit(models.Model):
     bathrooms = fields.Integer(string='Number of bathrooms', default=1)
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True)
-
+    # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
+    image_ids = fields.One2many('rem.image', 'unit_id', string='Photos')

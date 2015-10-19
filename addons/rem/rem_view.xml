@@ -42,36 +42,65 @@
         </record>
 
         <!-- Realestate Asset Form View -->
-        
-        <record model="ir.ui.view" id="view_rem_unit_form">
-            <field name="name">rem.unit.form</field>
-            <field name="model">rem.unit</field>
-            <field name="arch" type="xml">
-                <form string="Real Estate Unit">
-                <header>
-                    <field name="stage_id" widget="statusbar" clickable="True"/>
-                </header>
-                <sheet>
-                    <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name" placeholder="Describe the unit ..."/></h1>
-                    </div>
-                    <group>
-	                    <group>
-		                    <field name="contract_type_id"/>
-		                    <field name="create_date"/>
-		                    <field name="user_id" placeholder="Salesman"/>
-		                    <field name="active"/>
-	                    </group>
-	                    <group>
-		                    <field name="bedrooms"/>
-		                    <field name="bathrooms"/>
-	                    </group>
-                    </group>
-                </sheet>
-                </form>
-            </field>
-        </record>
+	
+		<record model="ir.ui.view" id="view_rem_unit_form">
+			<field name="name">rem.unit.form</field>
+			<field name="model">rem.unit</field>
+			<field name="arch" type="xml">
+				<form string="Real Estate Unit">
+					<header>
+						<field name="stage_id" widget="statusbar" clickable="True" />
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" />
+							<h1>
+								<field name="name" placeholder="Describe the unit ..." />
+							</h1>
+						</div>
+						<group>
+							<field name="contract_type_id" />
+							<field name="create_date" />
+							<field name="user_id" placeholder="Salesman" />
+							<field name="bedrooms" />
+							<field name="bathrooms" />
+							<field name="active" />
+						</group>
+						<notebook>
+							<page string="Vendors">
+								<group>
+									<field name="image_ids" mode="kanban" nolabel="1" context="{'default_unit_id': active_id}">
+										<kanban>
+											<field name="name" />
+											<field name="image" />
+											<field name="image_medium" />
+											<field name="unit_id" />
+											<templates>
+												<t t-name="kanban-box">
+													<div class="oe_kanban_global_click" style="position: relative">
+														<a t-if="! read_only_mode" type="delete"
+															style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+														<div class="oe_module_vignette">
+															<img
+																t-att-src="kanban_image('rem.image', 'image_medium', record.unit_id.raw_value)"
+																t-att-title="record.unit_id.value"  
+																class="img-responsive"/>
+															<div class="oe_module_desc">
+																<field name="name" />
+															</div>
+														</div>
+													</div>
+												</t>
+											</templates>
+										</kanban>
+									</field>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
 		
 		<!-- Realestate Asset Action Window -->
         
@@ -297,5 +326,54 @@
         </record>
 
         <menuitem id="menu_re_contract_type" name="Real Estate Contract Type" parent="menu_rem_conf" action="action_re_contract_type" sequence="100"/>
+
+        <!-- 
+        	Unit Image 
+		-->
+        <!-- Unit Image Tree View -->
+
+        <record model="ir.ui.view" id="view_rem_image_tree">
+            <field name="name">rem.image.tree</field>
+            <field name="model">rem.image</field>
+            <field name="arch" type="xml">
+                <tree string="Unit Image">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Unit Image Search View -->
+
+        <record id="view_rem_image_filter" model="ir.ui.view">
+            <field name="name">rem.image.filter</field>
+            <field name="model">rem.image</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit Image">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Unit Image Form View -->
+        
+        <record model="ir.ui.view" id="view_rem_image_form">
+            <field name="name">rem.image.form</field>
+            <field name="model">rem.image</field>
+            <field name="arch" type="xml">
+                <form string="Unit Image">
+	                <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Describe the photo ..."/></h1>
+                        </div>
+	                	<group>
+	                	    <group>
+		                        <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image_medium"}'/>
+	                        </group>
+	                    </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
 </data>
 </openerp>
