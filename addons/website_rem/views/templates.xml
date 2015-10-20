@@ -161,22 +161,30 @@
                                                         <div class="unit-type">House</div>
                                                         <div class="unit-name"><t t-esc="rem_unit.name"/></div>
                                                         <div class="unit-info">
-                                                            <span class="unit-info-container">
-                                                                <i class="mdi-maps-local-hotel unit-info-icon"></i>
-                                                                <span class="unit-info-number"><t t-esc="rem_unit.bedrooms"/></span>
-                                                            </span>
-                                                            <span class="unit-info-container">
-                                                                <i class="fa fa-tint unit-info-icon"></i>
-                                                                <span class="unit-info-number"><t t-esc="rem_unit.bathrooms"/></span>
-                                                            </span>
-                                                            <span class="unit-info-container">
-                                                                <i class="fa fa-car unit-info-icon"></i>
-                                                                <span class="unit-info-number"><t t-esc="rem_unit.garages"/></span>
-                                                            </span>
-                                                            <span class="unit-info-container">
-                                                                <i class="fa fa-building unit-info-icon"></i>
-                                                                <span class="unit-info-number"><t t-esc="rem_unit.area"/>m<sup>2</sup></span>
-                                                            </span>
+                                                            <t t-if="rem_unit.bedrooms!=0">
+                                                                <span class="unit-info-container">
+                                                                    <i class="mdi-maps-local-hotel unit-info-icon"></i>
+                                                                    <span class="unit-info-number"><t t-esc="rem_unit.bedrooms"/></span>
+                                                                </span>
+                                                            </t>
+                                                            <t t-if="rem_unit.bathrooms!=0">
+                                                                <span class="unit-info-container">
+                                                                    <i class="fa fa-tint unit-info-icon"></i>
+                                                                    <span class="unit-info-number"><t t-esc="rem_unit.bathrooms"/></span>
+                                                                </span>
+                                                            </t>
+                                                            <t t-if="rem_unit.garages!=0">
+                                                                <span class="unit-info-container">
+                                                                    <i class="fa fa-car unit-info-icon"></i>
+                                                                    <span class="unit-info-number"><t t-esc="rem_unit.garages"/></span>
+                                                                </span>
+                                                            </t>
+                                                            <t t-if="rem_unit.area!=0">
+                                                                <span class="unit-info-container">
+                                                                    <i class="fa fa-building unit-info-icon"></i>
+                                                                    <span class="unit-info-number"><t t-esc="rem_unit.area"/>m<sup>2</sup></span>
+                                                                </span>
+                                                            </t>
                                                         </div>
                                                     </div>
                                                 </div>
