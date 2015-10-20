@@ -64,6 +64,8 @@
 							<field name="user_id" placeholder="Salesman" />
 							<field name="bedrooms" />
 							<field name="bathrooms" />
+                            <field name="garages" />
+                            <field name="area" />
 							<field name="active" />
 						</group>
 						<notebook>
