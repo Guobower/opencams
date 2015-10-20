@@ -158,7 +158,7 @@
                                                     <img src="http://imobitabua.com/wp-content/uploads/2015/10/A521_1-270x200.jpg" alt=""/>
                                                     <span class="unit-price default-border-radius">$63.152</span>
                                                     <div class="caption">
-                                                        <div class="unit-type">House</div>
+                                                        <div class="unit-type"><t t-esc='rem_unit.contract_type_id.name'/></div>
                                                         <div class="unit-name"><t t-esc="rem_unit.name"/></div>
                                                         <div class="unit-info">
                                                             <t t-if="rem_unit.bedrooms!=0">
