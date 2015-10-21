@@ -27,7 +27,7 @@ class website_rem(http.Controller):
         else:
             ppg = PPG
 
-        domain = []# later we will use for search
+        domain = [] # later we will use for search
 
         url = "/rem"
 
@@ -42,12 +42,6 @@ class website_rem(http.Controller):
             'pager': pager
         }
 
-        #RemUnits = http.request.env['rem.unit']
-
-        #return http.request.render('website_rem.units', {
-        #    'rem_units': RemUnits.search([])
-        #})
-
         return request.website.render("website_rem.units", values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth="public", website=True)
@@ -57,4 +51,5 @@ class website_rem(http.Controller):
         values = {
             'unit': unit
         }
+
         return request.website.render("website_rem.unit", values)

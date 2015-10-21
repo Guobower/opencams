@@ -63,9 +63,10 @@
 								<field name="contract_type_id" />
 								<field name="create_date" />
 								<field name="user_id" placeholder="Salesman" />
-								<field name="bedrooms" />
+								<field name="price" />
 							</group>
 							<group>
+                                <field name="bedrooms" />
 								<field name="bathrooms" />
 								<field name="garages" />
                             	<field name="area" />

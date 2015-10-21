@@ -82,6 +82,7 @@ class RemUnit(models.Model):
     bathrooms = fields.Integer(string='Number of bathrooms', default=1, required=True)
     garages = fields.Integer(string='Number of garages', default=0, required=True)
     area = fields.Integer(string='Area', required=True)
+    price = fields.Float(string='Price', digits=(16, 2), required=True)
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True)
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
