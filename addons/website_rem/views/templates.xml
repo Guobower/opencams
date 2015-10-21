@@ -160,7 +160,11 @@
                                                     <t t-if="rem_unit.price!=0">
                                                         <span class="unit-price default-border-radius">$<t t-esc="rem_unit.price"/></span>
                                                     </t>
-                                                    <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                    <t t-foreach="rem_unit.image_ids" t-as="images">
+                                                        <t t-if="images_first">
+                                                            <span itemprop="image" t-field="images.image" t-field-options='{"widget": "image"}'/>
+                                                        </t>
+                                                    </t>
                                                     <div class="caption">
                                                         <div class="unit-type"><t t-esc='rem_unit.contract_type_id.name'/></div>
                                                         <div class="unit-name"><t t-esc="rem_unit.name"/></div>

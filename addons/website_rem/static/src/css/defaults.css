@@ -41,3 +41,8 @@ body
     -moz-box-shadow: 0 8px 6px -6px #CCC;
     box-shadow: 0 8px 6px -6px #CCC;
 }
+
+.form-control
+{
+    background-image: linear-gradient(#ce0925,#ce0925),linear-gradient(#d2d2d2,#d2d2d2);
+}
