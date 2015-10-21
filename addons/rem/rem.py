@@ -48,12 +48,12 @@ class RemImage(models.Model):
     image = fields.Binary("Image", attachment=True, help="Unit image, limited to 1024x1024px.")
     image_medium = fields.Binary("Medium-sized image", compute='_compute_images', inverse='_inverse_image_medium', store=True, attachment=True)
     image_small = fields.Binary("Small-sized image", compute='_compute_images', inverse='_inverse_image_small', store=True, attachment=True)
-    
+
     @api.depends('image')
     def _compute_images(self):
         for rec in self:
-            rec.image_medium = tools.image_resize_image_medium(rec.image, avoid_if_small=True)
-            rec.image_small = tools.image_resize_image_small(rec.image)
+            rec.image_medium = tools.image_resize_image_medium(rec.image, size=(512, 512), avoid_if_small=True)
+            rec.image_small = tools.image_resize_image_small(rec.image, size=(256, 256))
 
     def _inverse_image_medium(self):
         for rec in self:
