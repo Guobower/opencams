@@ -35,7 +35,7 @@ body
     border-radius: 5px;
 }
 
-.default-box-radius
+.default-box-shadow
 {
     -webkit-box-shadow: 0 8px 6px -6px #CCC;
     -moz-box-shadow: 0 8px 6px -6px #CCC;

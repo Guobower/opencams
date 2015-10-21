@@ -25,6 +25,8 @@
         <template id="js_dependencies" name="JS Dependencies">
             <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
             <script type="text/javascript" src="/web/static/lib/bootstrap/js/dropdown.js"></script>
+            <script type="text/javascript" src="/web/static/lib/bootstrap/js/carousel.js"></script>
+            <script type="text/javascript" src="/web/static/lib/bootstrap/js/transition.js"></script>
             <script src="/website_rem/static/src/js/material.min.js"></script>
             <script src="/website_rem/static/src/js/ripples.min.js"></script>
             <script>$(document).ready(function() {$.material.init();});</script>
@@ -154,9 +156,9 @@
                                     <t t-foreach="units" t-as="rem_unit">
                                         <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
                                             <div class="col-sm-4 col-lg-4 col-md-4">
-                                                <div class="thumbnail default-box-radius">
+                                                <div class="thumbnail default-box-shadow">
                                                     <span class="unit-price default-border-radius">$<t t-esc="rem_unit.price"/></span>
-                                                    <span itemprop="image" t-field="rem_unit.image_ids.image" t-field-options='{"widget": "image"}' t-att-alt="rem_unit.image_ids.image"/>
+                                                    <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
                                                     <div class="caption">
                                                         <div class="unit-type"><t t-esc='rem_unit.contract_type_id.name'/></div>
                                                         <div class="unit-name"><t t-esc="rem_unit.name"/></div>
@@ -194,7 +196,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sx-12">
-                                <div id="search-container" class="default-border-radius default-box-radius">
+                                <div id="search-container" class="default-border-radius default-box-shadow">
                                     <label>Location</label>
                                     <select class="form-control default-border-radius">
                                         <option>-</option>
@@ -233,39 +235,98 @@
 
         <!--  Unit List -->
         <template id="unit" name="Unit">
-            <t t-call="website.layout">
-                <div style="margin-bottom:100px" class="container">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <h3 style="color:#d22000"><t t-esc="unit.name"/></h3>
-                            <span itemprop="image" t-field="unit.image_ids.image" t-field-options='{"widget": "image"}' t-att-alt="unit.image_ids.image"/>
-                            <div style="margin-top:30px">
-                                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+            <html lang="en">
+                <head>
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                    <meta http-equiv="content-language" content="PT"/>
+                    <meta name="robots" content="index,follow"/>
+                    <meta name="description" content=""/>
+                    <meta name="Keywords" content=""/>
+                    <meta property="og:title" content=""/>
+                    <meta property="og:description" content=""/>
+                    <meta property="og:url" content=""/>
+                    <meta property="og:image" content=""/>
+                    <meta property="og:site_name" content=""/>
+                    <meta property="og:type" content=""/>
+                    <link rel="icon" type="image/ico" href=""/>
+                    <t t-call="website_rem.css_dependencies"/>
+                    <title><t t-esc="unit.name"/></title>
+                </head>
+                <body>
+                    <t t-call="website_rem.frontend_main_navbar"/>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h3 style="color:#d22000"><t t-esc="unit.name"/></h3>
+                                <div id="carousel-container" class="carousel slide default-box-shadow" data-ride="carousel">
+                                    <!-- Indicators -->
+                                    <ol class="carousel-indicators">
+                                        <t t-foreach="unit.image_ids" t-as="rem_unit">
+                                            <t t-if="rem_unit_index==0">
+                                                <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}" class="active"></li>
+                                            </t>
+                                            <t t-if="rem_unit_index!=0">
+                                                <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}"></li>
+                                            </t>
+                                        </t>
+                                    </ol>
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner" role="listbox">
+                                        <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                            <t t-if="rem_unit_image_index==0">
+                                                <div class="item active">
+                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                </div>
+                                            </t>
+                                            <t t-if="rem_unit_image_index!=0">
+                                                <div class="item">
+                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                </div>
+                                            </t>
+                                        </t>
+                                    </div>
+                                    <!-- Controls -->
+                                    <a class="left carousel-control" href="#carousel-container" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#carousel-container" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <div style="margin-top:30px">
+                                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="margin:10px auto 30px auto">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" title="Name" placeholder="Name"/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" title="Email" placeholder="Email"/>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="3" title="Message" placeholder="Message"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-danger">Send message</button>
+                            <div class="col-md-4">
+                                <div id="search-container" class="default-border-radius default-box-shadow" style="margin:10px auto 30px auto">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" title="Name" placeholder="Name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" title="Email" placeholder="Email"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="3" title="Message" placeholder="Message"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-danger">Send message</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </t>
+                    <t t-call="website_rem.frontend_main_footer"/>
+                    <t t-call="website_rem.js_dependencies"/>
+                </body>
+            </html>
         </template>
 
     </data>

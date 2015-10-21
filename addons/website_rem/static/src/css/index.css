@@ -64,3 +64,9 @@
 {
     margin-bottom: 30px;
 }
+
+#carousel-container img
+{
+    width: 100%;
+    height: 400px;
+}
