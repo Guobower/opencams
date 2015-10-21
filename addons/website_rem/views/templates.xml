@@ -155,8 +155,7 @@
                                         <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
                                             <div class="col-sm-4 col-lg-4 col-md-4">
                                                 <div class="thumbnail default-box-radius">
-                                                    <img src="http://imobitabua.com/wp-content/uploads/2015/10/A521_1-270x200.jpg" alt=""/>
-                                                    <span class="unit-price default-border-radius">$63.152</span>
+                                                    <span itemprop="image" t-field="rem_unit.image_ids.image" t-field-options='{"widget": "image"}' t-att-alt="rem_unit.image_ids.image"/>
                                                     <div class="caption">
                                                         <div class="unit-type"><t t-esc='rem_unit.contract_type_id.name'/></div>
                                                         <div class="unit-name"><t t-esc="rem_unit.name"/></div>
@@ -238,7 +237,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <h3 style="color:#d22000"><t t-esc="unit.name"/></h3>
-                            <img class="img-responsive" style="width: 100%" src="http://imobitabua.com/wp-content/uploads/2015/10/A520_2-640x360.jpg" alt=""/>
+                            <span itemprop="image" t-field="unit.image_ids.image" t-field-options='{"widget": "image"}' t-att-alt="unit.image_ids.image"/>
                             <div style="margin-top:30px">
                                 <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
