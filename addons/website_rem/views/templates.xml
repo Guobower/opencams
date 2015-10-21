@@ -263,41 +263,53 @@
                             <div class="col-lg-8">
                                 <h3 style="color:#d22000"><t t-esc="unit.name"/></h3>
                                 <div id="carousel-container" class="carousel slide default-box-shadow" data-ride="carousel">
-                                    <!-- Indicators -->
-                                    <ol class="carousel-indicators">
-                                        <t t-foreach="unit.image_ids" t-as="rem_unit">
-                                            <t t-if="rem_unit_index==0">
-                                                <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}" class="active"></li>
+                                    <!-- Only has 1 iteration to use _size -->
+                                    <t t-foreach="unit.image_ids" t-as="i">
+                                        <t t-if="i_first">
+                                            <!-- 1 image -->
+                                            <t t-if="i_size==1">
+                                                <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
                                             </t>
-                                            <t t-if="rem_unit_index!=0">
-                                                <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}"></li>
+                                            <!-- More than 1 image -->
+                                            <t t-if="i_size!=1">
+                                                <!-- Indicators -->
+                                                <ol class="carousel-indicators">
+                                                    <t t-foreach="unit.image_ids" t-as="rem_unit">
+                                                        <t t-if="rem_unit_first">
+                                                            <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}" class="active"></li>
+                                                        </t>
+                                                        <t t-if="rem_unit_index!=0">
+                                                            <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}"></li>
+                                                        </t>
+                                                    </t>
+                                                </ol>
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner" role="listbox">
+                                                    <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                        <t t-if="rem_unit_image_first">
+                                                            <div class="item active">
+                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="rem_unit_image_index!=0">
+                                                            <div class="item">
+                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                                <!-- Controls -->
+                                                <a class="left carousel-control" href="#carousel-container" role="button" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="right carousel-control" href="#carousel-container" role="button" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
                                             </t>
                                         </t>
-                                    </ol>
-                                    <!-- Wrapper for slides -->
-                                    <div class="carousel-inner" role="listbox">
-                                        <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                            <t t-if="rem_unit_image_index==0">
-                                                <div class="item active">
-                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                </div>
-                                            </t>
-                                            <t t-if="rem_unit_image_index!=0">
-                                                <div class="item">
-                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                </div>
-                                            </t>
-                                        </t>
-                                    </div>
-                                    <!-- Controls -->
-                                    <a class="left carousel-control" href="#carousel-container" role="button" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="right carousel-control" href="#carousel-container" role="button" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
+                                    </t>
                                 </div>
                                 <div style="margin-top:30px">
                                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
