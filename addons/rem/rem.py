@@ -48,6 +48,7 @@ class RemImage(models.Model):
     image = fields.Binary("Image", attachment=True, help="Unit image, limited to 1024x1024px.")
     image_medium = fields.Binary("Medium-sized image", compute='_compute_images', inverse='_inverse_image_medium', store=True, attachment=True)
     image_small = fields.Binary("Small-sized image", compute='_compute_images', inverse='_inverse_image_small', store=True, attachment=True)
+    sequence = fields.Integer(index=True, help="Gives the sequence order when displaying the images.", default=1)
 
     @api.depends('image')
     def _compute_images(self):
@@ -84,4 +85,4 @@ class RemUnit(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True)
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
-    image_ids = fields.One2many('rem.image', 'unit_id', string='Photos')
+    image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')

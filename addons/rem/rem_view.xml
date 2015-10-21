@@ -59,17 +59,21 @@
 							</h1>
 						</div>
 						<group>
-							<field name="contract_type_id" />
-							<field name="create_date" />
-							<field name="user_id" placeholder="Salesman" />
-							<field name="bedrooms" />
-							<field name="bathrooms" />
-                            <field name="garages" />
-                            <field name="area" />
-							<field name="active" />
+							<group>
+								<field name="contract_type_id" />
+								<field name="create_date" />
+								<field name="user_id" placeholder="Salesman" />
+								<field name="bedrooms" />
+							</group>
+							<group>
+								<field name="bathrooms" />
+								<field name="garages" />
+                            	<field name="area" />
+								<field name="active" />
+							</group>
 						</group>
 						<notebook>
-							<page string="Vendors">
+							<page string="Photos">
 								<group>
 									<field name="image_ids" mode="kanban" nolabel="1" context="{'default_unit_id': active_id}">
 										<kanban>
