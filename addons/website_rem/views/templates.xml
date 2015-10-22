@@ -96,23 +96,23 @@
                                 <t t-if="rem_unit.image_ids">
                                     <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
                                 </t>
-                                <t t-if="rem_unit.price!=0">
+                                <t t-if="rem_unit.price>0">
                                     <div>$<t t-esc="rem_unit.price"/></div>
                                 </t>
                                 <div class="caption">
                                     <div t-esc='rem_unit.contract_type_id.name'/>
                                     <div t-esc='rem_unit.name'/>
                                     <div>
-                                        <t t-if="rem_unit.bedrooms!=0">
+                                        <t t-if="rem_unit.bedrooms>0">
                                             <span><span class="glyphicon glyphicon-bed" aria-hidden="true"></span> <t t-esc="rem_unit.bedrooms"/></span>
                                         </t>
-                                        <t t-if="rem_unit.bathrooms!=0">
+                                        <t t-if="rem_unit.bathrooms>0">
                                             <span><i class="fa fa-tint"></i> <t t-esc="rem_unit.bathrooms"/></span>
                                         </t>
-                                        <t t-if="rem_unit.garages!=0">
+                                        <t t-if="rem_unit.garages>0">
                                             <span><i class="fa fa-car"></i> <t t-esc="rem_unit.garages"/></span>
                                         </t>
-                                        <t t-if="rem_unit.area!=0">
+                                        <t t-if="rem_unit.area>0">
                                             <span><i class="fa fa-building"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
                                         </t>
                                     </div>
@@ -175,14 +175,14 @@
                             <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
                         </t>
                         <!--  More than 1 image - show carousel -->
-                        <t t-if="i_size!=1">
+                        <t t-if="i_size>1">
                             <!--  Indicators -->
                             <ol class="carousel-indicators">
                                 <t t-foreach="unit.image_ids" t-as="rem_unit">
                                     <t t-if="rem_unit_first">
                                         <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}" class="active"></li>
                                     </t>
-                                    <t t-if="rem_unit_index!=0">
+                                    <t t-if="rem_unit_index>0">
                                         <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}"></li>
                                     </t>
                                 </t>
@@ -195,7 +195,7 @@
                                             <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
                                         </div>
                                     </t>
-                                    <t t-if="rem_unit_image_index!=0">
+                                    <t t-if="rem_unit_image_index>0">
                                         <div class="item">
                                             <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
                                         </div>
