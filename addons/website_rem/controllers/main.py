@@ -10,7 +10,7 @@ from openerp.http import request
 from openerp.tools.translate import _
 from openerp.addons.website.models.website import slug
 
-PPG = 2 # Products Per Page
+PPG = 20 # Products Per Page
 
 class website_rem(http.Controller):
 
@@ -42,7 +42,7 @@ class website_rem(http.Controller):
             'pager': pager
         }
 
-        return request.website.render("website_rem.units", values)
+        return request.website.render("website_rem.rem_list_page", values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth="public", website=True)
     def unit(self, unit, **kwargs):
@@ -52,4 +52,4 @@ class website_rem(http.Controller):
             'unit': unit
         }
 
-        return request.website.render("website_rem.unit", values)
+        return request.website.render("website_rem.rem_unit_page", values)
