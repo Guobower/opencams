@@ -64,6 +64,7 @@
 								<field name="create_date" />
 								<field name="user_id" placeholder="Salesman" />
 								<field name="price" />
+                                <field name="is_new" />
 							</group>
 							<group>
                                 <field name="bedrooms" />
