@@ -64,6 +64,8 @@
 								<field name="create_date" />
 								<field name="user_id" placeholder="Salesman" />
 								<field name="price" />
+								<field name="is_rent" invisible="1"/>
+								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 							</group>
 							<group>
                                 <field name="bedrooms" />
@@ -307,6 +309,7 @@
 	                	<group>
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
+		                        <field name="is_rent"/>
 		                        <field name="active"/>
 	                        </group>
 	                    </group>

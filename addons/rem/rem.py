@@ -23,6 +23,7 @@ class RemUnitContractType(models.Model):
 
     name = fields.Char(string='Contract Name', size=32, required=True, help="Type of contract : renting, selling, selling ..")
     sequence = fields.Integer(string='Sequence')
+    is_rent = fields.Boolean(string='Is Rentable', default=False, help="Set if the contract type is rent based. This will make the Unit of Rent apear in the unit (e.g.: per month, per week..).")
     notes = fields.Text(string='Notes', help="Notes for the contract type.")
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide without removing it.")
 
@@ -72,6 +73,10 @@ class RemUnit(models.Model):
     @api.model
     def _get_stage(self):
         return self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
+    
+    @api.model
+    def _get_default_contract_type(self):
+        return self.env['contract.type'].search([], limit=1, order='id')
 
     name = fields.Char(string='Unit', size=32, required=True, help="Unit description (like house near riverside).")
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
@@ -83,7 +88,11 @@ class RemUnit(models.Model):
     garages = fields.Integer(string='Number of garages', default=0, required=True)
     area = fields.Integer(string='Area', required=True)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
+    rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
+                                  ('per_month', 'per Month')], string='Rent Unit', change_default=True, 
+                                 default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
-    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True)
+    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True, default=_get_default_contract_type)
+    is_rent = fields.Boolean(related="contract_type_id.is_rent", string='Is Rentable')
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
     image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')
