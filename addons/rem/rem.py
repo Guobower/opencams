@@ -101,6 +101,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True, default=_get_default_contract_type)
+    city_id = fields.Many2one('rem.unit.city', string='City', select=True)
     is_rent = fields.Boolean(related="contract_type_id.is_rent", string='Is Rentable')
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
     image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')

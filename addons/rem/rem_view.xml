@@ -67,6 +67,7 @@
 								<field name="is_rent" invisible="1"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
                                 <field name="is_new" />
+                                <field name="city_id" placeholder="City" />
 							</group>
 							<group>
                                 <field name="bedrooms" />
