@@ -2,8 +2,7 @@
 
 import logging
 
-from openerp import tools, api, fields, models, _
-from openerp.tools.translate import _
+from openerp import tools, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -79,6 +78,7 @@ class RemUnit(models.Model):
         return self.env['contract.type'].search([], limit=1, order='id')
 
     name = fields.Char(string='Unit', size=32, required=True, help="Unit description (like house near riverside).")
+    is_new = fields.Boolean(string='Is New', default=True, help="If the field is new is set to False, the unit is considered used.")
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic', help="Link this asset to an analytic account.")
     stage_id = fields.Many2one('rem.unit.stage', string='Stage', select=True, default=_get_stage)

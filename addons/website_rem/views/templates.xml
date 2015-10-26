@@ -12,52 +12,117 @@
 
         <!-- Rem Search -->
         <template id="rem_search" name="Rem Search">
-            <div>
+            <form method="get" t-att-class="search_class">
                 <div class="form-group">
-                    <select class="form-control">
-                        <option>City</option>
+                    <select name="type" class="form-control">
+                        <option value="">Type</option>
+                        <t t-foreach="types" t-as="type">
+                            <t t-if="search_type==type.id">
+                                <option selected="" t-att-value="type.id"><t t-esc="type.name"/></option>
+                            </t>
+                            <t t-if="search_type!=type.id">
+                                <option t-att-value="type.id"><t t-esc="type.name"/></option>
+                            </t>
+                        </t>
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control">
-                        <option>Zip code</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control">
-                        <option>Type</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="form-control">
-                        <option>Number of rooms</option>
+                    <select name="is_new" class="form-control">
+                        <option value="">New and Used</option>
+                        <t t-if="search_is_new==1">
+                            <option selected="" value="1">New</option>
+                        </t>
+                        <t t-if="search_is_new!=1">
+                            <option value="1">New</option>
+                        </t>
+                        <t t-if="search_is_new==0">
+                            <option selected="" value="0">Used</option>
+                        </t>
+                        <t t-if="search_is_new!=0">
+                            <option value="0">Used</option>
+                        </t>
                     </select>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="rem_unit_contact_min_price" placeholder="Min Price"/>
+                            <select name="beds" class="form-control">
+                                <option value="">Beds</option>
+                                <t t-foreach="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" t-as="i">
+                                    <t t-if="search_beds==i">
+                                        <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_beds!=i">
+                                        <option t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="rem_unit_contact_max_price" placeholder="Max Price"/>
+                            <select name="baths" class="form-control">
+                                <option value="">Baths</option>
+                                <t t-foreach="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" t-as="i">
+                                    <t t-if="search_baths==i">
+                                        <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_baths!=i">
+                                        <option t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="min_price" class="form-control">
+                                <option value="">Price from</option>
+                                <t t-foreach="[1000, 20000, 50000, 100000, 150000, 200000, 250000, 300000, 500000]" t-as="i">
+                                    <t t-if="search_min_price==i">
+                                        <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_min_price!=i">
+                                        <option t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="max_price" class="form-control">
+                                <option value="">Price to</option>
+                                <t t-foreach="[1000, 20000, 50000, 100000, 150000, 200000, 250000, 300000, 500000]" t-as="i">
+                                    <t t-if="search_max_price==i">
+                                        <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_max_price!=i">
+                                        <option t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <select class="form-control">
-                        <option>New</option>
-                        <option>Used</option>
-                    </select>
+                    <input type="text" class="form-control" name="search" placeholder="Search for units, cities ..." t-att-value="search" />
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="rem_unit_contact_reference" placeholder="Reference"/>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"/> Search</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <a href="/rem"><div class="btn btn-default btn-block"><i class="fa fa-eraser"/> Reset</div></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </div>
+            </form>
         </template>
 
         <!-- Rem Contact -->
@@ -100,6 +165,9 @@
                                     <div>$<t t-esc="rem_unit.price"/></div>
                                 </t>
                                 <div class="caption">
+                                    <t t-if="rem_unit.price>0">
+                                        <div>$<t t-esc="rem_unit.price"/></div>
+                                    </t>
                                     <div t-esc='rem_unit.contract_type_id.name'/>
                                     <div t-esc='rem_unit.name'/>
                                     <div>
@@ -114,6 +182,13 @@
                                         </t>
                                         <t t-if="rem_unit.area>0">
                                             <span><i class="fa fa-building"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
+                                            <span><i class="fa fa-tint"/> <t t-esc="rem_unit.bathrooms"/></span>
+                                        </t>
+                                        <t t-if="rem_unit.garages>0">
+                                            <span><i class="fa fa-car"/> <t t-esc="rem_unit.garages"/></span>
+                                        </t>
+                                        <t t-if="rem_unit.area>0">
+                                            <span><i class="fa fa-building"/> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
                                         </t>
                                     </div>
                                 </div>
@@ -230,7 +305,9 @@
                             </div>
                             <div class="col-md-4">
                                 <t t-call="website_rem.rem_unit_contact"/>
+                                <!--
                                 <t t-call="website_rem.rem_search"/>
+                                -->
                             </div>
                         </div>
                     </div>
