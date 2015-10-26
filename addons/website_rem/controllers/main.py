@@ -15,10 +15,17 @@ PPG = 20 # Products Per Page
 class website_rem(http.Controller):
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth="public", website=True)
-    def rem(self, page=0, type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
+    def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
         domain = []
+
+        # Query City
+        try:
+            city = int(city)
+            domain += [('city_id', '=', city)]
+        except ValueError:
+            pass
 
         # Query type
         try:
@@ -82,14 +89,20 @@ class website_rem(http.Controller):
         unit_ids = units_obj.search(cr, uid, domain, limit=PPG, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, uid, unit_ids, context=context)
 
+        cities_obj = pool.get('rem.unit.city')
+        city_ids = cities_obj.search(cr, uid, [], context=context)
+        cities = cities_obj.browse(cr, uid, city_ids, context=context)
+
         types_obj = pool.get('rem.unit.type')
         type_ids = types_obj.search(cr, uid, [], context=context)
         types = types_obj.browse(cr, uid, type_ids, context=context)
 
         values = {
             'units': units,
+            'cities': cities,
             'types': types,
             'pager': pager,
+            'search_city': city,
             'search_type': type,
             'search_is_new': is_new,
             'search_beds': beds,

@@ -14,6 +14,19 @@
         <template id="rem_search" name="Rem Search">
             <form method="get" t-att-class="search_class">
                 <div class="form-group">
+                    <select name="city" class="form-control">
+                        <option value="">City</option>
+                        <t t-foreach="cities" t-as="city">
+                            <t t-if="search_city==city.id">
+                                <option selected="" t-att-value="city.id"><t t-esc="city.name"/></option>
+                            </t>
+                            <t t-if="search_city!=city.id">
+                                <option t-att-value="city.id"><t t-esc="city.name"/></option>
+                            </t>
+                        </t>
+                    </select>
+                </div>
+                <div class="form-group">
                     <select name="type" class="form-control">
                         <option value="">Type</option>
                         <t t-foreach="types" t-as="type">
@@ -21,7 +34,7 @@
                                 <option selected="" t-att-value="type.id"><t t-esc="type.name"/></option>
                             </t>
                             <t t-if="search_type!=type.id">
-                                <option t-att-value="type.id"><t t-esc="type.name"/></option>
+                                <option t-att-value="type.id"><tsearch_city t-esc="type.name"/></option>
                             </t>
                         </t>
                     </select>
@@ -108,7 +121,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="search" placeholder="Search for units, cities ..." t-att-value="search" />
+                    <input type="text" class="form-control" name="search" placeholder="Search for units, references ..." t-att-value="search" />
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
@@ -170,6 +183,7 @@
                                     </t>
                                     <div t-esc='rem_unit.contract_type_id.name'/>
                                     <div t-esc='rem_unit.name'/>
+                                    <div t-esc='rem_unit.city_id.name'/>
                                     <div>
                                         <t t-if="rem_unit.bedrooms>0">
                                             <span><span class="glyphicon glyphicon-bed" aria-hidden="true"></span> <t t-esc="rem_unit.bedrooms"/></span>
