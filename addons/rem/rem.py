@@ -7,6 +7,14 @@ from openerp import tools, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
+class RemUniCity(models.Model):
+    _name = 'rem.unit.city'
+    _description = 'Unit City'
+
+    name = fields.Char(string='City Name', size=32, required=True, help="City Name.")
+    active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide without removing it.")
+
+
 class RemUniType(models.Model):
     _name = 'rem.unit.type'
     _description = 'Unit Type'

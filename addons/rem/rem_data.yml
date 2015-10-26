@@ -1,4 +1,37 @@
 -
+  Unit Cities
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_1}:
+    name: New York
+    active: True
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_2}:
+    name: Los Angeles
+    active: True
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_3}:
+    name: Chicago
+    active: True
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_4}:
+    name: Washington
+    active: True
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_5}:
+    name: Dallas
+    active: True
+
+-
+  !record {model: rem.unit.city, id: rem_unit_city_6}:
+    name: San Francisco
+    active: True
+
+-
   Unit Types
 
 -
