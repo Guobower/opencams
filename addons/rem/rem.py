@@ -101,7 +101,7 @@ class RemUnit(models.Model):
     bedrooms = fields.Integer(string='Number of bedrooms', default=1, required=True)
     bathrooms = fields.Integer(string='Number of bathrooms', default=1, required=True)
     garages = fields.Integer(string='Number of garages', default=0, required=True)
-    area = fields.Integer(string='Area', required=True)
+    area = fields.Integer(string='Area', default=0, required=True)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True, 
