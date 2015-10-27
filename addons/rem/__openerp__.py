@@ -14,11 +14,11 @@ Manage real estate assets for sale and rent management purposes
     'depends': ['base', 'account'],
     'category': 'Real Estate',
     'demo': [
-        'rem_demo.yml'
+        'rem_demo.xml'
     ],
     'data': [
         'rem_view.xml',
-        'rem_data.yml',
+        'rem_data.xml',
         'unit_sequence.xml'
     ],
     'test': [

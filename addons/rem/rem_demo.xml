@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+​
+        <!-- Unit Cities -->
+        <record id="rem_unit_city_1" model="rem.unit.city">
+            <field name="name">New York</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_city_2" model="rem.unit.city">
+            <field name="name">Los Angeles</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_city_3" model="rem.unit.city">
+            <field name="name">Chicago</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_city_4" model="rem.unit.city">
+            <field name="name">Washington</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_city_5" model="rem.unit.city">
+            <field name="name">Dallas</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_city_6" model="rem.unit.city">
+            <field name="name">San Francisco</field>
+            <field name="active">True</field>
+        </record>
+
+
+        <!-- Unit Types -->
+        <record id="rem_unit_type_1" model="rem.unit.type">
+            <field name="name">Flats / Appartments</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_type_2" model="rem.unit.type">
+            <field name="name">Houses</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_type_3" model="rem.unit.type">
+            <field name="name">Bungalows</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_type_4" model="rem.unit.type">
+            <field name="name">Land</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_type_5" model="rem.unit.type">
+            <field name="name">Commercial Property</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_type_6" model="rem.unit.type">
+            <field name="name">Other</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Unit Contract Types -->
+        <record id="rem_unit_contract_type_sale" model="contract.type">
+            <field name="name">Sale</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_contract_type_rent" model="contract.type">
+            <field name="name">Rent</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_contract_type_share" model="contract.type">
+            <field name="name">Share</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_contract_type_exchange" model="contract.type">
+            <field name="name">Exchange</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Unit Stages -->
+        <record id="rem_unit_stage_1" model="rem.unit.stage">
+            <field name="name">Disabled</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="rem_unit_stage_2" model="rem.unit.stage">
+            <field name="name">For Rent</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_rent"/>
+        </record>
+
+        <record id="rem_unit_stage_3" model="rem.unit.stage">
+            <field name="name">Rented</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_rent"/>
+        </record>
+
+        <record id="rem_unit_stage_4" model="rem.unit.stage">
+            <field name="name">For Sale</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_stage_5" model="rem.unit.stage">
+            <field name="name">Sold</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_stage_6" model="rem.unit.stage">
+            <field name="name">In Refurbishment</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <!-- Unit -->
+        <record id="rem_unit_1" model="rem.unit">
+            <field name="name">Unit 1</field>
+            <field name="is_new">True</field>
+            <field name="active">True</field>
+            <field name="stage_id" ref="rem_unit_stage_4"/>
+            <field name="bedrooms">1</field>
+            <field name="bathrooms">1</field>
+            <field name="garages">0</field>
+            <field name="area">0</field>
+            <field name="price">595000</field>
+            <field name="city_id" ref="rem_unit_city_1"/>
+            <field name="is_rent">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_2" model="rem.unit">
+            <field name="name">Unit 2</field>
+            <field name="is_new">True</field>
+            <field name="active">True</field>
+            <field name="stage_id" ref="rem_unit_stage_4"/>
+            <field name="bedrooms">3</field>
+            <field name="bathrooms">2</field>
+            <field name="garages">0</field>
+            <field name="area">0</field>
+            <field name="price">420000</field>
+            <field name="city_id" ref="rem_unit_city_2"/>
+            <field name="is_rent">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_3" model="rem.unit">
+            <field name="name">Unit 3</field>
+            <field name="is_new">True</field>
+            <field name="active">True</field>
+            <field name="stage_id" ref="rem_unit_stage_4"/>
+            <field name="bedrooms">4</field>
+            <field name="bathrooms">2</field>
+            <field name="garages">3</field>
+            <field name="area">0</field>
+            <field name="price">0</field>
+            <field name="city_id" ref="rem_unit_city_3"/>
+            <field name="is_rent">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_4" model="rem.unit">
+            <field name="name">Unit 4</field>
+            <field name="is_new">False</field>
+            <field name="active">True</field>
+            <field name="stage_id" ref="rem_unit_stage_4"/>
+            <field name="bedrooms">2</field>
+            <field name="bathrooms">1</field>
+            <field name="garages">0</field>
+            <field name="area">542</field>
+            <field name="price">0</field>
+            <field name="city_id" ref="rem_unit_city_4"/>
+            <field name="is_rent">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <record id="rem_unit_5" model="rem.unit">
+            <field name="name">Unit 5</field>
+            <field name="is_new">False</field>
+            <field name="active">True</field>
+            <field name="stage_id" ref="rem_unit_stage_2"/>
+            <field name="bedrooms">5</field>
+            <field name="bathrooms">2</field>
+            <field name="garages">2</field>
+            <field name="area">641</field>
+            <field name="price">800000</field>
+            <field name="city_id" ref="rem_unit_city_5"/>
+            <field name="is_rent">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+        </record>
+
+        <!-- Images -->
+        <record id="rem_image_1" model="rem.image">
+            <field name="name">Unit 1</field>
+            <field name="unit_id" ref="rem.rem_unit_1"/>
+            <field name="image" type="base64" file="website_rem/static/img/unit-1.png"/>
+        </record>
+        <record id="rem_image_2" model="rem.image">
+            <field name="name">Unit 2</field>
+            <field name="unit_id" ref="rem.rem_unit_2"/>
+            <field name="image" type="base64" file="website_rem/static/img/unit-2.png"/>
+        </record>
+        <record id="rem_image_3" model="rem.image">
+            <field name="name">Unit 1</field>
+            <field name="unit_id" ref="rem.rem_unit_3"/>
+            <field name="image" type="base64" file="website_rem/static/img/unit-3.png"/>
+        </record>
+        <record id="rem_image_4" model="rem.image">
+            <field name="name">Unit 1</field>
+            <field name="unit_id" ref="rem.rem_unit_4"/>
+            <field name="image" type="base64" file="website_rem/static/img/unit-4.png"/>
+        </record>
+        <record id="rem_image_5" model="rem.image">
+            <field name="name">Unit 1</field>
+            <field name="unit_id" ref="rem.rem_unit_5"/>
+            <field name="image" type="base64" file="website_rem/static/img/unit-5.png"/>
+        </record>
+
+    </data>
+</openerp>
