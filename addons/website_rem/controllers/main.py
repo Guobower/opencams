@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import werkzeug
-import openerp
 
 from openerp import SUPERUSER_ID
 from openerp import http
-from openerp import tools
+from openerp import tools, api, fields, models
 from openerp.http import request
 from openerp.tools.translate import _
 from openerp.addons.website.models.website import slug
 
+
 PPG = 20 # Products Per Page
 
 class website_rem(http.Controller):
+
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth="public", website=True)
     def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
@@ -76,7 +77,7 @@ class website_rem(http.Controller):
         # Query name
         if search:
             for srch in search.split(" "):
-                domain += [('name', 'ilike', srch)]
+                domain += ['|', ('name', 'ilike', srch), ('reference', 'ilike', srch)]
                 # domain += [
                 #     '|', '|', '|', ('name', 'ilike', srch), ('description', 'ilike', srch),
                 #     ('description_sale', 'ilike', srch), ('product_variant_ids.default_code', 'ilike', srch)]
