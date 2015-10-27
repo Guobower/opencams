@@ -5,7 +5,6 @@
         <!-- Frontend assets page -->
         <template id="assets_frontend" inherit_id="website.assets_frontend" name="Rem frontend assets">
             <xpath expr="." position="inside">
-                <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.min.css"/>
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
             </xpath>
         </template>
@@ -174,9 +173,6 @@
                                 <t t-if="rem_unit.image_ids">
                                     <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
                                 </t>
-                                <t t-if="rem_unit.price>0">
-                                    <div>$<t t-esc="rem_unit.price"/></div>
-                                </t>
                                 <div class="caption">
                                     <t t-if="rem_unit.price>0">
                                         <div>$<t t-esc="rem_unit.price"/></div>
@@ -196,13 +192,6 @@
                                         </t>
                                         <t t-if="rem_unit.area>0">
                                             <span><i class="fa fa-building"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
-                                            <span><i class="fa fa-tint"/> <t t-esc="rem_unit.bathrooms"/></span>
-                                        </t>
-                                        <t t-if="rem_unit.garages>0">
-                                            <span><i class="fa fa-car"/> <t t-esc="rem_unit.garages"/></span>
-                                        </t>
-                                        <t t-if="rem_unit.area>0">
-                                            <span><i class="fa fa-building"/> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
                                         </t>
                                     </div>
                                 </div>
