@@ -74,13 +74,10 @@ class website_rem(http.Controller):
         except ValueError:
             pass
 
-        # Query name
+        # Query name and reference
         if search:
             for srch in search.split(" "):
                 domain += ['|', ('name', 'ilike', srch), ('reference', 'ilike', srch)]
-                # domain += [
-                #     '|', '|', '|', ('name', 'ilike', srch), ('description', 'ilike', srch),
-                #     ('description_sale', 'ilike', srch), ('product_variant_ids.default_code', 'ilike', srch)]
 
         url = "/rem"
 
