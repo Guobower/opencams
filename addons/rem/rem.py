@@ -85,6 +85,13 @@ class RemUnit(models.Model):
     def _get_default_contract_type(self):
         return self.env['contract.type'].search([], limit=1, order='id')
 
+    @api.model
+    def create(self, vals):
+        if vals.get('reference', 'New') == 'New':
+            vals['reference'] = self.env['ir.sequence'].next_by_code('rem.unit') or 'New'
+            return super(RemUnit, self).create(vals)
+
+    reference = fields.Char(string='Reference', required=True, copy=False, readonly=True, index=True, default='New')
     name = fields.Char(string='Unit', size=32, required=True, help="Unit description (like house near riverside).")
     is_new = fields.Boolean(string='Is New', default=True, help="If the field is new is set to False, the unit is considered used.")
     active = fields.Boolean(string='Active', default=True, help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")

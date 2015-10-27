@@ -18,7 +18,8 @@ Manage real estate assets for sale and rent management purposes
     ],
     'data': [
         'rem_view.xml',
-        'rem_data.yml'
+        'rem_data.yml',
+        'unit_sequence.xml'
     ],
     'test': [
     ],
