@@ -85,6 +85,22 @@ class RemUnit(models.Model):
     def _get_default_contract_type(self):
         return self.env['contract.type'].search([], limit=1, order='id')
 
+    @api.one
+    def	add_feature(self):
+        self.feature_id = [(4, self.env.uid)]
+        # n_features = self.env['res.users'].search_count([('res_user_id', '=', self.env.uid),
+        #                                                  ('rem_unit_res_users_rel', '=', self.id)])
+        # if (n_features < 5):
+        #     self.feature_id = [(4, self.env.uid)]
+        # else:
+        #     raise exceptions.ValidationError("You can only have 5 feature units.")
+        return True
+
+    @api.one
+    def	remove_feature(self):
+        self.feature_id = [(3, self.env.uid)]
+        return True
+
     @api.model
     def create(self, vals):
         if vals.get('reference', 'New') == 'New':
@@ -109,6 +125,7 @@ class RemUnit(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True, default=_get_default_contract_type)
     city_id = fields.Many2one('rem.unit.city', string='City', select=True)
-    is_rent = fields.Boolean(related="contract_type_id.is_rent", string='Is Rentable')
+    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable')
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
     image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')
+    feature_id = fields.Many2many('res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
