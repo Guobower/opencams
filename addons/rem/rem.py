@@ -3,6 +3,7 @@
 import logging
 
 from openerp import tools, api, fields, models
+from openerp import exceptions
 
 _logger = logging.getLogger(__name__)
 
@@ -87,13 +88,12 @@ class RemUnit(models.Model):
 
     @api.one
     def	add_feature(self):
-        self.feature_id = [(4, self.env.uid)]
-        # n_features = self.env['res.users'].search_count([('res_user_id', '=', self.env.uid),
-        #                                                  ('rem_unit_res_users_rel', '=', self.id)])
-        # if (n_features < 5):
-        #     self.feature_id = [(4, self.env.uid)]
-        # else:
-        #     raise exceptions.ValidationError("You can only have 5 feature units.")
+        self.env.cr.execute('SELECT COUNT(rem_unit_id) FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1', [self.env.uid])
+        for feature_units in self.env.cr.dictfetchall():
+            if (feature_units['count'] < 5):
+                self.feature_id = [(4, self.env.uid)]
+            else:
+                raise exceptions.ValidationError("You can only have 5 Feature Units.")
         return True
 
     @api.one
