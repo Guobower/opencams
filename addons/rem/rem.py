@@ -108,13 +108,13 @@ class RemUnit(models.Model):
             return super(RemUnit, self).create(vals)
 
     @api.model
-    def _is_feature(self):
+    def _is_featured(self):
         self.env.cr.execute('SELECT COUNT(rem_unit_id) FROM rem_unit_res_users_rel WHERE rem_unit_id=%s AND res_user_id=%s LIMIT 1', [(self.id), (self.env.uid)])
         for feature_units in self.env.cr.dictfetchall():
             if (feature_units['count'] > 0):
-                self.is_feature = 1
+                self.is_featured = 1
             else:
-                self.is_feature = 0
+                self.is_featured = 0
         return True
     
     reference = fields.Char(string='Reference', required=True, copy=False, readonly=True, index=True, default='New')
@@ -139,4 +139,4 @@ class RemUnit(models.Model):
     # image_ids = fields.Many2many('rem.image', 'rem_image_rel', 'rem_id', 'image_id', string='Photo')
     image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')
     feature_id = fields.Many2many('res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
-    is_feature = fields.Boolean(compute=_is_feature, store=False)
+    is_featured = fields.Boolean(compute=_is_featured, store=False)
