@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+    
+		<template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
+		    <xpath expr="//div[@id='wrap']" position="after">
+				<div class="container">
+				    <div class="row">
+				        <div class="col-md-12">
+				            <a href="/rem">Listing</a>
+				            <form role="form">
+				                <div class="form-group center-block">
+				                    <div class="input-group">
+				                        <input type="text" class="form-control" placeholder="Search" /> <span class="input-group-btn">
+				 <button class="btn btn-default btn-sm" type="submit">
+				          <span class="glyphicon glyphicon-search"></span>
+				
+				                        </button>
+				                        </span>
+				                    </div>
+				                </div>
+				            </form>
+				        </div>
+				    </div>
+				</div>
+		    </xpath>
+		</template>
+		        
         <!-- Frontend assets page -->
         <template id="assets_frontend" inherit_id="website.assets_frontend" name="Rem frontend assets">
             <xpath expr="." position="inside">
