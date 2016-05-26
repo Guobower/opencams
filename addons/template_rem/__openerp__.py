@@ -5,7 +5,7 @@
     'author': 'Diogo Duarte',
     'summary': 'Real Estate Asset Management',
     'description': """
-Public real estate agency website temlate
+Public real estate agency website template
 ==========================================
 
 

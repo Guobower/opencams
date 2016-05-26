@@ -1,35 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    
-		<template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
-		    <xpath expr="//div[@id='wrap']" position="after">
-				<div class="container">
-				    <div class="row">
-				        <div class="col-md-12">
-				            <a href="/rem">Listing</a>
-				            <form role="form">
-				                <div class="form-group center-block">
-				                    <div class="input-group">
-				                        <input type="text" class="form-control" placeholder="Search" /> <span class="input-group-btn">
-				 <button class="btn btn-default btn-sm" type="submit">
-				          <span class="glyphicon glyphicon-search"></span>
-				
-				                        </button>
-				                        </span>
-				                    </div>
-				                </div>
-				            </form>
-				        </div>
-				    </div>
-				</div>
-		    </xpath>
-		</template>
-		        
+        
+        <!-- Homepage -->
+
+        <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
+            <xpath expr="//div[@id='wrap']" position="after">
+                <div class="container-filter">
+                    <!-- Carousel -->
+                    <div class="container-filter">
+                        <div id="carousel-homepage" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <img src="/website_rem/static/img/unit-1.png" alt="img"/>
+                                    <div class="carousel-caption">
+                                    </div>
+                                </div>
+                                <!-- slide indicators -->
+                                <!--<ol class="carousel-indicators">
+                                    <li data-target="#carousel-homepage" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-homepage" data-slide-to="1"></li>
+                                    <li data-target="#carousel-homepage" data-slide-to="2"></li>
+                                </ol>-->
+
+                                <!-- slide buttons -->
+                                <!--<a class="left carousel-control" href="#carousel-homepage" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-homepage" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Carousel -->
+
+
+                    <!-- Search -->
+                    <section id="aa-advance-search">
+                        <div class="container">
+                          <div class="aa-advance-search-area">
+                            <div class="form">
+                             <div class="aa-advance-search-top">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <div class="aa-single-advance-search">
+                                      <input type="text" placeholder="Search by state, suburb or postcode"/>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="aa-single-advance-search">
+                                      <select>
+                                       <option value="0" >Property Types</option>
+                                        <option value="1">Flat/Apartment</option>
+                                        <option value="2">House</option>
+                                        <option value="3">Bungalow</option>
+                                        <option value="4">Land</option>
+                                        <option value="5">Comercial Property</option>
+                                        <option value="6">Other</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                     <div class="aa-single-advance-search">
+                                      <select>
+                                        <option value="0">Min Beds</option>
+                                        <option value="1">Studio</option>
+                                        <option value="2">1</option>
+                                        <option value="3">2</option>
+                                        <option value="4">3</option>
+                                        <option value="5">4</option>
+                                        <option value="6">5</option>
+                                      </select>
+                                  </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                     <div class="aa-single-advance-search">
+                                      <select>
+                                        <option value="0">Max Beds</option>
+                                        <option value="1">Studio</option>
+                                        <option value="2">1</option>
+                                        <option value="3">2</option>
+                                        <option value="4">3</option>
+                                        <option value="5">4</option>
+                                        <option value="6">5</option>
+                                      </select>
+                                  </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="aa-single-advance-search">
+                                      <input class="aa-search-btn" type="submit" value="Search"/>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                             <div class="aa-advance-search-bottom">
+                               <div class="row">
+                                <div class="col-md-6">
+                                  <div class="aa-single-filter-search">
+                                    <span>AREA (SQ)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower" class="example-val">30.00</span>
+                                    <span>TO</span>
+                                    <span id="skip-value-upper" class="example-val">100.00</span>
+                                    <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>                  
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="aa-single-filter-search">
+                                    <span>PRICE ($)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower2" class="example-val">30.00</span>
+                                    <span>TO</span>
+                                    <span id="skip-value-upper2" class="example-val">100.00</span>
+                                    <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>      
+                                  </div>
+                                </div>
+                              </div>  
+                             </div>
+                            </div>
+                          </div>
+                        </div>
+                    </section> 
+                    <!-- /Search -->
+                </div>            
+            </xpath>
+        </template>
+
+
+         
         <!-- Frontend assets page -->
         <template id="assets_frontend" inherit_id="website.assets_frontend" name="Rem frontend assets">
             <xpath expr="." position="inside">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/scripts.js"></script>
+                <link type="txt/css" rel="stylesheet" href="/website_rem/static/src/css/style.css"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/nouislider.js"></script>
+                <link type="txt/css" rel="stylesheet" href="/website_rem/static/src/css/nouislider.css"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/jquery.fancybox.pack.js"></script>
+                <link type="txt/css" rel="stylesheet" href="/website_rem/static/src/css/jquery.fancybox.css"/>
+                <link type="txt/css" rel="stylesheet" href="/website_rem/static/src/css/font-awesome.css"/>
+                <link type="txt/css" rel="stylesheet" href="/website_rem/static/src/css/theme_color/default_theme.css"/>
             </xpath>
         </template>
 
@@ -341,6 +456,12 @@
                     <div class="oe_structure mb32"/>
                 </div>
             </t>
+        </template>
+
+        <!-- Footer -->
+
+        <template id="re_footer" name="Re footer">
+
         </template>
 
     </data>
