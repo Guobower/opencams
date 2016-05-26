@@ -42,12 +42,12 @@
                     <section id="aa-advance-search">
                         <div class="container">
                           <div class="aa-advance-search-area">
-                            <div class="form">
+                            <form action="/rem" method="get" class="form">
                              <div class="aa-advance-search-top">
                                 <div class="row">
                                   <div class="col-md-4">
                                     <div class="aa-single-advance-search">
-                                      <input type="text" placeholder="Search by state, suburb or postcode"/>
+                                      <input name="search_box" type="text" placeholder="Search by state, suburb or postcode"/>
                                     </div>
                                   </div>
                                   <div class="col-md-2">
@@ -122,7 +122,7 @@
                                 </div>
                               </div>  
                              </div>
-                            </div>
+                            </form>
                           </div>
                         </div>
                     </section> 
@@ -354,6 +354,34 @@
                   </div>
               </div>
           </t>
+        </template>
+
+        <!-- Rem Units List Page -->
+        <template id="rem_list_page1" name="Rem Units List Page">
+            <t t-call="website.layout">
+                <t t-set="additional_title">Real Estate</t>
+                <div id="wrap" class="js_sale">
+                    <div class="oe_structure"/>
+                    <div class="container oe_website_sale">
+                        <div class='row'>
+                            <div class="col-md-9">
+                                
+      <ul t-foreach="units" t-as="unit" >
+        <li t-esc="unit.name"></li>
+      </ul>
+
+                            </div>
+                            <div class="col-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="pricelist_list">
+                           
+                        </div>
+                    </div>
+                    <div class="oe_structure mb32"/>
+                </div>
+            </t>
         </template>
 
         <!-- Rem Units List Page -->

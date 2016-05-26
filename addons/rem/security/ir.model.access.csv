@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rem_unit,access_rem_unit,model_rem_unit,,1,0,0,0
+access_rem_unit_type,access_rem_unit_type,model_rem_unit_type,,1,0,0,0
+access_contract_type,access_contract_type,model_contract_type,,1,0,0,0
+access_rem_unit_stage,access_rem_unit_stage,model_rem_unit_stage,,1,0,0,0
+access_rem_image,access_rem_image,model_rem_image,,1,0,0,0
+access_rem_unit_city,access_rem_unit_city,model_rem_unit_city,,1,0,0,0
