@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+
+        <record id="view_crm_opportunity_rem_unit_form" model="ir.ui.view">
+            <field name="name">crm.lead.rem.unit.inherit</field>
+            <field name="model">unit.leads</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+
+                        <field name="unit_id" string="Rem Unit" widget="many2many_tags"/>
+
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

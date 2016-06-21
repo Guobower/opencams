@@ -20,7 +20,8 @@ Manage real estate assets for sale and rent management purposes
         'security/ir.model.access.csv',
         'rem_view.xml',
         'rem_data.xml',
-        'unit_sequence.xml'
+        'unit_sequence.xml',
+        'unit_leads_form_view.xml',
     ],
     'test': [
     ],

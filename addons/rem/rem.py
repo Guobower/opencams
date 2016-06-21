@@ -140,3 +140,15 @@ class RemUnit(models.Model):
     image_ids = fields.One2many('rem.image', 'unit_id', string='Photos', ondelete='cascade')
     feature_id = fields.Many2many('res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(compute=_is_featured, store=False)
+
+
+
+class unit_leads(models.Model):
+    _name = 'unit.leads'
+    _description = 'Unit Leads'
+    _inherit = 'crm.lead'
+
+    unit_id = fields.Many2many('unit_id', string='Unit', required=True)
+    
+    
+    
