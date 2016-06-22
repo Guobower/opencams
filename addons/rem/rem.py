@@ -148,7 +148,7 @@ class unit_leads(models.Model):
     _description = 'Unit Leads'
     _inherit = 'crm.lead'
 
-    unit_id = fields.Many2many('unit_id', string='Unit', required=True)
-    
+     unit_lead = fields.Many2many('res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
+    # unit_lead = fields.Many2one('rem.unit', string='Unit', required=True)
     
     

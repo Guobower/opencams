@@ -8,9 +8,9 @@
             <field name="model">unit.leads</field>
             <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='tag_ids']" position="after">
+                <xpath expr="//field[@name='next_activity_id']" position="after">
 
-                        <field name="unit_id" string="Rem Unit" widget="many2many_tags"/>
+                        <field name="unit_lead" string="Unit Lead" widget="many2many_tags" options="{'no_create_edit': True}"/>
 
                 </xpath>
             </field>
