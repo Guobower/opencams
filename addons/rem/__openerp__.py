@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Management',
-    'version': '0.1',
-    'author': 'Diogo Duarte',
+    'name': 'Real Estate Asset Management',
+    'version': '1.0',
+    'author': 'Odoo GAP',
     'summary': 'Real Estate Asset Management',
     'description': """
 Manage real estate assets for sale and rent management purposes
@@ -10,8 +10,8 @@ Manage real estate assets for sale and rent management purposes
 
 
     """,
-    'website': 'http://diogocduarte.github.io',
-    'depends': ['base', 'account'],
+    'website': 'http://www.odoogap.com',
+    'depends': ['account', 'crm'],
     'category': 'Real Estate',
     'demo': [
         'rem_demo.xml'
