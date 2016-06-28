@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Agency Template',
-    'version': '0.1',
-    'author': 'Diogo Duarte',
-    'summary': 'Real Estate Asset Management',
+    'name': 'Real Estate Template',
+    'version': '1.0',
+    'author': 'Odoo GAP',
+    'summary': 'Real Estate Template',
     'description': """
-Public real estate agency website template
+Real estate Template
 ==========================================
 
 
 
     """,
     'website': 'http://www.odoogap.com',
-    'depends': ['web'],
+    'depends': ['website'],
     'category': 'Real Estate',
     'demo': [
     ],

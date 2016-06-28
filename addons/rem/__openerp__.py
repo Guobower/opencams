@@ -7,6 +7,7 @@
     'description': """
 Manage real estate assets for sale and rent management purposes
 ===============================================================
+This module allows to sell/rent real estate units
 
 
     """,
@@ -14,14 +15,15 @@ Manage real estate assets for sale and rent management purposes
     'depends': ['account', 'crm'],
     'category': 'Real Estate',
     'demo': [
-        'rem_demo.xml'
+		'data/rem_demo.xml'
     ],
     'data': [
+		'data/rem_data.xml',
         'security/ir.model.access.csv',
-        'rem_view.xml',
-        'rem_data.xml',
-        'unit_sequence.xml',
-        'unit_leads_form_view.xml',
+		'views/crm_view.xml',
+		'views/rem_menu.xml',
+		'views/rem_unit_sequence.xml',
+		'views/rem_view.xml',
     ],
     'test': [
     ],

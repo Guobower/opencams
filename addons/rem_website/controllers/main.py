@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
-
-import werkzeug
-
-from openerp import SUPERUSER_ID
 from openerp import http
-from openerp import tools, api, fields, models
 from openerp.http import request
-from openerp.tools.translate import _
-from openerp.addons.website.models.website import slug
+
+PPG = 20  # Products Per Page
 
 
-PPG = 20 # Products Per Page
-
-class website_rem(http.Controller):
-
+class RemWebsite(http.Controller):
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth="public", website=True)
     def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search_box='', **post):
@@ -38,7 +30,7 @@ class website_rem(http.Controller):
         # Query is_new
         try:
             is_new = int(is_new)
-            if (is_new == 0 or is_new == 1):
+            if is_new == 0 or is_new == 1:
                 domain += [('is_new', '=', is_new)]
         except ValueError:
             pass
@@ -46,7 +38,7 @@ class website_rem(http.Controller):
         # Query bedrooms
         try:
             beds = int(beds)
-            if (beds >= 1 and beds <= 10):
+            if 1 >= beds <= 10:
                 domain += [('bedrooms', '=', beds)]
         except ValueError:
             pass
@@ -54,7 +46,7 @@ class website_rem(http.Controller):
         # Query bathrooms
         try:
             baths = int(baths)
-            if (baths >= 1 and baths <= 10):
+            if 1 >= baths <= 10:
                 domain += [('bathrooms', '=', baths)]
         except ValueError:
             pass
@@ -62,14 +54,14 @@ class website_rem(http.Controller):
         # Query price
         try:
             min_price = int(min_price)
-            if (min_price > 0):
+            if min_price > 0:
                 domain += [('price', '>=', min_price)]
         except ValueError:
             pass
 
         try:
             max_price = int(max_price)
-            if (max_price > 0):
+            if max_price > 0:
                 domain += [('price', '<=', max_price)]
         except ValueError:
             pass
@@ -89,7 +81,6 @@ class website_rem(http.Controller):
         type_ids = types_obj.search(cr, uid, [], context=context)
         types = types_obj.browse(cr, uid, type_ids, context=context)
 
-
         values = {
             'units': units,
             'cities': cities,
@@ -105,14 +96,13 @@ class website_rem(http.Controller):
             'search': search_box
         }
 
-        return request.website.render("website_rem.rem_list_page", values)
+        return request.website.render("rem_website.rem_list_page", values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth="public", website=True)
-    def unit(self, unit, **kwargs):
-        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+    def unit(self, unit):
 
         values = {
             'unit': unit
         }
 
-        return request.website.render("website_rem.rem_unit_page", values)
+        return request.website.render("rem_website.rem_unit_page", values)

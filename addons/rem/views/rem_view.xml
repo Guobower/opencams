@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-<data>
-        <!-- Top menu item -->
-        <menuitem name="Real Estate"
-            id="menu_rem"
-            groups="base.group_user"
-            sequence="50"/>
-		<menuitem id="menu_rem_obj" parent="menu_rem" name="Asset Data"/>
-		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration"/>
-		
-        <!-- 
-        	Realestate Asset 
-        -->
-        <!-- Realestate Asset Tree View -->
+	<data>
 
+        <!--
+        	Real Estate Asset
+        -->
+
+        <!-- Real Estate Asset Tree View -->
         <record id="view_rem_unit_tree" model="ir.ui.view">
             <field name="name">rem.unit.tree</field>
             <field name="model">rem.unit</field>
@@ -24,8 +17,7 @@
             </field>
         </record>
 
-		<!-- Realestate Asset Search View -->
-
+		<!-- Real Estate Asset Search View -->
         <record id="view_rem_unit_filter" model="ir.ui.view">
             <field name="name">rem.unit.filter</field>
             <field name="model">rem.unit</field>
@@ -41,8 +33,7 @@
             </field>
         </record>
 
-        <!-- Realestate Asset Form View -->
-	
+        <!-- Real Estate Asset Form View -->
 		<record id="view_rem_unit_form" model="ir.ui.view">
 			<field name="name">rem.unit.form</field>
 			<field name="model">rem.unit</field>
@@ -116,31 +107,12 @@
 				</form>
 			</field>
 		</record>
-		
-		<!-- Realestate Asset Action Window -->
-        
-        <record id="action_rem_unit" model="ir.actions.act_window">
-            <field name="name">Real Estate Units</field>
-            <field name="res_model">rem.unit</field>
-            <field name="view_mode">tree,form</field>
-            <field name="target">current</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to add a real estate unit.
-	            </p><p>
-	                The real estate units can be rentable or sellable
-	                being owned or just commissioned by your company.
-	            </p>
-	        </field>
-        </record>
-
-        <menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit" sequence="10"/>
 
         <!--
         	Unit City
         -->
-        <!-- Unit City Tree View -->
 
+        <!-- Unit City Tree View -->
         <record id="view_rem_unit_city_tree" model="ir.ui.view">
             <field name="name">rem.unit.city.tree</field>
             <field name="model">rem.unit.city</field>
@@ -152,7 +124,6 @@
         </record>
 
 		<!-- Unit City Search View -->
-
         <record id="view_rem_unit_city_filter" model="ir.ui.view">
             <field name="name">rem.unit.city.filter</field>
             <field name="model">rem.unit.city</field>
@@ -164,7 +135,6 @@
         </record>
 
         <!-- Unit City Form View -->
-
         <record id="view_rem_unit_city_form" model="ir.ui.view">
             <field name="name">rem.unit.city.form</field>
             <field name="model">rem.unit.city</field>
@@ -180,29 +150,11 @@
             </field>
         </record>
 
-		<!-- Unit City Action Window -->
-
-        <record id="action_rem_unit_city" model="ir.actions.act_window">
-            <field name="name">Unit City</field>
-            <field name="res_model">rem.unit.city</field>
-            <field name="view_mode">tree,form</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to add a Unit City.
-	            </p><p>
-	                The Unit City are for the purpose of ???
-	                allowing you to control the ....
-	            </p>
-	        </field>
-        </record>
-
-        <menuitem id="menu_rem_unit_city" name="Unit City" parent="menu_rem_conf" action="action_rem_unit_city" sequence="100"/>
-
         <!-- 
         	Unit Type
         -->
-        <!-- Unit Type Tree View -->
 
+        <!-- Unit Type Tree View -->
         <record id="view_rem_unit_type_tree" model="ir.ui.view">
             <field name="name">rem.unit.type.tree</field>
             <field name="model">rem.unit.type</field>
@@ -214,7 +166,6 @@
         </record>
 
 		<!-- Unit Type Search View -->
-
         <record id="view_rem_unit_type_filter" model="ir.ui.view">
             <field name="name">rem.unit.type.filter</field>
             <field name="model">rem.unit.type</field>
@@ -226,7 +177,6 @@
         </record>
 
         <!-- Unit Type Form View -->
-        
         <record id="view_rem_unit_type_form" model="ir.ui.view">
             <field name="name">rem.unit.type.form</field>
             <field name="model">rem.unit.type</field>
@@ -241,30 +191,12 @@
                 </form>
             </field>
         </record>
-		
-		<!-- Unit Type Action Window -->
-        
-        <record id="action_rem_unit_type" model="ir.actions.act_window">
-            <field name="name">Unit Type</field>
-            <field name="res_model">rem.unit.type</field>
-            <field name="view_mode">tree,form</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to add a Unit Type.
-	            </p><p>
-	                The Unit Type are for the purpose of ???
-	                allowing you to control the ....
-	            </p>
-	        </field>
-        </record>
-
-        <menuitem id="menu_rem_unit_type" name="Unit Type" parent="menu_rem_conf" action="action_rem_unit_type" sequence="100"/>
 
         <!-- 
         	Unit Stage 
 		-->
-        <!-- Unit Stage Tree View -->
 
+        <!-- Unit Stage Tree View -->
         <record id="view_rem_unit_stage_tree" model="ir.ui.view">
             <field name="name">rem.unit.stage.tree</field>
             <field name="model">rem.unit.stage</field>
@@ -277,7 +209,6 @@
         </record>
 
 		<!-- Unit Stage Search View -->
-
         <record id="view_rem_unit_stage_filter" model="ir.ui.view">
             <field name="name">rem.unit.stage.filter</field>
             <field name="model">rem.unit.stage</field>
@@ -293,7 +224,6 @@
         </record>
 
         <!-- Unit Stage Form View -->
-        
         <record id="view_rem_unit_stage_form" model="ir.ui.view">
             <field name="name">rem.unit.stage.form</field>
             <field name="model">rem.unit.stage</field>
@@ -315,31 +245,12 @@
                 </form>
             </field>
         </record>
-		
-		<!-- Unit Stage Action Window -->
-        
-        <record id="action_rem_unit_stage" model="ir.actions.act_window">
-            <field name="name">Unit Stage</field>
-            <field name="res_model">rem.unit.stage</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_grouppertype': 1}</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to add a Unit Stage.
-	            </p><p>
-	                The Unit Stage are for the purpose of ???
-	                allowing you to control the ....
-	            </p>
-	        </field>
-        </record>
-
-        <menuitem id="menu_rem_unit_stage" name="Unit Stage" parent="menu_rem_conf" action="action_rem_unit_stage" sequence="100"/>
         
         <!-- 
         	Real Estate Contract Type 
 		-->
-        <!-- Real Estate Contract Type Tree View -->
 
+        <!-- Real Estate Contract Type Tree View -->
         <record id="view_re_contract_type_tree" model="ir.ui.view">
             <field name="name">contract.type.tree</field>
             <field name="model">contract.type</field>
@@ -351,7 +262,6 @@
         </record>
 
 		<!-- Real Estate Contract Type Search View -->
-
         <record id="view_re_contract_type_filter" model="ir.ui.view">
             <field name="name">contract.type.filter</field>
             <field name="model">contract.type</field>
@@ -363,7 +273,6 @@
         </record>
 
         <!-- Real Estate Contract Type Form View -->
-        
         <record id="view_re_contract_type_form" model="ir.ui.view">
             <field name="name">contract.type.form</field>
             <field name="model">contract.type</field>
@@ -385,31 +294,12 @@
                 </form>
             </field>
         </record>
-		
-		<!-- Real Estate Contract Type Action Window -->
-        
-        <record id="action_re_contract_type" model="ir.actions.act_window">
-            <field name="name">Real Estate Contract Type</field>
-            <field name="res_model">contract.type</field>
-            <field name="view_mode">tree,form</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to add a Real Estate Contract Type.
-	            </p><p>
-	                The Real Estate Contract Type 
-	                allowing you to define the type of contract
-	                established for your units: rent, sale, share ...
-	            </p>
-	        </field>
-        </record>
-
-        <menuitem id="menu_re_contract_type" name="Real Estate Contract Type" parent="menu_rem_conf" action="action_re_contract_type" sequence="100"/>
 
         <!-- 
         	Unit Image 
 		-->
-        <!-- Unit Image Tree View -->
 
+        <!-- Unit Image Tree View -->
         <record id="view_rem_image_tree" model="ir.ui.view">
             <field name="name">rem.image.tree</field>
             <field name="model">rem.image</field>
@@ -421,7 +311,6 @@
         </record>
 
 		<!-- Unit Image Search View -->
-
         <record id="view_rem_image_filter" model="ir.ui.view">
             <field name="name">rem.image.filter</field>
             <field name="model">rem.image</field>
@@ -433,7 +322,6 @@
         </record>
 
         <!-- Unit Image Form View -->
-        
         <record id="view_rem_image_form" model="ir.ui.view">
             <field name="name">rem.image.form</field>
             <field name="model">rem.image</field>
@@ -453,5 +341,6 @@
                 </form>
             </field>
         </record>
-</data>
+
+	</data>
 </openerp>

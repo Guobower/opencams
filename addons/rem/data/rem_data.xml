@@ -65,6 +65,7 @@
             <field name="active">True</field>
         </record>
 
+
         <!-- Unit Contract Types -->
         <record id="rem_unit_contract_type_sale" model="contract.type">
             <field name="name">Sale</field>
@@ -85,6 +86,7 @@
             <field name="name">Exchange</field>
             <field name="active">True</field>
         </record>
+
 
         <!-- Unit Stages -->
         <record id="rem_unit_stage_1" model="rem.unit.stage">

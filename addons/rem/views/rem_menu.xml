@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+        <!-- Top menu item -->
+        <menuitem name="Real Estate"
+            id="menu_rem"
+            groups="base.group_user"
+            sequence="50"/>
+		<menuitem id="menu_rem_obj" parent="menu_rem" name="Asset Data"/>
+		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration"/>
+
+		<!--
+        	Unit
+        -->
+
+		<!-- Real Estate Asset Action Window -->
+        <record id="action_rem_unit" model="ir.actions.act_window">
+            <field name="name">Real Estate Units</field>
+            <field name="res_model">rem.unit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a real estate unit.
+	            </p><p>
+	                The real estate units can be rentable or sellable
+	                being owned or just commissioned by your company.
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit" sequence="10"/>
+
+        <!--
+        	Unit City
+        -->
+
+		<!-- Unit City Action Window -->
+        <record id="action_rem_unit_city" model="ir.actions.act_window">
+            <field name="name">Unit City</field>
+            <field name="res_model">rem.unit.city</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit City.
+	            </p><p>
+	                The Unit City are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_city" name="Unit City" parent="menu_rem_conf" action="action_rem_unit_city" sequence="100"/>
+
+        <!--
+        	Unit Type
+        -->
+
+		<!-- Unit Type Action Window -->
+        <record id="action_rem_unit_type" model="ir.actions.act_window">
+            <field name="name">Unit Type</field>
+            <field name="res_model">rem.unit.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Type.
+	            </p><p>
+	                The Unit Type are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_type" name="Unit Type" parent="menu_rem_conf" action="action_rem_unit_type" sequence="100"/>
+
+        <!--
+        	Unit Stage
+		-->
+
+		<!-- Unit Stage Action Window -->
+        <record id="action_rem_unit_stage" model="ir.actions.act_window">
+            <field name="name">Unit Stage</field>
+            <field name="res_model">rem.unit.stage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_grouppertype': 1}</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Stage.
+	            </p><p>
+	                The Unit Stage are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_stage" name="Unit Stage" parent="menu_rem_conf" action="action_rem_unit_stage" sequence="100"/>
+
+        <!--
+        	Contract Type
+		-->
+
+		<!-- Real Estate Contract Type Action Window -->
+        <record id="action_re_contract_type" model="ir.actions.act_window">
+            <field name="name">Real Estate Contract Type</field>
+            <field name="res_model">contract.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Real Estate Contract Type.
+	            </p><p>
+	                The Real Estate Contract Type allow you to define the type
+					of contract established for your units.
+	            </p>
+	        </field>
+        </record>
+
+        <menuitem id="menu_re_contract_type" name="Real Estate Contract Type" parent="menu_rem_conf" action="action_re_contract_type" sequence="100"/>
+
+	</data>
+</openerp>

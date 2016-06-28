@@ -84,27 +84,31 @@
         <record id="rem_image_1" model="rem.image">
             <field name="name">Unit 1</field>
             <field name="unit_id" ref="rem.rem_unit_1"/>
-            <field name="image" type="base64" file="website_rem/static/img/unit-1.png"/>
+            <field name="image" type="base64" file="rem/static/img/unit-1.png"/>
         </record>
+
         <record id="rem_image_2" model="rem.image">
             <field name="name">Unit 2</field>
             <field name="unit_id" ref="rem.rem_unit_2"/>
-            <field name="image" type="base64" file="website_rem/static/img/unit-2.png"/>
+            <field name="image" type="base64" file="rem/static/img/unit-2.png"/>
         </record>
+
         <record id="rem_image_3" model="rem.image">
             <field name="name">Unit 1</field>
             <field name="unit_id" ref="rem.rem_unit_3"/>
-            <field name="image" type="base64" file="website_rem/static/img/unit-3.png"/>
+            <field name="image" type="base64" file="rem/static/img/unit-3.png"/>
         </record>
+
         <record id="rem_image_4" model="rem.image">
             <field name="name">Unit 1</field>
             <field name="unit_id" ref="rem.rem_unit_4"/>
-            <field name="image" type="base64" file="website_rem/static/img/unit-4.png"/>
+            <field name="image" type="base64" file="rem/static/img/unit-4.png"/>
         </record>
+
         <record id="rem_image_5" model="rem.image">
             <field name="name">Unit 1</field>
             <field name="unit_id" ref="rem.rem_unit_5"/>
-            <field name="image" type="base64" file="website_rem/static/img/unit-5.png"/>
+            <field name="image" type="base64" file="rem/static/img/unit-5.png"/>
         </record>
 
     </data>
