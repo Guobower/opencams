@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Template',
+    'name': 'Material Theme',
     'version': '1.0',
     'author': 'Odoo GAP',
-    'summary': 'Real Estate Template',
+    'summary': 'Material Theme',
     'description': """
-Real estate Template
+Material Theme
 ==========================================
-
+Material design inspired theme for real estate
 
 
     """,
     'website': 'http://www.odoogap.com',
-    'depends': ['website'],
+    'category': 'Theme/Ecommerce',
+    'depends': ['rem_website'],
     'category': 'Real Estate',
     'demo': [
     ],
