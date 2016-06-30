@@ -1,24 +1,11 @@
 # -*- coding: utf-8 -*-
-import openerp
-import werkzeug
 from openerp import http
 from openerp.http import request
 
 PPG = 20  # Products Per Page
 
 
-class WebsiteContact(openerp.addons.web.controllers.main.Home):
-
-    @http.route(['/page/contactus'], type='http', auth="none")
-    def web_login(self, redirect=None, **kw):
-        return werkzeug.utils.redirect('/contact-us', 303)
-
-
 class RemWebsite(http.Controller):
-
-    @http.route(['/contact-us'], type='http', auth="public", website=True)
-    def ContactUs(self):
-        return request.website.render("rem_website.contact_us_page")
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth="public", website=True)
     def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search_box='', **post):

@@ -5,6 +5,7 @@
 		<!-- Frontend assets -->
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
+				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material-design-iconic-font.min.css"/>
 				<script type="text/javascript" src="/theme_material/static/src/js/angular.js"/>
 				<script type="text/javascript" src="/theme_material/static/src/js/jcs-auto-validate.js"/>
 				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/waves.css"/>
@@ -15,6 +16,104 @@
 				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material.css"/>
 				<script type="text/javascript" src="/theme_material/static/src/js/material.js"/>
             </xpath>
+        </template>
+
+		<!-- Conatct Us Form -->
+        <template id="contact_us_page" name="Contact us">
+			<t t-call="website.layout">
+				<div ng-app="material-website" class="row">
+					<div ng-controller="material" class="col-xs-12">
+
+						<form novalidate="novalidate" id="material_form" name="material_form" ng-submit="onSubmit(material_form.$valid)"  class="material-form material-card-box-shadow">
+							<h1 class="material-title text-center">Contact us</h1>
+							<div class="form-group">
+								<input
+									type="text"
+									id="contact_name"
+									name="contact_name"
+									maxlength="128"
+									class="form-control"
+									title="Name"
+									placeholder="Name"
+									ng-model="formModel.contact_name"
+									required="required"/>
+							</div>
+							<div class="form-group">
+								<input
+									type="text"
+									id="phone"
+									name="phone"
+									maxlength="128"
+									class="form-control"
+									title="Phone Number"
+									placeholder="Phone Number"
+									ng-model="formModel.phone"/>
+							</div>
+							<div class="form-group">
+								<input
+									type="email"
+									id="email_from"
+									name="email_from"
+									maxlength="128"
+									class="form-control"
+									title="Email"
+									placeholder="Email"
+									ng-model="formModel.email_from"
+									required="required"/>
+							</div>
+							<div class="form-group">
+								<input
+									type="text"
+									id="partner_name"
+									name="partner_name"
+									maxlength="128"
+									class="form-control"
+									title="Your Company"
+									placeholder="Your Company"
+									ng-model="formModel.partner_name"
+									required="required"/>
+							</div>
+							<div class="form-group">
+								<input
+									type="text"
+									id="name"
+									name="name"
+									maxlength="128"
+									class="form-control"
+									title="Subject"
+									placeholder="Subject"
+									ng-model="formModel.name"
+									required="required"/>
+							</div>
+							<div class="form-group">
+								<textarea
+									type="text"
+									id="description"
+									name="description"
+									maxlength="1024"
+									class="form-control"
+									title="Your Question"
+									placeholder="Your Question"
+									rows="6"
+									ng-model="formModel.description"
+									required="required"></textarea>
+							</div>
+							<div class="form-group">
+								<button id="material-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+							</div>
+							<span id="o_website_form_result" class="text-center"></span>
+						</form>
+
+						<form id="material-hidden-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="s_website_form">
+							<div id="submit-form-inputs"></div>
+							<input type="hidden" name="type" value="opportunity"/>
+							<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+							<button type="submit" id="material-hidden-form-submit" class="btn btn-primary btn-block o_website_form_send"></button>
+						</form>
+
+					</div>
+				</div>
+			</t>
         </template>
 
 	</data>
