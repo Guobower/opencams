@@ -136,8 +136,6 @@
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
                 <link type="txt/css" rel="stylesheet" href="/rem_website/static/src/css/style.css"/>
-                <link type="txt/css" rel="stylesheet" href="/rem_website/static/src/css/font-awesome.css"/>
-                <link type="txt/css" rel="stylesheet" href="/rem_website/static/src/css/theme_color/default_theme.css"/>
             </xpath>
         </template>
 

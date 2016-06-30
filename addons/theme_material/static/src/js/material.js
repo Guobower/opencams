@@ -24,6 +24,10 @@ app.controller('material', function($scope) {
 $(function() {
 	"use strict";
 
+	$(".btn").each(function(){
+		$(this).addClass("waves-effect waves-light");
+    });
+
 	Waves.attach('.waves-effect');
 	Waves.init();
 });
