@@ -18,7 +18,8 @@ Material design inspired theme for real estate
     'demo': [
     ],
     'data': [
-        'views/templates.xml'
+        'views/menu.xml',
+        'views/templates.xml',
     ],
     'test': [
     ],
