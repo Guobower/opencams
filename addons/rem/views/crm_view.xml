@@ -16,9 +16,21 @@
 	                    name="action_stage_history" icon="fa-history" string="History">
 	                </button>
 	            </xpath>
-                <xpath expr="//notebook/page[1]" position="after">
+                <xpath expr="//notebook/page[1]" position="before">
                 	<page string="Searches for">
-                	
+                		<div class="oe_button_box" name="button_box2">
+		                	<button class="oe_stat_button" type="object"
+			                    name="action_find_matching_units" icon="fa-search" string="Find Units">
+			                </button>
+		                </div>
+	                	<group string="General features">
+	                		<field name="re_contract_type_id"/>
+	                		<field name="re_type"/>
+	                		<field name="re_rooms"/>
+	                		<field name="re_bathrooms"/>
+	                		<field name="re_datemovein"/>
+	                		<field name="re_zone"/>
+	                	</group>
                 	</page>   
                 </xpath>
             </field>
