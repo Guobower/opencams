@@ -64,6 +64,15 @@
                         </group>
                 	</page>   
                 </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+	                <button class="oe_stat_button" type="object"
+	                    name="action_stage_history" icon="fa-history" string="History">
+	                </button>
+	            </xpath>
+                <xpath expr="//notebook/page[1]" position="after">
+                	<page string="Searches for">
+                	</page>   
+                </xpath>
             </field>
         </record>
 
