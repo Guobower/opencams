@@ -182,3 +182,98 @@ select {
 #material-hidden-form {
 	display: none;
 }
+
+
+
+
+
+
+.rem-unit-card {
+	background: #fff;
+	border-bottom: 2px solid #dcdcdd;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	max-width: 342px;
+	margin: 30px auto;
+}
+
+.rem-unit-card img
+{
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.rem-unit-card-price
+{
+	position: relative;
+	display: block;
+
+}
+
+.rem-unit-card-title
+{
+	position: relative;
+	display: block;
+}
+
+.rem-unit-card-details
+{
+	position: relative;
+	display: block;
+	font-size: 1.6em;
+	font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+}
+
+.rem-unit-card-details span {
+	margin-right: 15px;
+}
+
+.rem-unit-card-price,
+.rem-unit-card-title,
+.rem-unit-card-details {
+	padding: 5px 15px;
+	color: #777;
+}
+
+
+
+
+
+
+
+/*
+.rem-unit {
+	background: #fff;
+	max-width: 600px;
+	margin: 30px auto;
+	border-bottom: 2px solid #dcdcdd;
+}
+
+.rem-unit-info {
+	padding: 20px;
+}
+
+.rem-unit-name {
+	font-size: 1.4em;
+	font-family: "Open Sans Regular", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+}
+
+.rem-unit-icon {
+	margin-right: 20px;
+	font-size: 1.2em;
+	color: #777;
+}
+
+.rem-unit-icon i {
+	margin-right: 5px;
+	margin-top: 20px;
+}
+*/

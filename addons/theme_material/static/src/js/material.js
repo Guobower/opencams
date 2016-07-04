@@ -8,9 +8,9 @@ app.controller('material', function($scope) {
 
 	$scope.onSubmit = function(valid) {
 		if (valid) {
-			var lida = Ladda.create(document.querySelector("#material-submit-button"));
+			var l = Ladda.create(document.querySelector("#material-submit-button"));
 
-			lida.start();
+			l.start();
 
 			$('#material_form input, #material_form textarea').each(function() {
 				$("#submit-form-inputs").append("<input name=\"" + $(this).attr("name") + "\" value=\"" + $(this).val() + "\"/>");

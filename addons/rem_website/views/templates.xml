@@ -2,6 +2,144 @@
 <openerp>
     <data>
 
+        <!-- Frontend assets page -->
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="Rem frontend assets">
+            <xpath expr="link[last()]" position="after">
+                <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+            </xpath>
+        </template>
+
+        <!-- Rem Units List Page -->
+        <template id="rem_list_page" name="Rem Units List Page">
+            <t t-call="website.layout">
+                <t t-set="additional_title">Real Estate</t>
+                    <div class="container">
+                        <div class="row">
+                            <t t-call="rem_website.rem_unit_item"/>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                <div id="wrap" class="js_sale">
+                    <div class="oe_structure"/>
+                    <div class="container oe_website_sale">
+                        <div class='row'>
+                            <div class="col-md-9">
+
+                            </div>
+                            <div class="col-md-3">
+                                <t t-call="rem_website.rem_search"/>
+                            </div>
+                        </div>
+                        <div class="pricelist_list">
+                            <t t-call="rem_website.rem_list_pager"/>
+                        </div>
+                    </div>
+                    <div class="oe_structure mb32"/>
+                </div>
+            </t>
+        </template>
+
+
+
+
+
+
+
+
+
+        <!-- Rem Unit Item -->
+        <template id="rem_unit_item" name="Rem Unit Item">
+            <div class="row">
+                <t t-foreach="units" t-as="rem_unit">
+                    <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-unit-card">
+                                <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                <t t-if="rem_unit.price>0">
+                                    <div class="rem-unit-card-price">
+                                        $<t t-esc="rem_unit.price"/>
+                                    </div>
+                                </t>
+                                <div class="rem-unit-card-title">
+                                    <div t-esc='rem_unit.name'/>
+                                </div>
+                                <div class="rem-unit-card-details">
+                                    <t t-if="rem_unit.bedrooms>0">
+                                        <span><i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/></span>
+                                    </t>
+                                    <t t-if="rem_unit.bathrooms>0">
+                                        <span><i class="zmdi zmdi-male-female"></i> <t t-esc="rem_unit.bathrooms"/></span>
+                                    </t>
+                                    <t t-if="rem_unit.garages>0">
+                                        <span><i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/></span>
+                                    </t>
+                                    <t t-if="rem_unit.area>0">
+                                        <span><i class="zmdi zmdi-select-all"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </t>
+            </div>
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Homepage -->
         <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
             <xpath expr="//div[@id='wrap']" position="after">
@@ -131,13 +269,7 @@
 
 
          
-        <!-- Frontend assets page -->
-        <template id="assets_frontend" inherit_id="website.assets_frontend" name="Rem frontend assets">
-            <xpath expr="link[last()]" position="after">
-                <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
-                <link type="txt/css" rel="stylesheet" href="/rem_website/static/src/css/style.css"/>
-            </xpath>
-        </template>
+
 
         <!-- Rem Search -->
         <template id="rem_search" name="Rem Search">
@@ -293,44 +425,7 @@
             <t t-call="website.pager"/>
         </template>
 
-        <!-- Rem Unit Item -->
-        <template id="rem_unit_item" name="Rem Unit Item">
-            <div class="row">
-                <t t-foreach="units" t-as="rem_unit">
-                    <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <t t-if="rem_unit.image_ids">
-                                    <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
-                                </t>
-                                <div class="caption">
-                                    <t t-if="rem_unit.price>0">
-                                        <div>$<t t-esc="rem_unit.price"/></div>
-                                    </t>
-                                    <div t-esc='rem_unit.contract_type_id.name'/>
-                                    <div t-esc='rem_unit.name'/>
-                                    <div t-esc='rem_unit.city_id.name'/>
-                                    <div>
-                                        <t t-if="rem_unit.bedrooms>0">
-                                            <span><span class="glyphicon glyphicon-bed" aria-hidden="true"></span> <t t-esc="rem_unit.bedrooms"/></span>
-                                        </t>
-                                        <t t-if="rem_unit.bathrooms>0">
-                                            <span><i class="fa fa-tint"></i> <t t-esc="rem_unit.bathrooms"/></span>
-                                        </t>
-                                        <t t-if="rem_unit.garages>0">
-                                            <span><i class="fa fa-car"></i> <t t-esc="rem_unit.garages"/></span>
-                                        </t>
-                                        <t t-if="rem_unit.area>0">
-                                            <span><i class="fa fa-building"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
-                                        </t>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </t>
-            </div>
-        </template>
+
 
         <!-- 404 page -->
         <template id="404" name="404 page">
@@ -375,29 +470,7 @@
             </t>
         </template>
 
-        <!-- Rem Units List Page -->
-        <template id="rem_list_page" name="Rem Units List Page">
-            <t t-call="website.layout">
-                <t t-set="additional_title">Real Estate</t>
-                <div id="wrap" class="js_sale">
-                    <div class="oe_structure"/>
-                    <div class="container oe_website_sale">
-                        <div class='row'>
-                            <div class="col-md-9">
-                                <t t-call="rem_website.rem_unit_item"/>
-                            </div>
-                            <div class="col-md-3">
-                                <t t-call="rem_website.rem_search"/>
-                            </div>
-                        </div>
-                        <div class="pricelist_list">
-                            <t t-call="rem_website.rem_list_pager"/>
-                        </div>
-                    </div>
-                    <div class="oe_structure mb32"/>
-                </div>
-            </t>
-        </template>
+
 
         <!--  Unit Content -->
         <template id="rem_unit_content" name="Unit Content">
