@@ -17,7 +17,8 @@ class RemUniType(models.Model):
     _name = 'rem.unit.type'
     _description = 'Unit Type'
 
-    name = fields.Char(string='Type Name', size=32, required=True, help="Type Name.")
+    name = fields.Char(string='Type Name', size=32,
+                       required=True, help="Type Name.")
     notes = fields.Text(string='Notes', help="Description of the type.")
     active = fields.Boolean(string='Active', default=True,
                             help="If the active field is set to False, it will allow you to hide without removing it.")
@@ -50,6 +51,16 @@ class RemUnitStage(models.Model):
                             help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
     contract_type_id = fields.Many2one(
         'contract.type', string='Contract Type', required=False)
+
+
+class ReasonForBuy(models.Model):
+    _name = 'reason.for.buy'
+    _description = 'Reason for Buy'
+
+    name = fields.Char(string='Reason for Buy', size=32,
+                       required=True, help="Reason for Buy")
+    active = fields.Boolean(string='Active', default=True,
+                            help="If the active field is set to False, it will allow you to hide without removing it.")
 
 
 class RemImage(models.Model):
@@ -141,7 +152,8 @@ class RemUnit(models.Model):
     is_new = fields.Boolean(string='Is New', default=True,
                             help="If the field is new is set to False, the unit is considered used.")
     type_id = fields.Many2one('rem.unit.type', string='Type')
-    stage_id = fields.Many2one('rem.unit.stage', string='Stage', default=_get_stage)
+    stage_id = fields.Many2one(
+        'rem.unit.stage', string='Stage', default=_get_stage)
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     bedrooms = fields.Integer(
         string='Number of bedrooms', default=1, required=True)
@@ -159,7 +171,8 @@ class RemUnit(models.Model):
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
                                        default=_get_default_contract_type)
     city_id = fields.Many2one('rem.unit.city', string='City', select=True)
-    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable')
+    is_rent = fields.Boolean(
+        related='contract_type_id.is_rent', string='Is Rentable')
     active = fields.Boolean(string='Active', default=True,
                             help="If the active field is set to False, it will allow you to hide the unit.")
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',

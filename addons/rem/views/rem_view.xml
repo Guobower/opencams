@@ -295,6 +295,49 @@
             </field>
         </record>
 
+        <!--
+            Reason for Buy
+        -->
+
+        <!-- Reason for Buy Tree View -->
+         <record id="view_reason_for_buy_tree" model="ir.ui.view">
+            <field name="name">reason.for.buy.tree</field>
+            <field name="model">reason.for.buy</field>
+            <field name="arch" type="xml">
+                <tree string="Reason for Buy">
+                    <field name="name" string="Name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Reason for Buy Search View -->
+        <record id="view_reason_for_buy_filter" model="ir.ui.view">
+            <field name="name">reason.for.buy.filter</field>
+            <field name="model">reason.for.buy</field>
+            <field name="arch" type="xml">
+                <search string="Search Reason for Buy">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Reason for Buy Form View -->
+        <record id="view_reason_for_buy_form" model="ir.ui.view">
+            <field name="name">reason.for.buy.form</field>
+            <field name="model">reason.for.buy</field>
+            <field name="arch" type="xml">
+                <form string="Reason for Buy">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
         <!-- 
         	Unit Image 
 		-->

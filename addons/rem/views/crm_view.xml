@@ -28,8 +28,11 @@
 	                		<field name="re_type"/>
 	                		<field name="re_rooms"/>
 	                		<field name="re_bathrooms"/>
-	                		<field name="re_datemovein"/>
+	                		<!--<field name="re_datemovein"/>-->
 	                		<field name="re_zone"/>
+                            <field name="re_reason"/>
+                            <field name="re_living_area"/>
+                            <field name="re_land_area"/>
 	                	</group>
                 	</page>   
                 </xpath>

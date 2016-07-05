@@ -124,5 +124,27 @@
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
         </record>
 
+        <!-- Reason for Buy -->
+        <record id="reason_for_buy_1" model="reason.for.buy">
+            <field name="name">Work Relocation</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="reason_for_buy_2" model="reason.for.buy">
+            <field name="name">Holiday Home</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="reason_for_buy_3" model="reason.for.buy">
+            <field name="name">Cost Reducing</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="reason_for_buy_4" model="reason.for.buy">
+            <field name="name">More Rooms</field>
+            <field name="active">True</field>
+        </record>
+
+
     </data>
 </openerp>
