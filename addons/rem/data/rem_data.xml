@@ -145,6 +145,33 @@
             <field name="active">True</field>
         </record>
 
+        <!-- Location Preferences -->
+
+        <record id="location_preferences_1" model="location.preferences">
+            <field name="name">School</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="location_preferences_2" model="location.preferences">
+            <field name="name">Near metro</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="location_preferences_3" model="location.preferences">
+            <field name="name">Near rail station</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="location_preferences_4" model="location.preferences">
+            <field name="name">Country side</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="location_preferences_5" model="location.preferences">
+            <field name="name">Country center</field>
+            <field name="active">True</field>
+        </record>
+
 
     </data>
 </openerp>

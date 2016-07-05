@@ -63,6 +63,16 @@ class ReasonForBuy(models.Model):
                             help="If the active field is set to False, it will allow you to hide without removing it.")
 
 
+class LocationPreferences(models.Model):
+    _name = 'location.preferences'
+    _description = 'Location Preferences'
+
+    name = fields.Char(string='Location Preferences', size=32,
+                       required=True, help="Location Preferences")
+    active = fields.Boolean(string='Active', default=True,
+                            help="If the active field is set to False, it will allow you to hide without removing it.")
+
+
 class RemImage(models.Model):
     _name = 'rem.image'
     _description = 'Unit Image'

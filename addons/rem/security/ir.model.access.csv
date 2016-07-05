@@ -7,3 +7,4 @@ access_rem_image,access_rem_image,model_rem_image,,1,0,0,0
 access_rem_unit_city,access_rem_unit_city,model_rem_unit_city,,1,0,0,0
 access_stage_history,access_stage_history,model_stage_history,,1,0,0,0
 access_reason_for_buy,access_reason_for_buy,model_reason_for_buy,,1,0,0,0
+access_location_preferences,access_location_preferences,model_location_preferences,,1,0,0,0

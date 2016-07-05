@@ -338,6 +338,49 @@
         </record>
 
 
+        <!--
+            Location Preferences
+        -->
+
+        <!-- Location Preferences Tree View -->
+         <record id="view_location_preferences_tree" model="ir.ui.view">
+            <field name="name">location.preferences.tree</field>
+            <field name="model">location.preferences</field>
+            <field name="arch" type="xml">
+                <tree string="Location Preferences">
+                    <field name="name" string="Name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Location Preferences Search View -->
+        <record id="view_location_preferences_filter" model="ir.ui.view">
+            <field name="name">location.preferences.filter</field>
+            <field name="model">location.preferences</field>
+            <field name="arch" type="xml">
+                <search string="Search Location Preferences">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Location Preferences Form View -->
+        <record id="view_location_preferences_form" model="ir.ui.view">
+            <field name="name">location.preferences.form</field>
+            <field name="model">location.preferences</field>
+            <field name="arch" type="xml">
+                <form string="Location Preferences">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
         <!-- 
         	Unit Image 
 		-->
