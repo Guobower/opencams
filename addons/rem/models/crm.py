@@ -7,6 +7,7 @@ MATCH_RE = {
     're_type': 'type_id',
     're_rooms': 'rooms',
     're_bathrooms': 'bathrooms',
+    're_reason': 'reason'
 }
 
 
@@ -17,14 +18,14 @@ class CrmLead(models.Model):
 
     re_contract_type_id = fields.Many2one(
         'contract.type', string='Contract Type')
-    re_type = fields.Many2one('rem.unit.type', string='Type')
+    re_type = fields.Many2many('rem.unit.type', string='Property Type')
     re_rooms = fields.Integer('Rooms', help="Number of rooms")
     re_bathrooms = fields.Integer(
         'Bathrooms', help="Number of bathrooms", re_field='bathrooms')
     #re_datemovein = fields.Date('Deadline', help="Move in deadline for customer", default=lambda self: self._context.get('date', fields.Date.context_today(self)))
     re_zone = fields.Char(
         'Zone', help="place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills")
-    re_reason = fields.Char('Reason for Buying')
+    re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
     re_living_area = fields.Float('Living Area')
     re_land_area = fields.Float('Land Area')
 

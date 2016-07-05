@@ -192,3 +192,4 @@ class RemUnit(models.Model):
     feature_id = fields.Many2many(
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(compute=_is_featured, store=False)
+    reason = fields.Many2one('reason.for.buy', string="Reason for Buy")

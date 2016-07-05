@@ -25,7 +25,7 @@
 		                </div>
 	                	<group string="General features">
 	                		<field name="re_contract_type_id"/>
-	                		<field name="re_type"/>
+	                		<field name="re_type" widget="many2many_tags"/>
 	                		<field name="re_rooms"/>
 	                		<field name="re_bathrooms"/>
 	                		<!--<field name="re_datemovein"/>-->
