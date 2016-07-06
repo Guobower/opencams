@@ -23,17 +23,43 @@
 			                    name="action_find_matching_units" icon="fa-search" string="Find Units">
 			                </button>
 		                </div>
-	                	<group string="General features">
-	                		<field name="re_contract_type_id"/>
-	                		<field name="re_type" widget="many2many_tags"/>
-	                		<field name="re_rooms"/>
-	                		<field name="re_bathrooms"/>
-	                		<!--<field name="re_datemovein"/>-->
-	                		<field name="re_zone"/>
-                            <field name="re_reason"/>
-                            <field name="re_living_area"/>
-                            <field name="re_land_area"/>
+	                	<group string="General Features">
+                            <group>
+    	                		<field name="re_contract_type_id"/>
+    	                		<field name="re_type" widget="many2many_tags"/>
+    	                		<field name="re_rooms"/>
+    	                		<field name="re_bathrooms"/>
+                            </group>
+                            <group>
+    	                		<field name="re_city"/>
+                                <field name="re_reason"/>
+                                <field name='re_points_interest' widget="many2many_tags"/>
+                            </group>
 	                	</group>
+                        <group string="Indoor Features">
+                            <group>
+                                <field name='re_air_conditioned'/>
+                                <field name='re_ducted_cooling'/>
+                                <field name='re_wardrobes'/>
+                                <field name='re_dishwasher'/>
+                            </group>
+                            <group>
+                                <field name='re_living_areas'/>
+                            </group>
+                        </group>
+                        <group string="Outdoor Features">
+                            <group>
+                                <field name='re_backyard'/>
+                                <field name='re_alarm'/>
+                                <field name='re_entertaining'/>
+                                <field name='re_pool'/>
+                            </group>
+                            <group>
+                                <field name='re_garage_spaces'/>
+                                <field name='re_secure_parking'/>
+                                <field name='re_dog_friendly'/>
+                            </group>
+                        </group>
                 	</page>   
                 </xpath>
             </field>

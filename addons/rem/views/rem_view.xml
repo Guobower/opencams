@@ -54,25 +54,67 @@
 						<group>
 							<group>
 								<field name="contract_type_id" />
-								<field name="create_date" />
-								<field name="user_id" placeholder="Salesman" />
 								<field name="price" />
 								<field name="is_rent" invisible="1"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}" />
-                                <field name="is_new" />
                                 <field name="city_id" placeholder="City" />
-                                <field name="feature_id" invisible="1"/>
-                                <field name="is_featured" placeholder="Is Featured" />
+                                
 							</group>
 							<group>
-                                <field name="bedrooms" />
-								<field name="bathrooms" />
-								<field name="garages" />
-                            	<field name="area" />
-								<field name="active" />
+                                <field name="create_date" />
+                                <field name="user_id" placeholder="Salesman" />
+								<field name="active"/>
+                                <field name="feature_id" invisible="1"/>
+                                <field name="is_featured" placeholder="Is Featured" />
+                                <field name="is_new" />
 							</group>
 						</group>
+                        <div>
+                            <label for="unit_description"/>
+                                <field name='unit_description' placeholder="Add some important details about your unit ..."/>
+                        </div>
 						<notebook>
+                            <page string="General Features">
+                                <group>
+                                    <group>
+                                        <field name="bedrooms"/>
+                                        <field name="bathrooms"/>
+                                        <field name='living_area'/>
+                                        <field name='land_area'/>
+                                    </group>
+                                    <group>
+                                        <field name='points_interest' widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Indoor Features">
+                                <group>
+                                    <group>
+                                        <field name='air_conditioned'/>
+                                        <field name='ducted_cooling'/>
+                                        <field name='wardrobes'/>
+                                        <field name='dishwasher'/>
+                                    </group>
+                                    <group>
+                                        <field name='living_areas'/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Outdoor Features">
+                                <group>
+                                    <group>
+                                        <field name='backyard'/>
+                                        <field name='alarm'/>
+                                        <field name='sw_pool'/>
+                                        <field name='entertaining'/>
+                                    </group>
+                                    <group>
+                                        <field name='garages'/>
+                                        <field name='secure_parking'/>
+                                        <field name='dog_friendly'/>
+                                    </group>
+                                </group>
+                            </page>
 							<page string="Photos">
 								<group>
 									<field name="image_ids" mode="kanban" nolabel="1" context="{'default_unit_id': active_id}">
