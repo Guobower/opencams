@@ -6,6 +6,7 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
 				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material-design-iconic-font.min.css"/>
+				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/custom-font-icons.css"/>
 				<script type="text/javascript" src="/theme_material/static/src/js/angular.js"/>
 				<script type="text/javascript" src="/theme_material/static/src/js/jcs-auto-validate.js"/>
 				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/waves.css"/>
@@ -99,7 +100,7 @@
 									required="required"></textarea>
 							</div>
 							<div class="form-group">
-								<button id="material-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+								<button id="material-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
 							</div>
 							<span id="o_website_form_result" class="text-center"></span>
 						</form>

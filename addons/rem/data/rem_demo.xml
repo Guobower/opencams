@@ -81,34 +81,40 @@
         </record>
 
         <!-- Images -->
-        <record id="rem_image_1" model="rem.image">
-            <field name="name">Unit 1</field>
+        <record id="rem_image_1_1" model="rem.image">
+            <field name="name">Unit 1-1</field>
             <field name="unit_id" ref="rem.rem_unit_1"/>
-            <field name="image" type="base64" file="rem/static/img/unit-1.jpg"/>
+            <field name="image" type="base64" file="rem/static/img/unit-1-1.jpg"/>
         </record>
 
-        <record id="rem_image_2" model="rem.image">
-            <field name="name">Unit 2</field>
+        <record id="rem_image_1_2" model="rem.image">
+            <field name="name">Unit 1-2</field>
+            <field name="unit_id" ref="rem.rem_unit_1"/>
+            <field name="image" type="base64" file="rem/static/img/unit-1-2.jpg"/>
+        </record>
+
+        <record id="rem_image_2_1" model="rem.image">
+            <field name="name">Unit 2-1</field>
             <field name="unit_id" ref="rem.rem_unit_2"/>
-            <field name="image" type="base64" file="rem/static/img/unit-2.jpg"/>
+            <field name="image" type="base64" file="rem/static/img/unit-2-1.jpg"/>
         </record>
 
-        <record id="rem_image_3" model="rem.image">
-            <field name="name">Unit 1</field>
+        <record id="rem_image_3_1" model="rem.image">
+            <field name="name">Unit 3-1</field>
             <field name="unit_id" ref="rem.rem_unit_3"/>
-            <field name="image" type="base64" file="rem/static/img/unit-3.jpg"/>
+            <field name="image" type="base64" file="rem/static/img/unit-3-1.jpg"/>
         </record>
 
-        <record id="rem_image_4" model="rem.image">
-            <field name="name">Unit 1</field>
+        <record id="rem_image_4_1" model="rem.image">
+            <field name="name">Unit 4-1</field>
             <field name="unit_id" ref="rem.rem_unit_4"/>
-            <field name="image" type="base64" file="rem/static/img/unit-4.jpg"/>
+            <field name="image" type="base64" file="rem/static/img/unit-4-1.jpg"/>
         </record>
 
-        <record id="rem_image_5" model="rem.image">
-            <field name="name">Unit 1</field>
+        <record id="rem_image_5_1" model="rem.image">
+            <field name="name">Unit 5-1</field>
             <field name="unit_id" ref="rem.rem_unit_5"/>
-            <field name="image" type="base64" file="rem/static/img/unit-5.jpg"/>
+            <field name="image" type="base64" file="rem/static/img/unit-5-1.jpg"/>
         </record>
 
     </data>

@@ -30,4 +30,15 @@ $(function() {
 
 	Waves.attach('.waves-effect');
 	Waves.init();
+
+    $('#carousel-homepage').carousel({
+        pause: "false"
+    });
+
+    $('select.form-control').change(function() {
+        if ($(this).val() == "")
+            $(this).removeClass("selected");
+        else
+            $(this).addClass("selected");
+    });
 });

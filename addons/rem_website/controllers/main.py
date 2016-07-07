@@ -96,7 +96,7 @@ class RemWebsite(http.Controller):
             'search': search_box
         }
 
-        return request.website.render("rem_website.rem_list_page", values)
+        return request.website.render("rem_website.rem_units_list_page", values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth="public", website=True)
     def unit(self, unit):

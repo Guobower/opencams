@@ -9,172 +9,147 @@
             </xpath>
         </template>
 
-        <!-- Rem Units List Page -->
-        <template id="rem_list_page" name="Rem Units List Page">
-            <t t-call="website.layout">
-                <t t-set="additional_title">Real Estate</t>
-                    <div class="container">
-                        <div class="row">
-                            <t t-call="rem_website.rem_unit_item"/>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-                <div id="wrap" class="js_sale">
-                    <div class="oe_structure"/>
-                    <div class="container oe_website_sale">
-                        <div class='row'>
-                            <div class="col-md-9">
-
-                            </div>
-                            <div class="col-md-3">
-                                <t t-call="rem_website.rem_search"/>
-                            </div>
-                        </div>
-                        <div class="pricelist_list">
-                            <t t-call="rem_website.rem_list_pager"/>
-                        </div>
-                    </div>
-                    <div class="oe_structure mb32"/>
-                </div>
-            </t>
-        </template>
-
-
-
-
-
-
-
-
-
-        <!-- Rem Unit Item -->
-        <template id="rem_unit_item" name="Rem Unit Item">
-            <div class="row">
-                <t t-foreach="units" t-as="rem_unit">
-                    <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
-                        <div class="col-sm-4 col-xs-12">
-                            <div class="rem-unit-card">
-                                <span itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
-                                <t t-if="rem_unit.price>0">
-                                    <div class="rem-unit-card-price">
-                                        $<t t-esc="rem_unit.price"/>
-                                    </div>
-                                </t>
-                                <div class="rem-unit-card-title">
-                                    <div t-esc='rem_unit.name'/>
-                                </div>
-                                <div class="rem-unit-card-details">
-                                    <t t-if="rem_unit.bedrooms>0">
-                                        <span><i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/></span>
-                                    </t>
-                                    <t t-if="rem_unit.bathrooms>0">
-                                        <span><i class="zmdi zmdi-male-female"></i> <t t-esc="rem_unit.bathrooms"/></span>
-                                    </t>
-                                    <t t-if="rem_unit.garages>0">
-                                        <span><i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/></span>
-                                    </t>
-                                    <t t-if="rem_unit.area>0">
-                                        <span><i class="zmdi zmdi-select-all"></i> <t t-esc="rem_unit.area"/>m<sup>2</sup></span>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </t>
-            </div>
-        </template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Homepage -->
         <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
             <xpath expr="//div[@id='wrap']" position="after">
-                <div class="container-filter">
-                    <!-- Carousel -->
-                    <div class="container-filter">
-                        <div id="carousel-homepage" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner" role="listbox">
-                                <div class="item active">
-                                    <img src="/rem/static/img/unit-1.png" alt="img"/>
-                                    <div class="carousel-caption">
+                <t t-call="rem_website.homepage_carousel"/>
+                <t t-call="rem_website.rem_promote"/>
+                <t t-call="rem_website.rem_feature_units"/>
+            </xpath>
+        </template>
+
+        <!-- Homepage Carousel -->
+        <template id="homepage_carousel" name="Homepage Carousel">
+            <div class="container-filter">
+                <div id="carousel-homepage" class="carousel slide carousel-fade material-card-box-shadow" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img src="/rem_website/static/img/bg-1.jpg" alt="img"/>
+                        </div>
+                        <div class="item">
+                            <img src="/rem_website/static/img/bg-2.jpg" alt="img"/>
+                        </div>
+                        <div class="item">
+                            <img src="/rem_website/static/img/bg-3.jpg" alt="img"/>
+                        </div>
+                        <div class="item">
+                            <img src="/rem_website/static/img/bg-4.jpg" alt="img"/>
+                        </div>
+                        <div class="item">
+                            <img src="/rem_website/static/img/bg-5.jpg" alt="img"/>
+                        </div>
+                        <div class="item">
+                            <img src="/rem_website/static/img/bg-6.jpg" alt="img"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                        <div class="rem-main-search material-card-box-shadow">
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control selected">
+                                            <option>Buy</option>
+                                            <option>Rent</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <!-- slide indicators -->
-                                <!--<ol class="carousel-indicators">
-                                    <li data-target="#carousel-homepage" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel-homepage" data-slide-to="1"></li>
-                                    <li data-target="#carousel-homepage" data-slide-to="2"></li>
-                                </ol>-->
-
-                                <!-- slide buttons -->
-                                <!--<a class="left carousel-control" href="#carousel-homepage" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-homepage" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a> -->
+                                <div class="col-sm-8 col-xs-12">
+                                    <div class="form-group">
+                                        <input
+                                            type="text"
+                                            id="search"
+                                            name="search"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Search by state, suburb or postcode"
+                                            placeholder="Search by state, suburb or postcode"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-30">
+                                <div class="col-sm-push-8 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control selected">
+                                            <option value="0">All Property Types</option>
+                                            <option value="1">Flat/Apartment</option>
+                                            <option value="2">House</option>
+                                            <option value="3">Bungalow</option>
+                                            <option value="4">Land</option>
+                                            <option value="5">Comercial Property</option>
+                                            <option value="6">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Min beds</option>
+                                            <option>Any</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Max beds</option>
+                                            <option>Any</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-30">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Min price</option>
+                                            <option>$50,000</option>
+                                            <option>$100,000</option>
+                                            <option>$150,000</option>
+                                            <option>$200,000</option>
+                                            <option>$250,000</option>
+                                            <option>$300,000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Max price</option>
+                                            <option>$50,000</option>
+                                            <option>$100,000</option>
+                                            <option>$150,000</option>
+                                            <option>$200,000</option>
+                                            <option>$250,000</option>
+                                            <option>$300,000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow margin-top-0" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-					</div>
-                    <!-- /Carousel -->
-
-                    <!-- Search -->
+                    </div>
+                </div>
+            </div>
+            <!-- Search -->
+                    <!--
                     <section id="aa-advance-search">
                         <div class="container">
                           <div class="aa-advance-search-area">
@@ -189,7 +164,7 @@
                                   <div class="col-md-2">
                                     <div class="aa-single-advance-search">
                                       <select>
-                                       <option value="0" >Property Types</option>
+                                        <option value="0" >Property Types</option>
                                         <option value="1">Flat/Apartment</option>
                                         <option value="2">House</option>
                                         <option value="3">Bungalow</option>
@@ -242,7 +217,7 @@
                                     <span>TO</span>
                                     <span id="skip-value-upper" class="example-val">100.00</span>
                                     <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                    </div>                  
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -253,19 +228,844 @@
                                     <span>TO</span>
                                     <span id="skip-value-upper2" class="example-val">100.00</span>
                                     <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                    </div>      
+                                    </div>
                                   </div>
                                 </div>
-                              </div>  
+                              </div>
                              </div>
                             </form>
                           </div>
                         </div>
-                    </section> 
+                    </section>
+                    -->
                     <!-- /Search -->
-                </div>            
-            </xpath>
         </template>
+
+        <!-- Promote -->
+        <template id="rem_promote" name="Promote">
+            <div class="container rem-promote">
+                <div class="row">
+                    <h3>Why buy?</h3>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            Millions of listings
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    Homes for sale? You bet. We also have for sale by owner (FSBO) and Coming Soon listings, foreclosures, rentals — plus listings you won't find anywhere else.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            You're in the driver's seat
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    Register to save your search and favorite homes. We'll notify you when new listings hit the market, and send timely reports with the latest home values and trends.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            On all homes
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    How much is your home worth? Use us as a starting point in determining your current and future home value. Update your home facts to influence your estimate instantly.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container rem-promote">
+                <div class="row">
+                    <h3>Why rental?</h3>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            Millions of listings
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    Apartments? Of course! You'll also find townhomes, condos, single-family houses and more.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            Be the first to know
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    With our Rentals app, you'll get immediate notifications when new listings hit the market.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="rem-promote-item">
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-img">
+                                    <img src="/rem_website/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
+                                </div>
+                                <div class="row margin-0">
+                                    <div class="col-xs-12 margin-0">
+                                        <div class="rem-promote-item-title">
+                                            Stand out from the crowd
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6 padding-0">
+                                <div class="rem-promote-item-text">
+                                    Let landlords know why you’d be a great new tenant.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Feature Units -->
+        <template id="rem_feature_units" name="Feature Units">
+            <div class="container margin-bottom-50 hidden-xs">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h3 class="margin-bottom-0 pull-left">Feature units</h3>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="rem-feature-units-controls controls pull-right">
+                                <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
+                                <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                5620 Belmont Ave UNIT 7, Dallas, TX 71206
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-1-2.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                6049 Milton St, Dallas, TX 72206
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                17205 Meadow Tree Cir, Dallas, TX 77248
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                1122 Jackson St APT 609, Dallas, TX 79202
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-4-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                1122 Jackson St APT 609, Dallas, TX 79202
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                17205 Meadow Tree Cir, Dallas, TX 77248
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                5620 Belmont Ave UNIT 7, Dallas, TX 71206
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-unit">
+                                            <div class="rem-feature-unit-img">
+                                                <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
+                                            </div>
+                                            <div class="rem-feature-unit-text">
+                                                6049 Milton St, Dallas, TX 72206
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Rem Units List Page -->
+        <template id="rem_units_list_page" name="Rem Units List Page">
+            <t t-call="website.layout">
+                <t t-set="additional_title">Real Estate</t>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                            <div class="rem-units-search material-card-box-shadow">
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control selected">
+                                                <option>Buy</option>
+                                                <option>Rent</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                id="search"
+                                                name="search"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Search by state, suburb or postcode"
+                                                placeholder="Search by state, suburb or postcode"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-30">
+                                    <div class="col-sm-push-8 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control selected">
+                                                <option value="0">All Property Types</option>
+                                                <option value="1">Flat/Apartment</option>
+                                                <option value="2">House</option>
+                                                <option value="3">Bungalow</option>
+                                                <option value="4">Land</option>
+                                                <option value="5">Comercial Property</option>
+                                                <option value="6">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Min beds</option>
+                                                <option>Any</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Max beds</option>
+                                                <option>Any</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-top-30">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Min price</option>
+                                                <option>$50,000</option>
+                                                <option>$100,000</option>
+                                                <option>$150,000</option>
+                                                <option>$200,000</option>
+                                                <option>$250,000</option>
+                                                <option>$300,000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Max price</option>
+                                                <option>$50,000</option>
+                                                <option>$100,000</option>
+                                                <option>$150,000</option>
+                                                <option>$200,000</option>
+                                                <option>$250,000</option>
+                                                <option>$300,000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow margin-top-0" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-call="rem_website.rem_units_cards"/>
+            </t>
+        </template>
+
+        <!-- Rem Units Cards -->
+        <template id="rem_units_cards" name="Rem Units Cards">
+            <div class="container">
+                <div class="row">
+                    <t t-foreach="units" t-as="rem_unit">
+                        <div class="col-xs-12">
+                            <div class="rem-unit-card">
+                                <div class="rem-unit-card-img-container">
+                                    <t t-if="len(rem_unit.image_ids) > 1">
+                                        <div t-att-id="'carousel' + str(rem_unit_index)" class="carousel slide carousel-fade" data-ride="carousel">
+                                            <div class="carousel-inner" role="listbox">
+                                                <t t-foreach="rem_unit.image_ids" t-as="rem_image">
+                                                    <t t-if="rem_image_index == 0">
+                                                        <div class="item active">
+                                                            <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="rem_image_index > 0">
+                                                        <div class="item">
+                                                            <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                            </div>
+                                            <a class="left carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="prev">
+                                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="right carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="next">
+                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    </t>
+                                    <t t-if="len(rem_unit.image_ids) == 1">
+                                        <div class="carousel" data-ride="carousel">
+                                            <div class="carousel-inner" role="listbox">
+                                                <div class="item active">
+                                                    <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    <div class="rem-unit-card-agent-container">
+                                        <figure class="rem-unit-card-agent">
+                                            <div class="rem-unit-card-agent-wrapper">
+                                                <img class="rem-unit-card-agent-photo" src="/rem_website/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                            </div>
+                                            <figcaption>Diogo Duarte</figcaption>
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="rem-unit-card-text-container">
+                                    <div class="row">
+                                        <div class="rem-unit-card-price">
+                                            <t t-if="rem_unit.price > 0">
+                                                $<t t-esc="rem_unit.price"/>
+                                            </t>
+                                        </div>
+                                        <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                                            <div class="rem-unit-card-title">
+                                                <div t-esc='rem_unit.name'/>
+                                            </div>
+                                        </a>
+                                        <div class="rem-unit-card-details">
+                                            <t t-if="rem_unit.bedrooms > 0">
+                                                <span title="Bedrooms">
+                                                    <i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/>
+                                                </span>
+                                            </t>
+                                            <t t-if="rem_unit.bathrooms > 0">
+                                                <span title="Bathrooms">
+                                                    <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="rem_unit.bathrooms"/>
+                                                </span>
+                                            </t>
+                                            <t t-if="rem_unit.garages > 0">
+                                                <span title="Garages">
+                                                    <i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/>
+                                                </span>
+                                            </t>
+                                            <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                                                <span class="rem-unit-card-actions-details">
+                                                    Details <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </span>
+                                            </a>
+                                            <span class="rem-unit-card-actions-favorite">
+                                                <i class="zmdi zmdi-star-outline"></i> Save
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <!--  Unit List -->
+        <template id="rem_unit_page" name="Unit Page">
+            <t t-call="website.layout">
+                <t t-set="additional_title"><t t-esc="unit.name"/></t>
+                <t t-call="rem_website.rem_unit_content"/>
+            </t>
+        </template>
+
+        <!--  Unit Content -->
+        <template id="rem_unit_content" name="Unit Content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="carousel-unit" class="carousel slide carousel-fade material-card-box-shadow" data-ride="carousel">
+                            <!--  Only has 1 iteration to use _size -->
+                            <t t-foreach="unit.image_ids" t-as="i">
+                                <t t-if="i_first">
+                                    <!--  1 image - don't show carousel -->
+                                    <t t-if="i_size==1">
+                                        <!--  Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <!--  More than 1 image - show carousel -->
+                                    <t t-if="i_size>1">
+                                        <!--  Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                <t t-if="rem_unit_image_first">
+                                                    <div class="item active">
+                                                        <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                    </div>
+                                                </t>
+                                                <t t-if="rem_unit_image_index>0">
+                                                    <div class="item">
+                                                        <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </div>
+                                        <!--  Controls -->
+                                        <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </t>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-6 col-xs-12">
+                            <div class="rem-unit-info-container">
+                                <div class="rem-unit-title">
+                                    <t t-esc="unit.name"/> 1122 Jackson St APT 609, Dallas, TX 75202
+                                </div>
+                                <div class="rem-unit-sub-title">
+                                    1 bed 1 bath 1,111 sqft
+                                </div>
+                                <div class="rem-unit-description">
+                                    609 - the BEST condo in SoCo! West-facing view (Dallas skyline). Customized room-darkening window coverings. Wall-to-wall living room carpeting. Tri-colored bathroom tile flooring. Stained concrete (except living room and bathroom). Custom lighting (on dimmers). Platinum appliance upgrade. Marble top bathroom vanity. HIGHLIGHT FEATURE - one-of-a-kind baseboard. (No cheap vinyl.) Custom kitchen half-wall. Walled-in closet has custom Elfa shelving.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
+                            <div ng-app="material-website" class="row">
+                                <div ng-controller="material" class="col-xs-12">
+                                    <form novalidate="novalidate" id="material_form" name="material_form" ng-submit="onSubmit(material_form.$valid)"  class="material-form material-card-box-shadow">
+                                        <div class="rem-unit-contact-agent-container">
+                                            <figure class="rem-unit-contact-agent">
+                                                <div class="rem-unit-contact-agent-wrapper">
+                                                    <img class="rem-unit-contact-agent-photo" src="/rem_website/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                                </div>
+                                                <figcaption>Diogo Duarte</figcaption>
+                                            </figure>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                id="contact_name"
+                                                name="contact_name"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Name"
+                                                placeholder="Name"
+                                                ng-model="formModel.contact_name"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                id="phone"
+                                                name="phone"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Phone Number"
+                                                placeholder="Phone Number"
+                                                ng-model="formModel.phone"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="email"
+                                                id="email_from"
+                                                name="email_from"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Email"
+                                                placeholder="Email"
+                                                ng-model="formModel.email_from"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="hidden"
+                                                id="partner_name"
+                                                name="partner_name"
+                                                ng-model="formModel.partner_name"
+                                                value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Subject"
+                                                placeholder="Subject"
+                                                ng-model="formModel.name"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea
+                                                type="text"
+                                                id="description"
+                                                name="description"
+                                                maxlength="1024"
+                                                class="form-control"
+                                                title="Your Question"
+                                                placeholder="Your Question"
+                                                rows="6"
+                                                ng-model="formModel.description"
+                                                required="required"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="material-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
+                                        </div>
+                                        <span id="o_website_form_result" class="text-center"></span>
+                                    </form>
+
+                                    <form id="material-hidden-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="s_website_form">
+                                        <div id="submit-form-inputs"></div>
+                                        <input type="hidden" name="type" value="opportunity"/>
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" id="material-hidden-form-submit" class="btn btn-primary btn-block o_website_form_send"></button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
          
@@ -425,8 +1225,6 @@
             <t t-call="website.pager"/>
         </template>
 
-
-
         <!-- 404 page -->
         <template id="404" name="404 page">
           <t t-call="website.layout">
@@ -472,83 +1270,9 @@
 
 
 
-        <!--  Unit Content -->
-        <template id="rem_unit_content" name="Unit Content">
-            <h3><t t-esc="unit.name"/></h3>
-            <div id="carousel-container" class="carousel slide default-box-shadow" data-ride="carousel">
-                <!--  Only has 1 iteration to use _size -->
-                <t t-foreach="unit.image_ids" t-as="i">
-                    <t t-if="i_first">
-                        <!--  1 image - don't show carousel -->
-                        <t t-if="i_size==1">
-                            <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
-                        </t>
-                        <!--  More than 1 image - show carousel -->
-                        <t t-if="i_size>1">
-                            <!--  Indicators -->
-                            <ol class="carousel-indicators">
-                                <t t-foreach="unit.image_ids" t-as="rem_unit">
-                                    <t t-if="rem_unit_first">
-                                        <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}" class="active"></li>
-                                    </t>
-                                    <t t-if="rem_unit_index>0">
-                                        <li data-target="#carousel-container" t-attf-data-slide-to="{{ rem_unit_index }}"></li>
-                                    </t>
-                                </t>
-                            </ol>
-                            <!--  Wrapper for slides -->
-                            <div class="carousel-inner" role="listbox">
-                                <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                    <t t-if="rem_unit_image_first">
-                                        <div class="item active">
-                                            <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                        </div>
-                                    </t>
-                                    <t t-if="rem_unit_image_index>0">
-                                        <div class="item">
-                                            <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                        </div>
-                                    </t>
-                                </t>
-                            </div>
-                            <!--  Controls -->
-                            <a class="left carousel-control" href="#carousel-container" role="button" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-container" role="button" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </t>
-                    </t>
-                </t>
-            </div>
-        </template>
 
-        <!--  Unit List -->
-        <template id="rem_unit_page" name="Unit List">
-            <t t-call="website.layout">
-                <t t-set="additional_title"><t t-esc="unit.name"/></t>
-                <div id="wrap" class="js_sale">
-                    <div class="oe_structure"/>
-                    <div class="container oe_website_sale">
-                        <div class='row'>
-                            <div class="col-lg-8">
-                                <t t-call="rem_website.rem_unit_content"/>
-                            </div>
-                            <div class="col-md-4">
-                                <t t-call="rem_website.rem_unit_contact"/>
-                                <!--
-                                <t t-call="rem_website.rem_search"/>
-                                -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="oe_structure mb32"/>
-                </div>
-            </t>
-        </template>
+
+
 
     </data>
 </openerp>
