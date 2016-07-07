@@ -18,6 +18,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     unit_lead = fields.Many2many('rem.unit', string='Units')
+    re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
 
     # General Features
     re_contract_type_id = fields.Many2one(
@@ -26,11 +27,10 @@ class CrmLead(models.Model):
     re_rooms = fields.Integer('Bedrooms', help="Number of rooms")
     re_bathrooms = fields.Integer(
         'Bathrooms', help="Number of bathrooms", re_field='bathrooms')
-    re_city = fields.Char(
-        'City', help="place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills")
-    re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
-    re_points_interest = fields.Many2many('location.preferences', string="Points of Interest")
-    
+    re_city = fields.Many2one(
+        'rem.unit.city', string="City", help="place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills")
+    re_points_interest = fields.Many2many(
+        'location.preferences', string="Points of Interest")
 
     # Indoor Features
     re_air_conditioned = fields.Boolean(
@@ -52,7 +52,7 @@ class CrmLead(models.Model):
     re_garage_spaces = fields.Integer(
         'Garage Spaces', help="Number of garage spaces")
     re_secure_parking = fields.Boolean(
-        string="Secure Parking", help="Active if you want to search for units with Secure Parking.")
+        string="Secure Parking", help="Active if you want to search for units with secure parking.")
     re_alarm = fields.Boolean(
         string="Alarm System", help="Active if you want to search for units with alarm system.")
     re_pool = fields.Boolean(
@@ -62,8 +62,12 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        # TODO: implement search
-        return False
+        return {
+            'name': _('Search results'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'list,form,graph',
+            'res_model': 'rem.unit',
+        }
 
     @api.multi
     def action_stage_history(self):
