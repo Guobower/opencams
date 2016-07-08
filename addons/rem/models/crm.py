@@ -50,7 +50,7 @@ class CrmLead(models.Model):
     re_dog_friendly = fields.Boolean(
         string="Dog Friendly", help="Active if you want to search for units with dog friendly.")
     re_garage_spaces = fields.Integer(
-        'Garage Spaces', help="Number of garage spaces")
+        'Min Garage Spaces', help="Number of garage spaces")
     re_secure_parking = fields.Boolean(
         string="Secure Parking", help="Active if you want to search for units with secure parking.")
     re_alarm = fields.Boolean(
@@ -62,12 +62,31 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        return {
+
+        c_types = self.re_contract_type_id
+        cities = self.re_city
+        p_types = self.re_type
+        garage_spaces = self.re_garage_spaces
+
+
+        context = {}
+        if c_types:
+            context.update({'search_default_contract_type_id': c_types.id})
+        if cities:
+            context.update({'search_default_city_id': cities.id})
+        if p_types:
+            context.update({'search_default_type_id': p_types.id})
+        if garage_spaces > 0:
+            context.update({'min_garages': garage_spaces})
+        res = {
             'name': _('Search results'),
             'type': 'ir.actions.act_window',
             'view_mode': 'list,form,graph',
             'res_model': 'rem.unit',
+            'context': context,
         }
+
+        return res
 
     @api.multi
     def action_stage_history(self):

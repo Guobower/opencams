@@ -172,6 +172,11 @@
             <field name="active">True</field>
         </record>
 
+        <record id="location_preferences_6" model="location.preferences">
+            <field name="name">Gym</field>
+            <field name="active">True</field>
+        </record>
+
 
     </data>
 </openerp>

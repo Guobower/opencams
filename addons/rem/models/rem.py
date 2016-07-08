@@ -155,6 +155,16 @@ class RemUnit(models.Model):
                 self.is_featured = 0
         return True
 
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        context = self._context or {}
+        if context.get('min_garages'):
+            args += [('garages', '>=', context.get('min_garages'))]
+        
+        return super(RemUnit, self).search(args, offset, limit, order, count=count)
+
+
+
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     name = fields.Char(string='Unit', size=32, required=True,

@@ -24,6 +24,10 @@
             <field name="arch" type="xml">
                 <search string="Search Real Estate Unit">
                     <field name="name"/>
+                    <field name='contract_type_id'/>
+                    <field name='type_id'/>
+                    <field name="city_id"/>
+                    <field name='garages'/>
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
