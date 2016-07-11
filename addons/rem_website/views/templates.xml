@@ -20,127 +20,129 @@
 
         <!-- Homepage Carousel -->
         <template id="homepage_carousel" name="Homepage Carousel">
-            <div class="container-filter">
-                <div id="carousel-homepage" class="carousel slide carousel-fade material-card-box-shadow" data-ride="carousel">
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="/rem_website/static/img/bg-1.jpg" alt="img"/>
-                        </div>
-                        <div class="item">
-                            <img src="/rem_website/static/img/bg-2.jpg" alt="img"/>
-                        </div>
-                        <div class="item">
-                            <img src="/rem_website/static/img/bg-3.jpg" alt="img"/>
-                        </div>
-                        <div class="item">
-                            <img src="/rem_website/static/img/bg-4.jpg" alt="img"/>
-                        </div>
-                        <div class="item">
-                            <img src="/rem_website/static/img/bg-5.jpg" alt="img"/>
-                        </div>
-                        <div class="item">
-                            <img src="/rem_website/static/img/bg-6.jpg" alt="img"/>
+            <div class="oe_structure">
+                <div class="container-filter">
+                    <div id="carousel-homepage" class="carousel slide carousel-fade material-card-box-shadow" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img src="/rem_website/static/img/bg-1.jpg" alt="img"/>
+                            </div>
+                            <div class="item">
+                                <img src="/rem_website/static/img/bg-2.jpg" alt="img"/>
+                            </div>
+                            <div class="item">
+                                <img src="/rem_website/static/img/bg-3.jpg" alt="img"/>
+                            </div>
+                            <div class="item">
+                                <img src="/rem_website/static/img/bg-4.jpg" alt="img"/>
+                            </div>
+                            <div class="item">
+                                <img src="/rem_website/static/img/bg-5.jpg" alt="img"/>
+                            </div>
+                            <div class="item">
+                                <img src="/rem_website/static/img/bg-6.jpg" alt="img"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                        <div class="rem-main-search material-card-box-shadow">
-                            <div class="row">
-                                <div class="col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control selected">
-                                            <option>Buy</option>
-                                            <option>Rent</option>
-                                        </select>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                            <div class="rem-main-search material-card-box-shadow">
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control selected">
+                                                <option>Buy</option>
+                                                <option>Rent</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                id="search"
+                                                name="search"
+                                                maxlength="128"
+                                                class="form-control"
+                                                title="Search by state, suburb or postcode"
+                                                placeholder="Search by state, suburb or postcode"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-8 col-xs-12">
-                                    <div class="form-group">
-                                        <input
-                                            type="text"
-                                            id="search"
-                                            name="search"
-                                            maxlength="128"
-                                            class="form-control"
-                                            title="Search by state, suburb or postcode"
-                                            placeholder="Search by state, suburb or postcode"/>
+                                <div class="row margin-top-30">
+                                    <div class="col-sm-push-8 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control selected">
+                                                <option value="0">All Property Types</option>
+                                                <option value="1">Flat/Apartment</option>
+                                                <option value="2">House</option>
+                                                <option value="3">Bungalow</option>
+                                                <option value="4">Land</option>
+                                                <option value="5">Comercial Property</option>
+                                                <option value="6">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Min beds</option>
+                                                <option>Any</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-pull-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Max beds</option>
+                                                <option>Any</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row margin-top-30">
-                                <div class="col-sm-push-8 col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control selected">
-                                            <option value="0">All Property Types</option>
-                                            <option value="1">Flat/Apartment</option>
-                                            <option value="2">House</option>
-                                            <option value="3">Bungalow</option>
-                                            <option value="4">Land</option>
-                                            <option value="5">Comercial Property</option>
-                                            <option value="6">Other</option>
-                                        </select>
+                                <div class="row margin-top-30">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Min price</option>
+                                                <option>$50,000</option>
+                                                <option>$100,000</option>
+                                                <option>$150,000</option>
+                                                <option>$200,000</option>
+                                                <option>$250,000</option>
+                                                <option>$300,000</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-pull-4 col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control">
-                                            <option>Min beds</option>
-                                            <option>Any</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Max price</option>
+                                                <option>$50,000</option>
+                                                <option>$100,000</option>
+                                                <option>$150,000</option>
+                                                <option>$200,000</option>
+                                                <option>$250,000</option>
+                                                <option>$300,000</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-pull-4 col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control">
-                                            <option>Max beds</option>
-                                            <option>Any</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row margin-top-30">
-                                <div class="col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control">
-                                            <option>Min price</option>
-                                            <option>$50,000</option>
-                                            <option>$100,000</option>
-                                            <option>$150,000</option>
-                                            <option>$200,000</option>
-                                            <option>$250,000</option>
-                                            <option>$300,000</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <select class="form-control">
-                                            <option>Max price</option>
-                                            <option>$50,000</option>
-                                            <option>$100,000</option>
-                                            <option>$150,000</option>
-                                            <option>$200,000</option>
-                                            <option>$250,000</option>
-                                            <option>$300,000</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        <button class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow margin-top-0" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-block ladda-button waves-effect waves-light material-card-box-shadow margin-top-0" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -236,143 +238,147 @@
                             </form>
                           </div>
                         </div>
-                    </section>
+                    </div>
                     -->
                     <!-- /Search -->
         </template>
 
         <!-- Promote -->
         <template id="rem_promote" name="Promote">
-            <div class="container rem-promote">
-                <div class="row">
-                    <h3>Why buy?</h3>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            Millions of listings
+            <div class="oe_structure">
+                <div class="container rem-promote">
+                    <div class="row">
+                        <h3>Why buy?</h3>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                Millions of listings
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    Homes for sale? You bet. We also have for sale by owner (FSBO) and Coming Soon listings, foreclosures, rentals — plus listings you won't find anywhere else.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        Homes for sale? You bet. We also have for sale by owner (FSBO) and Coming Soon listings, foreclosures, rentals — plus listings you won't find anywhere else.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            You're in the driver's seat
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                You're in the driver's seat
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    Register to save your search and favorite homes. We'll notify you when new listings hit the market, and send timely reports with the latest home values and trends.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        Register to save your search and favorite homes. We'll notify you when new listings hit the market, and send timely reports with the latest home values and trends.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            On all homes
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                On all homes
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    How much is your home worth? Use us as a starting point in determining your current and future home value. Update your home facts to influence your estimate instantly.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        How much is your home worth? Use us as a starting point in determining your current and future home value. Update your home facts to influence your estimate instantly.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container rem-promote">
-                <div class="row">
-                    <h3>Why rental?</h3>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            Millions of listings
+            <div class="oe_structure">
+                <div class="container rem-promote">
+                    <div class="row">
+                        <h3>Why rental?</h3>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                Millions of listings
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    Apartments? Of course! You'll also find townhomes, condos, single-family houses and more.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        Apartments? Of course! You'll also find townhomes, condos, single-family houses and more.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            Be the first to know
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                Be the first to know
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    With our Rentals app, you'll get immediate notifications when new listings hit the market.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        With our Rentals app, you'll get immediate notifications when new listings hit the market.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="rem-promote-item">
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-img">
-                                    <img src="/rem_website/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
-                                </div>
-                                <div class="row margin-0">
-                                    <div class="col-xs-12 margin-0">
-                                        <div class="rem-promote-item-title">
-                                            Stand out from the crowd
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="rem-promote-item">
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-img">
+                                        <img src="/rem_website/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
+                                    </div>
+                                    <div class="row margin-0">
+                                        <div class="col-xs-12 margin-0">
+                                            <div class="rem-promote-item-title">
+                                                Stand out from the crowd
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-6 padding-0">
-                                <div class="rem-promote-item-text">
-                                    Let landlords know why you’d be a great new tenant.
+                                <div class="col-sm-12 col-xs-6 padding-0">
+                                    <div class="rem-promote-item-text">
+                                        Let landlords know why you’d be a great new tenant.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -383,104 +389,106 @@
 
         <!-- Feature Units -->
         <template id="rem_feature_units" name="Feature Units">
-            <div class="container margin-bottom-50 hidden-xs">
-                <div class="row">
+            <div class="oe_structure">
+                <div class="container margin-bottom-50 hidden-xs">
                     <div class="row">
-                        <div class="col-sm-9">
-                            <h3 class="margin-bottom-0 pull-left">Feature units</h3>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="rem-feature-units-controls controls pull-right">
-                                <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
-                                <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="margin-bottom-0 pull-left">Feature units</h3>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="rem-feature-units-controls controls pull-right">
+                                    <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
+                                    <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                5620 Belmont Ave UNIT 7, Dallas, TX 71206
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-1-2.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                6049 Milton St, Dallas, TX 72206
+                        <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    5620 Belmont Ave UNIT 7, Dallas, TX 71206
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                17205 Meadow Tree Cir, Dallas, TX 77248
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-1-2.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    6049 Milton St, Dallas, TX 72206
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    17205 Meadow Tree Cir, Dallas, TX 77248
+                                                </div>
                                             </div>
-                                            <div class="rem-feature-unit-text">
-                                                1122 Jackson St APT 609, Dallas, TX 79202
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    1122 Jackson St APT 609, Dallas, TX 79202
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-4-1.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                1122 Jackson St APT 609, Dallas, TX 79202
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                17205 Meadow Tree Cir, Dallas, TX 77248
+                                <div class="item">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-4-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    1122 Jackson St APT 609, Dallas, TX 79202
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
-                                            </div>
-                                            <div class="rem-feature-unit-text">
-                                                5620 Belmont Ave UNIT 7, Dallas, TX 71206
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    17205 Meadow Tree Cir, Dallas, TX 77248
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-unit">
-                                            <div class="rem-feature-unit-img">
-                                                <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    5620 Belmont Ave UNIT 7, Dallas, TX 71206
+                                                </div>
                                             </div>
-                                            <div class="rem-feature-unit-text">
-                                                6049 Milton St, Dallas, TX 72206
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-unit">
+                                                <div class="rem-feature-unit-img">
+                                                    <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
+                                                </div>
+                                                <div class="rem-feature-unit-text">
+                                                    6049 Milton St, Dallas, TX 72206
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -491,6 +499,78 @@
                 </div>
             </div>
         </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Rem Units List Page -->
         <template id="rem_units_list_page" name="Rem Units List Page">
@@ -1229,7 +1309,7 @@
         <template id="404" name="404 page">
           <t t-call="website.layout">
               <div id="wrap">
-                  <div class="oe_structure oe_empty">
+                  <div class="oe_structure">
                       <div class="container">
                           <h1 class="mt32">Unit not found!</h1>
                           <p>Sorry, this unit is not available anymore.</p>
