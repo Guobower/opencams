@@ -7,11 +7,30 @@ PPG = 20  # Products Per Page
 
 class RemWebsite(http.Controller):
 
-    @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth="public", website=True)
-    def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search_box='', **post):
+    @http.route(['/page/homepage'], type='http', auth='public', website=True)
+    def homepage(self):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
-        
-        domain = [('name', 'ilike', search_box)]
+
+        types_obj = pool.get('rem.unit.type')
+        types_ids = types_obj.search(cr, uid, [], context=context)
+        types = types_obj.browse(cr, uid, types_ids, context=context)
+
+        cities_obj = pool.get('rem.unit.city')
+        cities_ids = cities_obj.search(cr, uid, [], context=context)
+        cities = cities_obj.browse(cr, uid, cities_ids, context=context)
+
+        values = {
+            'types': types,
+            'cities': cities,
+        }
+
+        return request.website.render('rem_website.homepage_rem', values)
+
+    @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth='public', website=True)
+    def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
+        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+
+        domain = []
 
         # Query City
         try:
@@ -30,7 +49,7 @@ class RemWebsite(http.Controller):
         # Query is_new
         try:
             is_new = int(is_new)
-            if is_new == 0 or is_new == 1:
+            if (is_new == 0 or is_new == 1):
                 domain += [('is_new', '=', is_new)]
         except ValueError:
             pass
@@ -38,7 +57,7 @@ class RemWebsite(http.Controller):
         # Query bedrooms
         try:
             beds = int(beds)
-            if 1 >= beds <= 10:
+            if (beds >= 1 and beds <= 10):
                 domain += [('bedrooms', '=', beds)]
         except ValueError:
             pass
@@ -46,7 +65,7 @@ class RemWebsite(http.Controller):
         # Query bathrooms
         try:
             baths = int(baths)
-            if 1 >= baths <= 10:
+            if (baths >= 1 and baths <= 10):
                 domain += [('bathrooms', '=', baths)]
         except ValueError:
             pass
@@ -54,19 +73,38 @@ class RemWebsite(http.Controller):
         # Query price
         try:
             min_price = int(min_price)
-            if min_price > 0:
+            if (min_price > 0):
                 domain += [('price', '>=', min_price)]
         except ValueError:
             pass
 
         try:
             max_price = int(max_price)
-            if max_price > 0:
+            if (max_price > 0):
                 domain += [('price', '<=', max_price)]
         except ValueError:
             pass
 
-        url = "/rem"
+        # Query name and reference
+        if search:
+            for srch in search.split(' '):
+                domain += ['|', ('name', 'ilike', srch), ('reference', 'ilike', srch)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        url = '/rem'
+
         units_obj = pool.get('rem.unit')
         units_count = units_obj.search_count(cr, uid, domain, context=context)
         pager = request.website.pager(url=url, total=units_count, page=page, step=PPG, scope=7, url_args=post)
@@ -93,16 +131,16 @@ class RemWebsite(http.Controller):
             'search_baths': baths,
             'search_min_price': min_price,
             'search_max_price': max_price,
-            'search': search_box
+            'search': search
         }
 
-        return request.website.render("rem_website.rem_units_list_page", values)
+        return request.website.render('rem_website.rem_units_list_page', values)
 
-    @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth="public", website=True)
+    @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit):
 
         values = {
             'unit': unit
         }
 
-        return request.website.render("rem_website.rem_unit_page", values)
+        return request.website.render('rem_website.rem_unit_page', values)

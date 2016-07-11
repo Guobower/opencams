@@ -21,7 +21,7 @@
         <!-- Homepage Carousel -->
         <template id="homepage_carousel" name="Homepage Carousel">
             <div class="oe_structure">
-                <div class="container-filter">
+                <div class="container-fluid">
                     <div id="carousel-homepage" class="carousel slide carousel-fade material-card-box-shadow" data-ride="carousel">
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
@@ -151,95 +151,134 @@
                 </div>
             </div>
             <!-- Search -->
-                    <!--
-                    <section id="aa-advance-search">
-                        <div class="container">
-                          <div class="aa-advance-search-area">
-                            <form action="/rem" method="get" class="form">
-                             <div class="aa-advance-search-top">
-                                <div class="row">
-                                  <div class="col-md-4">
-                                    <div class="aa-single-advance-search">
-                                      <input name="search_box" type="text" placeholder="Search by state, suburb or postcode"/>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div class="aa-single-advance-search">
-                                      <select>
-                                        <option value="0" >Property Types</option>
-                                        <option value="1">Flat/Apartment</option>
-                                        <option value="2">House</option>
-                                        <option value="3">Bungalow</option>
-                                        <option value="4">Land</option>
-                                        <option value="5">Comercial Property</option>
-                                        <option value="6">Other</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                     <div class="aa-single-advance-search">
-                                      <select>
-                                        <option value="0">Min Beds</option>
-                                        <option value="1">Studio</option>
-                                        <option value="2">1</option>
-                                        <option value="3">2</option>
-                                        <option value="4">3</option>
-                                        <option value="5">4</option>
-                                        <option value="6">5</option>
-                                      </select>
-                                  </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                     <div class="aa-single-advance-search">
-                                      <select>
-                                        <option value="0">Max Beds</option>
-                                        <option value="1">Studio</option>
-                                        <option value="2">1</option>
-                                        <option value="3">2</option>
-                                        <option value="4">3</option>
-                                        <option value="5">4</option>
-                                        <option value="6">5</option>
-                                      </select>
-                                  </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div class="aa-single-advance-search">
-                                      <input class="aa-search-btn" type="submit" value="Search"/>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                             <div class="aa-advance-search-bottom">
-                               <div class="row">
-                                <div class="col-md-6">
-                                  <div class="aa-single-filter-search">
-                                    <span>AREA (SQ)</span>
-                                    <span>FROM</span>
-                                    <span id="skip-value-lower" class="example-val">30.00</span>
-                                    <span>TO</span>
-                                    <span id="skip-value-upper" class="example-val">100.00</span>
-                                    <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="aa-single-filter-search">
-                                    <span>PRICE ($)</span>
-                                    <span>FROM</span>
-                                    <span id="skip-value-lower2" class="example-val">30.00</span>
-                                    <span>TO</span>
-                                    <span id="skip-value-upper2" class="example-val">100.00</span>
-                                    <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                             </div>
-                            </form>
-                          </div>
+
+
+<!--
+            <form method="get" action="/rem" t-att-class="search_class">
+                <div class="form-group">
+                    <select name="city" class="form-control">
+                        <option value="">City</option>
+                        <t t-foreach="cities" t-as="city">
+                            <t t-if="search_city==city.id">
+                                <option selected="" t-att-value="city.id"><t t-esc="city.name"/></option>
+                            </t>
+                            <t t-if="search_city!=city.id">
+                                <option t-att-value="city.id"><t t-esc="city.name"/></option>
+                            </t>
+                        </t>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="type" class="form-control">
+                        <option value="">Type</option>
+                        <t t-foreach="types" t-as="type">
+                            <t t-if="search_type==type.id">
+                                <option selected="" t-att-value="type.id"><t t-esc="type.name"/></option>
+                            </t>
+                            <t t-if="search_type!=type.id">
+                                <option t-att-value="type.id"><tsearch_city t-esc="type.name"/></option>
+                            </t>
+                        </t>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="is_new" class="form-control">
+                        <option value="">New and Used</option>
+                        <t t-if="search_is_new==1">
+                            <option selected="" value="1">New</option>
+                        </t>
+                        <t t-if="search_is_new!=1">
+                            <option value="1">New</option>
+                        </t>
+                        <t t-if="search_is_new==0">
+                            <option selected="" value="0">Used</option>
+                        </t>
+                        <t t-if="search_is_new!=0">
+                            <option value="0">Used</option>
+                        </t>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="beds" class="form-control">
+                                <option value="">Beds</option>
+                                <t t-foreach="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" t-as="i">
+                                    <t t-if="search_beds==i">
+                                        <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_beds!=i">
+                                        <option t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
                         </div>
                     </div>
-                    -->
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="baths" class="form-control">
+                                <option value="">Baths</option>
+                                <t t-foreach="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" t-as="i">
+                                    <t t-if="search_baths==i">
+                                        <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_baths!=i">
+                                        <option t-att-value="i"><t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="min_price" class="form-control">
+                                <option value="">Price from</option>
+                                <t t-foreach="[1000, 20000, 50000, 100000, 150000, 200000, 250000, 300000, 500000]" t-as="i">
+                                    <t t-if="search_min_price==i">
+                                        <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_min_price!=i">
+                                        <option t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="max_price" class="form-control">
+                                <option value="">Price to</option>
+                                <t t-foreach="[1000, 20000, 50000, 100000, 150000, 200000, 250000, 300000, 500000]" t-as="i">
+                                    <t t-if="search_max_price==i">
+                                        <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                    <t t-if="search_max_price!=i">
+                                        <option t-att-value="i">$<t t-esc="i"/></option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="search" placeholder="Search for units, references ..." t-att-value="search" />
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"/> Search</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <a href="/rem"><div class="btn btn-default btn-block"><i class="fa fa-eraser"/> Reset</div></a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+-->
                     <!-- /Search -->
         </template>
 

@@ -8,9 +8,9 @@ class RemUniCity(models.Model):
     _description = 'Unit City'
 
     name = fields.Char(
-        string='City Name', size=32, required=True, help="City Name.")
+        string='City Name', size=32, required=True, help='City Name.')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide without removing it.")
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemUniType(models.Model):
@@ -18,10 +18,10 @@ class RemUniType(models.Model):
     _description = 'Unit Type'
 
     name = fields.Char(string='Type Name', size=32,
-                       required=True, help="Type Name.")
-    notes = fields.Text(string='Notes', help="Description of the type.")
+                       required=True, help='Type Name.')
+    notes = fields.Text(string='Notes', help='Description of the type.')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide without removing it.")
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemUnitContractType(models.Model):
@@ -29,13 +29,13 @@ class RemUnitContractType(models.Model):
     _description = 'Contract Type'
 
     name = fields.Char(string='Contract Name', size=32, required=True,
-                       help="Type of contract : renting, selling, selling ..")
+                       help='Type of contract : renting, selling, selling ..')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
-                             help="Set if the contract type is rent based. This will make the Unit of Rent apear in the unit (e.g.: per month, per week..).")
-    notes = fields.Text(string='Notes', help="Notes for the contract type.")
+                             help='Set if the contract type is rent based. This will make the Unit of Rent apear in the unit (e.g.: per month, per week..).')
+    notes = fields.Text(string='Notes', help='Notes for the contract type.')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide without removing it.")
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemUnitStage(models.Model):
@@ -43,12 +43,12 @@ class RemUnitStage(models.Model):
     _description = 'Unit Stage'
 
     name = fields.Char(
-        string='Stage Name', size=32, required=True, help="Stage Name.")
+        string='Stage Name', size=32, required=True, help='Stage Name.')
     sequence = fields.Integer(
-        string='Sequence', help="Used to order stages. Lower is better.")
-    notes = fields.Text(string='Notes', help="Description of the stage.")
+        string='Sequence', help='Used to order stages. Lower is better.')
+    notes = fields.Text(string='Notes', help='Description of the stage.')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
+                            help='If the active field is set to False, it will allow you to hide the analytic journal without removing it.')
     contract_type_id = fields.Many2one(
         'contract.type', string='Contract Type', required=False)
 
@@ -58,9 +58,9 @@ class ReasonForBuy(models.Model):
     _description = 'Reason for Buy'
 
     name = fields.Char(string='Reason for Buy', size=32,
-                       required=True, help="Reason for Buy")
+                       required=True, help='Reason for Buy')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide without removing it.")
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class LocationPreferences(models.Model):
@@ -68,9 +68,9 @@ class LocationPreferences(models.Model):
     _description = 'Location Preferences'
 
     name = fields.Char(string='Location Preferences', size=32,
-                       required=True, help="Location Preferences")
+                       required=True, help='Location Preferences')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide without removing it.")
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemImage(models.Model):
@@ -78,17 +78,17 @@ class RemImage(models.Model):
     _description = 'Unit Image'
 
     name = fields.Char(string='Unit', size=32, required=True,
-                       help="Unit description (like house near riverside).")
+                       help='Unit description (like house near riverside).')
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     # image: all image fields are base64 encoded and PIL-supported
     image = fields.Binary(
-        "Image", attachment=True, help="Unit image, limited to 1024x1024px.")
-    image_medium = fields.Binary("Medium-sized image", compute='_compute_images', inverse='_inverse_image_medium',
+        'Image', attachment=True, help='Unit image, limited to 1024x1024px.')
+    image_medium = fields.Binary('Medium-sized image', compute='_compute_images', inverse='_inverse_image_medium',
                                  store=True, attachment=True)
-    image_small = fields.Binary("Small-sized image", compute='_compute_images', inverse='_inverse_image_small',
+    image_small = fields.Binary('Small-sized image', compute='_compute_images', inverse='_inverse_image_small',
                                 store=True, attachment=True)
     sequence = fields.Integer(
-        index=True, help="Gives the sequence order when displaying the images.", default=1)
+        index=True, help='Gives the sequence order when displaying the images.', default=1)
 
     @api.depends('image')
     def _compute_images(self):
@@ -128,7 +128,7 @@ class RemUnit(models.Model):
                 self.feature_id = [(4, self.env.uid)]
             else:
                 raise exceptions.ValidationError(
-                    "You can only have 5 Feature Units.")
+                    'You can only have 5 Feature Units.')
         return True
 
     @api.one
@@ -166,7 +166,7 @@ class RemUnit(models.Model):
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     name = fields.Char(string='Unit', size=32, required=True,
-                       help="Unit description (like house near riverside).")
+                       help='Unit description (like house near riverside).')
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
@@ -176,18 +176,18 @@ class RemUnit(models.Model):
     is_rent = fields.Boolean(
         related='contract_type_id.is_rent', string='Is Rentable')
     active = fields.Boolean(string='Active', default=True,
-                            help="If the active field is set to False, it will allow you to hide the unit.")
+                            help='If the active field is set to False, it will allow you to hide the unit.')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
-                                          help="Link this asset to an analytic account.")
+                                          help='Link this asset to an analytic account.')
     image_ids = fields.One2many(
         'rem.image', 'unit_id', string='Photos', ondelete='cascade')
     feature_id = fields.Many2many(
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(compute=_is_featured, store=False)
-    reason = fields.Many2one('reason.for.buy', string="Reason for Buy")
+    reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
     living_area = fields.Float('Living Area')
     land_area = fields.Float('Land Area')
-    unit_description = fields.Text(string="Detailed Description")
+    unit_description = fields.Text(string='Detailed Description')
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
 
@@ -198,29 +198,28 @@ class RemUnit(models.Model):
     bathrooms = fields.Integer(
         string='Number of bathrooms', default=1, required=True)
     is_new = fields.Boolean(string='Is New', default=True,
-                            help="If the field is new is set to False, the unit is considered used.")
+                            help='If the field is new is set to False, the unit is considered used.')
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
                                        default=_get_default_contract_type)
     city_id = fields.Many2one('rem.unit.city', string='City', select=True)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     points_interest = fields.Many2many(
-        'location.preferences', string="Points of Interest")
+        'location.preferences', string='Points of Interest')
 
     # Indoor Features
-
     area = fields.Integer(string='Area', default=0, required=True)
-    air_conditioned = fields.Boolean(string="Air Conditioned")
-    ducted_cooling = fields.Boolean(string="Ducted Cooling")
-    wardrobes = fields.Boolean(string="Built-in Wardrobes")
-    dishwasher = fields.Boolean(string="Dishwasher")
+    air_conditioned = fields.Boolean(string='Air Conditioned')
+    ducted_cooling = fields.Boolean(string='Ducted Cooling')
+    wardrobes = fields.Boolean(string='Built-in Wardrobes')
+    dishwasher = fields.Boolean(string='Dishwasher')
     living_areas = fields.Integer('Living Areas')
 
     # Outdoor Features
     garages = fields.Integer(
-        string='Garage Spaces', default=0, required=True, help="Number of garage spaces")
-    backyard = fields.Boolean(string="Backyard")
-    dog_friendly = fields.Boolean(string="Dog Friendly")
-    secure_parking = fields.Boolean(string="Secure Parking")
-    alarm = fields.Boolean(string="Alarm System")
-    sw_pool = fields.Boolean(string="Swimming Pool")
-    entertaining = fields.Boolean(string="Outdoor Entertaining Area")
+        string='Garage Spaces', default=0, required=True, help='Number of garage spaces')
+    backyard = fields.Boolean(string='Backyard')
+    dog_friendly = fields.Boolean(string='Dog Friendly')
+    secure_parking = fields.Boolean(string='Secure Parking')
+    alarm = fields.Boolean(string='Alarm System')
+    sw_pool = fields.Boolean(string='Swimming Pool')
+    entertaining = fields.Boolean(string='Outdoor Entertaining Area')

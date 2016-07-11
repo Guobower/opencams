@@ -3,7 +3,7 @@ from openerp import api, models
 
 
 class Website(models.Model):
-    _inherit = "website.menu"
+    _inherit = 'website.menu'
 
     @api.model
     def update_menu(self):
