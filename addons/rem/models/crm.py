@@ -121,9 +121,9 @@ class StageHistory(models.Model):
     _name = 'stage.history'
     _rec_name = 'create_date'
     _order = 'create_date'
-    
+
     new_stage = fields.Many2one('crm.stage', 'To Stage')
-+   stage_id = fields.Many2one('crm.stage', 'From Stage')
-+   date = fields.Datetime('Date Time', default=lambda self: fields.Datetime.now(), readonly=True)
-+   user_id = fields.Many2one('res.users', 'Salesperson')
-+   lead_id = fields.Many2one('crm.lead', 'Lead')
+    stage_id = fields.Many2one('crm.stage', 'From Stage')
+    date = fields.Datetime('Date Time', default=lambda self: fields.Datetime.now(), readonly=True)
+    user_id = fields.Many2one('res.users', 'Salesperson')
+    lead_id = fields.Many2one('crm.lead', 'Lead')
