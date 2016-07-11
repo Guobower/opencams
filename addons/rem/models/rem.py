@@ -160,37 +160,19 @@ class RemUnit(models.Model):
         context = self._context or {}
         if context.get('min_garages'):
             args += [('garages', '>=', context.get('min_garages'))]
-        
+
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
-
-
 
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     name = fields.Char(string='Unit', size=32, required=True,
                        help="Unit description (like house near riverside).")
-    is_new = fields.Boolean(string='Is New', default=True,
-                            help="If the field is new is set to False, the unit is considered used.")
-    type_id = fields.Many2one('rem.unit.type', string='Type')
-    stage_id = fields.Many2one(
-        'rem.unit.stage', string='Stage', default=_get_stage)
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
-    bedrooms = fields.Integer(
-        string='Number of bedrooms', default=1, required=True)
-    bathrooms = fields.Integer(
-        string='Number of bathrooms', default=1, required=True)
-    garages = fields.Integer(
-        string='Garage Spaces', default=0, required=True, help="Number of garage spaces")
-    area = fields.Integer(string='Area', default=0, required=True)
-    price = fields.Float(string='Price', digits=(16, 2), required=True)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
-                                       default=_get_default_contract_type)
-    city_id = fields.Many2one('rem.unit.city', string='City', select=True)
     is_rent = fields.Boolean(
         related='contract_type_id.is_rent', string='Is Rentable')
     active = fields.Boolean(string='Active', default=True,
@@ -206,15 +188,39 @@ class RemUnit(models.Model):
     living_area = fields.Float('Living Area')
     land_area = fields.Float('Land Area')
     unit_description = fields.Text(string="Detailed Description")
+    stage_id = fields.Many2one(
+        'rem.unit.stage', string='Stage', default=_get_stage)
+
+    # General Features
+    type_id = fields.Many2one('rem.unit.type', string='Type')
+    bedrooms = fields.Integer(
+        string='Number of bedrooms', default=1, required=True)
+    bathrooms = fields.Integer(
+        string='Number of bathrooms', default=1, required=True)
+    is_new = fields.Boolean(string='Is New', default=True,
+                            help="If the field is new is set to False, the unit is considered used.")
+    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
+                                       default=_get_default_contract_type)
+    city_id = fields.Many2one('rem.unit.city', string='City', select=True)
+    price = fields.Float(string='Price', digits=(16, 2), required=True)
+    points_interest = fields.Many2many(
+        'location.preferences', string="Points of Interest")
+
+    # Indoor Features
+
+    area = fields.Integer(string='Area', default=0, required=True)
     air_conditioned = fields.Boolean(string="Air Conditioned")
     ducted_cooling = fields.Boolean(string="Ducted Cooling")
     wardrobes = fields.Boolean(string="Built-in Wardrobes")
     dishwasher = fields.Boolean(string="Dishwasher")
     living_areas = fields.Integer('Living Areas')
+
+    # Outdoor Features
+    garages = fields.Integer(
+        string='Garage Spaces', default=0, required=True, help="Number of garage spaces")
     backyard = fields.Boolean(string="Backyard")
     dog_friendly = fields.Boolean(string="Dog Friendly")
     secure_parking = fields.Boolean(string="Secure Parking")
     alarm = fields.Boolean(string="Alarm System")
     sw_pool = fields.Boolean(string="Swimming Pool")
     entertaining = fields.Boolean(string="Outdoor Entertaining Area")
-    points_interest = fields.Many2many('location.preferences', string="Points of Interest")

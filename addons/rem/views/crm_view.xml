@@ -33,7 +33,9 @@
                             </group>
                             <group>
     	                		<field name="re_city"/>
+                                <field name='re_max_price'/>
                                 <field name='re_points_interest' widget="many2many_tags"/>
+                                <field name='re_is_new'/>
                             </group>
 	                	</group>
                         <group string="Indoor Features">

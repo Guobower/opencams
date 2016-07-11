@@ -31,6 +31,8 @@ class CrmLead(models.Model):
         'rem.unit.city', string="City", help="place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills")
     re_points_interest = fields.Many2many(
         'location.preferences', string="Points of Interest")
+    re_max_price = fields.Float(string='Max Price')
+    re_is_new = fields.Boolean(string='Is New', help="Active if you want to search for units new.")
 
     # Indoor Features
     re_air_conditioned = fields.Boolean(
