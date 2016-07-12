@@ -2,7 +2,7 @@
 from openerp import http
 from openerp.http import request
 
-PPG = 20  # Products Per Page
+PPG = 8  # Units Per Page
 
 
 class RemWebsite(http.Controller):
@@ -10,6 +10,10 @@ class RemWebsite(http.Controller):
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
     def homepage(self):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+
+        contracts_obj = pool.get('contract.type')
+        contracts_ids = contracts_obj.search(cr, uid, [], context=context)
+        contracts = contracts_obj.browse(cr, uid, contracts_ids, context=context)
 
         types_obj = pool.get('rem.unit.type')
         types_ids = types_obj.search(cr, uid, [], context=context)
@@ -20,6 +24,7 @@ class RemWebsite(http.Controller):
         cities = cities_obj.browse(cr, uid, cities_ids, context=context)
 
         values = {
+            'contracts': contracts,
             'types': types,
             'cities': cities,
         }
@@ -27,7 +32,7 @@ class RemWebsite(http.Controller):
         return request.website.render('rem_website.homepage_rem', values)
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth='public', website=True)
-    def rem(self, page=0, city='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
+    def rem(self, page=0, city='', contract='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
         domain = []
@@ -89,20 +94,7 @@ class RemWebsite(http.Controller):
         if search:
             for srch in search.split(' '):
                 domain += ['|', ('name', 'ilike', srch), ('reference', 'ilike', srch)]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         url = '/rem'
 
         units_obj = pool.get('rem.unit')
@@ -125,6 +117,7 @@ class RemWebsite(http.Controller):
             'types': types,
             'pager': pager,
             'search_city': city,
+            'search_contract': contract,
             'search_type': type,
             'search_is_new': is_new,
             'search_beds': beds,

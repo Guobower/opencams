@@ -67,23 +67,13 @@
 
 
         <!-- Unit Contract Types -->
-        <record id="rem_unit_contract_type_sale" model="contract.type">
-            <field name="name">Sale</field>
+        <record id="rem_unit_contract_type_buy" model="contract.type">
+            <field name="name">Buy</field>
             <field name="active">True</field>
         </record>
 
         <record id="rem_unit_contract_type_rent" model="contract.type">
             <field name="name">Rent</field>
-            <field name="active">True</field>
-        </record>
-
-        <record id="rem_unit_contract_type_share" model="contract.type">
-            <field name="name">Share</field>
-            <field name="active">True</field>
-        </record>
-
-        <record id="rem_unit_contract_type_exchange" model="contract.type">
-            <field name="name">Exchange</field>
             <field name="active">True</field>
         </record>
 
@@ -95,33 +85,21 @@
         </record>
 
         <record id="rem_unit_stage_2" model="rem.unit.stage">
+            <field name="name">For Buy</field>
+            <field name="active">True</field>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
+        </record>
+
+        <record id="rem_unit_stage_3" model="rem.unit.stage">
             <field name="name">For Rent</field>
             <field name="active">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_rent"/>
         </record>
 
-        <record id="rem_unit_stage_3" model="rem.unit.stage">
+        <record id="rem_unit_stage_4" model="rem.unit.stage">
             <field name="name">Rented</field>
             <field name="active">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_rent"/>
-        </record>
-
-        <record id="rem_unit_stage_4" model="rem.unit.stage">
-            <field name="name">For Sale</field>
-            <field name="active">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
-        </record>
-
-        <record id="rem_unit_stage_5" model="rem.unit.stage">
-            <field name="name">Sold</field>
-            <field name="active">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
-        </record>
-
-        <record id="rem_unit_stage_6" model="rem.unit.stage">
-            <field name="name">In Refurbishment</field>
-            <field name="active">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
         </record>
 
         <!-- Reason for Buy -->

@@ -15,7 +15,7 @@
             <field name="price">595000</field>
             <field name="city_id" ref="rem_unit_city_1"/>
             <field name="is_rent">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
         </record>
 
@@ -31,7 +31,7 @@
             <field name="price">420000</field>
             <field name="city_id" ref="rem_unit_city_2"/>
             <field name="is_rent">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
         </record>
 
@@ -47,7 +47,7 @@
             <field name="price">0</field>
             <field name="city_id" ref="rem_unit_city_3"/>
             <field name="is_rent">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 
         <record id="rem_unit_4" model="rem.unit">
@@ -62,7 +62,7 @@
             <field name="price">0</field>
             <field name="city_id" ref="rem_unit_city_4"/>
             <field name="is_rent">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 
         <record id="rem_unit_5" model="rem.unit">
@@ -77,7 +77,7 @@
             <field name="price">800000</field>
             <field name="city_id" ref="rem_unit_city_5"/>
             <field name="is_rent">True</field>
-            <field name="contract_type_id" ref="rem.rem_unit_contract_type_sale"/>
+            <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 
         <!-- Images -->

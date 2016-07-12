@@ -1,22 +1,22 @@
-var app = angular.module('material-website', [
+var app = angular.module('rem-website', [
 	'jcs-autoValidate',
 ]);
 
-app.controller('material', function($scope) {
+app.controller('rem-contact', function($scope) {
 
 	$scope.formModel = {};
 
 	$scope.onSubmit = function(valid) {
 		if (valid) {
-			var l = Ladda.create(document.querySelector("#material-submit-button"));
+			var l = Ladda.create(document.querySelector("#rem-submit-button"));
 
 			l.start();
 
-			$('#material_form input, #material_form textarea').each(function() {
+			$('#rem_form input, #rem_form textarea').each(function() {
 				$("#submit-form-inputs").append("<input name=\"" + $(this).attr("name") + "\" value=\"" + $(this).val() + "\"/>");
 			});
 
-			$("#material-hidden-form-submit").click();
+			$("#rem-hidden-form-submit").click();
 		}
 	};
 });

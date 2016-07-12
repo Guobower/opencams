@@ -29,7 +29,7 @@ class RemUnitContractType(models.Model):
     _description = 'Contract Type'
 
     name = fields.Char(string='Contract Name', size=32, required=True,
-                       help='Type of contract : renting, selling, selling ..')
+                       help='Type of contract : renting, buying, selling ..')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
                              help='Set if the contract type is rent based. This will make the Unit of Rent apear in the unit (e.g.: per month, per week..).')
