@@ -28,12 +28,12 @@
                             <group>
     	                		<field name="re_contract_type_id"/>
     	                		<field name="re_type" widget="many2many_tags"/>
-    	                		<field name="re_rooms"/>
-    	                		<field name="re_bathrooms"/>
+    	                		<field name='re_min_bedrooms'/>
+                                <field name='re_max_bedrooms'/>
+    	                		<field name='re_bathrooms'/>
                             </group>
                             <group>
     	                		<field name="re_city"/>
-                                <field name='re_max_price'/>
                                 <field name='re_points_interest' widget="many2many_tags"/>
                                 <field name='re_is_new'/>
                             </group>
@@ -64,15 +64,7 @@
                         </group>
                 	</page>   
                 </xpath>
-                <xpath expr="//div[@name='button_box']" position="inside">
-	                <button class="oe_stat_button" type="object"
-	                    name="action_stage_history" icon="fa-history" string="History">
-	                </button>
-	            </xpath>
-                <xpath expr="//notebook/page[1]" position="after">
-                	<page string="Searches for">
-                	</page>   
-                </xpath>
+              
             </field>
         </record>
 

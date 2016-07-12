@@ -170,8 +170,16 @@ class RemUnit(models.Model):
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         context = self._context or {}
+        if context.get('max_planned_revenue'):
+            args += [('price', '<=', context.get('max_planned_revenue'))]
         if context.get('min_garages'):
             args += [('garages', '>=', context.get('min_garages'))]
+        if context.get('max_bedrooms') and context.get('min_bedrooms'):
+            args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
+        if context.get('min_bathrooms'):
+            args += [('bathrooms', '>=', context.get('min_bathrooms'))]
+        if context.get('min_living_areas'):
+            args += [('living_areas', '>=', context.get('min_living_areas'))]
 
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
