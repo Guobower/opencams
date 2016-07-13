@@ -97,7 +97,8 @@ class CrmLead(models.Model):
         if new:
             context.update({'search_default_is_new': new})
         if interest:
-                context.update({'search_default_points_interest': interest.id})
+            for x in interest:
+                context.update({'search_default_points_interest': x.id})
 
         # Indoor Features
         if air:
