@@ -6,8 +6,6 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
-                <script type="text/javascript" src="/website_rem/static/src/js/angular.js"/>
-                <script type="text/javascript" src="/website_rem/static/src/js/jcs-auto-validate.js"/>
             </xpath>
         </template>
 
@@ -656,9 +654,9 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
-                            <div ng-app="rem-website" class="row">
-                                <div ng-controller="rem-contact" class="col-xs-12">
-                                    <form novalidate="novalidate" id="rem_form" name="rem_form" ng-submit="onSubmit(rem_form.$valid)"  class="rem-form rem-box-shadow">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
                                         <div class="rem-unit-contact-agent-container">
                                             <figure class="rem-unit-contact-agent">
                                                 <div class="rem-unit-contact-agent-wrapper">
@@ -667,87 +665,79 @@
                                                 <figcaption>Diogo Duarte</figcaption>
                                             </figure>
                                         </div>
-                                        <div class="form-group">
-                                            <input
-                                                type="text"
-                                                id="contact_name"
-                                                name="contact_name"
-                                                maxlength="128"
-                                                class="form-control"
-                                                title="Name"
-                                                placeholder="Name"
-                                                ng-model="formModel.contact_name"
-                                                required="required"/>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                        <input
+                                            type="text"
+                                            id="contact_name"
+                                            name="contact_name"
+                                            maxlength="128"
+                                            class="form-control o_website_form_input"
+                                            title="Name"
+                                            placeholder="Name"
+                                            required="required"/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group form-field o_website_form_required_custom">
                                             <input
                                                 type="text"
                                                 id="phone"
                                                 name="phone"
                                                 maxlength="128"
-                                                class="form-control"
+                                                class="form-control o_website_form_input"
                                                 title="Phone Number"
-                                                placeholder="Phone Number"
-                                                ng-model="formModel.phone"/>
+                                                placeholder="Phone Number"/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group form-field o_website_form_required_custom">
                                             <input
                                                 type="email"
                                                 id="email_from"
                                                 name="email_from"
                                                 maxlength="128"
-                                                class="form-control"
+                                                class="form-control o_website_form_input"
                                                 title="Email"
                                                 placeholder="Email"
-                                                ng-model="formModel.email_from"
                                                 required="required"/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group form-field o_website_form_required_custom">
                                             <input
-                                                type="hidden"
+                                                type="text"
                                                 id="partner_name"
                                                 name="partner_name"
-                                                ng-model="formModel.partner_name"
-                                                value=""/>
+                                                maxlength="128"
+                                                class="form-control o_website_form_input"
+                                                title="Your Company"
+                                                placeholder="Your Company"
+                                                required="required"/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group form-field o_website_form_required_custom">
                                             <input
                                                 type="text"
                                                 id="name"
                                                 name="name"
                                                 maxlength="128"
-                                                class="form-control"
+                                                class="form-control o_website_form_input"
                                                 title="Subject"
                                                 placeholder="Subject"
-                                                ng-model="formModel.name"
                                                 required="required"/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group form-field o_website_form_required_custom">
                                             <textarea
                                                 type="text"
                                                 id="description"
                                                 name="description"
                                                 maxlength="1024"
-                                                class="form-control"
+                                                class="form-control o_website_form_input"
                                                 title="Your Question"
                                                 placeholder="Your Question"
                                                 rows="6"
-                                                ng-model="formModel.description"
                                                 required="required"></textarea>
                                         </div>
+                                        <input type="hidden" name="type" value="opportunity"/>
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <div class="form-group">
-                                            <button id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-card-shadow margin-top-30" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
+                                            <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
                                         </div>
                                         <span id="o_website_form_result" class="text-center"></span>
                                     </form>
-
-                                    <form id="rem-hidden-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="s_website_form">
-                                        <div id="submit-form-inputs"></div>
-                                        <input type="hidden" name="type" value="opportunity"/>
-                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <button type="submit" id="rem-hidden-form-submit" class="btn btn-primary btn-block o_website_form_send"></button>
-                                    </form>
-
                                 </div>
                             </div>
                         </div>
@@ -776,96 +766,83 @@
             <t t-call="website.layout">
                 <section>
                     <div class="">
-                        <div ng-app="rem-website" class="row">
-                            <div ng-controller="rem-contact" class="col-xs-12">
-
-                                <form novalidate="novalidate" id="rem_form" name="rem_form" ng-submit="onSubmit(rem_form.$valid)"  class="rem-form rem-box-shadow">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
                                     <h1 class="rem-title text-center">Contact us</h1>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <input
                                             type="text"
                                             id="contact_name"
                                             name="contact_name"
                                             maxlength="128"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Name"
                                             placeholder="Name"
-                                            ng-model="formModel.contact_name"
                                             required="required"/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <input
                                             type="text"
                                             id="phone"
                                             name="phone"
                                             maxlength="128"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Phone Number"
-                                            placeholder="Phone Number"
-                                            ng-model="formModel.phone"/>
+                                            placeholder="Phone Number"/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <input
                                             type="email"
                                             id="email_from"
                                             name="email_from"
                                             maxlength="128"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Email"
                                             placeholder="Email"
-                                            ng-model="formModel.email_from"
                                             required="required"/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <input
                                             type="text"
                                             id="partner_name"
                                             name="partner_name"
                                             maxlength="128"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Your Company"
                                             placeholder="Your Company"
-                                            ng-model="formModel.partner_name"
                                             required="required"/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <input
                                             type="text"
                                             id="name"
                                             name="name"
                                             maxlength="128"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Subject"
                                             placeholder="Subject"
-                                            ng-model="formModel.name"
                                             required="required"/>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group form-field o_website_form_required_custom">
                                         <textarea
                                             type="text"
                                             id="description"
                                             name="description"
                                             maxlength="1024"
-                                            class="form-control"
+                                            class="form-control o_website_form_input"
                                             title="Your Question"
                                             placeholder="Your Question"
                                             rows="6"
-                                            ng-model="formModel.description"
                                             required="required"></textarea>
                                     </div>
+                                    <input type="hidden" name="type" value="opportunity"/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                     <div class="form-group">
-                                        <button id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
                                     </div>
                                     <span id="o_website_form_result" class="text-center"></span>
                                 </form>
-
-                                <form id="rem-hidden-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="s_website_form">
-                                    <div id="submit-form-inputs"></div>
-                                    <input type="hidden" name="type" value="opportunity"/>
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <button type="submit" id="rem-hidden-form-submit" class="btn btn-primary btn-block o_website_form_send"></button>
-                                </form>
-
                             </div>
                         </div>
                     </div>
