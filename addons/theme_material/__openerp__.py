@@ -7,18 +7,17 @@
     'description': """
 Material Theme
 ==========================================
-Material design inspired theme for real estate
+Material design inspired theme for real estate agency website
 
 
     """,
     'website': 'http://www.odoogap.com',
+    'depends': ['website'],
     'category': 'Theme/Ecommerce',
-    'depends': ['website_rem'],
     'category': 'Real Estate',
     'demo': [
     ],
     'data': [
-        'views/menu.xml',
         'views/templates.xml',
     ],
     'test': [

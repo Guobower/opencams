@@ -2,22 +2,24 @@
 <openerp>
     <data>
 
-        <!-- Frontend assets page -->
-        <template id="assets_frontend" inherit_id="website.assets_frontend" name="REM frontend assets">
+        <!-- Frontend assets -->
+        <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/angular.js"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/jcs-auto-validate.js"/>
             </xpath>
         </template>
 
         <!-- Favicon -->
-        <template id="favicon_frontend" inherit_id="website.layout" name="REM favicon">
+        <template id="favicon_frontend" inherit_id="website.layout">
             <xpath expr="//head" position="inside">
                 <link rel="shortcut icon" type="image/ico" href="/website_rem/static/img/favicon.ico"/>
             </xpath>
         </template>
 
         <!-- Snippets -->
-        <template id="rem_snippets" inherit_id="website.snippets" name="Snippets">
+        <template id="rem_snippets" inherit_id="website.snippets">
             <xpath expr="//div[@id='snippet_feature']/div[@class='o_panel_body']" position="inside">
                 <t t-snippet="website_rem.rem_promote_buy" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
                 <t t-snippet="website_rem.rem_promote_rental" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
@@ -39,7 +41,7 @@
         </template>
 
         <!-- Homepage Carousel -->
-        <template id="homepage_carousel" name="Homepage Carousel">
+        <template id="homepage_carousel">
             <div class="oe_structure">
                 <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
@@ -67,7 +69,7 @@
         </template>
 
         <!-- Search Form -->
-        <template id="search_form" name="Search Form">
+        <template id="search_form">
             <section>
                 <div class="oe_structure">
                     <div class="container-fluid">
@@ -464,7 +466,7 @@
         </template>
 
         <!-- REM Units List Page -->
-        <template id="rem_units_list_page" name="REM Units List Page">
+        <template id="rem_units_list_page" name="Units">
             <t t-call="website.layout">
                 <t t-set="additional_title">Real Estate</t>
                 <t t-call="website_rem.search_form"/>
@@ -474,7 +476,7 @@
         </template>
 
         <!-- REM Units Cards -->
-        <template id="rem_units_cards" name="REM Units Cards">
+        <template id="rem_units_cards">
             <div class="container">
                 <div class="row">
                     <t t-foreach="units" t-as="rem_unit">
@@ -572,7 +574,7 @@
         </template>
 
         <!-- REM Pager -->
-        <template id="rem_pager" name="REM Pager">
+        <template id="rem_pager">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 text-center">
@@ -583,7 +585,7 @@
         </template>
 
         <!--  Unit List -->
-        <template id="rem_unit_page" name="Unit Page">
+        <template id="rem_unit_page">
             <t t-call="website.layout">
                 <t t-set="additional_title"><t t-esc="unit.name"/></t>
                 <t t-call="website_rem.rem_unit_content"/>
@@ -591,7 +593,7 @@
         </template>
 
         <!--  Unit Content -->
-        <template id="rem_unit_content" name="Unit Content">
+        <template id="rem_unit_content" name="Unit">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
@@ -755,7 +757,7 @@
         </template>
 
         <!-- 404 Page -->
-        <template id="404" inherit_id="website.404" name="404 Page">
+        <template id="404" inherit_id="website.404" name="404">
             <xpath expr="//div[@id='wrap']" position="replace">
                 <div id="wrap">
                     <div class="oe_structure">
@@ -767,6 +769,108 @@
                     </div>
                 </div>
             </xpath>
+        </template>
+
+        <!-- Conatct Us Form -->
+        <template id="contact_us_page" name="Contact us">
+            <t t-call="website.layout">
+                <section>
+                    <div class="">
+                        <div ng-app="rem-website" class="row">
+                            <div ng-controller="rem-contact" class="col-xs-12">
+
+                                <form novalidate="novalidate" id="rem_form" name="rem_form" ng-submit="onSubmit(rem_form.$valid)"  class="rem-form rem-box-shadow">
+                                    <h1 class="rem-title text-center">Contact us</h1>
+                                    <div class="form-group">
+                                        <input
+                                            type="text"
+                                            id="contact_name"
+                                            name="contact_name"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Name"
+                                            placeholder="Name"
+                                            ng-model="formModel.contact_name"
+                                            required="required"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            name="phone"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Phone Number"
+                                            placeholder="Phone Number"
+                                            ng-model="formModel.phone"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input
+                                            type="email"
+                                            id="email_from"
+                                            name="email_from"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Email"
+                                            placeholder="Email"
+                                            ng-model="formModel.email_from"
+                                            required="required"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input
+                                            type="text"
+                                            id="partner_name"
+                                            name="partner_name"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Your Company"
+                                            placeholder="Your Company"
+                                            ng-model="formModel.partner_name"
+                                            required="required"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            maxlength="128"
+                                            class="form-control"
+                                            title="Subject"
+                                            placeholder="Subject"
+                                            ng-model="formModel.name"
+                                            required="required"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea
+                                            type="text"
+                                            id="description"
+                                            name="description"
+                                            maxlength="1024"
+                                            class="form-control"
+                                            title="Your Question"
+                                            placeholder="Your Question"
+                                            rows="6"
+                                            ng-model="formModel.description"
+                                            required="required"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                    </div>
+                                    <span id="o_website_form_result" class="text-center"></span>
+                                </form>
+
+                                <form id="rem-hidden-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="s_website_form">
+                                    <div id="submit-form-inputs"></div>
+                                    <input type="hidden" name="type" value="opportunity"/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" id="rem-hidden-form-submit" class="btn btn-primary btn-block o_website_form_send"></button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </t>
         </template>
 
     </data>
