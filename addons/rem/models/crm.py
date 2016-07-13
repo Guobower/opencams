@@ -2,15 +2,15 @@
 from openerp import fields, models, api, _
 import datetime
 
+
 MATCH_RE = {
-    're_contract_type_id': 'contract_type_id',
-    're_type': 'type_id',
-    're_rooms': 'rooms',
-    're_bathrooms': 'bathrooms',
-    're_reason': 'reason',
-    're_garages_spaces': 'garages',
-    're_city': 'city_id',
-    're_pool': 'sw_pool'
+    'planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
+    # General Features
+    're_contract_type_id': {'search_default_contract_type_id': 'self.re_contract_type_id.id'},
+    're_city': {'search_default_city_id': 'self.re_city.id'},
+    're_type': {'search_default_type_id': 'self.re_type.id'},
+    're_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
+    're_max_bedrooms': {'max_bedrooms': 'self.re_max_bedrooms'},
 }
 
 
@@ -65,17 +65,9 @@ class CrmLead(models.Model):
     re_entertaining = fields.Boolean(
         string='Outdoor Entertaining Area', help='Active if you want to search for units with outdoor entertaining area.')
 
-
-
     @api.multi
     def action_find_matching_units(self):
-        c_budget = self.planned_revenue
         # General Features
-        c_types = self.re_contract_type_id
-        cities = self.re_city
-        p_types = self.re_type
-        min_rooms = self.re_min_bedrooms
-        max_rooms = self.re_max_bedrooms
         min_bath = self.re_bathrooms
         new = self.re_is_new
         interest = self.re_points_interest
@@ -93,57 +85,46 @@ class CrmLead(models.Model):
         alarms = self.re_alarm
         pools = self.re_pool
         entertainings = self.re_entertaining
-
         
-
         context = {}
-        if c_budget:
-            context.update({'max_planned_revenue': c_budget * 0.1 + c_budget})
+        for conditions in MATCH_RE:
+            for key, val in MATCH_RE[conditions].iteritems():
+                context.update({key: eval(val)})
+        
         # General Features
-        if c_types:
-            context.update({'search_default_contract_type_id': c_types.id})
-        if cities:
-            context.update({'search_default_city_id': cities.id})
-        if p_types:
-            context.update({'search_default_type_id': p_types.id})
-        if max_rooms:
-            context.update({'max_bedrooms': max_rooms})
-        if min_rooms:
-            context.update({'min_bedrooms': min_rooms})
         if min_bath > 0:
             context.update({'min_bathrooms': min_bath})
-        if new == True:
+        if new:
             context.update({'search_default_is_new': new})
         if interest:
                 context.update({'search_default_points_interest': interest.id})
 
         # Indoor Features
-        if air == True:
+        if air:
             context.update({'search_default_air_condicioned': air})
-        if ducted == True:
+        if ducted:
             context.update({'search_default_ducted_cooling': ducted})
-        if b_wardrobes == True:
+        if b_wardrobes:
             context.update({'search_default_wardrobes': b_wardrobes})
-        if dishwashers == True:
+        if dishwashers:
             context.update({'search_default_dishwasher': dishwashers})
         if min_areas > 0:
             context.update({'min_living_areas': min_areas})
         # Outdoor Features
-        if backyards == True:
+        if backyards:
             context.update({'search_default_backyard': backyards})
-        if alarms == True:
+        if alarms:
             context.update({'search_default_alarm': alarms})
-        if entertainings == True:
+        if entertainings:
             context.update({'search_default_entertaining': entertainings})
-        if pools == True:
+        if pools:
             context.update({'search_default_sw_pool': pools})
         if garage_spaces > 0:
             context.update({'min_garages': garage_spaces})
-        if s_parking == True:
+        if s_parking:
             context.update({'search_default_secure_parking': s_parking})
-        if dogs == True:
+        if dogs:
             context.update({'search_default_air_dog_friendly': dogs})
-
 
         res = {
             'name': _('Search results'),
