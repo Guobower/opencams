@@ -1,6 +1,8 @@
 $(function() {
 	"use strict";
 
+    window.ondragstart = function() {return false;}
+
 	$(".btn").each(function(){
 		$(this).addClass("waves-effect waves-light");
     });
