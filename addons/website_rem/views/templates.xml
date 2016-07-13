@@ -12,29 +12,29 @@
         <!-- Favicon -->
         <template id="favicon_frontend" inherit_id="website.layout" name="REM favicon">
             <xpath expr="//head" position="inside">
-                <link rel="shortcut icon" type="image/ico" href="/rem_website/static/img/favicon.ico"/>
+                <link rel="shortcut icon" type="image/ico" href="/website_rem/static/img/favicon.ico"/>
             </xpath>
         </template>
 
         <!-- Snippets -->
         <template id="rem_snippets" inherit_id="website.snippets" name="Snippets">
             <xpath expr="//div[@id='snippet_feature']/div[@class='o_panel_body']" position="inside">
-                <t t-snippet="rem_website.rem_promote_buy" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
-                <t t-snippet="rem_website.rem_promote_rental" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
-                <t t-snippet="rem_website.rem_feature_units" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
+                <t t-snippet="website_rem.rem_promote_buy" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
+                <t t-snippet="website_rem.rem_promote_rental" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
+                <t t-snippet="website_rem.rem_feature_units" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
             </xpath>
         </template>
 
         <!-- Homepage -->
         <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
             <xpath expr="//div[@id='wrap']" position="after">
-                <t t-call="rem_website.homepage_carousel"/>
+                <t t-call="website_rem.homepage_carousel"/>
                 <div id="search-homepage">
-                    <t t-call="rem_website.search_form"/>
+                    <t t-call="website_rem.search_form"/>
                 </div>
-                <t t-call="rem_website.rem_promote_buy"/>
-                <t t-call="rem_website.rem_promote_rental"/>
-                <t t-call="rem_website.rem_feature_units"/>
+                <t t-call="website_rem.rem_promote_buy"/>
+                <t t-call="website_rem.rem_promote_rental"/>
+                <t t-call="website_rem.rem_feature_units"/>
             </xpath>
         </template>
 
@@ -44,22 +44,22 @@
                 <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
-                            <img src="/rem_website/static/img/bg-1.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-1.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/rem_website/static/img/bg-2.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-2.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/rem_website/static/img/bg-3.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-3.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/rem_website/static/img/bg-4.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-4.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/rem_website/static/img/bg-5.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-5.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/rem_website/static/img/bg-6.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/bg-6.jpg" alt="" class="max-height-600"/>
                         </div>
                     </div>
                 </div>
@@ -207,7 +207,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -228,7 +228,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -249,7 +249,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -283,7 +283,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -304,7 +304,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -325,7 +325,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/rem_website/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -467,9 +467,9 @@
         <template id="rem_units_list_page" name="REM Units List Page">
             <t t-call="website.layout">
                 <t t-set="additional_title">Real Estate</t>
-                <t t-call="rem_website.search_form"/>
-                <t t-call="rem_website.rem_units_cards"/>
-                <t t-call="rem_website.rem_pager"/>
+                <t t-call="website_rem.search_form"/>
+                <t t-call="website_rem.rem_units_cards"/>
+                <t t-call="website_rem.rem_pager"/>
             </t>
         </template>
 
@@ -519,7 +519,7 @@
                                     <div class="rem-unit-card-agent-container">
                                         <figure class="rem-unit-card-agent">
                                             <div class="rem-unit-card-agent-wrapper">
-                                                <img class="rem-unit-card-agent-photo" src="/rem_website/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                                <img class="rem-unit-card-agent-photo" src="/website_rem/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
                                             </div>
                                             <figcaption>Diogo Duarte</figcaption>
                                         </figure>
@@ -586,7 +586,7 @@
         <template id="rem_unit_page" name="Unit Page">
             <t t-call="website.layout">
                 <t t-set="additional_title"><t t-esc="unit.name"/></t>
-                <t t-call="rem_website.rem_unit_content"/>
+                <t t-call="website_rem.rem_unit_content"/>
             </t>
         </template>
 
@@ -660,7 +660,7 @@
                                         <div class="rem-unit-contact-agent-container">
                                             <figure class="rem-unit-contact-agent">
                                                 <div class="rem-unit-contact-agent-wrapper">
-                                                    <img class="rem-unit-contact-agent-photo" src="/rem_website/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                                    <img class="rem-unit-contact-agent-photo" src="/website_rem/static/img/temp_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
                                                 </div>
                                                 <figcaption>Diogo Duarte</figcaption>
                                             </figure>

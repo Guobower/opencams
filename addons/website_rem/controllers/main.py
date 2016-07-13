@@ -29,7 +29,7 @@ class RemWebsite(http.Controller):
             'cities': cities,
         }
 
-        return request.website.render('rem_website.homepage_rem', values)
+        return request.website.render('website_rem.homepage_rem', values)
 
     @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth='public', website=True)
     def rem(self, page=0, city='', contract='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
@@ -127,7 +127,7 @@ class RemWebsite(http.Controller):
             'search': search
         }
 
-        return request.website.render('rem_website.rem_units_list_page', values)
+        return request.website.render('website_rem.rem_units_list_page', values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit):
@@ -136,4 +136,4 @@ class RemWebsite(http.Controller):
             'unit': unit
         }
 
-        return request.website.render('rem_website.rem_unit_page', values)
+        return request.website.render('website_rem.rem_unit_page', values)

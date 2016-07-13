@@ -13,7 +13,7 @@ Material design inspired theme for real estate
     """,
     'website': 'http://www.odoogap.com',
     'category': 'Theme/Ecommerce',
-    'depends': ['rem_website'],
+    'depends': ['website_rem'],
     'category': 'Real Estate',
     'demo': [
     ],

@@ -12,8 +12,8 @@ class WebsiteContact(openerp.addons.web.controllers.main.Home):
 		return werkzeug.utils.redirect('/contact-us', 303)
 
 
-class RemWebsite(http.Controller):
+class WebsiteRem(http.Controller):
 
 	@http.route(['/contact-us'], type='http', auth='public', website=True)
-	def rem_website_contact(self):
+	def website_rem_contact(self):
 		return request.website.render('theme_material.contact_us_page')
