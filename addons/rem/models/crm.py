@@ -4,13 +4,16 @@ import datetime
 
 
 MATCH_RE = {
-    'planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
+    'self.planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
     # General Features
-    're_contract_type_id': {'search_default_contract_type_id': 'self.re_contract_type_id.id'},
-    're_city': {'search_default_city_id': 'self.re_city.id'},
-    're_type': {'search_default_type_id': 'self.re_type.id'},
-    're_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
-    're_max_bedrooms': {'max_bedrooms': 'self.re_max_bedrooms'},
+    'self.re_contract_type_id': {'search_default_contract_type_id': 'self.re_contract_type_id.id'},
+    'self.re_city': {'search_default_city_id': 'self.re_city.id'},
+    'self.re_type': {'search_default_type_id': 'self.re_type.id'},
+    'self.re_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
+    'self.re_max_bedrooms': {'max_bedrooms': 'self.re_max_bedrooms'},
+    'self.re_bathrooms > 0': {'min_bathrooms': 'self.re_bathrooms'},
+    'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
+    'self.re_points_interest': {'search_default_points_interest': '[x.id for x in self.re_points_interest]'},
 }
 
 
@@ -67,10 +70,6 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        # General Features
-        min_bath = self.re_bathrooms
-        new = self.re_is_new
-        interest = self.re_points_interest
         # Indoor Features
         air = self.re_air_conditioned
         ducted = self.re_ducted_cooling
@@ -88,17 +87,9 @@ class CrmLead(models.Model):
         
         context = {}
         for conditions in MATCH_RE:
-            for key, val in MATCH_RE[conditions].iteritems():
-                context.update({key: eval(val)})
-        
-        # General Features
-        if min_bath > 0:
-            context.update({'min_bathrooms': min_bath})
-        if new:
-            context.update({'search_default_is_new': new})
-        if interest:
-            for x in interest:
-                context.update({'search_default_points_interest': x.id})
+            if eval(conditions):
+                for key, val in MATCH_RE[conditions].iteritems():
+                    context.update({key: eval(val)})
 
         # Indoor Features
         if air:
