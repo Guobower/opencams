@@ -54,6 +54,27 @@
         <menuitem id="menu_rem_unit_city" name="Unit City" parent="menu_rem_conf" action="action_rem_unit_city" sequence="100"/>
 
         <!--
+            Unit Zone
+        -->
+
+        <!-- Unit Zone Action Window -->
+        <record id="action_rem_unit_zone" model="ir.actions.act_window">
+            <field name="name">Unit Zone</field>
+            <field name="res_model">rem.unit.zone</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Unit Zone.
+                </p><p>
+                    The Unit Zone are for the purpose of ???
+                    allowing you to control the ....
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_rem_unit_zone" name="Unit Zone" parent="menu_rem_conf" action="action_rem_unit_zone" sequence="100"/>
+
+        <!--
         	Unit Type
         -->
 

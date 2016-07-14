@@ -73,14 +73,14 @@ a:link {
 
 input,
 textarea,
-select {
-    utline: none;
-	border: 2px solid #FFF !important;
-	border-bottom: 2px solid #E5E5E5 !important;
-	outline: none;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	box-shadow: none !important;
+select
+{
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    border: 2px solid #FFF !important;
+    border-bottom: 2px solid #E5E5E5 !important;
+    padding: 4px 12px !important;
 }
 
 input,
@@ -125,68 +125,94 @@ textarea {
 	resize: none;
 }
 
-input,
-textarea,
-select {
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-	border-radius: 0 !important;
-}
-
 /* BUTTONS
    -------------------------------------------------- */
 .btn-primary,
-.btn-primary.disabled {
+.btn-primary:disabled,
+.btn-default,
+.btn-default:disabled, {
 	-webkit-border-radius: 2px !important;
 	-moz-border-radius: 2px !important;
 	border-radius: 2px !important;
 }
 
-.btn-primary {
+.btn-primary,
+.btn-default {
 	font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
 }
 
 .btn-primary,
 .btn-primary:focus,
 .btn-primary:active,
-.btn-primary.disabled,
-.btn-primary.disabled:focus,
-.btn-primary.disabled:active {
+.btn-primary:disabled,
+.btn-primary:disabled:focus,
+.btn-primary:disabled:active,
+.btn-default,
+.btn-default:focus,
+.btn-default:active,
+.btn-default:disabled,
+.btn-default:disabled:focus,
+.btn-default:disabled:active {
     margin: 0px;
     border: none;
     padding: 10px;
-	background: #aa4d93 !important;
-	color: #FFF !important;
+    color: #FFF !important;
 }
 
-.btn-primary.disabled {
+.btn-primary:disabled,
+.btn-default:disabled {
 	cursor: no-drop;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-default:hover {
 	color: #FFF;
 }
+
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:disabled,
+.btn-primary:disabled:focus,
+.btn-primary:disabled:active {
+    background: #aa4d93 !important;
+    
+}
+
+.btn-default,
+.btn-default:focus,
+.btn-default:active,
+.btn-default:disabled,
+.btn-default:disabled:focus,
+.btn-default:disabled:active {
+    background: #9E9E9E !important;
+}
+
 
 /* HELPERS
    -------------------------------------------------- */
 .margin-top-30 {
-    margin-top: 30px;
+    margin-top: 30px !important;
 }
 
 .margin-bottom-50 {
-    margin-bottom: 50px;
+    margin-bottom: 50px !important;
 }
 
 .margin-bottom-0 {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 .margin-0 {
-    margin: 0;
+    margin: 0 !important;
+}
+
+.padding-0-30 {
+    padding: 0 30px 30px 30px !important;
 }
 
 .padding-0 {
-    padding: 0;
+    padding: 0 !important;
 }
 
 h3 {
@@ -250,7 +276,7 @@ h3 {
 }
 
 .rem-form-search {
-    margin: 30px auto;
+    margin: 70px auto 40px auto;
     background: #FFF;
     filter: alpha(opacity=95);
     -moz-opacity: 0.95;
@@ -259,28 +285,46 @@ h3 {
     padding: 30px;
     display: block;
     width: 100%;
-    -webkit-border-radius: 50px;
+    -webkit-border-radius: 25px;
     -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius: 50px;
+    -moz-border-radius: 25px;
     -moz-border-radius-bottomleft: 5px;
-    border-radius: 50px;
+    border-radius: 25px;
     border-bottom-left-radius: 5px;
+}
+
+.rem-form-search .nav-tabs {
+    position: relative;
+    top: -42px;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+    color: #444;
+    background-color: #eeece8;
 }
 
 @media (max-width: 991px)
 {
-	#search-homepage .rem-form-search {
-	    top: -400px;
-	}
+    #search-homepage .rem-form-search {
+        top: -450px;
+    }
+}
+
+@media (max-width: 900px)
+{
+    #search-homepage .rem-form-search {
+        top: -400px;
+    }
 }
 
 @media (max-width: 767px)
 {
-	#search-homepage .rem-form-search {
-	    margin: 40px auto;
-	    top: 0px;
-	    position: relative;
-	}
+    #search-homepage .rem-form-search {
+        top: 0px;
+        position: relative;
+    }
 }
 
 /* PROMOTE

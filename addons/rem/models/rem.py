@@ -9,6 +9,18 @@ class RemUniCity(models.Model):
 
     name = fields.Char(
         string='City Name', size=32, required=True, help='City Name.')
+    state_id = fields.Many2one('res.country.state', string='Federal States', required=False)
+    active = fields.Boolean(string='Active', default=True,
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
+
+
+class RemUniZone(models.Model):
+    _name = 'rem.unit.zone'
+    _description = 'Unit Zone'
+
+    name = fields.Char(
+        string='Zone Name', size=32, required=True, help='Zone Name.')
+    city_id = fields.Many2one('rem.unit.city', string='Unit City', required=False)
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
@@ -201,7 +213,9 @@ class RemUnit(models.Model):
                             help='If the field is new is set to False, the unit is considered used.')
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
                                        default=_get_default_contract_type)
-    city_id = fields.Many2one('rem.unit.city', string='City', select=True)
+    state_id = fields.Many2one('res.country.state', string='Federal States')
+    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     points_interest = fields.Many2many(
         'location.preferences', string='Points of Interest')

@@ -7,107 +7,110 @@ from openerp.http import request
 PPG = 8  # Units Per Page
 
 
-class WebsiteContact(openerp.addons.web.controllers.main.Home):
-
-    @http.route(['/contact-us'], type='http', auth='public', website=True)
-    def website_rem_contact(self):
-        return request.website.render('website_rem.contact_us_page')
-
-    @http.route(['/page/contactus'], type='http', auth='none')
-    def website_contact(self):
-        return werkzeug.utils.redirect('/contact-us', 303)
-
-
 class WebsiteRem(http.Controller):
 
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
     def homepage(self):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
-        contracts_obj = pool.get('contract.type')
-        contracts_ids = contracts_obj.search(cr, uid, [], context=context)
-        contracts = contracts_obj.browse(cr, uid, contracts_ids, context=context)
+        contracts_type_obj = pool.get('contract.type')
+        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
+        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
 
-        types_obj = pool.get('rem.unit.type')
-        types_ids = types_obj.search(cr, uid, [], context=context)
-        types = types_obj.browse(cr, uid, types_ids, context=context)
+        units_types_obj = pool.get('rem.unit.type')
+        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
+        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
 
-        cities_obj = pool.get('rem.unit.city')
-        cities_ids = cities_obj.search(cr, uid, [], context=context)
-        cities = cities_obj.browse(cr, uid, cities_ids, context=context)
+        try:
+            selected_contract_type = contracts_type[0].id
+        except ValueError:
+            selected_contract_type = 0
 
         values = {
-            'contracts': contracts,
-            'types': types,
-            'cities': cities,
+            'contracts_type': contracts_type,
+            'units_types': units_types,
+            'selected_contract_type': selected_contract_type,
         }
 
         return request.website.render('website_rem.homepage_rem', values)
 
-    @http.route(['/rem', '/rem/page/<int:page>'], type='http', auth='public', website=True)
-    def rem(self, page=0, city='', contract='', type='', is_new='', beds=0, baths=0, min_price=0, max_price=0, search='', **post):
+    @http.route(['/rem',
+                 '/rem/page/<int:page>'], type='http', auth='public', website=True)
+    def rem(self, page=0, contract_type=0, unit_type=0, states_cities_zones='', min_beds=0, max_beds=0, min_price='0', max_price='0', **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
         domain = []
 
-        # Query City
+        # Query contract type
         try:
-            city = int(city)
-            domain += [('city_id', '=', city)]
+            contract_type = int(contract_type)
+            domain += [('contract_type_id.id', '=', contract_type)]
         except ValueError:
-            pass
+            contract_type=0
 
-        # Query type
+        # Query unit type
         try:
-            type = int(type)
-            domain += [('contract_type_id.id', '=', type)]
+            unit_type = int(unit_type)
+            domain += [('type_id.id', '=', unit_type)]
         except ValueError:
-            pass
+            unit_type=0
 
-        # Query is_new
+        # Bedrooms
         try:
-            is_new = int(is_new)
-            if (is_new == 0 or is_new == 1):
-                domain += [('is_new', '=', is_new)]
+            min_beds = int(min_beds)
         except ValueError:
-            pass
+            min_beds=0
+
+        try:
+            max_beds = int(max_beds)
+        except ValueError:
+            max_beds=0
+
+        # Switch min to max and vice-versa if min > max
+        if min_beds > 0 and max_beds > 0 and min_beds > max_beds:
+            temp = max_beds
+            max_beds = min_beds
+            min_beds = temp
 
         # Query bedrooms
-        try:
-            beds = int(beds)
-            if (beds >= 1 and beds <= 10):
-                domain += [('bedrooms', '=', beds)]
-        except ValueError:
-            pass
+        if min_beds > 0:
+            domain += [('bedrooms', '>=', min_beds)]
 
-        # Query bathrooms
+        if max_beds > 0:
+            domain += [('bedrooms', '<=', max_beds)]
+
+        # Price
         try:
-            baths = int(baths)
-            if (baths >= 1 and baths <= 10):
-                domain += [('bathrooms', '=', baths)]
+            min_price = int(min_price.replace(',', ''))
         except ValueError:
-            pass
+            min_price=0
+
+        try:
+            max_price = int(max_price.replace(',', ''))
+        except ValueError:
+            max_price=0
+
+        # Switch min to max and vice-versa if min > max
+        if min_price > 0 and max_price > 0 and min_price > max_price:
+            temp = max_price
+            max_price = min_price
+            min_price = temp
 
         # Query price
-        try:
-            min_price = int(min_price)
-            if (min_price > 0):
-                domain += [('price', '>=', min_price)]
-        except ValueError:
-            pass
+        if min_price > 0:
+            domain += [('price', '>=', min_price)]
 
-        try:
-            max_price = int(max_price)
-            if (max_price > 0):
-                domain += [('price', '<=', max_price)]
-        except ValueError:
-            pass
+        if max_price > 0:
+            domain += [('price', '<=', max_price)]
 
-        # Query name and reference
-        if search:
-            for srch in search.split(' '):
-                domain += ['|', ('name', 'ilike', srch), ('reference', 'ilike', srch)]
-        
+        # Query state, city and zone
+        if states_cities_zones:
+            for state_citie_zone in states_cities_zones.split(' '):
+                domain += ['|', '|',
+                           ('state_id.name', 'ilike', state_citie_zone),
+                           ('city_id.name', 'ilike', state_citie_zone),
+                           ('zone_id.name', 'ilike', state_citie_zone)]
+
         url = '/rem'
 
         units_obj = pool.get('rem.unit')
@@ -116,28 +119,35 @@ class WebsiteRem(http.Controller):
         unit_ids = units_obj.search(cr, uid, domain, limit=PPG, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, uid, unit_ids, context=context)
 
-        cities_obj = pool.get('rem.unit.city')
-        city_ids = cities_obj.search(cr, uid, [], context=context)
-        cities = cities_obj.browse(cr, uid, city_ids, context=context)
+        contracts_type_obj = pool.get('contract.type')
+        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
+        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
 
-        types_obj = pool.get('rem.unit.type')
-        type_ids = types_obj.search(cr, uid, [], context=context)
-        types = types_obj.browse(cr, uid, type_ids, context=context)
+        units_types_obj = pool.get('rem.unit.type')
+        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
+        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
+
+        try:
+            if contract_type > 0:
+                selected_contract_type = contract_type
+            else:
+                selected_contract_type = contracts_type[0].id
+        except ValueError:
+            selected_contract_type = 0
 
         values = {
             'units': units,
-            'cities': cities,
-            'types': types,
+            'contracts_type': contracts_type,
+            'units_types': units_types,
             'pager': pager,
-            'search_city': city,
-            'search_contract': contract,
-            'search_type': type,
-            'search_is_new': is_new,
-            'search_beds': beds,
-            'search_baths': baths,
-            'search_min_price': min_price,
-            'search_max_price': max_price,
-            'search': search
+            'result_contract_type': contract_type,
+            'result_unit_type': unit_type,
+            'result_states_cities_zones': states_cities_zones,
+            'result_min_beds': min_beds,
+            'result_max_beds': max_beds,
+            'result_min_price': str(min_price),
+            'result_max_price': str(max_price),
+            'selected_contract_type': selected_contract_type,
         }
 
         return request.website.render('website_rem.rem_units_list_page', values)
@@ -150,3 +160,14 @@ class WebsiteRem(http.Controller):
         }
 
         return request.website.render('website_rem.rem_unit_page', values)
+
+
+class WebsiteContact(openerp.addons.web.controllers.main.Home):
+
+    @http.route(['/contact-us'], type='http', auth='public', website=True)
+    def website_rem_contact(self):
+        return request.website.render('website_rem.contact_us_page')
+
+    @http.route(['/page/contactus'], type='http', auth='none')
+    def website_contact(self):
+        return werkzeug.utils.redirect('/contact-us', 303)

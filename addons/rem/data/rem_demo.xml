@@ -14,6 +14,7 @@
             <field name="area">0</field>
             <field name="price">595000</field>
             <field name="city_id" ref="rem_unit_city_1"/>
+            <field name="zone_id" ref="rem_unit_zone_1"/>
             <field name="is_rent">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
@@ -30,6 +31,7 @@
             <field name="area">0</field>
             <field name="price">420000</field>
             <field name="city_id" ref="rem_unit_city_2"/>
+            <field name="zone_id" ref="rem_unit_zone_2"/>
             <field name="is_rent">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
@@ -46,6 +48,7 @@
             <field name="area">0</field>
             <field name="price">0</field>
             <field name="city_id" ref="rem_unit_city_3"/>
+            <field name="zone_id" ref="rem_unit_zone_3"/>
             <field name="is_rent">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
@@ -60,7 +63,8 @@
             <field name="garages">0</field>
             <field name="area">542</field>
             <field name="price">0</field>
-            <field name="city_id" ref="rem_unit_city_4"/>
+            <field name="city_id" ref="rem_unit_city_1"/>
+            <field name="zone_id" ref="rem_unit_zone_1"/>
             <field name="is_rent">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
@@ -75,7 +79,8 @@
             <field name="garages">2</field>
             <field name="area">641</field>
             <field name="price">800000</field>
-            <field name="city_id" ref="rem_unit_city_5"/>
+            <field name="city_id" ref="rem_unit_city_2"/>
+            <field name="zone_id" ref="rem_unit_zone_2"/>
             <field name="is_rent">True</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>

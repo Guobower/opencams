@@ -27,6 +27,7 @@
                     <field name='contract_type_id'/>
                     <field name='type_id'/>
                     <field name="city_id"/>
+                    <field name="zone_id"/>
                     <field name='garages'/>
                     <separator/>
                     <field name="user_id"/>
@@ -44,33 +45,33 @@
 			<field name="arch" type="xml">
 				<form string="Real Estate Unit">
 					<header>
-						<field name="stage_id" widget="statusbar" clickable="True" />
+						<field name="stage_id" widget="statusbar" clickable="True"/>
                         <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Features"/>
                         <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Features"/>
 					</header>
 					<sheet>
 						<div class="oe_title">
-							<label for="name" class="oe_edit_only" />
+							<label for="name" class="oe_edit_only"/>
 							<h1>
-								<field name="name" placeholder="Describe the unit ..." />
+								<field name="name" placeholder="Describe the unit ..."/>
 							</h1>
 						</div>
 						<group>
 							<group>
-								<field name="contract_type_id" />
-								<field name="price" />
+								<field name="contract_type_id"/>
+								<field name="price"/>
 								<field name="is_rent" invisible="1"/>
-								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}" />
-                                <field name="city_id" placeholder="City" />
-                                
+								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+                                <field name="city_id" placeholder="City"/>
+                                <field name="zone_id" placeholder="Zone"/>
 							</group>
 							<group>
-                                <field name="create_date" />
-                                <field name="user_id" placeholder="Salesman" />
+                                <field name="create_date"/>
+                                <field name="user_id" placeholder="Salesman"/>
 								<field name="active"/>
                                 <field name="feature_id" invisible="1"/>
-                                <field name="is_featured" placeholder="Is Featured" />
-                                <field name="is_new" />
+                                <field name="is_featured" placeholder="Is Featured"/>
+                                <field name="is_new"/>
 							</group>
 						</group>
                         <div>
@@ -123,10 +124,10 @@
 								<group>
 									<field name="image_ids" mode="kanban" nolabel="1" context="{'default_unit_id': active_id}">
 										<kanban>
-											<field name="name" />
-											<field name="image" />
-											<field name="image_medium" />
-											<field name="unit_id" />
+											<field name="name"/>
+											<field name="image"/>
+											<field name="image_medium"/>
+											<field name="unit_id"/>
 											<templates>
 												<t t-name="kanban-box">
 													<div class="oe_kanban_global_click" style="position: relative">
@@ -138,7 +139,7 @@
 																t-att-title="record.unit_id.value"  
 																class="img-responsive"/>
 															<div class="oe_module_desc">
-																<field name="name" />
+																<field name="name"/>
 															</div>
 														</div>
 													</div>
@@ -165,6 +166,7 @@
             <field name="arch" type="xml">
                 <tree string="Unit City">
                     <field name="name" string="Name"/>
+                    <field name="state_id" string="State"/>
                 </tree>
             </field>
         </record>
@@ -176,6 +178,7 @@
             <field name="arch" type="xml">
                 <search string="Search Unit City">
                     <field name="name"/>
+                    <field name="state_id"/>
                 </search>
             </field>
         </record>
@@ -189,9 +192,55 @@
 	                <sheet>
 	                	<group>
 		                    <field name="name" string="Name"/>
+                            <field name="state_id" string="State"/>
 		                    <field name="active"/>
 	                    </group>
 	                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--
+            Unit Zone
+        -->
+
+        <!-- Unit Zone Tree View -->
+        <record id="view_rem_unit_zone_tree" model="ir.ui.view">
+            <field name="name">rem.unit.zone.tree</field>
+            <field name="model">rem.unit.zone</field>
+            <field name="arch" type="xml">
+                <tree string="Unit Zone">
+                    <field name="name" string="Name"/>
+                    <field name="city_id" string="City"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Unit Zone Search View -->
+        <record id="view_rem_unit_zone_filter" model="ir.ui.view">
+            <field name="name">rem.unit.zone.filter</field>
+            <field name="model">rem.unit.zone</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit Zone">
+                    <field name="name"/>
+                    <field name="city_id"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Unit Zone Form View -->
+        <record id="view_rem_unit_zone_form" model="ir.ui.view">
+            <field name="name">rem.unit.zone.form</field>
+            <field name="model">rem.unit.zone</field>
+            <field name="arch" type="xml">
+                <form string="Unit Zone">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="city_id" string="City"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>

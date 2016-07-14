@@ -73,61 +73,76 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                                <form method="get" action="/rem" t-att-class="search_class">
-                                    <div class="rem-form-search rem-box-shadow">
+                                <form method="get" action="/rem">
+                                    <div class="rem-form-search rem-box-shadow padding-0-30">
+                                        <ul class="nav nav-tabs">
+                                            <t t-foreach="contracts_type" t-as="contract_type">
+                                                <t t-if="selected_contract_type==contract_type.id">
+                                                    <li t-att-id="'ct-' + str(contract_type.id)" class="active"><a href="#"><t t-esc="contract_type.name"/></a></li>
+                                                </t>
+                                                <t t-if="selected_contract_type!=contract_type.id">
+                                                    <li t-att-id="'ct-' + str(contract_type.id)"><a href="#"><t t-esc="contract_type.name"/></a></li>
+                                                </t>
+                                            </t>
+                                        </ul>
+                                        <input type="hidden" id="ct" name="contract_type" t-att-value="selected_contract_type"/>
                                         <div class="row">
-                                            <div class="col-sm-4 col-xs-12">
-                                                <div class="form-group">
-                                                    <select class="form-control selected">
-                                                        <t t-foreach="contracts" t-as="contract">
-                                                            <t t-if="search_contract==contract.id">
-                                                                <option selected="" t-att-value="type.id"><t t-esc="contract.name"/></option>
-                                                            </t>
-                                                            <t t-if="search_contract!=contract.id">
-                                                                <option t-att-value="contract.id"><tsearch_city t-esc="contract.name"/></option>
-                                                            </t>
-                                                        </t>
-                                                    </select>
-                                                </div>
-                                            </div>
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">
-                                                    <input
-                                                        type="text"
-                                                        id="search"
-                                                        name="search"
-                                                        maxlength="128"
-                                                        class="form-control"
-                                                        title="Search for city, zone or zipcode"
-                                                        placeholder="Search by state, suburb or postcode"/>
+                                                    <t t-if="result_states_cities_zones!=''">
+                                                        <input
+                                                            type="text"
+                                                            name="states_cities_zones"
+                                                            maxlength="128"
+                                                            class="form-control"
+                                                            title="Search for state, city or zone"
+                                                            placeholder="Search for state, city or zone"
+                                                            t-att-value="result_states_cities_zones"/>
+                                                    </t>
+                                                    <t t-if="result_states_cities_zones==''">
+                                                        <input
+                                                            type="text"
+                                                            name="states_cities_zones"
+                                                            maxlength="128"
+                                                            class="form-control"
+                                                            title="Search for state, city or zone"
+                                                            placeholder="Search for state, city or zone"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <select name="unit_type" class="form-control selected">
+                                                            <option value="">All Property Types</option>
+                                                            <t t-foreach="units_types" t-as="units_type">
+                                                                <t t-if="result_unit_type==units_type.id">
+                                                                    <option t-att-value="units_type.id" selected=""><t t-esc="units_type.name"/></option>
+                                                                </t>
+                                                                <t t-if="result_unit_type!=units_type.id">
+                                                                    <option t-att-value="units_type.id"><t t-esc="units_type.name"/></option>
+                                                                </t>
+                                                            </t>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row margin-top-30">
-                                            <div class="col-sm-push-8 col-sm-4 col-xs-12">
+                                            <div class="col-sm-push-8 col-sm-4 col-xs-12 hidden-xs">
                                                 <div class="form-group">
-                                                    <select name="type" class="form-control selected">
-                                                        <option value="">All Property Types</option>
-                                                        <t t-foreach="types" t-as="type">
-                                                            <t t-if="search_type==type.id">
-                                                                <option selected="" t-att-value="type.id"><t t-esc="type.name"/></option>
-                                                            </t>
-                                                            <t t-if="search_type!=type.id">
-                                                                <option t-att-value="type.id"><tsearch_city t-esc="type.name"/></option>
-                                                            </t>
-                                                        </t>
-                                                    </select>
+                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light rem-box-shadow"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
                                                 </div>
                                             </div>
                                             <div class="col-sm-pull-4 col-sm-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <select class="form-control">
+                                                    <select name="min_beds" class="form-control">
                                                         <option value="">Min beds</option>
                                                         <t t-foreach="[1, 2, 3, 4, 5]" t-as="i">
-                                                            <t t-if="search_beds==i">
+                                                            <t t-if="result_min_beds==i">
                                                                 <option selected="" t-att-value="i"><t t-esc="i"/></option>
                                                             </t>
-                                                            <t t-if="search_beds!=i">
+                                                            <t t-if="result_min_beds!=i">
                                                                 <option t-att-value="i"><t t-esc="i"/></option>
                                                             </t>
                                                         </t>
@@ -136,13 +151,13 @@
                                             </div>
                                             <div class="col-sm-pull-4 col-sm-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <select class="form-control">
+                                                    <select name="max_beds" class="form-control">
                                                         <option value="">Max beds</option>
                                                         <t t-foreach="[1, 2, 3, 4, 5]" t-as="i">
-                                                            <t t-if="search_beds==i">
+                                                            <t t-if="result_max_beds==i">
                                                                 <option selected="" t-att-value="i"><t t-esc="i"/></option>
                                                             </t>
-                                                            <t t-if="search_beds!=i">
+                                                            <t t-if="result_max_beds!=i">
                                                                 <option t-att-value="i"><t t-esc="i"/></option>
                                                             </t>
                                                         </t>
@@ -153,13 +168,13 @@
                                         <div class="row margin-top-30">
                                             <div class="col-sm-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <select class="form-control">
+                                                    <select name="min_price" class="form-control">
                                                         <option value="">Min price</option>
                                                         <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']" t-as="i">
-                                                            <t t-if="search_min_price==i">
+                                                            <t t-if="result_min_price==i.replace(',', '')">
                                                                 <option selected="" t-att-value="i">$<t t-esc="i"/></option>
                                                             </t>
-                                                            <t t-if="search_min_price!=i">
+                                                            <t t-if="result_min_price!=i.replace(',', '')">
                                                                 <option t-att-value="i">$<t t-esc="i"/></option>
                                                             </t>
                                                         </t>
@@ -168,13 +183,13 @@
                                             </div>
                                             <div class="col-sm-4 col-xs-12">
                                                 <div class="form-group">
-                                                    <select class="form-control">
+                                                    <select name="max_price" class="form-control">
                                                         <option value="">Max price</option>
                                                         <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']" t-as="i">
-                                                            <t t-if="search_min_price==i">
+                                                            <t t-if="result_max_price==i.replace(',', '')">
                                                                 <option selected="" t-att-value="i">$<t t-esc="i"/></option>
                                                             </t>
-                                                            <t t-if="search_min_price!=i">
+                                                            <t t-if="result_max_price!=i.replace(',', '')">
                                                                 <option t-att-value="i">$<t t-esc="i"/></option>
                                                             </t>
                                                         </t>
@@ -182,8 +197,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-xs-12">
+                                                <div class="form-group margin-top-30 hidden-lg hidden-md hidden-sm">
+                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light rem-box-shadow"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
+                                                </div>
                                                 <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                                    <button type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
                                                 </div>
                                             </div>
                                         </div>
