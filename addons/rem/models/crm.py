@@ -20,6 +20,14 @@ MATCH_RE = {
     'self.re_wardrobes': {'search_default_wardrobes': 'self.re_wardrobes'},
     'self.re_dishwasher': {'search_default_dishwasher': 'self.re_dishwasher'},
     'self.re_living_areas > 0': {'min_living_areas': 'self.re_living_areas'},
+    # Outdoor Features
+    'self.re_backyard': {'search_default_backyard': 'self.re_backyard'},
+    'self.re_alarm': {'search_default_alarm': 'self.re_alarm'},
+    'self.re_entertaining': {'search_default_entertaining': 'self.re_entertaining'},
+    'self.re_pool': {'search_default_sw_pool': 'self.re_pool'},
+    'self.re_garage_spaces > 0': {'min_garages': 'self.re_garage_spaces'},
+    'self.re_secure_parking': {'search_default_secure_parking': 'self.re_secure_parking'},
+    'self.re_dog_friendly': {'search_default_air_dog_friendly': 'self.re_dog_friendly'},
 }
 
 
@@ -76,37 +84,11 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        
         context = {}
         for conditions in MATCH_RE:
             if eval(conditions):
                 for key, val in MATCH_RE[conditions].iteritems():
                     context.update({key: eval(val)})
-
-        # Outdoor Features
-        backyards = self.re_backyard
-        dogs = self.re_dog_friendly
-        garage_spaces = self.re_garage_spaces
-        s_parking = self.re_secure_parking
-        alarms = self.re_alarm
-        pools = self.re_pool
-        entertainings = self.re_entertaining
-
-        # Outdoor Features
-        if backyards:
-            context.update({'search_default_backyard': backyards})
-        if alarms:
-            context.update({'search_default_alarm': alarms})
-        if entertainings:
-            context.update({'search_default_entertaining': entertainings})
-        if pools:
-            context.update({'search_default_sw_pool': pools})
-        if garage_spaces > 0:
-            context.update({'min_garages': garage_spaces})
-        if s_parking:
-            context.update({'search_default_secure_parking': s_parking})
-        if dogs:
-            context.update({'search_default_air_dog_friendly': dogs})
 
         res = {
             'name': _('Search results'),

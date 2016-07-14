@@ -223,7 +223,7 @@ class RemUnit(models.Model):
                                        default=_get_default_contract_type)
     state_id = fields.Many2one('res.country.state', string='Federal States')
     city_id = fields.Many2one('rem.unit.city', string='City', required=True)
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     points_interest = fields.Many2many(
         'location.preferences', string='Points of Interest')
