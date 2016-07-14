@@ -312,13 +312,6 @@ h3 {
     }
 }
 
-@media (max-width: 900px)
-{
-    #search-homepage .rem-form-search {
-        top: -400px;
-    }
-}
-
 @media (max-width: 767px)
 {
     #search-homepage .rem-form-search {
