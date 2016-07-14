@@ -14,6 +14,12 @@ MATCH_RE = {
     'self.re_bathrooms > 0': {'min_bathrooms': 'self.re_bathrooms'},
     'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
     'self.re_points_interest': {'search_default_points_interest': '[x.id for x in self.re_points_interest]'},
+    # Indoor Features
+    'self.re_air_conditioned': {'search_default_air_condicioned': 'self.re_air_conditioned'},
+    'self.re_ducted_cooling': {'search_default_ducted_cooling': 'self.re_ducted_cooling'},
+    'self.re_wardrobes': {'search_default_wardrobes': 'self.re_wardrobes'},
+    'self.re_dishwasher': {'search_default_dishwasher': 'self.re_dishwasher'},
+    'self.re_living_areas > 0': {'min_living_areas': 'self.re_living_areas'},
 }
 
 
@@ -70,12 +76,13 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        # Indoor Features
-        air = self.re_air_conditioned
-        ducted = self.re_ducted_cooling
-        b_wardrobes = self.re_wardrobes
-        dishwashers = self.re_dishwasher
-        min_areas = self.re_living_areas
+        
+        context = {}
+        for conditions in MATCH_RE:
+            if eval(conditions):
+                for key, val in MATCH_RE[conditions].iteritems():
+                    context.update({key: eval(val)})
+
         # Outdoor Features
         backyards = self.re_backyard
         dogs = self.re_dog_friendly
@@ -84,24 +91,7 @@ class CrmLead(models.Model):
         alarms = self.re_alarm
         pools = self.re_pool
         entertainings = self.re_entertaining
-        
-        context = {}
-        for conditions in MATCH_RE:
-            if eval(conditions):
-                for key, val in MATCH_RE[conditions].iteritems():
-                    context.update({key: eval(val)})
 
-        # Indoor Features
-        if air:
-            context.update({'search_default_air_condicioned': air})
-        if ducted:
-            context.update({'search_default_ducted_cooling': ducted})
-        if b_wardrobes:
-            context.update({'search_default_wardrobes': b_wardrobes})
-        if dishwashers:
-            context.update({'search_default_dishwasher': dishwashers})
-        if min_areas > 0:
-            context.update({'min_living_areas': min_areas})
         # Outdoor Features
         if backyards:
             context.update({'search_default_backyard': backyards})
