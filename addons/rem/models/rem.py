@@ -211,6 +211,13 @@ class RemUnit(models.Model):
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
 
+    # Location
+    state_id = fields.Many2one('res.country.state', string='Federal States')
+    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
+    street = fields.Char(string='Street')
+    zipcode = fields.Char(string='Zip', size=24)
+
     # General Features
     type_id = fields.Many2one('rem.unit.type', string='Type')
     bedrooms = fields.Integer(
@@ -221,9 +228,6 @@ class RemUnit(models.Model):
                             help='If the field is new is set to False, the unit is considered used.')
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
                                        default=_get_default_contract_type)
-    state_id = fields.Many2one('res.country.state', string='Federal States')
-    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     points_interest = fields.Many2many(
         'location.preferences', string='Points of Interest')

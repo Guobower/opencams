@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import openerp
 import werkzeug
+import json
 from openerp import http
 from openerp.http import request
 
@@ -8,6 +9,31 @@ PPG = 8  # Units Per Page
 
 
 class WebsiteRem(http.Controller):
+
+    @http.route('/get_multi_search_results/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
+    def get_contract_type_products(self, multi_search, **kwargs):
+
+        results = {
+            'result': []
+        }
+
+        domain = []
+
+        if multi_search:
+            for word in multi_search.split(' '):
+                domain += ['|', '|', '|', '|',
+                           ('state_id.name', 'ilike', word),
+                           ('city_id.name', 'ilike', word),
+                           ('zone_id.name', 'ilike', word),
+                           ('street', 'ilike', word),
+                           ('zipcode', 'ilike', word)]
+
+        units = request.env['rem.unit'].search(domain, limit=10)
+        
+        for unit in units:
+            results['result'].append({'name': unit.name})
+
+        return json.dumps(results)
 
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
     def homepage(self):
@@ -36,7 +62,7 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/rem',
                  '/rem/page/<int:page>'], type='http', auth='public', website=True)
-    def rem(self, page=0, contract_type=0, unit_type=0, states_cities_zones='', min_beds=0, max_beds=0, min_price='0', max_price='0', **post):
+    def rem(self, page=0, contract_type=0, unit_type=0, multi_search='', min_beds=0, max_beds=0, min_price='0', max_price='0', **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
         domain = []
@@ -104,12 +130,14 @@ class WebsiteRem(http.Controller):
             domain += [('price', '<=', max_price)]
 
         # Query state, city and zone
-        if states_cities_zones:
-            for state_citie_zone in states_cities_zones.split(' '):
-                domain += ['|', '|',
-                           ('state_id.name', 'ilike', state_citie_zone),
-                           ('city_id.name', 'ilike', state_citie_zone),
-                           ('zone_id.name', 'ilike', state_citie_zone)]
+        if multi_search:
+            for word in multi_search.split(' '):
+                domain += ['|', '|', '|', '|',
+                           ('state_id.name', 'ilike', word),
+                           ('city_id.name', 'ilike', word),
+                           ('zone_id.name', 'ilike', word),
+                           ('street', 'ilike', word),
+                           ('zipcode', 'ilike', word)]
 
         url = '/rem'
 
@@ -142,7 +170,7 @@ class WebsiteRem(http.Controller):
             'pager': pager,
             'result_contract_type': contract_type,
             'result_unit_type': unit_type,
-            'result_states_cities_zones': states_cities_zones,
+            'result_multi_search': multi_search,
             'result_min_beds': min_beds,
             'result_max_beds': max_beds,
             'result_min_price': str(min_price),

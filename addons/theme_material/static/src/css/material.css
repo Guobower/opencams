@@ -694,3 +694,43 @@ h3 {
     background: #aa4d93;
     border-color: #aa4d93;
 }
+
+/* AUTOCOMPLETE
+   -------------------------------------------------- */
+.rem-autocomplete-container
+{
+    position: relative;
+}
+
+.rem-autocomplete
+{
+    background: #FFF;
+    position: absolute;
+    padding: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.rem-autocomplete li
+{
+    padding: 10px 20px;
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.rem-autocomplete li:hover
+{
+    color: #FFF;
+    background: #aa4d93;
+}
+
+.rem-autocomplete,
+.rem-autocomplete li:last-child
+{
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}

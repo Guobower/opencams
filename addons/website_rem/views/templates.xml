@@ -6,6 +6,7 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"/>
             </xpath>
         </template>
 
@@ -83,25 +84,30 @@
                                         <div class="row">
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">
-                                                    <t t-if="result_states_cities_zones!=''">
+                                                    <t t-if="result_multi_search!=''">
                                                         <input
                                                             type="text"
-                                                            name="states_cities_zones"
+                                                            id="multi_search"
+                                                            name="multi_search"
                                                             maxlength="128"
                                                             class="form-control"
                                                             title="Search for state, city or zone"
                                                             placeholder="Search for state, city or zone"
-                                                            t-att-value="result_states_cities_zones"/>
+                                                            t-att-value="result_multi_search"/>
                                                     </t>
-                                                    <t t-if="result_states_cities_zones==''">
+                                                    <t t-if="result_multi_search==''">
                                                         <input
                                                             type="text"
-                                                            name="states_cities_zones"
+                                                            id="multi_search"
+                                                            name="multi_search"
                                                             maxlength="128"
                                                             class="form-control"
                                                             title="Search for state, city or zone"
                                                             placeholder="Search for state, city or zone"/>
                                                     </t>
+                                                    <div class="rem-autocomplete-container">
+                                                        <ul id="multi_search_autocomplete" class="rem-autocomplete rem-box-shadow display-none"></ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-xs-12">
