@@ -3,7 +3,7 @@
 	<data>
 
         <!-- Top menu item -->
-        <menuitem name="Real Estate"
+        <menuitem name="Listings"
             id="menu_rem"
             groups="base.group_user"
             sequence="50"/>
@@ -16,15 +16,15 @@
 
 		<!-- Real Estate Asset Action Window -->
         <record id="action_rem_unit" model="ir.actions.act_window">
-            <field name="name">Real Estate Units</field>
+            <field name="name">Units</field>
             <field name="res_model">rem.unit</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
 	        <field name="help" type="html">
 	            <p class="oe_view_nocontent_create">
-	                Click to add a real estate unit.
+	                Click to add a Real Estate unit.
 	            </p><p>
-	                The real estate units can be rentable or sellable
+	                The real estate units / listing can be rentable or sellable
 	                being owned or just commissioned by your company.
 	            </p>
 	        </field>
