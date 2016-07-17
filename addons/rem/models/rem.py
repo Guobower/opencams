@@ -210,14 +210,14 @@ class RemUnit(models.Model):
     unit_description = fields.Text(string='Detailed Description')
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
-
     # Location
-    state_id = fields.Many2one('res.country.state', string='Federal States')
-    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
     street = fields.Char(string='Street')
-    zipcode = fields.Char(string='Zip', size=24)
-
+    street2 = fields.Char(string='Street2')
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
+    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
+    state_id = fields.Many2one('res.country.state', string='State')
+    country_id = fields.Many2one('res.country', string='Country')
+    zip = fields.Char(string='Zip', change_default=True, size=24)
     # General Features
     type_id = fields.Many2one('rem.unit.type', string='Type')
     bedrooms = fields.Integer(

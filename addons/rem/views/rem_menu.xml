@@ -6,7 +6,7 @@
         <menuitem name="Listings"
             id="menu_rem"
             groups="base.group_user"
-            sequence="50"/>
+            sequence="35"/>
 		<menuitem id="menu_rem_obj" parent="menu_rem" name="Asset Data"/>
 		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration"/>
 

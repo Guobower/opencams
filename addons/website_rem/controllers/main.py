@@ -26,7 +26,7 @@ class WebsiteRem(http.Controller):
                            ('city_id.name', 'ilike', word),
                            ('zone_id.name', 'ilike', word),
                            ('street', 'ilike', word),
-                           ('zipcode', 'ilike', word)]
+                           ('zip', 'ilike', word)]
 
         units = request.env['rem.unit'].search(domain, limit=10)
         
@@ -137,7 +137,7 @@ class WebsiteRem(http.Controller):
                            ('city_id.name', 'ilike', word),
                            ('zone_id.name', 'ilike', word),
                            ('street', 'ilike', word),
-                           ('zipcode', 'ilike', word)]
+                           ('zip', 'ilike', word)]
 
         url = '/rem'
 

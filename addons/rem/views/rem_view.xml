@@ -27,8 +27,12 @@
                     <!-- General Features -->
                     <field name='contract_type_id'/>
                     <field name='type_id'/>
+                    <field name="street"/>
+                    <field name="street2"/>
                     <field name="city_id"/>
-                    <field name="zone_id"/>
+                    <field name="state_id"/>
+                    <field name="zip"/>
+                    <field name="country_id"/> 
                     <field name='bedrooms'/>
                     <field name='bathrooms'/>
                     <field name='points_interest'/>
@@ -80,8 +84,15 @@
 								<field name="price"/>
 								<field name="is_rent" invisible="1"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-                                <field name="city_id" placeholder="City"/>
-                                <field name="zone_id" placeholder="Zone"/>
+			                    <label for="street" string="Address"/>
+			                    <div class="o_address_format">
+			                        <field name="street" placeholder="Street..." class="o_address_street"/>
+			                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+			                        <field name="city_id" placeholder="City" class="o_address_city"/>
+			                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+			                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+			                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+			                    </div>
 							</group>
 							<group>
                                 <field name="create_date"/>
