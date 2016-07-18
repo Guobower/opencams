@@ -2,7 +2,7 @@
 import openerp
 import werkzeug
 import json
-from openerp import http
+from openerp import http, api
 from openerp.http import request
 
 PPG = 8  # Units Per Page
@@ -17,21 +17,22 @@ class WebsiteRem(http.Controller):
             'result': []
         }
 
-        domain = []
+        querys = [
+            ('name', 'SELECT DISTINCT ruc.name FROM rem_unit ru, rem_unit_city ruc WHERE ru.city_id=ruc.id AND ruc.name ilike %s ORDER BY ruc.name LIMIT 10'),
+            ('name', 'SELECT DISTINCT ruz.name FROM rem_unit ru, rem_unit_zone ruz WHERE ru.zone_id=ruz.id AND ruz.name ilike %s ORDER BY ruz.name LIMIT 10'),
+            ('name', 'SELECT DISTINCT rcs.name FROM rem_unit ru, res_country_state rcs WHERE ru.state_id=rcs.id AND rcs.name ilike %s ORDER BY rcs.name LIMIT 10'),
+            ('street', 'SELECT DISTINCT street FROM rem_unit WHERE street ilike %s ORDER BY street LIMIT 10'),
+            ('street2', 'SELECT DISTINCT street2 FROM rem_unit WHERE street2 ilike %s ORDER BY street2 LIMIT 10'),
+            ('zip', 'SELECT DISTINCT zip FROM rem_unit WHERE zip ilike %s ORDER BY zip LIMIT 10'),
+        ]
 
-        if multi_search:
-            for word in multi_search.split(' '):
-                domain += ['|', '|', '|', '|',
-                           ('state_id.name', 'ilike', word),
-                           ('city_id.name', 'ilike', word),
-                           ('zone_id.name', 'ilike', word),
-                           ('street', 'ilike', word),
-                           ('zip', 'ilike', word)]
+        for column, query in querys:
+            request.env.cr.execute(
+                query,
+                [tuple(['%%%s%%' % multi_search])])
 
-        units = request.env['rem.unit'].search(domain, limit=10)
-        
-        for unit in units:
-            results['result'].append({'name': unit.name})
+            for row in request.env.cr.fetchall():
+                results['result'].append({column: row})
 
         return json.dumps(results)
 
