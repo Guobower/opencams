@@ -670,6 +670,13 @@ h3 {
     margin: auto;
 }
 
+.rem-unit-price
+{
+    margin-top: 20px;
+    font-family: "Open Sans SemiBold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+    font-size: 20px;
+}
+
 @media (max-width: 767px)
 {
     .rem-unit-info-container {

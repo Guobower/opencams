@@ -547,7 +547,11 @@
                                     <div class="row">
                                         <div class="rem-unit-card-price">
                                             <t t-if="rem_unit.price > 0">
-                                                $<t t-esc="rem_unit.price"/>
+                                                <span t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                        "widget": "monetary",
+                                                        "display_currency": "rem_unit.currency_id"
+                                                    }'>
+                                                </span>
                                             </t>
                                         </div>
                                         <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
@@ -663,22 +667,37 @@
                                 <div class="rem-unit-title">
                                     <t t-esc="unit.name"/> 1122 Jackson St APT 609, Dallas, TX 75202
                                 </div>
-                                <div class="rem-unit-sub-title">
-                                    <t t-if="unit.bedrooms > 0">
-                                        <span title="Bedrooms" class="margin-right-30">
-                                            <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
-                                        </span>
-                                    </t>
-                                    <t t-if="unit.bathrooms > 0">
-                                        <span title="Bathrooms" class="margin-right-30">
-                                            <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
-                                        </span>
-                                    </t>
-                                    <t t-if="unit.garages > 0">
-                                        <span title="Garages">
-                                            <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
-                                        </span>
-                                    </t>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="rem-unit-price">
+                                            <t t-if="unit.price > 0">
+                                                <span t-field="unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                        "widget": "monetary",
+                                                        "display_currency": "unit.currency_id"
+                                                    }'>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="rem-unit-sub-title">
+                                            <t t-if="unit.bedrooms > 0">
+                                                <span title="Bedrooms" class="margin-right-30">
+                                                    <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
+                                                </span>
+                                            </t>
+                                            <t t-if="unit.bathrooms > 0">
+                                                <span title="Bathrooms" class="margin-right-30">
+                                                    <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
+                                                </span>
+                                            </t>
+                                            <t t-if="unit.garages > 0">
+                                                <span title="Garages">
+                                                    <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="rem-unit-description">
                                     609 - the BEST condo in SoCo! West-facing view (Dallas skyline). Customized room-darkening window coverings. Wall-to-wall living room carpeting. Tri-colored bathroom tile flooring. Stained concrete (except living room and bathroom). Custom lighting (on dimmers). Platinum appliance upgrade. Marble top bathroom vanity. HIGHLIGHT FEATURE - one-of-a-kind baseboard. (No cheap vinyl.) Custom kitchen half-wall. Walled-in closet has custom Elfa shelving.
