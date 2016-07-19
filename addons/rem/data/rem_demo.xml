@@ -16,6 +16,8 @@
             <field name="city_id" ref="rem_unit_city_1"/>
             <field name="zone_id" ref="rem_unit_zone_1"/>
             <field name="is_rent">True</field>
+            <field name="street">10 Bryan Street</field>
+            <field name="zip">334</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
         </record>
@@ -33,6 +35,8 @@
             <field name="city_id" ref="rem_unit_city_2"/>
             <field name="zone_id" ref="rem_unit_zone_2"/>
             <field name="is_rent">True</field>
+            <field name="street">10 Bryan Street</field>
+            <field name="zip">334</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
             <field name="feature_id" eval="[(4, 1)]"/>
         </record>
@@ -50,6 +54,8 @@
             <field name="city_id" ref="rem_unit_city_3"/>
             <field name="zone_id" ref="rem_unit_zone_3"/>
             <field name="is_rent">True</field>
+            <field name="street">10 Bryan Street</field>
+            <field name="zip">334</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 
@@ -66,6 +72,8 @@
             <field name="city_id" ref="rem_unit_city_1"/>
             <field name="zone_id" ref="rem_unit_zone_1"/>
             <field name="is_rent">True</field>
+            <field name="street">10 Bryan Street</field>
+            <field name="zip">334</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 
@@ -82,6 +90,8 @@
             <field name="city_id" ref="rem_unit_city_2"/>
             <field name="zone_id" ref="rem_unit_zone_2"/>
             <field name="is_rent">True</field>
+            <field name="street">10 Bryan Street</field>
+            <field name="zip">334</field>
             <field name="contract_type_id" ref="rem.rem_unit_contract_type_buy"/>
         </record>
 

@@ -189,11 +189,25 @@ class RemUnit(models.Model):
             self.currency_id = self.sudo().company_id.currency_id
         else:
             self.currency_id = self.env.user.company_id.currency_id
-    
+
+    @api.multi
+    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    def name_get(self):
+        units = []
+        for record in self:
+            name = record.street
+
+            if record.street2:
+                name += ', ' + record.street2
+
+            name += ', ' + record.zone_id.name + ', ' + record.city_id.name + ', ' + record.zip
+
+            units.append((record.id, name))
+        return units
+
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
-    name = fields.Char(string='Unit', size=32, required=True,
-                       help='Unit description (like house near riverside).')
+    name = fields.Char(required=True, index=True)
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
@@ -224,15 +238,15 @@ class RemUnit(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
         readonly=True)
-
+    
     # Location
-    street = fields.Char(string='Street')
+    street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
     city_id = fields.Many2one('rem.unit.city', string='City', required=True)
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
-    zip = fields.Char(string='Zip', change_default=True, size=24)
+    zip = fields.Char(string='Zip', change_default=True, size=24, required=True)
 
     # General Features
     bedrooms = fields.Integer(

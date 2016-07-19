@@ -556,7 +556,7 @@
                                         </div>
                                         <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
                                             <div class="rem-unit-card-title">
-                                                <div t-esc='rem_unit.name'/>
+                                                <div t-esc='rem_unit.display_name'/>
                                             </div>
                                         </a>
                                         <div class="rem-unit-card-details">
@@ -607,7 +607,7 @@
         <!--  Unit List -->
         <template id="rem_unit_page">
             <t t-call="website.layout">
-                <t t-set="additional_title"><t t-esc="unit.name"/></t>
+                <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
                 <t t-call="website_rem.rem_unit_content"/>
             </t>
         </template>
@@ -665,7 +665,7 @@
                         <div class="col-sm-offset-1 col-sm-6 col-xs-12">
                             <div class="rem-unit-info-container">
                                 <div class="rem-unit-title">
-                                    <t t-esc="unit.name"/> 1122 Jackson St APT 609, Dallas, TX 75202
+                                    <div t-esc='unit.display_name'/>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-12">
