@@ -191,12 +191,20 @@ textarea {
 
 /* HELPERS
    -------------------------------------------------- */
+.margin-right-30 {
+    margin-right: 30px !important;
+}
+
 .margin-top-30 {
     margin-top: 30px !important;
 }
 
 .margin-bottom-50 {
     margin-bottom: 50px !important;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px !important;
 }
 
 .margin-bottom-0 {
@@ -579,6 +587,19 @@ h3 {
     display: none;
 }
 
+#unit-contact-form
+{
+    margin-top: -50px;
+}
+
+@media (max-width: 767px)
+{
+    #unit-contact-form
+    {
+        margin-top: 30px;
+    }
+}
+
 /* UNIT
    -------------------------------------------------- */
 #carousel-unit {
@@ -607,7 +628,6 @@ h3 {
 
 .rem-unit-description {
     font-size: 15px;
-    margin-bottom: 50px;
 }
 
 .rem-unit-title,
@@ -733,4 +753,30 @@ h3 {
     -moz-border-radius-bottomleft: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+
+/* FEATURES
+   -------------------------------------------------- */
+.features
+{
+    font-size: 0.9em;
+}
+
+.features .feature-title
+{
+    font-size: 16px;
+    font-family: "Open Sans SemiBold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+    margin-top: 30px;
+}
+
+.features label
+{
+    margin-right: 10px;
+    font-weight: normal;
+    font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+}
+
+.features .zmdi-check
+{
+    color: #029f56;
 }

@@ -205,11 +205,16 @@ class RemUnit(models.Model):
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(compute=_is_featured, store=False)
     reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
-    living_area = fields.Float('Living Area')
-    land_area = fields.Float('Land Area')
+    type_id = fields.Many2one('rem.unit.type', string='Type')
+    is_new = fields.Boolean(string='Is New', default=True,
+                            help='If the field is new is set to False, the unit is considered used.')
+    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
+                                       default=_get_default_contract_type)
+    price = fields.Float(string='Price', digits=(16, 2), required=True)
     unit_description = fields.Text(string='Detailed Description')
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
+
     # Location
     street = fields.Char(string='Street')
     street2 = fields.Char(string='Street2')
@@ -218,34 +223,32 @@ class RemUnit(models.Model):
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
     zip = fields.Char(string='Zip', change_default=True, size=24)
+
     # General Features
-    type_id = fields.Many2one('rem.unit.type', string='Type')
     bedrooms = fields.Integer(
-        string='Number of bedrooms', default=1, required=True)
+        string='Bedrooms', default=1, required=True)
     bathrooms = fields.Integer(
-        string='Number of bathrooms', default=1, required=True)
-    is_new = fields.Boolean(string='Is New', default=True,
-                            help='If the field is new is set to False, the unit is considered used.')
-    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
-                                       default=_get_default_contract_type)
-    price = fields.Float(string='Price', digits=(16, 2), required=True)
+        string='Bathrooms', default=1, required=True)
+    living_area = fields.Float('Living Area', default=0)
+    land_area = fields.Float('Land Area', default=0)
     points_interest = fields.Many2many(
         'location.preferences', string='Points of Interest')
 
     # Indoor Features
+    # TODO: check if area is being used, it's not being used on backend (unit -> indoor features)
     area = fields.Integer(string='Area', default=0, required=True)
-    air_conditioned = fields.Boolean(string='Air Conditioned')
-    ducted_cooling = fields.Boolean(string='Ducted Cooling')
-    wardrobes = fields.Boolean(string='Built-in Wardrobes')
-    dishwasher = fields.Boolean(string='Dishwasher')
-    living_areas = fields.Integer('Living Areas')
+    air_conditioned = fields.Boolean(string='Air Conditioned', default=False)
+    ducted_cooling = fields.Boolean(string='Ducted Cooling', default=False)
+    wardrobes = fields.Boolean(string='Built-in Wardrobes', default=False)
+    dishwasher = fields.Boolean(string='Dishwasher', default=False)
+    living_areas = fields.Integer('Living Areas', default=0)
 
     # Outdoor Features
     garages = fields.Integer(
-        string='Garage Spaces', default=0, required=True, help='Number of garage spaces')
-    backyard = fields.Boolean(string='Backyard')
-    dog_friendly = fields.Boolean(string='Dog Friendly')
-    secure_parking = fields.Boolean(string='Secure Parking')
-    alarm = fields.Boolean(string='Alarm System')
-    sw_pool = fields.Boolean(string='Swimming Pool')
-    entertaining = fields.Boolean(string='Outdoor Entertaining Area')
+        string='Garage Spaces', default=0, required=True)
+    backyard = fields.Boolean(string='Backyard', default=False)
+    dog_friendly = fields.Boolean(string='Dog Friendly', default=False)
+    secure_parking = fields.Boolean(string='Secure Parking', default=False)
+    alarm = fields.Boolean(string='Alarm System', default=False)
+    sw_pool = fields.Boolean(string='Swimming Pool', default=False)
+    entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)

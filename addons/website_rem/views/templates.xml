@@ -664,17 +664,98 @@
                                     <t t-esc="unit.name"/> 1122 Jackson St APT 609, Dallas, TX 75202
                                 </div>
                                 <div class="rem-unit-sub-title">
-                                    1 bed 1 bath 1,111 sqft
+                                    <t t-if="unit.bedrooms > 0">
+                                        <span title="Bedrooms" class="margin-right-30">
+                                            <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
+                                        </span>
+                                    </t>
+                                    <t t-if="unit.bathrooms > 0">
+                                        <span title="Bathrooms" class="margin-right-30">
+                                            <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
+                                        </span>
+                                    </t>
+                                    <t t-if="unit.garages > 0">
+                                        <span title="Garages">
+                                            <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
+                                        </span>
+                                    </t>
                                 </div>
                                 <div class="rem-unit-description">
                                     609 - the BEST condo in SoCo! West-facing view (Dallas skyline). Customized room-darkening window coverings. Wall-to-wall living room carpeting. Tri-colored bathroom tile flooring. Stained concrete (except living room and bathroom). Custom lighting (on dimmers). Platinum appliance upgrade. Marble top bathroom vanity. HIGHLIGHT FEATURE - one-of-a-kind baseboard. (No cheap vinyl.) Custom kitchen half-wall. Walled-in closet has custom Elfa shelving.
+                                </div>
+                                <div class="features">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="feature-title margin-bottom-10">General Features</div>
+                                            <t t-if="unit.bedrooms > 0">
+                                                <div><label>Bedrooms:</label><t t-esc="unit.bedrooms"/></div>
+                                            </t>
+                                            <t t-if="unit.bathrooms > 0">
+                                                <div><label>Bathrooms:</label><t t-esc="unit.bathrooms"/></div>
+                                            </t>
+                                            <t t-if="unit.living_area > 0">
+                                                <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
+                                            </t>
+                                            <t t-if="unit.land_area > 0">
+                                                <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
+                                            </t>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <t t-if="unit.air_conditioned == True or unit.ducted_cooling == True or unit.wardrobes == True or unit.dishwasher == True or unit.living_areas > 0">
+                                                <div class="feature-title margin-bottom-10">Indoor Features</div>
+                                            </t>
+                                            <t t-if="unit.air_conditioned == True">
+                                                <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.ducted_cooling == True">
+                                                <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.wardrobes == True">
+                                                <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.dishwasher == True">
+                                                <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.living_areas > 0">
+                                                <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <t t-if="unit.backyard == True or unit.alarm == True or unit.sw_pool == True or unit.entertaining == True or unit.garages > 0 or unit.secure_parking == True or  unit.dog_friendly == True">
+                                                <div class="feature-title margin-bottom-10">Outdoor Features</div>
+                                            </t>
+                                            <t t-if="unit.backyard == True">
+                                                <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.alarm == True">
+                                                <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.sw_pool == True">
+                                                <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.entertaining == True">
+                                                <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.garages > 0">
+                                                <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
+                                            </t>
+                                            <t t-if="unit.secure_parking == True">
+                                                <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                            <t t-if="unit.dog_friendly == True">
+                                                <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                    <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
                                         <div class="rem-unit-contact-agent-container">
                                             <figure class="rem-unit-contact-agent">
                                                 <div class="rem-unit-contact-agent-wrapper">
