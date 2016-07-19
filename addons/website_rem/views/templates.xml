@@ -701,19 +701,19 @@
                                             </t>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
-                                            <t t-if="unit.air_conditioned == True or unit.ducted_cooling == True or unit.wardrobes == True or unit.dishwasher == True or unit.living_areas > 0">
+                                            <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
                                                 <div class="feature-title margin-bottom-10">Indoor Features</div>
                                             </t>
-                                            <t t-if="unit.air_conditioned == True">
+                                            <t t-if="unit.air_conditioned">
                                                 <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.ducted_cooling == True">
+                                            <t t-if="unit.ducted_cooling">
                                                 <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.wardrobes == True">
+                                            <t t-if="unit.wardrobes">
                                                 <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.dishwasher == True">
+                                            <t t-if="unit.dishwasher">
                                                 <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
                                             <t t-if="unit.living_areas > 0">
@@ -723,28 +723,28 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12">
-                                            <t t-if="unit.backyard == True or unit.alarm == True or unit.sw_pool == True or unit.entertaining == True or unit.garages > 0 or unit.secure_parking == True or  unit.dog_friendly == True">
+                                            <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
                                                 <div class="feature-title margin-bottom-10">Outdoor Features</div>
                                             </t>
-                                            <t t-if="unit.backyard == True">
+                                            <t t-if="unit.backyard">
                                                 <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.alarm == True">
+                                            <t t-if="unit.alarm">
                                                 <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.sw_pool == True">
+                                            <t t-if="unit.sw_pool">
                                                 <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.entertaining == True">
+                                            <t t-if="unit.entertaining">
                                                 <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
                                             <t t-if="unit.garages > 0">
                                                 <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
                                             </t>
-                                            <t t-if="unit.secure_parking == True">
+                                            <t t-if="unit.secure_parking">
                                                 <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
-                                            <t t-if="unit.dog_friendly == True">
+                                            <t t-if="unit.dog_friendly">
                                                 <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
                                             </t>
                                         </div>
