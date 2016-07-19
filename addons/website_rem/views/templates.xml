@@ -547,11 +547,11 @@
                                     <div class="row">
                                         <div class="rem-unit-card-price">
                                             <t t-if="rem_unit.price > 0">
-                                                <span t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                <div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{
                                                         "widget": "monetary",
                                                         "display_currency": "rem_unit.currency_id"
                                                     }'>
-                                                </span>
+                                                </div>
                                             </t>
                                         </div>
                                         <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
@@ -671,11 +671,11 @@
                                     <div class="col-sm-6 col-xs-12">
                                         <div class="rem-unit-price">
                                             <t t-if="unit.price > 0">
-                                                <span t-field="unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{
                                                         "widget": "monetary",
                                                         "display_currency": "unit.currency_id"
                                                     }'>
-                                                </span>
+                                                </div>
                                             </t>
                                         </div>
                                     </div>

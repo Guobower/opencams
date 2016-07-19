@@ -183,12 +183,13 @@ class RemUnit(models.Model):
 
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
-    def _get_currency(self):
-        cr, uid, context = self.env.cr, self.env.uid, self.env.context
-        rate_obj = self.pool.get('res.currency.rate')
-        rate_id = rate_obj.search(cr, uid, [('rate', '=', 1)], context=context)
-        return rate_id and rate_obj.browse(cr, uid, rate_id[0], context=context).currency_id.id or False
-
+    @api.one
+    def _get_company_currency(self):
+        if self.company_id:
+            self.currency_id = self.sudo().company_id.currency_id
+        else:
+            self.currency_id = self.env.user.company_id.currency_id
+    
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     name = fields.Char(string='Unit', size=32, required=True,
@@ -221,7 +222,8 @@ class RemUnit(models.Model):
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
 
-    currency_id = fields.Many2one('res.currency', string='Currency', default=_get_currency)
+    currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
+        readonly=True)
 
     # Location
     street = fields.Char(string='Street')
