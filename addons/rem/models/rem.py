@@ -88,6 +88,7 @@ class LocationPreferences(models.Model):
 class RemImage(models.Model):
     _name = 'rem.image'
     _description = 'Unit Image'
+    _order = 'sequence, id'
 
     name = fields.Char(string='Unit', size=32, required=True,
                        help='Unit description (like house near riverside).')
@@ -100,7 +101,7 @@ class RemImage(models.Model):
     image_small = fields.Binary('Small-sized image', compute='_compute_images', inverse='_inverse_image_small',
                                 store=True, attachment=True)
     sequence = fields.Integer(
-        index=True, help='Gives the sequence order when displaying the images.', default=1)
+        index=True, help='Gives the sequence order when displaying the images.', default=16)
 
     @api.depends('image')
     def _compute_images(self):
