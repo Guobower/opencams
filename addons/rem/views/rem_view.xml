@@ -106,7 +106,7 @@
 						</group>
                         <div>
                             <label for="unit_description"/>
-                                <field name='unit_description' placeholder="Add some important details about your unit ..."/>
+                            <field name='unit_description' widget="html" placeholder="Add some important details about your unit ..."/>
                         </div>
 						<notebook>
                             <page string="General Features">
