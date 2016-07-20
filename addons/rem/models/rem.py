@@ -121,6 +121,7 @@ class RemImage(models.Model):
 
 
 class RemUnit(models.Model):
+    _inherit = ['website.seo.metadata', 'website.published.mixin']
     _name = 'rem.unit'
     _description = 'Real Estate Unit'
 

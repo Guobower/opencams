@@ -628,6 +628,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
+                        <div id="website_published_button" class="col-sm-3">
+                            <t t-call="website.publish_management" groups="base.group_sale_manager">
+                              <t t-set="object" t-value="unit"/>
+                              <t t-set="publish_edit" t-value="True"/>
+                            </t>
+                        </div>
                         <div id="carousel-unit" class="carousel slide carousel-fade rem-box-shadow" data-ride="carousel">
                             <!--  Only has 1 iteration to use _size -->
                             <t t-foreach="unit.image_ids" t-as="i">
