@@ -366,6 +366,21 @@ h3 {
     font-size: 15px;
     margin: auto;
     padding: 20px;
+    height: 105px;
+}
+
+@media (max-width: 1199px)
+{
+    .rem-promote-item-text {
+        height: 125px;
+    }
+}
+
+@media (max-width: 991px)
+{
+    .rem-promote-item-text {
+        height: 165px;
+    }
 }
 
 @media (max-width: 767px)
