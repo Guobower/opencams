@@ -20,8 +20,7 @@
         <!-- Snippets -->
         <template id="rem_snippets" inherit_id="website.snippets">
             <xpath expr="//div[@id='snippet_feature']/div[@class='o_panel_body']" position="inside">
-                <t t-snippet="website_rem.rem_promote_buy" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
-                <t t-snippet="website_rem.rem_promote_rental" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
+                <t t-snippet="website_rem.rem_highlights" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
                 <t t-snippet="website_rem.rem_feature_units" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
             </xpath>
         </template>
@@ -33,8 +32,7 @@
                 <div id="search-homepage">
                     <t t-call="website_rem.search_form"/>
                 </div>
-                <t t-call="website_rem.rem_promote_buy"/>
-                <t t-call="website_rem.rem_promote_rental"/>
+                <t t-call="website_rem.rem_highlights"/>
                 <t t-call="website_rem.rem_feature_units"/>
             </xpath>
         </template>
@@ -45,16 +43,16 @@
                 <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
-                            <img src="/website_rem/static/img/bg-1.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/carousel/bg_1.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/bg-2.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/carousel/bg_2.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/bg-3.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/carousel/bg_3.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/bg-4.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_rem/static/img/carousel/bg_4.jpg" alt="" class="max-height-600"/>
                         </div>
                     </div>
                 </div>
@@ -214,18 +212,17 @@
             </section>
         </template>
 
-        <!-- Promote Buy -->
-        <template id="rem_promote_buy" name="Promote Buy">
+        <!-- Highlights -->
+        <template id="rem_highlights">
             <section>
                 <div class="oe_structure">
                     <div class="container rem-promote">
-                        <div class="row">
-                            <h3 class="text-center margin-bottom-50">Why buy?</h3>
+                        <div class="row margin-top-50">
                             <div class="col-sm-4 col-xs-12">
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/buy_feature_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_1.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -237,7 +234,7 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Homes for sale? You bet. We also have for sale by owner (FSBO) and Coming Soon listings, foreclosures, rentals — plus listings you won't find anywhere else.
+                                            You want to start a new life and rent a new home? We have properties you won't find anywhere else.
                                         </div>
                                     </div>
                                 </div>
@@ -246,19 +243,19 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/buy_feature_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_2.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-promote-item-title">
-                                                    You're in the driver's seat
+                                                    Best price in market
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Register to save your search and favorite homes. We'll notify you when new listings hit the market, and send timely reports with the latest home values and trends.
+                                            Let us help you to find the right property, at right place with the right price.
                                         </div>
                                     </div>
                                 </div>
@@ -267,19 +264,19 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/buy_feature_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_3.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-promote-item-title">
-                                                    On all homes
+                                                    Guaranteed services
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            How much is your home worth? Use us as a starting point in determining your current and future home value. Update your home facts to influence your estimate instantly.
+                                            Our managers will keep you informed and you can act with certainty.
                                         </div>
                                     </div>
                                 </div>
@@ -288,32 +285,27 @@
                     </div>
                 </div>
             </section>
-        </template>
-
-        <!-- Promote Rental -->
-        <template id="rem_promote_rental" name="Promote Rental">
             <section>
                 <div class="oe_structure">
-                    <div class="container rem-promote">
+                    <div class="container rem-promote margin-bottom-50">
                         <div class="row">
-                            <h3 class="text-center margin-bottom-50">Why rental?</h3>
                             <div class="col-sm-4 col-xs-12">
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/rent_feature_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_4.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-promote-item-title">
-                                                    Millions of listings
+                                                    Easy to find
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Apartments? Of course! You'll also find townhomes, condos, single-family houses and more.
+                                            Look at our latest listed properties and check out the facilities on them. You will find something match-able to your needs.
                                         </div>
                                     </div>
                                 </div>
@@ -322,19 +314,19 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/rent_feature_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_5.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-promote-item-title">
-                                                    Be the first to know
+                                                    Best agents
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            With our Rentals app, you'll get immediate notifications when new listings hit the market.
+                                            Our experienced agents can help you buy or sell homes.
                                         </div>
                                     </div>
                                 </div>
@@ -343,19 +335,19 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/rent_feature_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_rem/static/img/highlights/highlight_6.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-promote-item-title">
-                                                    Stand out from the crowd
+                                                    Marketing research
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Let landlords know why you’d be a great new tenant.
+                                            All our marketing researchers today have a tough job multitasking.
                                         </div>
                                     </div>
                                 </div>

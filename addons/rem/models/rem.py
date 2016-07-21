@@ -113,6 +113,10 @@ class RemImage(models.Model):
 
     def _inverse_image_medium(self):
         for rec in self:
+
+
+            print rec.image
+            
             rec.image = tools.image_resize_image_big(rec.image_medium)
 
     def _inverse_image_small(self):
@@ -262,12 +266,12 @@ class RemUnit(models.Model):
 
     # Indoor Features
     # TODO: check if area is being used, it's not being used on backend (unit -> indoor features)
-    area = fields.Integer(string='Area', default=0, required=True)
+    area = fields.Float(string='Area', default=0, required=True)
     air_conditioned = fields.Boolean(string='Air Conditioned', default=False)
     ducted_cooling = fields.Boolean(string='Ducted Cooling', default=False)
     wardrobes = fields.Boolean(string='Built-in Wardrobes', default=False)
     dishwasher = fields.Boolean(string='Dishwasher', default=False)
-    living_areas = fields.Integer('Living Areas', default=0)
+    living_areas = fields.Float('Living Areas', default=0)
 
     # Outdoor Features
     garages = fields.Integer(
