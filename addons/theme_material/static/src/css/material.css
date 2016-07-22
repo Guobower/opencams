@@ -195,6 +195,10 @@ textarea {
     margin-right: 30px !important;
 }
 
+.margin-top-100 {
+    margin-top: 100px !important;
+}
+
 .margin-top-50 {
     margin-top: 50px !important;
 }
@@ -480,6 +484,7 @@ h3 {
     max-width: 640px;
     height: 480px;
     object-fit: cover;
+    background: #FFF;
 }
 
 .rem-unit-card-text-container {
@@ -696,8 +701,8 @@ h3 {
 .rem-unit-price
 {
     margin-top: 20px;
-    font-family: "Open Sans SemiBold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
-    font-size: 20px;
+    font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+    font-size: 26px;
 }
 
 @media (max-width: 767px)
