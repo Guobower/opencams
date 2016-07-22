@@ -85,6 +85,27 @@ class LocationPreferences(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
+class NeighborhoodContacts(models.Model):
+    _name = 'rem.neighborhood'
+    _description = 'Neighborhood Contact List'
+
+    sequence = fields.Integer(required=True, default=1,
+        help="The sequence field is used to define order in which the tax lines are applied.")
+    contact = fields.Char(string='Contact', size=32,
+        required=True, help='Contact')
+    comment_id = fields.Many2one('rem.neighborhood.comment', string='Comment')
+    active = fields.Boolean(string='Active', default=True,
+        help='If the active field is set to False, it will allow you to hide without removing it.')
+
+
+class NeighborhoodComments(models.Model):
+    _name = 'rem.neighborhood.comment'
+    _description = 'Neighborhood Contact Comments'
+
+    name = fields.Char(string='Comment', required=True)
+    active = fields.Boolean(string='Active', default=True)
+
+
 class RemImage(models.Model):
     _name = 'rem.image'
     _description = 'Unit Image'
@@ -238,12 +259,13 @@ class RemUnit(models.Model):
     contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
                                        default=_get_default_contract_type)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
-    unit_description = fields.Text(string='Detailed Description')
+    description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
 
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
         readonly=True)
+    neighborhood_id = fields.Many2one('rem.neighborhood', string='Neighborhood Contact List')
     
     # Location
     street = fields.Char(string='Street', required=True)

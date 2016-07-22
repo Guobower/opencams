@@ -111,8 +111,8 @@
 							</group>
 						</group>
                         <div>
-                            <label for="unit_description"/>
-                            <field name='unit_description' widget="html" placeholder="Add some important details about your unit ..."/>
+                            <label for="description"/>
+                            <field name='description' widget="html" placeholder="Add some important details about your unit ..."/>
                         </div>
 						<notebook>
                             <page string="General Features">
@@ -185,6 +185,15 @@
 									</field>
 								</group>
 							</page>
+                            <page string="Neighborhood Contact List">
+                                <field name="neighborhood_id" widget="one2many_list">
+                                    <tree string="Neighborhood Contact" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="contact"/>
+                                        <field name="comment_id"/>
+                                    </tree>
+                                </field>
+                            </page>
 						</notebook>
 					</sheet>
 				</form>
@@ -468,7 +477,6 @@
             </field>
         </record>
 
-
         <!--
             Location Preferences
         -->
@@ -510,7 +518,6 @@
                 </form>
             </field>
         </record>
-
 
         <!-- 
         	Unit Image 
@@ -559,6 +566,36 @@
                 </form>
             </field>
         </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	</data>
 </openerp>
