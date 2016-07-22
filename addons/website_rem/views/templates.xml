@@ -867,9 +867,10 @@
                                                         required="required">I am interested in <t t-esc='unit.display_name'/>.</textarea>
                                                 </div>
                                                 <input type="hidden" name="type" value="opportunity"/>
+                                                <input type="hidden" name="name" t-att-value="unit.display_name"/>
                                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                 <div class="form-group">
-                                                    <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact agent</button>
+                                                    <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
                                                 </div>
                                                 <span id="o_website_form_result" class="text-center"></span>
                                             </form>
