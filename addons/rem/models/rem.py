@@ -265,7 +265,7 @@ class RemUnit(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
         readonly=True)
-    neighborhood_id = fields.Many2one('rem.neighborhood', string='Neighborhood Contact List')
+    neighborhood_id = fields.One2many('rem.neighborhood', 'contact', string='Neighborhood Contact List')
     
     # Location
     street = fields.Char(string='Street', required=True)
