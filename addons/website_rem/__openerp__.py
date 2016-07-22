@@ -19,6 +19,8 @@ This Module allows to sell/rent real estate units
     'data': [
         'views/menu.xml',
         'views/templates.xml',
+        'views/templates_seller.xml',
+        'seller_data.xml'
     ],
     'test': [
     ],

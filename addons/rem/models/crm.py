@@ -48,6 +48,7 @@ class CrmLead(models.Model):
         'Max Bedrooms', help="Max number of bedrooms")
     re_bathrooms = fields.Integer(
         'Min Bathrooms', help="Min Number of bathrooms", re_field='bathrooms')
+    re_street = fields.Char('Street')
     re_city = fields.Many2one(
         'rem.unit.city', string='City', help='place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills')
     re_points_interest = fields.Many2many(
