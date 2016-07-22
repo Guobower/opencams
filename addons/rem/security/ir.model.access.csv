@@ -9,3 +9,4 @@ access_rem_unit_zone,access_rem_unit_zone,model_rem_unit_zone,,1,0,0,0
 access_stage_history,access_stage_history,model_stage_history,,1,0,0,0
 access_reason_for_buy,access_reason_for_buy,model_reason_for_buy,,1,0,0,0
 access_location_preferences,access_location_preferences,model_location_preferences,,1,0,0,0
+access_rem_neighborhood,access_rem_neighborhood,model_rem_neighborhood,,1,0,0,0

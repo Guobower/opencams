@@ -91,19 +91,29 @@ class NeighborhoodContacts(models.Model):
 
     sequence = fields.Integer(required=True, default=1,
         help="The sequence field is used to define order in which the tax lines are applied.")
-    contact = fields.Char(string='Contact', size=32,
-        required=True, help='Contact')
-    comment_id = fields.Many2one('rem.neighborhood.comment', string='Comment')
+    comment = fields.Char(string='Comment', size=32,
+        required=True, help='Comment')
+    partner_id = fields.Many2one('res.partner', string='Neighbor')
+    email = fields.Char(string="Email", related='partner_id.email')
+    phone = fields.Char(string="Phone", related='partner_id.phone')
     active = fields.Boolean(string='Active', default=True,
         help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class NeighborhoodComments(models.Model):
-    _name = 'rem.neighborhood.comment'
-    _description = 'Neighborhood Contact Comments'
+class NeighborhoodContacts(models.Model):
+    _name = 'rem.neighborhood'
+    _description = 'Neighborhood Contact List'
 
-    name = fields.Char(string='Comment', required=True)
-    active = fields.Boolean(string='Active', default=True)
+    sequence = fields.Integer(required=True, default=1,
+        help="The sequence field is used to define order in which the tax lines are applied.")
+    comment = fields.Char(string='Comment', size=32,
+        required=True, help='Comment')
+    is_neighbor = fields.Boolean(default=True)
+    partner_id = fields.Many2one('res.partner', string='Neighbor')
+    email = fields.Char(string="Email", related='partner_id.email')
+    phone = fields.Char(string="Phone", related='partner_id.phone')
+    active = fields.Boolean(string='Active', default=True,
+        help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemImage(models.Model):
@@ -265,7 +275,7 @@ class RemUnit(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
         readonly=True)
-    neighborhood_id = fields.One2many('rem.neighborhood', 'contact', string='Neighborhood Contact List')
+    neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
     
     # Location
     street = fields.Char(string='Street', required=True)

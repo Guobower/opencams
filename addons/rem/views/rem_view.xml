@@ -189,8 +189,10 @@
                                 <field name="neighborhood_id" widget="one2many_list">
                                     <tree string="Neighborhood Contact" editable="bottom">
                                         <field name="sequence" widget="handle"/>
-                                        <field name="contact"/>
-                                        <field name="comment_id"/>
+                                        <field name="comment"/>
+                                        <field name="partner_id" context='{"default_customer": "False", "default_is_neighbor": "True"}'/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
                                     </tree>
                                 </field>
                             </page>
@@ -566,36 +568,6 @@
                 </form>
             </field>
         </record>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	</data>
 </openerp>
