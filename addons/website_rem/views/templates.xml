@@ -485,113 +485,117 @@
 
         <!-- REM Units Cards -->
         <template id="rem_units_cards">
-            <div class="container">
-                <div class="row">
-                    <t t-foreach="units" t-as="rem_unit">
-                        <div class="col-xs-12">
-                            <div class="rem-unit-card">
-                                <div class="rem-unit-card-img-container">
-                                    <t t-if="len(rem_unit.image_ids) > 1">
-                                        <div t-att-id="'carousel' + str(rem_unit_index)" class="carousel slide carousel-fade" data-ride="carousel">
-                                            <div class="carousel-inner" role="listbox">
-                                                <t t-foreach="rem_unit.image_ids" t-as="rem_image">
-                                                    <t t-if="rem_image_index == 0">
+            <section>
+                <div class="oe_structure">
+                    <div class="container">
+                        <div class="row">
+                            <t t-foreach="units" t-as="rem_unit">
+                                <div class="col-xs-12">
+                                    <div class="rem-unit-card">
+                                        <div class="rem-unit-card-img-container">
+                                            <t t-if="len(rem_unit.image_ids) > 1">
+                                                <div t-att-id="'carousel' + str(rem_unit_index)" class="carousel slide carousel-fade" data-ride="carousel">
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <t t-foreach="rem_unit.image_ids" t-as="rem_image">
+                                                            <t t-if="rem_image_index == 0">
+                                                                <div class="item active">
+                                                                    <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="rem_image_index > 0">
+                                                                <div class="item">
+                                                                    <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                                </div>
+                                                            </t>
+                                                        </t>
+                                                    </div>
+                                                    <a class="left carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="prev">
+                                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="right carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="next">
+                                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
+                                            </t>
+                                            <t t-if="len(rem_unit.image_ids) == 1">
+                                                <div class="carousel" data-ride="carousel">
+                                                    <div class="carousel-inner" role="listbox">
                                                         <div class="item active">
-                                                            <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                            <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <t t-if="len(rem_unit.image_ids) == 0">
+                                                <div class="carousel" data-ride="carousel">
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <div class="item active">
+                                                            <img src="/website_rem/static/img/units/default_unit.jpg" alt=""/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <div class="rem-unit-card-agent-container">
+                                                <figure class="rem-unit-card-agent">
+                                                    <div class="rem-unit-card-agent-wrapper">
+                                                        <img class="rem-unit-card-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                                    </div>
+                                                    <figcaption>Diogo Duarte</figcaption>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="rem-unit-card-text-container">
+                                            <div class="row">
+                                                <div class="rem-unit-card-price">
+                                                    <t t-if="rem_unit.price > 0">
+                                                        <div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                                "widget": "monetary",
+                                                                "display_currency": "rem_unit.currency_id"
+                                                            }'>
                                                         </div>
                                                     </t>
-                                                    <t t-if="rem_image_index > 0">
-                                                        <div class="item">
-                                                            <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
-                                                        </div>
+                                                </div>
+                                                <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                                                    <div class="rem-unit-card-title">
+                                                        <div t-esc='rem_unit.display_name'/>
+                                                    </div>
+                                                </a>
+                                                <div class="rem-unit-card-details">
+                                                    <t t-if="rem_unit.bedrooms > 0">
+                                                        <span title="Bedrooms">
+                                                            <i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/>
+                                                        </span>
                                                     </t>
-                                                </t>
-                                            </div>
-                                            <a class="left carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="prev">
-                                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="right carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="next">
-                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </div>
-                                    </t>
-                                    <t t-if="len(rem_unit.image_ids) == 1">
-                                        <div class="carousel" data-ride="carousel">
-                                            <div class="carousel-inner" role="listbox">
-                                                <div class="item active">
-                                                    <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                    <t t-if="rem_unit.bathrooms > 0">
+                                                        <span title="Bathrooms">
+                                                            <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="rem_unit.bathrooms"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="rem_unit.garages > 0">
+                                                        <span title="Garages">
+                                                            <i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/>
+                                                        </span>
+                                                    </t>
+                                                    <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                                                        <span class="rem-unit-card-actions-details">
+                                                            Details <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                        </span>
+                                                    </a>
+                                                    <span class="rem-unit-card-actions-favorite">
+                                                        <i class="zmdi zmdi-star-outline"></i> Save
+                                                    </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </t>
-                                    <t t-if="len(rem_unit.image_ids) == 0">
-                                        <div class="carousel" data-ride="carousel">
-                                            <div class="carousel-inner" role="listbox">
-                                                <div class="item active">
-                                                    <img src="/website_rem/static/img/units/default_unit.jpg" alt=""/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </t>
-                                    <div class="rem-unit-card-agent-container">
-                                        <figure class="rem-unit-card-agent">
-                                            <div class="rem-unit-card-agent-wrapper">
-                                                <img class="rem-unit-card-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
-                                            </div>
-                                            <figcaption>Diogo Duarte</figcaption>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div class="rem-unit-card-text-container">
-                                    <div class="row">
-                                        <div class="rem-unit-card-price">
-                                            <t t-if="rem_unit.price > 0">
-                                                <div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{
-                                                        "widget": "monetary",
-                                                        "display_currency": "rem_unit.currency_id"
-                                                    }'>
-                                                </div>
-                                            </t>
-                                        </div>
-                                        <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
-                                            <div class="rem-unit-card-title">
-                                                <div t-esc='rem_unit.display_name'/>
-                                            </div>
-                                        </a>
-                                        <div class="rem-unit-card-details">
-                                            <t t-if="rem_unit.bedrooms > 0">
-                                                <span title="Bedrooms">
-                                                    <i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/>
-                                                </span>
-                                            </t>
-                                            <t t-if="rem_unit.bathrooms > 0">
-                                                <span title="Bathrooms">
-                                                    <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="rem_unit.bathrooms"/>
-                                                </span>
-                                            </t>
-                                            <t t-if="rem_unit.garages > 0">
-                                                <span title="Garages">
-                                                    <i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/>
-                                                </span>
-                                            </t>
-                                            <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
-                                                <span class="rem-unit-card-actions-details">
-                                                    Details <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                                </span>
-                                            </a>
-                                            <span class="rem-unit-card-actions-favorite">
-                                                <i class="zmdi zmdi-star-outline"></i> Save
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </t>
                         </div>
-                    </t>
+                    </div>
                 </div>
-            </div>
+            </section>
         </template>
 
         <!-- REM Pager -->
@@ -599,7 +603,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <t t-call="website.pager"/>
+                        <section>
+                            <div class="oe_structure">
+                                <t t-call="website.pager"/>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -618,252 +626,260 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="website_published_button" class="col-sm-3">
-                            <t t-call="website.publish_management" groups="base.group_sale_manager">
-                              <t t-set="object" t-value="unit"/>
-                              <t t-set="publish_edit" t-value="True"/>
-                            </t>
-                        </div>
-                        <div id="carousel-unit" class="carousel slide carousel-fade rem-box-shadow" data-ride="carousel">
-                            <!--  Only has 1 iteration to use _size -->
-                            <t t-foreach="unit.image_ids" t-as="i">
-                                <t t-if="i_first">
-                                    <!--  1 image - don't show carousel -->
-                                    <t t-if="i_size==1">
-                                        <!--  Wrapper for slides -->
-                                        <div class="carousel-inner" role="listbox">
-                                            <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                                <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
-                                            </t>
-                                        </div>
+                        <section>
+                            <div class="oe_structure">
+                                <div id="website_published_button" class="col-sm-3">
+                                    <t t-call="website.publish_management" groups="base.group_sale_manager">
+                                      <t t-set="object" t-value="unit"/>
+                                      <t t-set="publish_edit" t-value="True"/>
                                     </t>
-                                    <!--  More than 1 image - show carousel -->
-                                    <t t-if="i_size>1">
-                                        <!--  Wrapper for slides -->
-                                        <div class="carousel-inner" role="listbox">
-                                            <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                                <t t-if="rem_unit_image_first">
-                                                    <div class="item active">
-                                                        <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                    </div>
-                                                </t>
-                                                <t t-if="rem_unit_image_index>0">
-                                                    <div class="item">
-                                                        <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                    </div>
-                                                </t>
+                                </div>
+                                <div id="carousel-unit" class="carousel slide carousel-fade rem-box-shadow" data-ride="carousel">
+                                    <!--  Only has 1 iteration to use _size -->
+                                    <t t-foreach="unit.image_ids" t-as="i">
+                                        <t t-if="i_first">
+                                            <!--  1 image - don't show carousel -->
+                                            <t t-if="i_size==1">
+                                                <!--  Wrapper for slides -->
+                                                <div class="carousel-inner" role="listbox">
+                                                    <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                        <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
+                                                    </t>
+                                                </div>
                                             </t>
-                                        </div>
-                                        <!--  Controls -->
-                                        <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
-                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
-                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
+                                            <!--  More than 1 image - show carousel -->
+                                            <t t-if="i_size>1">
+                                                <!--  Wrapper for slides -->
+                                                <div class="carousel-inner" role="listbox">
+                                                    <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                        <t t-if="rem_unit_image_first">
+                                                            <div class="item active">
+                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="rem_unit_image_index>0">
+                                                            <div class="item">
+                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                                <!--  Controls -->
+                                                <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </t>
+                                        </t>
                                     </t>
+                                </div>
+                                <t t-if="len(unit.image_ids) == 0">
+                                    <div class="margin-top-100"></div>
                                 </t>
-                            </t>
-                        </div>
-                        <t t-if="len(unit.image_ids) == 0">
-                            <div class="margin-top-100"></div>
-                        </t>
+                            </div>
+                        </section>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-offset-1 col-sm-6 col-xs-12">
-                            <div class="rem-unit-info-container">
-                                <div class="rem-unit-title">
-                                    <div t-esc='unit.display_name'/>
-                                </div>
-                                <div class="rem-unit-price">
-                                    <t t-if="unit.price > 0">
-                                        <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{
-                                                "widget": "monetary",
-                                                "display_currency": "unit.currency_id"
-                                            }'>
+                    <section>
+                        <div class="oe_structure">
+                            <div class="row">
+                                <div class="col-sm-offset-1 col-sm-6 col-xs-12">
+                                    <div class="rem-unit-info-container">
+                                        <div class="rem-unit-title">
+                                            <div t-esc='unit.display_name'/>
                                         </div>
-                                    </t>
-                                </div>
-                                <div class="rem-unit-sub-title">
-                                    <t t-if="unit.bedrooms > 0">
-                                        <span title="Bedrooms" class="margin-right-30">
-                                            <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
-                                        </span>
-                                    </t>
-                                    <t t-if="unit.bathrooms > 0">
-                                        <span title="Bathrooms" class="margin-right-30">
-                                            <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
-                                        </span>
-                                    </t>
-                                    <t t-if="unit.garages > 0">
-                                        <span title="Garages">
-                                            <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
-                                        </span>
-                                    </t>
-                                </div>
-                                <div class="rem-unit-description">
-                                    609 - the BEST condo in SoCo! West-facing view (Dallas skyline). Customized room-darkening window coverings. Wall-to-wall living room carpeting. Tri-colored bathroom tile flooring. Stained concrete (except living room and bathroom). Custom lighting (on dimmers). Platinum appliance upgrade. Marble top bathroom vanity. HIGHLIGHT FEATURE - one-of-a-kind baseboard. (No cheap vinyl.) Custom kitchen half-wall. Walled-in closet has custom Elfa shelving.
-                                </div>
-                                <div class="features">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <div class="feature-title margin-bottom-10">General Features</div>
+                                        <div class="rem-unit-price">
+                                            <t t-if="unit.price > 0">
+                                                <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{
+                                                        "widget": "monetary",
+                                                        "display_currency": "unit.currency_id"
+                                                    }'>
+                                                </div>
+                                            </t>
+                                        </div>
+                                        <div class="rem-unit-sub-title">
                                             <t t-if="unit.bedrooms > 0">
-                                                <div><label>Bedrooms:</label><t t-esc="unit.bedrooms"/></div>
+                                                <span title="Bedrooms" class="margin-right-30">
+                                                    <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
+                                                </span>
                                             </t>
                                             <t t-if="unit.bathrooms > 0">
-                                                <div><label>Bathrooms:</label><t t-esc="unit.bathrooms"/></div>
-                                            </t>
-                                            <t t-if="unit.living_area > 0">
-                                                <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
-                                            </t>
-                                            <t t-if="unit.land_area > 0">
-                                                <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
-                                            </t>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
-                                                <div class="feature-title margin-bottom-10">Indoor Features</div>
-                                            </t>
-                                            <t t-if="unit.air_conditioned">
-                                                <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.ducted_cooling">
-                                                <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.wardrobes">
-                                                <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.dishwasher">
-                                                <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.living_areas > 0">
-                                                <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
-                                            </t>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
-                                                <div class="feature-title margin-bottom-10">Outdoor Features</div>
-                                            </t>
-                                            <t t-if="unit.backyard">
-                                                <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.alarm">
-                                                <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.sw_pool">
-                                                <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.entertaining">
-                                                <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
+                                                <span title="Bathrooms" class="margin-right-30">
+                                                    <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
+                                                </span>
                                             </t>
                                             <t t-if="unit.garages > 0">
-                                                <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
+                                                <span title="Garages">
+                                                    <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
+                                                </span>
                                             </t>
-                                            <t t-if="unit.secure_parking">
-                                                <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
-                                            <t t-if="unit.dog_friendly">
-                                                <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
-                                            </t>
+                                        </div>
+                                        <div class="rem-unit-description">
+                                            609 - the BEST condo in SoCo! West-facing view (Dallas skyline). Customized room-darkening window coverings. Wall-to-wall living room carpeting. Tri-colored bathroom tile flooring. Stained concrete (except living room and bathroom). Custom lighting (on dimmers). Platinum appliance upgrade. Marble top bathroom vanity. HIGHLIGHT FEATURE - one-of-a-kind baseboard. (No cheap vinyl.) Custom kitchen half-wall. Walled-in closet has custom Elfa shelving.
+                                        </div>
+                                        <div class="features">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="feature-title margin-bottom-10">General Features</div>
+                                                    <t t-if="unit.bedrooms > 0">
+                                                        <div><label>Bedrooms:</label><t t-esc="unit.bedrooms"/></div>
+                                                    </t>
+                                                    <t t-if="unit.bathrooms > 0">
+                                                        <div><label>Bathrooms:</label><t t-esc="unit.bathrooms"/></div>
+                                                    </t>
+                                                    <t t-if="unit.living_area > 0">
+                                                        <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
+                                                    </t>
+                                                    <t t-if="unit.land_area > 0">
+                                                        <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
+                                                    </t>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
+                                                        <div class="feature-title margin-bottom-10">Indoor Features</div>
+                                                    </t>
+                                                    <t t-if="unit.air_conditioned">
+                                                        <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.ducted_cooling">
+                                                        <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.wardrobes">
+                                                        <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.dishwasher">
+                                                        <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.living_areas > 0">
+                                                        <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
+                                                        <div class="feature-title margin-bottom-10">Outdoor Features</div>
+                                                    </t>
+                                                    <t t-if="unit.backyard">
+                                                        <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.alarm">
+                                                        <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.sw_pool">
+                                                        <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.entertaining">
+                                                        <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.garages > 0">
+                                                        <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
+                                                    </t>
+                                                    <t t-if="unit.secure_parking">
+                                                        <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                    <t t-if="unit.dog_friendly">
+                                                        <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                                <div class="rem-unit-contact-agent-container">
+                                                    <figure class="rem-unit-contact-agent">
+                                                        <div class="rem-unit-contact-agent-wrapper">
+                                                            <img class="rem-unit-contact-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
+                                                        </div>
+                                                        <figcaption>Diogo Duarte</figcaption>
+                                                    </figure>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                <input
+                                                    type="text"
+                                                    id="contact_name"
+                                                    name="contact_name"
+                                                    maxlength="128"
+                                                    class="form-control o_website_form_input"
+                                                    title="Name"
+                                                    placeholder="Name"
+                                                    required="required"/>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                    <input
+                                                        type="text"
+                                                        id="phone"
+                                                        name="phone"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Phone Number"
+                                                        placeholder="Phone Number"/>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                    <input
+                                                        type="email"
+                                                        id="email_from"
+                                                        name="email_from"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Email"
+                                                        placeholder="Email"
+                                                        required="required"/>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                    <input
+                                                        type="text"
+                                                        id="partner_name"
+                                                        name="partner_name"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Your Company"
+                                                        placeholder="Your Company"
+                                                        required="required"/>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                    <input
+                                                        type="text"
+                                                        id="name"
+                                                        name="name"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Subject"
+                                                        placeholder="Subject"
+                                                        required="required"/>
+                                                </div>
+                                                <div class="form-group form-field o_website_form_required_custom">
+                                                    <textarea
+                                                        type="text"
+                                                        id="description"
+                                                        name="description"
+                                                        maxlength="1024"
+                                                        class="form-control o_website_form_input"
+                                                        title="Your Question"
+                                                        placeholder="Your Question"
+                                                        rows="6"
+                                                        required="required"></textarea>
+                                                </div>
+                                                <input type="hidden" name="type" value="opportunity"/>
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <div class="form-group">
+                                                    <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                                </div>
+                                                <span id="o_website_form_result" class="text-center"></span>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
-                                        <div class="rem-unit-contact-agent-container">
-                                            <figure class="rem-unit-contact-agent">
-                                                <div class="rem-unit-contact-agent-wrapper">
-                                                    <img class="rem-unit-contact-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" alt="Diogo Duarte, CEO @ Prompt Equation" title="Diogo Duarte, CEO @ Prompt Equation"/>
-                                                </div>
-                                                <figcaption>Diogo Duarte</figcaption>
-                                            </figure>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                        <input
-                                            type="text"
-                                            id="contact_name"
-                                            name="contact_name"
-                                            maxlength="128"
-                                            class="form-control o_website_form_input"
-                                            title="Name"
-                                            placeholder="Name"
-                                            required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="phone"
-                                                name="phone"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Phone Number"
-                                                placeholder="Phone Number"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="email"
-                                                id="email_from"
-                                                name="email_from"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Email"
-                                                placeholder="Email"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="partner_name"
-                                                name="partner_name"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Your Company"
-                                                placeholder="Your Company"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="name"
-                                                name="name"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Subject"
-                                                placeholder="Subject"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <textarea
-                                                type="text"
-                                                id="description"
-                                                name="description"
-                                                maxlength="1024"
-                                                class="form-control o_website_form_input"
-                                                title="Your Question"
-                                                placeholder="Your Question"
-                                                rows="6"
-                                                required="required"></textarea>
-                                        </div>
-                                        <input type="hidden" name="type" value="opportunity"/>
-                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <div class="form-group">
-                                            <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
-                                        </div>
-                                        <span id="o_website_form_result" class="text-center"></span>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </section>
                 </div>
             </div>
         </template>
@@ -872,13 +888,15 @@
         <template id="404" inherit_id="website.404" name="404">
             <xpath expr="//div[@id='wrap']" position="replace">
                 <div id="wrap">
-                    <div class="oe_structure">
-                        <div class="container">
-                            <h1 class="mt32">Unit not found!</h1>
-                            <p>Sorry, this unit is not available anymore.</p>
-                            <p><a href="/rem">Return to the unit list.</a></p>
+                    <section>
+                        <div class="oe_structure">
+                            <div class="container">
+                                <h1 class="mt32">Unit not found!</h1>
+                                <p>Sorry, this unit is not available anymore.</p>
+                                <p><a href="/rem">Return to the unit list.</a></p>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </xpath>
         </template>
@@ -887,7 +905,7 @@
         <template id="contact_us_page" name="Contact us">
             <t t-call="website.layout">
                 <section>
-                    <div class="">
+                    <div class="oe_structure">
                         <div class="row">
                             <div class="col-xs-12">
                                 <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
