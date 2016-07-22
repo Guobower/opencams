@@ -6,7 +6,9 @@ class Lead(models.Model):
 
     def website_form_input_filter(self, request, values):
         res = super(Lead, self).website_form_input_filter(request, values)
-        city = request.params.get('city').strip()
+        city = ''
+        if request.params.get('city'):
+            city = request.params.get('city').strip()
         re_city = False
         cities = self.sudo().env['rem.unit.city'].search_read(domain=[('name', '=ilike', (city or '') + "%")])
         if len(cities) == 1:
