@@ -16,6 +16,7 @@
 
 	                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_rem.seller_thanks" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data">
 	                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+	                        <input type="hidden" name="type_seller" t-att-value="1"/>
 	                        <div class="form-group form-field o_website_form_required_custom">
 	                            <label class="col-md-3 col-sm-4 control-label" for="city">Your City</label>
 	                            <div class="col-md-7 col-sm-8">
