@@ -62,18 +62,36 @@ class WebsiteRem(http.Controller):
         return request.website.render('website_rem.homepage_rem', values)
 
     @http.route(['/rem',
-                 '/rem/page/<int:page>'], type='http', auth='public', website=True)
-    def rem(self, page=0, contract_type=0, unit_type=0, multi_search='', min_beds=0, max_beds=0, min_price='0', max_price='0', **post):
+                 '/rem/page/<int:page>',
+                 '/rem/<model("contract.type"):contract_type>',
+                 '/rem/<model("contract.type"):contract_type>/page/<int:page>'
+                 ], type='http', auth='public', website=True)
+    def rem(self, page=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+
+        contracts_type_obj = pool.get('contract.type')
+        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
+        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
+
+        units_types_obj = pool.get('rem.unit.type')
+        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
+        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
+
+        url = '/rem'
 
         domain = []
 
         # Query contract type
         try:
-            contract_type = int(contract_type)
-            domain += [('contract_type_id.id', '=', contract_type)]
-        except ValueError:
-            contract_type=0
+            if contract_type > 0:
+                contract_type = int(contract_type)
+                selected_contract_type = contract_type
+                domain += [('contract_type_id.id', '=', contract_type)]
+            else:
+                selected_contract_type = contracts_type[0].id
+                domain += [('contract_type_id.id', '=', selected_contract_type)]
+        except:
+            selected_contract_type = 0
 
         # Query unit type
         try:
@@ -140,29 +158,11 @@ class WebsiteRem(http.Controller):
                            ('street', 'ilike', word),
                            ('zip', 'ilike', word)]
 
-        url = '/rem'
-
         units_obj = pool.get('rem.unit')
         units_count = units_obj.search_count(cr, uid, domain, context=context)
         pager = request.website.pager(url=url, total=units_count, page=page, step=PPG, scope=7, url_args=post)
         unit_ids = units_obj.search(cr, uid, domain, limit=PPG, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, uid, unit_ids, context=context)
-
-        contracts_type_obj = pool.get('contract.type')
-        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
-        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
-
-        units_types_obj = pool.get('rem.unit.type')
-        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
-        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
-        
-        try:
-            if contract_type > 0:
-                selected_contract_type = contract_type
-            else:
-                selected_contract_type = contracts_type[0].id
-        except ValueError:
-            selected_contract_type = 0
 
         values = {
             'units': units,
