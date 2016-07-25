@@ -12,7 +12,11 @@
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
                 <tree string="Real Estate Unit">
-                    <field name="name"/>
+                    <field name="display_name"/>
+                    <field name="living_area"/>
+                    <field name="bedrooms"/>
+                    <field name="bathrooms"/>
+                    <field name="is_new"/>
                 </tree>
             </field>
         </record>
@@ -23,7 +27,7 @@
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
                 <search string="Search Real Estate Unit">
-                    <field name="name"/>
+                    <field name="display_name"/>
                     <!-- General Features -->
                     <field name='contract_type_id'/>
                     <field name='type_id'/>
@@ -81,7 +85,7 @@
 						<div class="oe_title">
 							<label for="name" class="oe_edit_only"/>
 							<h1>
-								<field name="name" placeholder="Describe the unit ..."/>
+								<field name="display_name" />
 							</h1>
 						</div>
 						<group>

@@ -244,7 +244,6 @@ class RemUnit(models.Model):
 
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
-    name = fields.Char(required=True, index=True)
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
