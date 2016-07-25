@@ -47,10 +47,10 @@ class WebsiteRem(http.Controller):
         units_types_obj = pool.get('rem.unit.type')
         units_types_ids = units_types_obj.search(cr, uid, [], context=context)
         units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
-
+        
         try:
             selected_contract_type = contracts_type[0].id
-        except ValueError:
+        except IndexError:
             selected_contract_type = 0
 
         values = {
