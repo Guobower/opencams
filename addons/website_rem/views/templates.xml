@@ -66,7 +66,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                                <form method="get" action="/rem">
+                                <form method="get" t-att-action="keep('/rem', contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='')">
                                     <div class="rem-form-search rem-box-shadow padding-0-30">
                                         <t t-if="selected_contract_type>0">
                                             <ul class="nav nav-tabs">

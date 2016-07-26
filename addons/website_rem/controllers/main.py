@@ -8,6 +8,28 @@ from openerp.http import request
 PPG = 8  # Units Per Page
 
 
+class QueryURL(object):
+    def __init__(self, path='', **args):
+        self.path = path
+        self.args = args
+
+    def __call__(self, path=None, **kw):
+        if not path:
+            path = self.path
+        for k,v in self.args.items():
+            kw.setdefault(k,v)
+        l = []
+        for k,v in kw.items():
+            if v:
+                if isinstance(v, list) or isinstance(v, set):
+                    l.append(werkzeug.url_encode([(k,i) for i in v]))
+                else:
+                    l.append(werkzeug.url_encode([(k,v)]))
+        if l:
+            path += '?' + '&'.join(l)
+        return path
+
+
 class WebsiteRem(http.Controller):
 
     @http.route('/get_multi_search_results/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
@@ -53,21 +75,38 @@ class WebsiteRem(http.Controller):
         except IndexError:
             selected_contract_type = 0
 
+        keep = QueryURL('/rem',
+                        contract_type=selected_contract_type,
+                        unit_type='',
+                        multi_search='',
+                        min_beds='',
+                        max_beds='',
+                        min_price='',
+                        max_price='')
+
         values = {
             'contracts_type': contracts_type,
             'units_types': units_types,
             'selected_contract_type': selected_contract_type,
+            'keep': keep,
         }
 
         return request.website.render('website_rem.homepage_rem', values)
 
     @http.route(['/rem',
                  '/rem/page/<int:page>',
-                 '/rem/<model("contract.type"):contract_type>',
-                 '/rem/<model("contract.type"):contract_type>/page/<int:page>'
                  ], type='http', auth='public', website=True)
-    def rem(self, page=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', **post):
+    def rem(self, page=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+
+        if ppg:
+            try:
+                ppg = int(ppg)
+            except ValueError:
+                ppg = PPG
+            post["ppg"] = ppg
+        else:
+            ppg = PPG
 
         contracts_type_obj = pool.get('contract.type')
         contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
@@ -81,15 +120,26 @@ class WebsiteRem(http.Controller):
 
         domain = []
 
+        keep = QueryURL('/rem',
+                        contract_type=contract_type,
+                        unit_type=unit_type,
+                        multi_search=multi_search,
+                        min_beds=min_beds,
+                        max_beds=max_beds,
+                        min_price=min_price,
+                        max_price=max_price)
+
         # Query contract type
         try:
             if contract_type > 0:
                 contract_type = int(contract_type)
                 selected_contract_type = contract_type
                 domain += [('contract_type_id.id', '=', contract_type)]
+                post["contract_type"] = contract_type
             else:
                 selected_contract_type = contracts_type[0].id
                 domain += [('contract_type_id.id', '=', selected_contract_type)]
+                post["contract_type"] = contract_type
         except:
             selected_contract_type = 0
 
@@ -97,6 +147,7 @@ class WebsiteRem(http.Controller):
         try:
             unit_type = int(unit_type)
             domain += [('type_id.id', '=', unit_type)]
+            post["unit_type"] = unit_type
         except ValueError:
             unit_type=0
 
@@ -120,9 +171,11 @@ class WebsiteRem(http.Controller):
         # Query bedrooms
         if min_beds > 0:
             domain += [('bedrooms', '>=', min_beds)]
+            post["min_beds"] = min_beds
 
         if max_beds > 0:
             domain += [('bedrooms', '<=', max_beds)]
+            post["max_beds"] = max_beds
 
         # Price
         try:
@@ -144,12 +197,15 @@ class WebsiteRem(http.Controller):
         # Query price
         if min_price > 0:
             domain += [('price', '>=', min_price)]
+            post["min_price"] = min_price
 
         if max_price > 0:
             domain += [('price', '<=', max_price)]
+            post["max_price"] = max_price
 
         # Query state, city and zone
         if multi_search:
+            post["multi_search"] = multi_search
             for word in multi_search.split(' '):
                 domain += ['|', '|', '|', '|',
                            ('state_id.name', 'ilike', word),
@@ -177,6 +233,7 @@ class WebsiteRem(http.Controller):
             'result_min_price': str(min_price),
             'result_max_price': str(max_price),
             'selected_contract_type': selected_contract_type,
+            'keep': keep,
         }
 
         return request.website.render('website_rem.rem_units_list_page', values)
