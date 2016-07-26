@@ -4,6 +4,7 @@ import werkzeug
 import json
 from openerp import http, api
 from openerp.http import request
+from openerp import SUPERUSER_ID
 
 PPG = 8  # Units Per Page
 
@@ -215,10 +216,10 @@ class WebsiteRem(http.Controller):
                            ('zip', 'ilike', word)]
 
         units_obj = pool.get('rem.unit')
-        units_count = units_obj.search_count(cr, uid, domain, context=context)
+        units_count = units_obj.search_count(cr, SUPERUSER_ID, domain, context=context)
         pager = request.website.pager(url=url, total=units_count, page=page, step=PPG, scope=7, url_args=post)
-        unit_ids = units_obj.search(cr, uid, domain, limit=PPG, offset=pager['offset'], context=context)
-        units = units_obj.browse(cr, uid, unit_ids, context=context)
+        unit_ids = units_obj.search(cr, SUPERUSER_ID, domain, limit=PPG, offset=pager['offset'], context=context)
+        units = units_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
 
         values = {
             'units': units,
@@ -240,9 +241,14 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit):
+        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
+        units_obj = pool.get('rem.unit')
+        units_ids = units_obj.search(cr, SUPERUSER_ID, [('id', '=', unit[0].id)], context=context)
+        units = units_obj.browse(cr, SUPERUSER_ID, units_ids, context=context)
+        
         values = {
-            'unit': unit
+            'unit': units
         }
 
         return request.website.render('website_rem.rem_unit_page', values)
