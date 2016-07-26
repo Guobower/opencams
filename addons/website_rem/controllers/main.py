@@ -32,7 +32,7 @@ class QueryURL(object):
 
 class WebsiteRem(http.Controller):
 
-    @http.route('/get_multi_search_results/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
+    @http.route('/rem/get_multi_search_results/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
     def get_contract_type_products(self, multi_search, **kwargs):
 
         results = {

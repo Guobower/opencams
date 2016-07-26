@@ -45,7 +45,7 @@ function get_multi_search_results()
     {
         $.ajax(
         {
-            url: "/get_multi_search_results/" + $("#multi_search").val(),
+            url: "/rem/get_multi_search_results/" + $("#multi_search").val(),
             type: "GET",
             dataType: "json",
             success: function(json)
