@@ -542,12 +542,7 @@
                                             <div class="rem-unit-card-agent-container">
                                                 <figure class="rem-unit-card-agent">
                                                     <div class="rem-unit-card-agent-wrapper">
-                                                        <t t-if="rem_unit.user_id.image_small">
-                                                            <div itemprop="image" t-field="rem_unit.user_id.image_small" t-field-options='{"widget": "image"}' t-att-alt="rem_unit.user_id.name" t-att-title="rem_unit.user_id.name"/>
-                                                        </t>
-                                                        <t t-if="not rem_unit.user_id.image_small">
-                                                            <img class="rem-unit-card-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" t-att-alt="rem_unit.user_id.name" t-att-title="rem_unit.user_id.name"/>
-                                                        </t>
+                                                        <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{rem_unit.user_id.id}" t-att-alt="rem_unit.user_id.name" t-att-title="rem_unit.user_id.name"/>
                                                     </div>
                                                     <figcaption><t t-esc="rem_unit.user_id.name"/></figcaption>
                                                 </figure>
@@ -807,12 +802,7 @@
                                                 <div class="rem-unit-contact-agent-container">
                                                     <figure class="rem-unit-contact-agent">
                                                         <div class="rem-unit-contact-agent-wrapper">
-                                                            <t t-if="unit.user_id.image_small">
-                                                                <div itemprop="image" t-field="unit.user_id.image_small" t-field-options='{"widget": "image"}' t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
-                                                            </t>
-                                                            <t t-if="not unit.user_id.image_small">
-                                                                <img class="rem-unit-card-agent-photo" src="/website_rem/static/img/agents/default_agent.jpg" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
-                                                            </t>
+                                                            <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{unit.user_id.id}" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
                                                         </div>
                                                         <figcaption><t t-esc="unit.user_id.name"/></figcaption>
                                                     </figure>

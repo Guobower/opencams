@@ -2,8 +2,10 @@
 import openerp
 import werkzeug
 import json
+import base64
 from openerp import http, api
 from openerp.http import request
+from openerp.addons.web.controllers.main import binary_content
 from openerp import SUPERUSER_ID
 
 PPG = 8  # Units Per Page
@@ -33,7 +35,7 @@ class QueryURL(object):
 
 class WebsiteRem(http.Controller):
 
-    @http.route('/rem/get_multi_search_results/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
+    @http.route('/rem/search/<string:multi_search>', type='http', auth="public", methods=['GET'], website=True)
     def get_contract_type_products(self, multi_search, **kwargs):
 
         results = {
@@ -243,15 +245,32 @@ class WebsiteRem(http.Controller):
     def unit(self, unit):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
-        units_obj = pool.get('rem.unit')
-        units_ids = units_obj.search(cr, SUPERUSER_ID, [('id', '=', unit[0].id)], context=context)
-        units = units_obj.browse(cr, SUPERUSER_ID, units_ids, context=context)
-        
+        unit_obj = pool.get('rem.unit')
+        unit_ids = unit_obj.search(cr, SUPERUSER_ID, [('id', '=', unit[0].id)], context=context)
+        unit = unit_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
+
         values = {
-            'unit': units
+            'unit': unit
         }
 
         return request.website.render('website_rem.rem_unit_page', values)
+
+    @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
+    def user_avatar(self, user_id=0, **post):
+        status, headers, content = binary_content(model='res.users', id=user_id, field='image_medium', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
+
+        if not content:
+            img_path = openerp.modules.get_module_resource('website_rem', 'static/img/agents', 'default_agent.jpg')
+            with open(img_path, 'rb') as f:
+                image = f.read()
+            content = image.encode('base64')
+        if status == 304:
+            return werkzeug.wrappers.Response(status=304)
+        image_base64 = base64.b64decode(content)
+        headers.append(('Content-Length', len(image_base64)))
+        response = request.make_response(image_base64, headers)
+        response.status = str(status)
+        return response
 
 
 class WebsiteContact(openerp.addons.web.controllers.main.Home):
