@@ -440,6 +440,8 @@
                 <tree string="Unit Stage">
                     <field name="name"/>
                     <field name="contract_type_id"/>
+                    <field name="force_show"/>
+                    <field name="force_hide"/>
                 </tree>
             </field>
         </record>
@@ -452,8 +454,8 @@
                 <search string="Search Unit Stage">
                     <field name="name"/>
                     <field name="contract_type_id"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Type" domain="[]" help="Contract Type" context="{'group_by':'contract_type_id'}" name="grouppertype"/>
+                    <group string="Group By">
+                        <filter string="Type" name="grouppertype" context="{'group_by':'contract_type_id'}" domain="[]" help="Contract Type" expand="1"/>
                     </group>
                 </search>
             </field>

@@ -14,7 +14,6 @@ class RemListingContract(models.Model):
     @api.multi
     def _track_subtype(self, init_values):
         self.ensure_one()
-        print "_______________", init_values
         if 'auto_renew' in init_values and self.auto_renew:
             return 'rem.mt_listing_created'
         return super(RemListingContract, self)._track_subtype(init_values)
@@ -185,10 +184,6 @@ class RemImage(models.Model):
 
     def _inverse_image_medium(self):
         for rec in self:
-
-
-            print rec.image
-            
             rec.image = tools.image_resize_image_big(rec.image_medium)
 
     def _inverse_image_small(self):
@@ -296,6 +291,22 @@ class RemUnit(models.Model):
                 'listing_contract_count': len(self.listing_contract_ids)
             })
 
+    @api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
+    def _check_active(self):
+        for unit in self:
+            active = True
+            if self.stage_id.force_show:
+                unit.update({'active': True})
+                return
+            if self.stage_id.force_hide:
+                unit.update({'active': False})
+                return
+            if len(self.listing_contract_ids) == 0:
+                unit.update({'active': True})
+                return
+            date_now = datetime.now()
+            # TODO: get active contract and respective date start and end and compare
+
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
@@ -305,9 +316,9 @@ class RemUnit(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     is_rent = fields.Boolean(
-        related='contract_type_id.is_rent', string='Is Rentable')
-    active = fields.Boolean(string='Active', default=True,
-                            help='If the active field is set to False, it will allow you to hide the unit.')
+        related='contract_type_id.is_rent', string='Is Rentable')    
+    active = fields.Boolean(compute='_check_active', store=True)
+    
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(
@@ -329,7 +340,7 @@ class RemUnit(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
                                   readonly=True)
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
-    listing_contract_count = fields.Integer(compute='_listing_contract_count', store=False)
+    listing_contract_count = fields.Integer(compute='_listing_contract_count', store=True)
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
 
     # Location
