@@ -15,12 +15,13 @@ This module allows to sell/rent real estate units
     'depends': ['account', 'crm'],
     'category': 'Real Estate',
     'data': [
-		'data/rem_data.xml',
+        'data/rem_data.xml',
         'security/ir.model.access.csv',
-		'views/crm_view.xml',
-		'views/rem_menu.xml',
-		'views/rem_unit_sequence.xml',
-		'views/rem_view.xml',
+        'views/crm_view.xml',
+        'views/rem_menu.xml',
+        'views/partner_view.xml',
+        'rem_data.xml',
+        'views/rem_view.xml',
         'views/stage_history_form.xml',
     ],
     'test': [

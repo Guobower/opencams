@@ -1,11 +1,23 @@
 # -*- coding: utf-8 -*-
 from openerp import tools, api, fields, models, _
 from openerp import exceptions
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 class RemListingContract(models.Model):
     _name = 'rem.listing.contract'
     _description = 'Listing Contract'
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
+
+    @api.multi
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        print "_______________", init_values
+        if 'auto_renew' in init_values and self.auto_renew:
+            return 'rem.mt_listing_created'
+        return super(RemListingContract, self)._track_subtype(init_values)
 
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     date_start = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
@@ -13,13 +25,33 @@ class RemListingContract(models.Model):
     auto_renew = fields.Boolean(string='Auto Renew?', default=True,
                                 help='Check for automatically renew for same period and log in the chatter')
     notice_date = fields.Date(default=lambda self: self._context.get('date', fields.Date.context_today(self)))
-    period = fields.Integer('Period')
-    period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Period Unit')
-    notice_period = fields.Integer('Notice Period')
-    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit')
-    
+    period = fields.Integer('Period', default=1)
+    period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Period Unit', change_default=True,
+                                   default='months')
+    notice_period = fields.Integer('Notice Period', default=1)
+    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
+                                          default='months')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
-    # TODO: use period and notice_period to calculate date end and notice_date
+
+    @api.onchange('period', 'period_unit')
+    def onchange_period(self):
+        if self.period_unit == 'months':
+            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
+        else:
+            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=self.period)
+        self.date_end = date_calc
+
+    @api.onchange('notice_period', 'notice_period_unit')
+    def onchange_period_unit(self):
+        if self.notice_period_unit == 'months':
+            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
+        else:
+            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) - timedelta(days=self.notice_period)
+        self.notice_date = date_calc
 
 
 class RemUniCity(models.Model):
@@ -252,6 +284,13 @@ class RemUnit(models.Model):
             units.append((record.id, name))
         return units
 
+    @api.depends('listing_contract_ids')
+    def _listing_contract_count(self):
+        for unit in self:
+            unit.update({
+                'listing_contract_count': len(self.listing_contract_ids)
+            })
+
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
@@ -283,9 +322,11 @@ class RemUnit(models.Model):
         'rem.unit.stage', string='Stage', default=_get_stage)
 
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
-        readonly=True)
+                                  readonly=True)
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
-    
+    listing_contract_count = fields.Integer(compute='_listing_contract_count', store=False)
+    listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
+
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')

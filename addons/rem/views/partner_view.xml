@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="partner_view_realestate_inherit">
+            <field name="name">partner.view.realestate.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='purchase']" position="after">
+	                <group string="Real estate" name="realestate">
+	                    <field name="buyer"/>
+	                    <field name="seller"/>
+	                    <field name="is_neighbor"/>
+	                </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
