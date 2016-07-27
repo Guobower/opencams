@@ -40,10 +40,12 @@
                     <field name="state_id"/>
                     <field name="zip"/>
                     <field name="country_id"/> 
-                    <field name="bedrooms"/>
-                    <field name="bathrooms"/>
-                    <field name="points_interest"/>
-                    <field name="is_new"/>
+                    <field name='bedrooms'/>
+                    <field name='bathrooms'/>
+                    <field name='points_interest'/>
+                    <field name='is_new'/>
+                    <field name='latitude'/>
+                    <field name='longitude'/>
                     <!-- Indoor Features -->
                     <field name="air_conditioned"/>
                     <field name="ducted_cooling"/>
@@ -126,7 +128,9 @@
 								<field name="active" readonly="1"/>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>
-                                <field name="is_new" widget="radio"/>
+                                <field name="is_new"/>
+                                <field name='latitude'/>
+                                <field name='longitude'/>
 							</group>
 						</group>
                         <div>

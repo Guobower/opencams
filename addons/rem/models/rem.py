@@ -270,6 +270,33 @@ class RemUnit(models.Model):
                 flag = True
             unit.active = flag
 
+    @api.multi
+    def action_listing_contracts(self):
+        return {
+            'name': _('Get listing contracts'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'list,form,graph',
+            'res_model': 'rem.listing.contract',
+            'domain': "[('unit_id','=',active_id)]",
+            'context': {'default_unit_id': self.id}
+        }
+
+    @api.multi
+    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    def name_get(self):
+        units = []
+        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        for rec in self:
+            name = unit_name_format.format(
+                street=rec.street,
+                street2=rec.street2 or '',
+                city=rec.city_id.name or '',
+                state=rec.state_id.code or '',
+                zip=rec.zip or ''
+            )
+            units.append((rec.id, name))
+        return units
+
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
@@ -349,30 +376,7 @@ class RemUnit(models.Model):
     alarm = fields.Boolean(string='Alarm System', default=False)
     sw_pool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
-
-    @api.multi
-    def action_listing_contracts(self):
-        return {
-            'name': _('Get listing contracts'),
-            'type': 'ir.actions.act_window',
-            'view_mode': 'list,form,graph',
-            'res_model': 'rem.listing.contract',
-            'domain': "[('unit_id','=',active_id)]",
-            'context': {'default_unit_id': self.id}
-        }
-
-    @api.multi
-    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
-    def name_get(self):
-        units = []
-        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
-        for rec in self:
-            name = unit_name_format.format(
-                street=rec.street,
-                street2=rec.street2 or '',
-                city=rec.city_id.name or '',
-                state=rec.state_id.code or '',
-                zip=rec.zip or ''
-            )
-            units.append((rec.id, name))
-        return units
+    
+    # Geo
+    latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
+    longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
