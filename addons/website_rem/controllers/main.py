@@ -256,8 +256,8 @@ class WebsiteRem(http.Controller):
         return request.website.render('website_rem.rem_unit_page', values)
 
     @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
-    def user_avatar(self, user_id=0, **post):
-        status, headers, content = binary_content(model='res.users', id=user_id, field='image_medium', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
+    def user_agent(self, user_id=0, **post):
+        status, headers, content = binary_content(model='res.users', id=user_id, field='image', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
 
         if not content:
             img_path = openerp.modules.get_module_resource('website_rem', 'static/img/agents', 'default_agent.jpg')
