@@ -99,6 +99,7 @@
                     <field name="bedrooms"/>
                     <field name="bathrooms"/>
                     <field name="is_new"/>
+                    <field name="stage_id"/>
                 </tree>
             </field>
         </record>
@@ -153,7 +154,7 @@
 			<field name="arch" type="xml">
 				<form string="Real Estate Unit">
 					<header>
-						<field name="stage_id" widget="statusbar" clickable="True"/>
+						<field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
                         <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Features"/>
                         <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Features"/>
 					</header>
@@ -465,15 +466,23 @@
             <field name="arch" type="xml">
                 <form string="Unit Stage">
 	                <sheet>
+                    	<div class="oe_button_box" name="button_box">
+	                        <button name="toggle_active" type="object" groups="base.group_no_one"
+	                                class="oe_stat_button" icon="fa-archive">
+	                            <field name="active" widget="boolean_button"
+	                                options='{"terminology": "archive"}'/>
+	                        </button>
+	                    </div>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Describe the unit ..."/></h1>
+                            <h1><field name="name" placeholder="Stage name ..."/></h1>
                         </div>
 	                	<group>
 	                	    <group>
 	                	    	<field name="contract_type_id"/>
+	                	    	<field name="force_show"/>
+	                	    	<field name="force_hide"/>
 		                        <field name="create_date" string="Date"/>
-		                        <field name="active"/>
 	                        </group>
 	                    </group>
 	                </sheet>
@@ -615,7 +624,7 @@
         </record>
 
         <!-- 
-        	Unit Image 
+        	Unit Image
 		-->
 
         <!-- Unit Image Tree View -->

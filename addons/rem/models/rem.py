@@ -107,6 +107,10 @@ class RemUnitStage(models.Model):
 
     name = fields.Char(
         string='Stage Name', size=32, required=True, help='Stage Name.')
+    force_show = fields.Boolean(string='Force Show', default=False,
+                                help='Set if the stage is a standby stage (e.g. refurbishing or data entry ..)')
+    force_hide = fields.Boolean(string='Force Hide', default=False,
+                               help='Set if the stage is a final stage (e.g. sold or out of market ..)')
     sequence = fields.Integer(
         string='Sequence', help='Used to order stages. Lower is better.')
     notes = fields.Text(string='Notes', help='Description of the stage.')
@@ -114,6 +118,7 @@ class RemUnitStage(models.Model):
                             help='If the active field is set to False, it will allow you to hide the analytic journal without removing it.')
     contract_type_id = fields.Many2one(
         'contract.type', string='Contract Type', required=False)
+    # TODO: what could happen to the units if some stage (with units assigned) is deactivated?
 
 
 class ReasonForBuy(models.Model):

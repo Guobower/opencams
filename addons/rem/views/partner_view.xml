@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+    
+	    <record id="view_res_partner_realestate_filter_inherit" model="ir.ui.view">
+	        <field name="name">res.partner.realestate.inherit.search</field>
+	        <field name="model">res.partner</field>
+	        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+	        <field name="arch" type="xml">
+	            <filter name="supplier" position="after">
+	                <filter string="Buyers" name="buyer" domain="[('buyer','=',1), ('parent_id', '=', False)]"/>
+	                <filter string="Sellers" name="seller" domain="[('seller','=',1), ('parent_id', '=', False)]"/>
+	                <filter string="Neighbors" name="is_neighbor" domain="[('is_neighbor','=',1), ('parent_id', '=', False)]"/>
+	            </filter>
+	        </field>
+	    </record>
+    
         <record model="ir.ui.view" id="partner_view_realestate_inherit">
             <field name="name">partner.view.realestate.inherit</field>
             <field name="model">res.partner</field>
@@ -15,5 +29,7 @@
                 </xpath>
             </field>
         </record>
+        
+        
     </data>
 </openerp>
