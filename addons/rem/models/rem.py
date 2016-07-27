@@ -1,6 +1,25 @@
 # -*- coding: utf-8 -*-
-from openerp import tools, api, fields, models
+from openerp import tools, api, fields, models, _
 from openerp import exceptions
+
+
+class RemListingContract(models.Model):
+    _name = 'rem.listing.contract'
+    _description = 'Listing Contract'
+
+    unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
+    date_start = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    date_end = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    auto_renew = fields.Boolean(string='Auto Renew?', default=True,
+                                help='Check for automatically renew for same period and log in the chatter')
+    notice_date = fields.Date(default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    period = fields.Integer('Period')
+    period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Period Unit')
+    notice_period = fields.Integer('Notice Period')
+    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit')
+    
+    # TODO: scheduled action for auto renewal or just trigger when unit is read
+    # TODO: use period and notice_period to calculate date end and notice_date
 
 
 class RemUniCity(models.Model):
@@ -90,30 +109,15 @@ class NeighborhoodContacts(models.Model):
     _description = 'Neighborhood Contact List'
 
     sequence = fields.Integer(required=True, default=1,
-        help="The sequence field is used to define order in which the tax lines are applied.")
+                              help="The sequence field is used to define order in which the tax lines are applied.")
     comment = fields.Char(string='Comment', size=32,
-        required=True, help='Comment')
-    partner_id = fields.Many2one('res.partner', string='Neighbor')
-    email = fields.Char(string="Email", related='partner_id.email')
-    phone = fields.Char(string="Phone", related='partner_id.phone')
-    active = fields.Boolean(string='Active', default=True,
-        help='If the active field is set to False, it will allow you to hide without removing it.')
-
-
-class NeighborhoodContacts(models.Model):
-    _name = 'rem.neighborhood'
-    _description = 'Neighborhood Contact List'
-
-    sequence = fields.Integer(required=True, default=1,
-        help="The sequence field is used to define order in which the tax lines are applied.")
-    comment = fields.Char(string='Comment', size=32,
-        required=True, help='Comment')
+                          required=True, help='Comment')
     is_neighbor = fields.Boolean(default=True)
     partner_id = fields.Many2one('res.partner', string='Neighbor')
     email = fields.Char(string="Email", related='partner_id.email')
     phone = fields.Char(string="Phone", related='partner_id.phone')
     active = fields.Boolean(string='Active', default=True,
-        help='If the active field is set to False, it will allow you to hide without removing it.')
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
 class RemImage(models.Model):
@@ -319,3 +323,15 @@ class RemUnit(models.Model):
     alarm = fields.Boolean(string='Alarm System', default=False)
     sw_pool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
+    
+    @api.multi
+    def action_listing_contracts(self):
+        return {
+            'name': _('Get listing contracts'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'list,form,graph',
+            'res_model': 'rem.listing.contract',
+            'domain': "[('unit_id','=',active_id)]",
+            'context': {'default_unit_id': self.id}
+        }
+
