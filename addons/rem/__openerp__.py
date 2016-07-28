@@ -21,6 +21,7 @@ This module allows to sell/rent real estate units
         'views/crm_view.xml',
         'views/contract_view.xml',
         'views/partner_view.xml',
+        'views/rem_menu.xml',
         'views/rem_view.xml',
         'views/stage_history_form.xml',
         'views/res_config_view.xml',
