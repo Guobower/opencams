@@ -181,6 +181,7 @@
 						<group>
 							<group>
 								<field name="contract_type_id"/>
+								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
 								<field name="price"/>
 								<field name="is_rent" invisible="1"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
@@ -454,8 +455,8 @@
                 <search string="Search Unit Stage">
                     <field name="name"/>
                     <field name="contract_type_id"/>
-                    <group string="Group By">
-                        <filter string="Type" name="grouppertype" context="{'group_by':'contract_type_id'}" domain="[]" help="Contract Type" expand="1"/>
+                    <group string="Group By" expand="1">
+                        <filter string="Type" name="grouppertype" context="{'group_by':'contract_type_id'}" domain="[]" help="Contract Type"/>
                     </group>
                 </search>
             </field>
@@ -533,7 +534,6 @@
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
 		                        <field name="is_rent"/>
-		                        <field name="active"/>
 	                        </group>
 	                    </group>
 	                </sheet>

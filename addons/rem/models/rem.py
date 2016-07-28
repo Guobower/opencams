@@ -4,7 +4,7 @@ from openerp import exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-
+from openerp.exceptions import ValidationError
 
 class RemListingContract(models.Model):
     _name = 'rem.listing.contract'
@@ -31,6 +31,17 @@ class RemListingContract(models.Model):
     notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
                                           default='months')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
+
+    @api.multi
+    @api.constrains('date_start', 'date_end')
+    def _check_dates(self):
+        for ct1 in self:
+            for ct2 in ct1.unit_id.listing_contract_ids:
+                if ct2.id == ct1.id:
+                    continue
+                else:
+                    if ct2.date_end > ct1.date_start:
+                        raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct2.date_end)
 
     @api.onchange('period', 'period_unit')
     def onchange_period(self):
@@ -309,6 +320,7 @@ class RemUnit(models.Model):
 
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
+    partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
@@ -316,9 +328,9 @@ class RemUnit(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     is_rent = fields.Boolean(
-        related='contract_type_id.is_rent', string='Is Rentable')    
+        related='contract_type_id.is_rent', string='Is Rentable')
     active = fields.Boolean(compute='_check_active', store=True)
-    
+
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(

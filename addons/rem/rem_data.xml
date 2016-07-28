@@ -2,6 +2,74 @@
 <openerp>
     <data noupdate="1">
 ​
+        <!-- Contract Types -->
+        <record id="contract_type_buy" model="contract.type">
+            <field name="name">Buy</field>
+            <field name="is_rent" eval="0"/>
+        </record>
+        
+        <record id="contract_type_rent" model="contract.type">
+            <field name="name">Rent</field>
+            <field name="is_rent" eval="1"/>
+        </record>
+        
+​        <!-- Unit Stages -->
+        <record id="rem_unit_stage_buy_staging" model="rem.unit.stage">
+            <field name="name">Staging</field>
+            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="force_show" eval="1"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="10"/>
+        </record>
+        
+​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
+            <field name="name">Available</field>
+            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="20"/>
+        </record>
+​        
+​        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
+            <field name="name">Sold</field>
+            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="1"/>
+            <field name="sequence" eval="30"/>
+        </record>
+​        
+​        <record id="rem_unit_stage_buy_refurbish" model="rem.unit.stage">
+            <field name="name">Refurbish</field>
+            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="force_show" eval="1"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="10"/>
+        </record>
+​        
+​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
+            <field name="name">Available</field>
+            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="20"/>
+        </record>
+​
+​        <record id="rem_unit_stage_buy_occupied" model="rem.unit.stage">
+            <field name="name">Occupied</field>
+            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="force_show" eval="1"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="30"/>
+        </record>
+​​        
+​        <record id="rem_unit_stage_buy_out" model="rem.unit.stage">
+            <field name="name">Out of market</field>
+            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="1"/>
+            <field name="sequence" eval="40"/>
+        </record>
+
         <!-- Sequences for rem.unit -->
         <record id="seq_rem_unit" model="ir.sequence">
             <field name="name">Real Estate Unit</field>
