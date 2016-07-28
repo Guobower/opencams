@@ -20,13 +20,13 @@ class RemListingContract(models.Model):
         return super(RemListingContract, self)._track_subtype(init_values)
 
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
-    date_start = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
-    date_end = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    date_start = fields.Date('Start Date', required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    date_end = fields.Date('End Date', required=True)
     auto_renew = fields.Boolean(string='Auto Renew?', default=True,
                                 help='Check for automatically renew for same period and log in the chatter')
-    notice_date = fields.Date(default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    notice_date = fields.Date('Notice Date')
     period = fields.Integer('Period', default=1)
-    period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Period Unit', change_default=True,
+    period_unit = fields.Selection([('days', 'Day(s)'), ('months', 'Month(s)')], string='Period Unit', change_default=True,
                                    default='months')
     notice_period = fields.Integer('Notice Period', default=1)
     ordering = fields.Integer('Ordering Field', default=1)
@@ -36,12 +36,19 @@ class RemListingContract(models.Model):
                              help='This contract is the current one for this unit?')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
 
-    @api.model
+    @api.multi
     def unlink(self):
+        for ct1 in self:
+            id1 = ct1.id
+            unit_id = ct1.unit_id.id
+            self.env.cr.execute('update rem_listing_contract set current=True where id=( '
+                                'select id from rem_listing_contract '
+                                'where id <> %s and unit_id=%s '
+                                'order by date_end desc limit 1);'
+                                'update rem_listing_contract set current=False where ids in ( '
+                                'select id from rem_listing_contract '
+                                'where id <> %s and unit_id=%s);', [id1, unit_id, id1, unit_id])
         ret = super(RemListingContract, self).unlink()
-        
-        #self.env.cr.execute('update rem_listing_contract set current=1 where id=();',[self.unit_id.id])
-
         return ret
 
     @api.model
@@ -53,7 +60,7 @@ class RemListingContract(models.Model):
         return ct
 
     @api.multi
-    @api.constrains('date_start', 'date_end')
+    @api.constrains('date_start', 'period')
     def _check_dates(self):
         for ct1 in self:
             for ct2 in ct1.unit_id.listing_contract_ids:
@@ -61,8 +68,9 @@ class RemListingContract(models.Model):
                     if ct2.date_end > ct1.date_start:
                         raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct2.date_end)
 
-    @api.onchange('period', 'period_unit')
+    @api.onchange('date_start', 'period', 'period_unit')
     def onchange_period(self):
+        date_calc = False
         if self.period_unit == 'months':
             date_calc = datetime.strptime(self.date_start + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
@@ -70,9 +78,11 @@ class RemListingContract(models.Model):
             date_calc = datetime.strptime(self.date_start + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=self.period)
         self.date_end = date_calc
+        return {}
 
-    @api.onchange('notice_period', 'notice_period_unit')
+    @api.onchange('date_end', 'notice_period_unit', 'notice_period')
     def onchange_period_unit(self):
+        date_calc = False
         if self.notice_period_unit == 'months':
             date_calc = datetime.strptime(self.date_end + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
@@ -80,6 +90,18 @@ class RemListingContract(models.Model):
             date_calc = datetime.strptime(self.date_end + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) - timedelta(days=self.notice_period)
         self.notice_date = date_calc
+
+    @api.multi
+    @api.depends('date_start', 'period', 'period_unit')
+    def name_get(self):
+        units = []
+        for rec in self:
+            name = _("Listing Agreement")
+            if rec.date_start and rec.period and rec.period_unit:
+                name += " %s - %s %s" % (rec.date_start
+                                         , rec.period, rec.period_unit)
+            units.append((rec.id, name))
+        return units
 
 
 class RemUniCity(models.Model):
@@ -313,6 +335,20 @@ class RemUnit(models.Model):
             units.append((record.id, name))
         return units
 
+    @api.depends('current_contract_id', 'listing_contract_ids')
+    def _get_current_contract(self):
+        for unit in self:
+            curr_ctr = False
+            self.env.cr.execute('select id from rem_listing_contract '
+                                'where unit_id=%s and current = True;'
+                                , [unit.id])
+            all_lines = self.env.cr.fetchone()
+            if all_lines:
+                curr_ctr = all_lines[0]
+                unit.update({
+                    'current_contract_id': curr_ctr,
+                })
+
     @api.depends('listing_contract_ids')
     def _listing_contract_count(self):
         for unit in self:
@@ -334,6 +370,7 @@ class RemUnit(models.Model):
                 unit.update({'active': True})
                 return
             date_now = datetime.now()
+
             # TODO: get active contract and respective date start and end and compare
 
     reference = fields.Char(string='Reference', required=True, copy=False,
@@ -372,6 +409,8 @@ class RemUnit(models.Model):
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
     listing_contract_count = fields.Integer(compute='_listing_contract_count', store=True)
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
+    current_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
+                                          compute='_get_current_contract',)
 
     # Location
     street = fields.Char(string='Street', required=True)
