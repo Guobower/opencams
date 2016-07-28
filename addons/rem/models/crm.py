@@ -111,20 +111,19 @@ class CrmLead(models.Model):
             'domain': "[('lead_id','=',active_id)]",
         }
 
-    def write(self, cr, uid, ids, vals, context=None):
-
+    @api.multi
+    def write(self, vals):
         if 'stage_id' in vals:
-            lead = self.browse(cr, uid, ids, context)
-            stage_history = self.pool['stage.history']
-            stage_history.create(cr, uid, {
-                'lead_id': lead.id,
-                'stage_id': lead.stage_id.id,
-                'date': datetime.datetime.now(),
-                'new_stage': vals.get('stage_id'),
-                'user_id': uid,
-            }, context=context)
-
-        return super(CrmLead, self).write(cr, uid, ids, vals, context=context)
+            for lead in self:
+                stage_history = self.env['stage.history']
+                stage_history.create({
+                    'lead_id': lead.id,
+                    'stage_id': lead.stage_id.id,
+                    'date': datetime.datetime.now(),
+                    'new_stage': vals.get('stage_id'),
+                    'user_id': self._uid,
+                })
+        return super(CrmLead, self).write(vals)
 
 
 class StageHistory(models.Model):

@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
 
+
 class RemListingContract(models.Model):
     _name = 'rem.listing.contract'
     _description = 'Listing Contract'
@@ -28,18 +29,35 @@ class RemListingContract(models.Model):
     period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Period Unit', change_default=True,
                                    default='months')
     notice_period = fields.Integer('Notice Period', default=1)
+    ordering = fields.Integer('Ordering Field', default=1)
     notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
                                           default='months')
+    current = fields.Boolean(string='Current Contract', default=True,
+                             help='This contract is the current one for this unit?')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
+
+    @api.model
+    def unlink(self):
+        ret = super(RemListingContract, self).unlink()
+        
+        #self.env.cr.execute('update rem_listing_contract set current=1 where id=();',[self.unit_id.id])
+
+        return ret
+
+    @api.model
+    def create(self, vals):
+        ct = super(RemListingContract, self).create(vals)
+        for ct2 in ct.unit_id.listing_contract_ids:
+            if ct2.id != ct.id:
+                ct2.current = False
+        return ct
 
     @api.multi
     @api.constrains('date_start', 'date_end')
     def _check_dates(self):
         for ct1 in self:
             for ct2 in ct1.unit_id.listing_contract_ids:
-                if ct2.id == ct1.id:
-                    continue
-                else:
+                if ct2.id != ct1.id:
                     if ct2.date_end > ct1.date_start:
                         raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct2.date_end)
 
