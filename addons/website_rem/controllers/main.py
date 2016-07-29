@@ -91,6 +91,7 @@ class WebsiteRem(http.Controller):
             'contracts_type': contracts_type,
             'units_types': units_types,
             'selected_contract_type': selected_contract_type,
+            'selected_type_listing': 0,
             'keep': keep,
         }
 
@@ -99,7 +100,7 @@ class WebsiteRem(http.Controller):
     @http.route(['/rem',
                  '/rem/page/<int:page>',
                  ], type='http', auth='public', website=True)
-    def rem(self, page=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
+    def rem(self, page=0, type_listing=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
 
         if ppg:
@@ -131,6 +132,16 @@ class WebsiteRem(http.Controller):
                         max_beds=max_beds,
                         min_price=min_price,
                         max_price=max_price)
+
+        # type listing
+        selected_type_listing = 0
+        try:
+            if int(type_listing) == 1:
+                selected_type_listing = 1
+                post["type_listing"] = 1
+                ppg = 9
+        except ValueError:
+            pass
 
         # Query contract type
         try:
@@ -219,9 +230,16 @@ class WebsiteRem(http.Controller):
 
         units_obj = pool.get('rem.unit')
         units_count = units_obj.search_count(cr, SUPERUSER_ID, domain, context=context)
-        pager = request.website.pager(url=url, total=units_count, page=page, step=PPG, scope=7, url_args=post)
-        unit_ids = units_obj.search(cr, SUPERUSER_ID, domain, limit=PPG, offset=pager['offset'], context=context)
+        pager = request.website.pager(url=url, total=units_count, page=page, step=ppg, scope=7, url_args=post)
+        unit_ids = units_obj.search(cr, SUPERUSER_ID, domain, limit=ppg, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
+
+        all_units = []
+
+        if selected_type_listing == 1:
+            all_units_obj = pool.get('rem.unit')
+            all_units_ids = all_units_obj.search(cr, uid, [('latitude', '!=', 0),('longitude', '!=', 0)], context=context)
+            all_units = all_units_obj.browse(cr, uid, all_units_ids, context=context)
 
         values = {
             'units': units,
@@ -236,6 +254,9 @@ class WebsiteRem(http.Controller):
             'result_min_price': str(min_price),
             'result_max_price': str(max_price),
             'selected_contract_type': selected_contract_type,
+            'selected_type_listing': selected_type_listing,
+            'all_units': all_units,
+            'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + pool.get('ir.config_parameter').get_param(request.cr, SUPERUSER_ID, 'gmaps_key') + '&callback=initMap',
             'keep': keep,
         }
 

@@ -16,6 +16,17 @@ $(function() {
         }
     });
 
+    $(".type-listing").click(function() {
+        if (!$(this).hasClass("selected")) {
+            if ($(this).attr("id") == "type-list")
+                $("#type_listing").val("0");
+            else
+                $("#type_listing").val("1");
+            $(".type-listing").removeClass("selected");
+            $(this).addClass("selected");
+        }
+    });
+
     $(".rem-form-search .nav-tabs li").click(function() {
         if (!$(this).hasClass("active")) {
             $(".rem-form-search .nav-tabs li").removeClass("active");

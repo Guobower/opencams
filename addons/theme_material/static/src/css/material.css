@@ -125,6 +125,28 @@ textarea {
 	resize: none;
 }
 
+.material-form {
+    background: #FFF;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
+    margin-bottom: 40px;
+}
+
+.type-listing {
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #999;
+}
+
+.type-listing.selected {
+    color: #aa4d93;
+}
+
+#type-list {
+    margin-right: 40px;
+}
+
 /* BUTTONS
    -------------------------------------------------- */
 .btn-primary,
@@ -219,8 +241,16 @@ textarea {
     margin-bottom: 0 !important;
 }
 
+.margin-10 {
+    margin: 10px !important;
+}
+
 .margin-0 {
     margin: 0 !important;
+}
+
+.padding-30 {
+    padding: 30px !important;
 }
 
 .padding-0-30 {
@@ -289,6 +319,10 @@ h3 {
 #search-homepage .rem-form-search {
     position: absolute;
     top: -500px;
+}
+
+#search-homepage .rem-listing {
+    display: none;
 }
 
 .rem-form-search {
@@ -752,13 +786,11 @@ h3 {
 
 /* AUTOCOMPLETE
    -------------------------------------------------- */
-.rem-autocomplete-container
-{
+.rem-autocomplete-container {
     position: relative;
 }
 
-.rem-autocomplete
-{
+.rem-autocomplete {
     background: #FFF;
     position: absolute;
     padding: 0;
@@ -766,22 +798,19 @@ h3 {
     z-index: 999;
 }
 
-.rem-autocomplete li
-{
+.rem-autocomplete li {
     padding: 10px 20px;
     list-style-type: none;
     cursor: pointer;
 }
 
-.rem-autocomplete li:hover
-{
+.rem-autocomplete li:hover {
     color: #FFF;
     background: #aa4d93;
 }
 
 .rem-autocomplete,
-.rem-autocomplete li:last-child
-{
+.rem-autocomplete li:last-child {
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
@@ -792,26 +821,123 @@ h3 {
 
 /* FEATURES
    -------------------------------------------------- */
-.features
-{
+.features {
     font-size: 0.9em;
 }
 
-.features .feature-title
-{
+.features .feature-title {
     font-size: 16px;
     font-family: "Open Sans SemiBold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
     margin-top: 30px;
 }
 
-.features label
-{
+.features label {
     margin-right: 10px;
     font-weight: normal;
     font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
 }
 
-.features .zmdi-check
-{
+.features .zmdi-check {
     color: #029f56;
+}
+
+/* GOOGLE MAPS
+   -------------------------------------------------- */
+#map {
+    height: 600px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.maps_marker_container {
+    max-width: 200px;
+}
+
+.maps_marker_container img {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.maps_marker_container img,
+.maps_marker_container div,
+.maps_marker_container a {
+    float: left;
+}
+
+.maps_marker_container div,
+.maps_marker_container a
+{
+    display: block !important;
+    clear: both;
+    margin-top: 10px;
+}
+
+.maps_marker_container span
+{
+    margin-right: 10px;
+}
+
+.maps_marker_container a {
+    color: #aa4d93;
+}
+
+/* PHOTO CARDS
+   -------------------------------------------------- */
+#rem-unit-photo-card-container {
+    margin-bottom: 40px;
+}
+
+.rem-unit-photo-card {
+    background: #FFF !important;
+}
+
+.rem-unit-photo-card-info {
+    color: #FFF;
+    font-family: "Open Sans Regular", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+    font-size: 18px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.rem-unit-photo-card-price {
+    font-size: 28px;
+}
+
+.rem-unit-photo-card-title {
+    font-size: 13px;
+    color: #EEE;
+}
+
+.rem-unit-photo-card-photos {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #FFF;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+    font-size: 13px;
+    font-family: "Open Sans Semibold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+}
+
+.rem-unit-photo-card-favorite {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: #FFF;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+    font-size: 30px;
 }

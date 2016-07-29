@@ -206,6 +206,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="rem-listing material-form rem-box-shadow padding-30">
+                                        <t t-if="selected_type_listing==0">
+                                            <span id="type-list" class="type-listing selected"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
+                                            <span id="type-map" class="type-listing"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                        </t>
+                                        <t t-if="selected_type_listing==1">
+                                            <span id="type-list" class="type-listing"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
+                                            <span id="type-map" class="type-listing selected"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                        </t>
+                                        <input type="hidden" id="type_listing" name="type_listing" t-att-value="selected_type_listing"/>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -480,9 +491,132 @@
             <t t-call="website.layout">
                 <t t-set="additional_title">Real Estate</t>
                 <t t-call="website_rem.search_form"/>
-                <t t-call="website_rem.rem_units_cards"/>
+                <t t-if="selected_type_listing==0">
+                    <t t-call="website_rem.rem_units_cards"/>
+                </t>
+                <t t-if="selected_type_listing==1">
+                    <t t-call="website_rem.rem_units_gmap"/>
+                    <t t-call="website_rem.rem_units_photo_cards"/>
+                </t>
                 <t t-call="website_rem.rem_pager"/>
             </t>
+        </template>
+
+        <!-- REM Units gmap -->
+        <template id="rem_units_gmap">
+            <section>
+                <div class="oe_structure">
+                    <div id="map" class="rem-box-shadow"></div>
+                    <script type="text/javascript">
+                        function initMap() {
+                            <t t-foreach="all_units" t-as="unit">
+                                var unit_<t t-esc="unit_index"/> = {
+                                    info: '<div class="maps_marker_container clearfix">' +
+                                              '<div>' +
+                                                  <t t-if="len(unit.image_ids) > 0">
+                                                      '<div itemprop="image" t-field="unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>' +
+                                                  </t>
+                                                  '<strong><t t-esc="unit.display_name"/></strong>' +
+                                              '</div>' +
+                                              <t t-if="unit.price > 0">
+                                                    '<div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}' class="margin-top-10"></div>' +
+                                              </t>
+                                              '<div class="margin-top-10">' +
+                                                    <t t-if="unit.bedrooms > 0">
+                                                        '<span title="Bedrooms">' +
+                                                            '<i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>' +
+                                                        '</span>' +
+                                                    </t>
+                                                    <t t-if="unit.bathrooms > 0">
+                                                        '<span title="Bathrooms">' +
+                                                            '<i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>' +
+                                                        '</span>' +
+                                                    </t>
+                                                    <t t-if="unit.garages > 0">
+                                                        '<span title="Garages">' +
+                                                            '<i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>' +
+                                                        '</span>' +
+                                                    </t>
+                                              '</div>' +
+                                              '<a itemprop="url" t-att-href="'/rem/unit/%s' % slug(unit)">Details <i class="fa fa-angle-right" aria-hidden="true"></i></a>' +
+                                          '</div>',
+                                    latitude: <t t-esc="unit.latitude"/>,
+                                    longitude: <t t-esc="unit.longitude"/>
+                                };
+                            </t>
+
+                            var locations = [
+                            <t t-foreach="all_units" t-as="unit">
+                                [unit_<t t-esc="unit_index"/>.info, unit_<t t-esc="unit_index"/>.latitude, unit_<t t-esc="unit_index"/>.longitude, <t t-esc="unit_index"/>],
+                            </t>
+                            ];
+
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 13,
+                                center: new google.maps.LatLng(41.976816, -87.659916),
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            });
+
+                            var infowindow = new google.maps.InfoWindow({});
+
+                            var marker, i;
+
+                            for (i = 0; i <![CDATA[<]]> locations.length; i++) {
+                                marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                    map: map
+                                });
+
+                                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                    return function () {
+                                        infowindow.setContent(locations[i][0]);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker, i));
+                            }
+                        }
+                    </script>
+                    <script t-att-src="gmaps_url" type="text/javascript"></script>
+                </div>
+            </section>
+        </template>
+
+        <!-- REM Units Photo Cards -->
+        <template id="rem_units_photo_cards">
+            <section>
+                <div class="oe_structure">
+                    <div id="rem-unit-photo-card-container" class="container">
+                        <t t-foreach="units" t-as="rem_unit">
+                            <div class="col-sm-4 padding-0">
+                                <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
+                                    <div class="rem-unit-photo-card">
+                                        <div class="rem-unit-photo-card-img">
+                                            <t t-if="len(rem_unit.image_ids) > 0">
+                                                <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                            </t>
+                                        </div>
+                                        <div class="row margin-0">
+                                            <div class="col-xs-12 margin-0">
+                                                <div class="rem-unit-photo-card-info">
+                                                    <div class="rem-unit-photo-card-price"><div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "rem_unit.currency_id"}' class="margin-top-10"></div></div>
+                                                    <div class="rem-unit-photo-card-title"><t t-esc="rem_unit.display_name"/></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <t t-if="len(rem_unit.image_ids) == 1">
+                                            <div class="rem-unit-photo-card-photos"><t t-esc="len(rem_unit.image_ids)"/> photo</div>
+                                        </t>
+                                        <t t-if="len(rem_unit.image_ids) > 1">
+                                            <div class="rem-unit-photo-card-photos"><t t-esc="len(rem_unit.image_ids)"/> photos</div>
+                                        </t>
+                                        <div class="rem-unit-photo-card-favorite"><i class="zmdi zmdi-favorite-outline"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
         </template>
 
         <!-- REM Units Cards -->
@@ -628,6 +762,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
+                        <div id="website_published_button" class="margin-10">
+                            <t t-call="website.publish_management" groups="base.group_sale_manager">
+                              <t t-set="object" t-value="unit"/>
+                              <t t-set="publish_edit" t-value="True"/>
+                            </t>
+                        </div>
+                        <div class="clearfix margin-10"></div>
                         <section>
                             <div class="oe_structure">
                                 <div id="carousel-unit" class="carousel slide carousel-fade rem-box-shadow" data-ride="carousel">
@@ -684,16 +825,6 @@
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-6 col-xs-12">
                                     <div class="rem-unit-info-container">
-                                        <div class="margin-bottom-10 clearfix">
-                                            <div class="pull-left">
-                                                <div id="website_published_button">
-                                                    <t t-call="website.publish_management" groups="base.group_sale_manager">
-                                                      <t t-set="object" t-value="unit"/>
-                                                      <t t-set="publish_edit" t-value="True"/>
-                                                    </t>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="rem-unit-title">
                                             <div t-esc='unit.display_name'/>
                                         </div>

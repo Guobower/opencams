@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+​
+        <!-- Google Maps Key -->
+        <record id="gmaps_key" model="ir.config_parameter">
+            <field name="key">gmaps_key</field>
+            <field name="value">AIzaSyBoBeDUuU-1bxafFCk1zOCSNDpITzgA1e4</field>
+        </record>
+
+    </data>
+</openerp>
+        
