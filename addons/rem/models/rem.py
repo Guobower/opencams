@@ -342,7 +342,8 @@ class RemUnit(models.Model):
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
+    door_number = fields.Char(string='Door Number', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
     city_id = fields.Many2one('rem.unit.city', string='City', required=True)
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
