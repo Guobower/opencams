@@ -262,7 +262,7 @@ class RemUnit(models.Model):
     @api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
     def _check_active(self):
         for unit in self:
-            active = True
+            res = False
             if self.stage_id.force_show:
                 unit.update({'active': True})
                 return
@@ -272,9 +272,11 @@ class RemUnit(models.Model):
             if len(self.listing_contract_ids) == 0:
                 unit.update({'active': True})
                 return
-            date_now = datetime.now()
-
-            # TODO: get active contract and respective date start and end and compare
+            date_now = fields.Date.today()
+            if (self.current_contract_id.date_start <= date_now and
+                    self.current_contract_id.date_end >= date_now):
+                res = True
+            unit.update({'active': res})
 
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
@@ -287,8 +289,10 @@ class RemUnit(models.Model):
                                  default=lambda self: self.env.user.company_id)
     is_rent = fields.Boolean(
         related='contract_type_id.is_rent', string='Is Rentable')
-    active = fields.Boolean(compute='_check_active', store=True)
-
+    active = fields.Boolean(compute='_check_active', store=True, 
+                            help='An inactive unit will not be listed in the'
+                            ' back-end nor in the Website. Active field depends'
+                            ' on the stage and on the current contract start and end date')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(

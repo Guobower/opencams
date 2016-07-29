@@ -70,7 +70,7 @@ class RemListingContract(models.Model):
                                 'select id from rem_listing_contract '
                                 'where id <> %s and unit_id=%s '
                                 'order by date_end desc limit 1);'
-                                'update rem_listing_contract set current=False where ids in ( '
+                                'update rem_listing_contract set current=False where id in ( '
                                 'select id from rem_listing_contract '
                                 'where id <> %s and unit_id=%s);', [id1, unit_id, id1, unit_id])
         ret = super(RemListingContract, self).unlink()

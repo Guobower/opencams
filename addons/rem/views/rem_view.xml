@@ -30,32 +30,33 @@
                 <search string="Search Real Estate Unit">
                     <field name="display_name"/>
                     <!-- General Features -->
-                    <field name='contract_type_id'/>
-                    <field name='type_id'/>
+                    <field name="contract_type_id"/>
+                    <field name="partner_id"/>
+                    <field name="type_id"/>
                     <field name="street"/>
                     <field name="street2"/>
                     <field name="city_id"/>
                     <field name="state_id"/>
                     <field name="zip"/>
                     <field name="country_id"/> 
-                    <field name='bedrooms'/>
-                    <field name='bathrooms'/>
-                    <field name='points_interest'/>
-                    <field name='is_new'/>
+                    <field name="bedrooms"/>
+                    <field name="bathrooms"/>
+                    <field name="points_interest"/>
+                    <field name="is_new"/>
                     <!-- Indoor Features -->
-                    <field name='air_conditioned'/>
-                    <field name='ducted_cooling'/>
-                    <field name='wardrobes'/>
-                    <field name='dishwasher'/>
-                    <field name='living_areas'/>
+                    <field name="air_conditioned"/>
+                    <field name="ducted_cooling"/>
+                    <field name="wardrobes"/>
+                    <field name="dishwasher"/>
+                    <field name="living_areas"/>
                     <!-- Outdoor Features -->
-                    <field name='backyard'/>
-                    <field name='alarm'/>
-                    <field name='entertaining'/>
-                    <field name='sw_pool'/>
-                    <field name='garages'/>
-                    <field name='secure_parking'/>
-                    <field name='dog_friendly'/>
+                    <field name="backyard"/>
+                    <field name="alarm"/>
+                    <field name="entertaining"/>
+                    <field name="sw_pool"/>
+                    <field name="garages"/>
+                    <field name="secure_parking"/>
+                    <field name="dog_friendly"/>
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
@@ -118,7 +119,7 @@
 							<group>
                                 <field name="create_date"/>
                                 <field name="user_id" placeholder="Salesman"/>
-								<field name="active"/>
+								<field name="active" readonly="1"/>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>
                                 <field name="is_new"/>
@@ -358,6 +359,7 @@
             <field name="model">rem.unit.stage</field>
             <field name="arch" type="xml">
                 <tree string="Unit Stage">
+                	<field name="sequence" widget="handle" />
                     <field name="name"/>
                     <field name="contract_type_id"/>
                     <field name="force_show"/>

@@ -14,7 +14,7 @@
 	            </filter>
 	        </field>
 	    </record>
-    
+        
         <record model="ir.ui.view" id="partner_view_realestate_inherit">
             <field name="name">partner.view.realestate.inherit</field>
             <field name="model">res.partner</field>
@@ -26,6 +26,13 @@
 	                    <field name="seller"/>
 	                    <field name="is_neighbor"/>
 	                </group>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="action" name="%(action_rem_unit)d" 
+                        context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                        icon="fa-home">
+                        <field  string="Unit(s)" name="unit_count" widget="statinfo"/>
+                    </button>
                 </xpath>
             </field>
         </record>
