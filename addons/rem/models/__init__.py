@@ -3,3 +3,4 @@ import crm
 import rem
 import contract
 import res_partner
+import res_config

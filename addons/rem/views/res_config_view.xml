@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!--
+            Reason for Buy
+        -->
+
+        <!-- Reason for Buy Action Window -->
+        <record id="action_reason_for_buy" model="ir.actions.act_window">
+            <field name="name">Reason for Buy</field>
+            <field name="res_model">reason.for.buy</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Reason for Buy.
+                </p><p>
+                    The Reason for Buy are for the purpose of ???
+                    allowing you to control the ....
+                </p>
+            </field>
+        </record>
+    
+        <!--
+            REM Settings
+        -->
+
+        <record id="view_rem_config_settings" model="ir.ui.view">
+            <field name="name">rem settings</field>
+            <field name="model">rem.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Real Estate Management" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+
+                    <group string="Website Configuration">
+                        <label for="id" string="Options"/>
+                        <div>
+                        <div>
+                            <div>
+                                <field name="module_website_rem" class="oe_inline"/>
+                                <label for="module_website_rem" />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <button type="action" name="%(action_reason_for_buy)d" string="Configure Reasons for buy" 
+                                		class="oe_link btn-link"/>
+                                <span style="margin-right:5px;"></span>
+                            </div>
+                        </div>
+                        </div>
+
+                    </group>
+                   
+                </form>
+            </field>
+        </record>
+
+        <record id="action_rem_config" model="ir.actions.act_window">
+            <field name="name">Configure Real Estate Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rem.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_rem_config_settings" name="Settings" parent="rem.menu_rem_conf"
+            sequence="0" action="action_rem_config" groups="base.group_configuration"/>
+    </data>
+</openerp>
