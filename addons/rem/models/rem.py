@@ -300,7 +300,8 @@ class RemUnit(models.Model):
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
-    user_id = fields.Many2one('res.users', string='Salesman', required=False)
+    user_id = fields.Many2one('res.users', string='Salesman', required=False,
+                              default=lambda self: self.env.user.id)
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable')
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
     price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
