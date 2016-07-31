@@ -5,7 +5,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
-import pytz
+
 
 class RemContractType(models.Model):
     _name = 'rem.contract.type'
@@ -19,33 +19,29 @@ class RemContractType(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
+class RemTenantContractType(models.Model):
+    _name = 'rem.tenant.contract.type'
+    _description = 'Tenant Agreement Type'
+    _inherit = ['rem.contract.type']
+
+
 class RemBuyerContractType(models.Model):
     _name = 'rem.buyer.contract.type'
-    _description = 'Buyer Contract Type'
+    _description = 'Buyer Agreement Type'
     _inherit = ['rem.contract.type']
 
 
 class RemListingContractType(models.Model):
     _name = 'rem.listing.contract.type'
-    _description = 'Listing Contract Type'
+    _description = 'Listing Agreement Type'
     _inherit = ['rem.contract.type']
 
 
-class RemListingContract(models.Model):
-    _name = 'rem.listing.contract'
-    _description = 'Listing Contract'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+class RemAbstractContract(models.Model):
+    _name = 'rem.abstract.contract'
+    _description = 'Abstract Contract'
 
-    @api.multi
-    def _track_subtype(self, init_values):
-        self.ensure_one()
-        if 'auto_renew' in init_values and self.auto_renew:
-            return 'rem.mt_listing_created'
-        return super(RemListingContract, self)._track_subtype(init_values)
-
-    unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
-    partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller', store=True)
-    type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
+    type_id = fields.Many2one('rem.contract.type', string='Type', required=True)
     date_start = fields.Date('Start Date', required=True)
     date_end = fields.Date('End Date', required=True)
     auto_renew = fields.Boolean(string='Auto Renew?', default=True,
@@ -55,6 +51,62 @@ class RemListingContract(models.Model):
     period_unit = fields.Selection([('days', 'Day(s)'), ('months', 'Month(s)')], string='Period Unit', change_default=True,
                                    default='months')
     notice_period = fields.Integer('Notice Period', default=1)
+
+    @api.onchange('date_start', 'period', 'period_unit')
+    def onchange_period(self):
+        date_calc = False
+        if not self.date_start:
+            return {}
+        if self.period_unit == 'months':
+            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
+        else:
+            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=self.period)
+        self.date_end = date_calc
+        return {}
+
+    @api.onchange('date_end', 'notice_period_unit', 'notice_period')
+    def onchange_period_unit(self):
+        date_calc = False
+        if not self.date_end:
+            return
+        if self.notice_period_unit == 'months':
+            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
+        else:
+            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
+                                          DEFAULT_SERVER_DATETIME_FORMAT) - timedelta(days=self.notice_period)
+        self.notice_date = date_calc
+
+    @api.multi
+    @api.depends('date_start', 'period', 'period_unit')
+    def name_get(self):
+        units = []
+        for rec in self:
+            name = rec.type_id.code or _("Agreement")
+            if rec.date_start and rec.period and rec.period_unit:
+                name += " %s - %s %s" % (rec.date_start
+                                         , rec.period, rec.period_unit)
+            units.append((rec.id, name))
+        return units
+
+
+class RemListingContract(models.Model):
+    _name = 'rem.listing.contract'
+    _description = 'Listing Contract'
+    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+
+    @api.multi
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if 'auto_renew' in init_values and self.auto_renew:
+            return 'rem.mt_listing_created'
+        return super(RemListingContract, self)._track_subtype(init_values)
+
+    unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
+    type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
+    partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller')
     ordering = fields.Integer('Ordering Field', default=1)
     notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
                                           default='months')
@@ -106,42 +158,15 @@ class RemListingContract(models.Model):
         rec.update({'date_start': max_date or fields.Date.context_today(self)})
         return rec
 
-    @api.onchange('date_start', 'period', 'period_unit')
-    def onchange_period(self):
-        date_calc = False
-        if not self.date_start:
-            return {}
-        if self.period_unit == 'months':
-            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
-        else:
-            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=self.period)
-        self.date_end = date_calc
-        return {}
 
-    @api.onchange('date_end', 'notice_period_unit', 'notice_period')
-    def onchange_period_unit(self):
-        date_calc = False
-        if not self.date_end:
-            return
-        if self.notice_period_unit == 'months':
-            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
-        else:
-            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) - timedelta(days=self.notice_period)
-        self.notice_date = date_calc
+class RemBuyerContract(models.Model):
+    _name = 'rem.buyer.contract'
+    _description = 'Buyer Contract'
+    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
 
-    @api.multi
-    @api.depends('date_start', 'period', 'period_unit')
-    def name_get(self):
-        units = []
-        for rec in self:
-            name = rec.type_id.code or _("Agreement")
-            if rec.date_start and rec.period and rec.period_unit:
-                name += " %s - %s %s" % (rec.date_start
-                                         , rec.period, rec.period_unit)
-            units.append((rec.id, name))
-        return units
-
+    type_id = fields.Many2one('rem.buyer.contract.type', string='Type', required=True)
+    partner_id = fields.Many2one('res.partner', string='Buyer', required=True)
+    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
+                                          default='months')
+    current = fields.Boolean(string='Current Contract', default=True,
+                             help='This contract is the current one?')

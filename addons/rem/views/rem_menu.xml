@@ -16,7 +16,7 @@
         -->
 
 		<!-- Real Estate Asset Action Window -->
-        <record id="action_rem_unit" model="ir.actions.act_window">
+        <record id="action_rem_unit_sale" model="ir.actions.act_window">
             <field name="name">For Sale</field>
             <field name="res_model">rem.unit</field>
             <field name="view_mode">tree,form</field>
@@ -32,7 +32,7 @@
 	        </field>
         </record>
 		
-		<menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit" sequence="10"/>
+		<menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit_sale" sequence="10"/>
 		
 		<!-- Real Estate Asset Action Window -->
         <record id="action_rem_unit_rent" model="ir.actions.act_window">
@@ -87,18 +87,40 @@
               <p class="oe_view_nocontent_create">
                 Click to add a contact in your address book.
               </p><p>
-                Odoo helps you easily track all activities related to
+                Helps you easily track all activities related to
                 a buyer; discussions, history of business opportunities,
                 documents, etc.
               </p>
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_buyer" parent="menu_rem_contact" action="action_partner_buyer_form" sequence="20"/>
+        <menuitem id="menu_rem_obj_buyer" parent="menu_rem_contact" action="action_partner_buyer_form" sequence="20"/> 
+               
+		<!-- Tenant menu -->
+        <record id="action_partner_tenant_form" model="ir.actions.act_window">
+            <field name="name">Tenants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_tenant":1,"default_tenant":1}</field>
+            <field name="search_view_id" ref="view_res_partner_realestate_filter_inherit"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Helps you easily track all activities related to
+                a tenant; discussions, history of business opportunities,
+                documents, etc.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_rem_obj_tenant" parent="menu_rem_contact" action="action_partner_tenant_form" sequence="30"/>
         
 		<!-- Seller menu -->
         <record id="action_partner_seller_form" model="ir.actions.act_window">
-            <field name="name">Sellers</field>
+            <field name="name">Sellers / Owners</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -109,14 +131,14 @@
               <p class="oe_view_nocontent_create">
                 Click to add a contact in your address book.
               </p><p>
-                Odoo helps you easily track all activities related to
+                Helps you easily track all activities related to
                 a seller; discussions, history of business opportunities,
                 documents, etc.
               </p>
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_seller" parent="menu_rem_contact" action="action_partner_seller_form" sequence="30"/>
+        <menuitem id="menu_rem_obj_seller" parent="menu_rem_contact" action="action_partner_seller_form" sequence="40"/>
 
 		<!-- Configuration menus -->
 		

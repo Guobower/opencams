@@ -207,6 +207,15 @@
 	                            </div>
 	                        </div>
                         </div>
+                        <label for="id" string="Other options"/>
+                        <div>
+	                        <div>
+	                            <div>
+	                                <field name="group_use_buyer_contracts" class="oe_inline"/>
+	                                <label for="group_use_buyer_contracts" />
+	                            </div>
+	                        </div>
+                        </div>
                     </group>
                     <group string="Website Configuration">
                         <label for="id" string="Options"/>

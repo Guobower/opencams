@@ -11,8 +11,18 @@ class res_partner(models.Model):
                 'unit_count': len(partner.unit_ids)
             })
 
+    @api.depends('buyer_contract_ids')
+    def _buyer_contract_count(self):
+        for partner in self:
+            partner.update({
+                'buyer_contract_count': len(partner.buyer_contract_ids)
+            })
+
     is_neighbor = fields.Boolean('Is a Neighbor', help="Check this box if this contact is a neighbor.")
     buyer = fields.Boolean('Buyer', help="Check this box if this contact is a buyer.")
     seller = fields.Boolean('Seller', help="Check this box if this contact is a seller.")
+    tenant = fields.Boolean('Tenant', help="Check this box if this contact is a tenant.")
     unit_count = fields.Integer(compute='_unit_count')
     unit_ids = fields.One2many('rem.unit', 'partner_id', string='Unit(s)')
+    buyer_contract_count = fields.Integer(compute='_buyer_contract_count')
+    buyer_contract_ids = fields.One2many('rem.buyer.contract', 'partner_id', string='Contract(s)')
