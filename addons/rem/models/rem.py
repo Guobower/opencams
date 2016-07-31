@@ -223,20 +223,10 @@ class RemUnit(models.Model):
         else:
             self.currency_id = self.env.user.company_id.currency_id
 
-    @api.multi
-    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
-    def name_get(self):
-        units = []
-        for record in self:
-            name = record.street
-
-            if record.street2:
-                name += ', ' + record.street2
-
-            name += ', ' + record.zone_id.name + ', ' + record.city_id.name + ', ' + record.zip
-
-            units.append((record.id, name))
-        return units
+    @api.depends('price_rent')
+    def _get_rent_rate(self):
+        # TODO: implement rent rate depending on season for vacation rental
+        pass
 
     @api.depends('current_contract_id', 'listing_contract_ids')
     def _get_current_contract(self):
@@ -282,13 +272,14 @@ class RemUnit(models.Model):
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     user_id = fields.Many2one('res.users', string='Salesman', required=False)
+    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable')
+    # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
+    price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    is_rent = fields.Boolean(
-        related='contract_type_id.is_rent', string='Is Rentable')
     active = fields.Boolean(compute='_check_active', store=True, 
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
@@ -306,7 +297,7 @@ class RemUnit(models.Model):
                             help='If the field is new is set to False, the unit is considered used.')
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
-    price = fields.Float(string='Price', digits=(16, 2), required=True)
+    price = fields.Float(string='Sale Price', digits=(16, 2), required=True)
     description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
@@ -322,7 +313,7 @@ class RemUnit(models.Model):
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
     city_id = fields.Many2one('rem.unit.city', string='City', required=True)
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
@@ -368,3 +359,18 @@ class RemUnit(models.Model):
             'context': {'default_unit_id': self.id}
         }
 
+    @api.multi
+    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    def name_get(self):
+        units = []
+        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        for rec in self:
+            name = unit_name_format.format(
+                street=rec.street,
+                street2=rec.street2 or '',
+                city=rec.city_id.name or '',
+                state=rec.state_id.code or '',
+                zip=rec.zip or ''
+            )
+            units.append((rec.id, name))
+        return units

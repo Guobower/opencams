@@ -11,6 +11,22 @@ class RemConfigSettings(models.TransientModel):
 
     module_website_rem = fields.Boolean('Install Real Estate Website', help="By checking this option you "
                                         "will be installing the Real Estate Website on the front-end of your system.")
-    group_use_buyer_contracts = fields.Boolean('Use Buyer Contracts', implied_group='rem.group_use_buyer_contracts',
+    group_use_buyer_contracts = fields.Boolean('Use Buyer Representations Agreements', implied_group='rem.group_use_buyer_contracts',
                                                help="By checking this option you will make visible buyer representation"
                                                " agreements / contracts in the system ")
+    unit_name_format = fields.Char(string='Unit Name Format', required=True)
+
+    @api.model
+    def get_default_unit_name_format(self, fields):
+        unit_name_format = False
+        if 'unit_name_format' in fields:
+            unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        return {
+            'unit_name_format': unit_name_format
+        }
+
+    @api.multi
+    def set_unit_name_format(self):
+        for rec in self:
+            self.env['ir.config_parameter'].sudo().set_param('rem.unit_name_format', rec.unit_name_format)
+    

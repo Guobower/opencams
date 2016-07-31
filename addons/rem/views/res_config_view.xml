@@ -194,7 +194,7 @@
 	                            <div>
 	                                <button type="action" name="%(action_rem_unit_zone)d" 
 	                                		string="Configure the city zones (e.g. Prospect Heights-Brooklyn-Riverdale, The Bronx ...)" 
-	                                		help="Configure the city zones (e.g. Prospect Heights-Brooklyn-Riverdale, The Bronx ...) zones can include boroughs or neighborhoods, they should be setup in one unique set."
+	                                		help="Configure the city zones (e.g. Prospect Heights-Brooklyn, Riverdale-The Bronx ...) zones can include boroughs or neighborhoods, they should be setup in one unique set."
 	                                		class="oe_link btn-link"/>
 	                            </div>
 	                        </div>
@@ -205,6 +205,12 @@
 	                                		help="Location preferences selected by the buyers/tenants in the CRM Leads/Opportunities"
 	                                		class="oe_link btn-link"/>
 	                            </div>
+	                        </div>
+                        </div>
+                        <label for="unit_name_format" string="Unit name format"/>
+                        <div name="unit_name_format">
+	                        <div name="unit_name_format" class="oe_inline">
+	                        	<field name="unit_name_format" help="This setting allows you to define the naming format for your units, both on the back-end and on the website" />
 	                        </div>
                         </div>
                         <label for="id" string="Other options"/>
@@ -233,15 +239,5 @@
             </field>
         </record>
 
-        <record id="action_rem_config" model="ir.actions.act_window">
-            <field name="name">Configure Real Estate Management</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">rem.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-        </record>
-
-        <menuitem id="menu_rem_config_settings" name="Settings" parent="rem.menu_rem_conf"
-            sequence="0" action="action_rem_config" groups="base.group_configuration"/>
     </data>
 </openerp>

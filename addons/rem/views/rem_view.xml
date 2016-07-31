@@ -90,7 +90,6 @@
 	                            context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
 	                            <field string="Contracts" name="listing_contract_count" widget="statinfo"/>
 	                        </button>
-		                	
                             <button class="oe_stat_button" name="website_publish_button"
                                 type="object" icon="fa-globe">
                                 <field name="website_published" widget="website_button"/>
@@ -127,7 +126,7 @@
 								<field name="active" readonly="1"/>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>
-                                <field name="is_new"/>
+                                <field name="is_new" widget="radio"/>
 							</group>
 						</group>
                         <div>
