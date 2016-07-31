@@ -3,20 +3,129 @@
     <data>
     
         <!--
+            Location Preferences
+        -->
+
+        <record id="action_location_preferences" model="ir.actions.act_window">
+            <field name="name">Location Preferences</field>
+            <field name="res_model">location.preferences</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Location Preferences.
+                </p><p>
+                    The Location Preferences are for the purpose of ???
+                    allowing you to control the ....
+                </p>
+            </field>
+        </record>
+    
+        <!--
+        	Unit City
+        -->
+
+        <record id="action_rem_unit_city" model="ir.actions.act_window">
+            <field name="name">Unit City</field>
+            <field name="res_model">rem.unit.city</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit City.
+	            </p><p>
+	                The Unit City are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <!--
+            Unit Zone
+        -->
+
+        <record id="action_rem_unit_zone" model="ir.actions.act_window">
+            <field name="name">Unit Zone</field>
+            <field name="res_model">rem.unit.zone</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Unit Zone.
+                </p><p>
+                    The Unit Zone are for the purpose of ???
+                    allowing you to control the ....
+                </p>
+            </field>
+        </record>
+
+        <!--
+        	Unit Type
+        -->
+
+        <record id="action_rem_unit_type" model="ir.actions.act_window">
+            <field name="name">Unit Type</field>
+            <field name="res_model">rem.unit.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Type.
+	            </p><p>
+	                The Unit Type allow you to configure
+	                your Real estate unit types</p>
+	        </field>
+        </record>
+
+        <!--
+        	Contract Type
+		-->
+
+        <record id="action_re_contract_type" model="ir.actions.act_window">
+            <field name="name">Offer Type</field>
+            <field name="res_model">contract.type</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Real Estate Offer Type.
+	            </p><p>
+	                The Offer Type allow you to define the type
+					of offer (e.g. buy, rent ..) established for your units.
+	            </p>
+	        </field>
+        </record>
+
+        <!--
+        	Unit Stage
+		-->
+
+        <record id="action_rem_unit_stage" model="ir.actions.act_window">
+            <field name="name">Stage</field>
+            <field name="res_model">rem.unit.stage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_grouppertype': 1}</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Unit Stage.
+	            </p><p>
+	                The Unit Stage are for the purpose of ???
+	                allowing you to control the ....
+	            </p>
+	        </field>
+        </record>
+
+        <!--
             Reason for Buy
         -->
 
-        <!-- Reason for Buy Action Window -->
         <record id="action_reason_for_buy" model="ir.actions.act_window">
-            <field name="name">Reason for Buy</field>
+            <field name="name">Reason for buy/rent</field>
             <field name="res_model">reason.for.buy</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click to add a Reason for Buy.
+                    Click to add a reason for buy/rent.
                 </p><p>
-                    The Reason for Buy are for the purpose of ???
-                    allowing you to control the ....
+                    The Reason for buy/rent are for allowing
+                    you to understand your customer motivations.
+                    This will allow you to redefine your targets
+                    and better refine your strategy. 
                 </p>
             </field>
         </record>
@@ -35,24 +144,80 @@
                         <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                     </header>
 
+                    <group string="General Settings">
+                        <label for="id" string="Setup options"/>
+                        <div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_re_contract_type)d" 
+	                                		string="Configure type of offer (e.g. buy, rent, co-share ...)"
+	                                		help="This setting will allow you to configure the type of operations to implement in the system (e.g. buy, rent, holiday-rent, co-share ..)"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_rem_unit_type)d" 
+	                                		string="Configure unit types (e.g. flat, townhouse, villas ...)" 
+	                                		help="Configure unit types (e.g. flat, townhouse, villas ...), helping your customers to chose the best option for their needs."
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_rem_unit_stage)d" 
+	                                		string="Configure stages of the unit (e.g. contract, staging, available)" 
+	                                		help="Depending on the type of offer, the unit will have different stages (e.g. contract, staging, available, sold for Buy offer or: in refurbishment, available, occupied for Rent)"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_reason_for_buy)d" 
+	                                		string="Configure Reasons for buy" 
+	                                		help="Reason for buy/rent(engage) are for allowing you to understand your customer motivations.You can find this field in the CRM Opportunities and will allow you to redefine your targets and better refine your strategy"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+                        </div>
+                        <label for="id" string="Location options"/>
+                        <div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_rem_unit_city)d" 
+	                                		string="Configure the cities where you will have your listings."
+	                                		help="Configure the cities where you will have your listings."
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_rem_unit_zone)d" 
+	                                		string="Configure the city zones (e.g. Prospect Heights-Brooklyn-Riverdale, The Bronx ...)" 
+	                                		help="Configure the city zones (e.g. Prospect Heights-Brooklyn-Riverdale, The Bronx ...) zones can include boroughs or neighborhoods, they should be setup in one unique set."
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_location_preferences)d" 
+	                                		string="Location preferences used in the CRM Leads/Opportunities" 
+	                                		help="Location preferences selected by the buyers/tenants in the CRM Leads/Opportunities"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+                        </div>
+                    </group>
                     <group string="Website Configuration">
                         <label for="id" string="Options"/>
                         <div>
-                        <div>
-                            <div>
-                                <field name="module_website_rem" class="oe_inline"/>
-                                <label for="module_website_rem" />
-                            </div>
+	                        <div>
+	                            <div>
+	                                <field name="module_website_rem" class="oe_inline"/>
+	                                <label for="module_website_rem" />
+	                            </div>
+	                        </div>
                         </div>
-                        <div>
-                            <div>
-                                <button type="action" name="%(action_reason_for_buy)d" string="Configure Reasons for buy" 
-                                		class="oe_link btn-link"/>
-                                <span style="margin-right:5px;"></span>
-                            </div>
-                        </div>
-                        </div>
-
                     </group>
                    
                 </form>

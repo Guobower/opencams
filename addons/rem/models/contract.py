@@ -5,7 +5,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
-
+import pytz
 
 class RemContractType(models.Model):
     _name = 'rem.contract.type'
@@ -13,6 +13,7 @@ class RemContractType(models.Model):
 
     name = fields.Char(string='Type Name', size=32,
                        required=True, help='Type Name.')
+    code = fields.Char(string='Short Code', size=5, required=True, help="The contracts will be named using this prefix.")
     notes = fields.Text(string='Description', help='Brief description.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
@@ -44,8 +45,8 @@ class RemListingContract(models.Model):
 
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller', store=True)
-    type_id = fields.Many2one('rem.listing.contract.type', string='Type')
-    date_start = fields.Date('Start Date', required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
+    type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
+    date_start = fields.Date('Start Date', required=True)
     date_end = fields.Date('End Date', required=True)
     auto_renew = fields.Boolean(string='Auto Renew?', default=True,
                                 help='Check for automatically renew for same period and log in the chatter')
@@ -61,41 +62,55 @@ class RemListingContract(models.Model):
                              help='This contract is the current one for this unit?')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
 
+    def update_current_unit(self, unit_id, **kwargs):
+        contracts = self.with_context(avoid_recusrion=True).search([('unit_id', '=', unit_id)])
+        today_date = fields.Date.today()
+        for ct in contracts:
+            flag = (ct.date_start <= today_date and ct.date_end >= today_date)
+            print "%s: %s  - %s = %s" % (ct.id, ct.date_start, ct.date_end, flag)
+            ct.current = flag
+
     @api.multi
     def unlink(self):
         for ct1 in self:
-            id1 = ct1.id
-            unit_id = ct1.unit_id.id
-            self.env.cr.execute('update rem_listing_contract set current=True where id=( '
-                                'select id from rem_listing_contract '
-                                'where id <> %s and unit_id=%s '
-                                'order by date_end desc limit 1);'
-                                'update rem_listing_contract set current=False where id in ( '
-                                'select id from rem_listing_contract '
-                                'where id <> %s and unit_id=%s);', [id1, unit_id, id1, unit_id])
-        ret = super(RemListingContract, self).unlink()
-        return ret
+            self.update_current_unit(ct1.unit_id.id)
+        return super(RemListingContract, self).unlink()
 
-    @api.model
-    def create(self, vals):
-        ct = super(RemListingContract, self).create(vals)
-        for ct2 in ct.unit_id.listing_contract_ids:
-            if ct2.id != ct.id:
-                ct2.current = False
+    @api.multi
+    def write(self, vals):
+        ct = super(RemListingContract, self).write(vals)
+        for ct1 in self:
+            if not self._context.get('avoid_recusrion', False):
+                self.update_current_unit(ct1.unit_id.id)
         return ct
 
     @api.multi
     @api.constrains('date_start', 'period')
     def _check_dates(self):
-        for ct1 in self:
-            for ct2 in ct1.unit_id.listing_contract_ids:
-                if ct2.id != ct1.id:
-                    if ct2.date_end > ct1.date_start:
-                        raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct2.date_end)
+        contracts = self.search([('unit_id', '=', self.unit_id.id)])
+        for ct in contracts:
+            if ct.id != self.id:
+                if ct.date_end > self.date_start:
+                    raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct.date_end)
+
+    @api.model
+    def default_get(self, flds):
+        rec = super(RemListingContract, self).default_get(flds)
+        unit_id = rec.get('unit_id', False)
+        max_date = False
+        if unit_id:
+            contracts = self.search([('unit_id', '=', unit_id)])
+            for ct in contracts:
+                max_date = max(max_date, ct.date_end)
+
+        rec.update({'date_start': max_date or fields.Date.context_today(self)})
+        return rec
 
     @api.onchange('date_start', 'period', 'period_unit')
     def onchange_period(self):
         date_calc = False
+        if not self.date_start:
+            return {}
         if self.period_unit == 'months':
             date_calc = datetime.strptime(self.date_start + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
@@ -108,6 +123,8 @@ class RemListingContract(models.Model):
     @api.onchange('date_end', 'notice_period_unit', 'notice_period')
     def onchange_period_unit(self):
         date_calc = False
+        if not self.date_end:
+            return
         if self.notice_period_unit == 'months':
             date_calc = datetime.strptime(self.date_end + ' 00:00:00',
                                           DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
@@ -121,9 +138,10 @@ class RemListingContract(models.Model):
     def name_get(self):
         units = []
         for rec in self:
-            name = rec.type_id.name or _("Listing Agreement")
+            name = rec.type_id.code or _("Agreement")
             if rec.date_start and rec.period and rec.period_unit:
                 name += " %s - %s %s" % (rec.date_start
                                          , rec.period, rec.period_unit)
             units.append((rec.id, name))
         return units
+

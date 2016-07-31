@@ -6,18 +6,21 @@
         
         
         <record id="listing_contract_type_0" model="rem.listing.contract.type">
+            <field name="code">XSELL</field>
             <field name="name">Exclusive Right to Sell Listing</field>
             <field name="notes"><![CDATA[In this agreement, the agent gets paid no matter who sells the property,
 regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <record id="listing_contract_type_1" model="rem.listing.contract.type">
+        	<field name="code">AGENCY</field>
             <field name="name">Exclusive Agency Listing</field>
             <field name="notes"><![CDATA[Agents get paid in this type of agreement only if they sell the property. 
  No fee is earned if the owner alone sells the property.]]></field>
         </record>
         
         <record id="listing_contract_type_2" model="rem.listing.contract.type">
+        	<field name="code">OPEN</field>
             <field name="name">Open Listing</field>
             <field name="notes"><![CDATA[In this type of agreement, sellers have the right to use
  as many brokers as they want. The seller is not, however, obligated to pay any
@@ -25,6 +28,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <record id="listing_contract_type_3" model="rem.listing.contract.type">
+        	<field name="code">NET</field>
             <field name="name">Net Listing</field>
             <field name="notes"><![CDATA[This type of agreement may be illegal in your state. 
  The agent gets to keep everything he can get that's more than the sale price the owner wants.]]></field>

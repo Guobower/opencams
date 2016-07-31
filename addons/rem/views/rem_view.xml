@@ -13,6 +13,7 @@
             <field name="arch" type="xml">
                 <tree string="Real Estate Unit">
                     <field name="display_name"/>
+                    <field name="contract_type_id"/>
                     <field name="living_area"/>
                     <field name="bedrooms"/>
                     <field name="bathrooms"/>
@@ -60,6 +61,10 @@
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
+                    	<filter name="forsale" string="For Sale" domain="[('is_rent','=',0)]" help = "Units to sell"/>
+                    	<filter name="forrent" string="For Rent" domain="[('is_rent','=', 1)]" help = "Rentable units"/>
+                        <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'contract_type_id'}"/>
+                        <filter string="Bedrooms" icon="terp-partner" domain="[]" context="{'group_by':'bedrooms'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
                     </group>
                 </search>
@@ -423,7 +428,7 @@
             <field name="name">contract.type.tree</field>
             <field name="model">contract.type</field>
             <field name="arch" type="xml">
-                <tree string="Real Estate Contract Type">
+                <tree string="Offer Type">
                     <field name="name"/>
                 </tree>
             </field>
@@ -434,7 +439,7 @@
             <field name="name">contract.type.filter</field>
             <field name="model">contract.type</field>
             <field name="arch" type="xml">
-                <search string="Search Real Estate Contract Type">
+                <search string="Offer Type">
                     <field name="name"/>
                 </search>
             </field>
@@ -445,11 +450,11 @@
             <field name="name">contract.type.form</field>
             <field name="model">contract.type</field>
             <field name="arch" type="xml">
-                <form string="Real Estate Contract Type">
+                <form string="Offer Type">
 	                <sheet>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Contract Type Description"/></h1>
+                            <h1><field name="name" placeholder="Offer Type Description"/></h1>
                         </div>
 	                	<group>
 	                	    <group>

@@ -63,7 +63,7 @@ class RemUnitStage(models.Model):
     force_show = fields.Boolean(string='Force Show', default=False,
                                 help='Set if the stage is a standby stage (e.g. refurbishing or data entry ..)')
     force_hide = fields.Boolean(string='Force Hide', default=False,
-                               help='Set if the stage is a final stage (e.g. sold or out of market ..)')
+                                help='Set if the stage is a final stage (e.g. sold or out of market ..)')
     sequence = fields.Integer(
         string='Sequence', help='Used to order stages. Lower is better.')
     notes = fields.Text(string='Notes', help='Description of the stage.')
@@ -252,7 +252,7 @@ class RemUnit(models.Model):
                     'current_contract_id': curr_ctr,
                 })
 
-    @api.depends('listing_contract_ids')
+    @api.depends('listing_contract_count', 'listing_contract_ids')
     def _listing_contract_count(self):
         for unit in self:
             unit.update({
@@ -304,7 +304,7 @@ class RemUnit(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
-    contract_type_id = fields.Many2one('contract.type', string='Contract Type', required=True,
+    contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
     price = fields.Float(string='Price', digits=(16, 2), required=True)
     description = fields.Text(string='Detailed Description', required=True)
@@ -314,7 +314,7 @@ class RemUnit(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
                                   readonly=True)
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
-    listing_contract_count = fields.Integer(compute='_listing_contract_count', store=True)
+    listing_contract_count = fields.Integer(compute='_listing_contract_count')
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
     current_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
                                           compute='_get_current_contract',)
