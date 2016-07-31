@@ -855,7 +855,7 @@
                                             </t>
                                         </div>
                                         <div class="rem-unit-description">
-                                            <t t-esc="unit.description"/>
+                                            <t t-raw="unit.description"/>
                                         </div>
                                         <div class="features">
                                             <div class="row">
