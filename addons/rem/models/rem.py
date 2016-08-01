@@ -249,8 +249,8 @@ class RemUnit(models.Model):
                 'listing_contract_count': len(self.listing_contract_ids)
             })
 
+    #@api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
     @api.multi
-    @api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
     def _check_active(self):
         for unit in self:
             flag = False
@@ -302,7 +302,7 @@ class RemUnit(models.Model):
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     user_id = fields.Many2one('res.users', string='Salesman', required=False,
                               default=lambda self: self.env.user.id)
-    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable')
+    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
     price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
@@ -310,7 +310,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active', store=True, 
+    active = fields.Boolean(compute='_check_active', store=True,
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
@@ -343,7 +343,7 @@ class RemUnit(models.Model):
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
-    zone_id = fields.Many2one('rem.unit.zone', string='Zone', required=True)
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
     city_id = fields.Many2one('rem.unit.city', string='City', required=True)
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')

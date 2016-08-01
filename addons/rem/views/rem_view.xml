@@ -65,6 +65,8 @@
                     <group expand="0" string="Group By">
                     	<filter name="forsale" string="For Sale" domain="[('is_rent','=',0)]" help = "Units to sell"/>
                     	<filter name="forrent" string="For Rent" domain="[('is_rent','=', 1)]" help = "Rentable units"/>
+                    	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>
+                    	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
                         <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'contract_type_id'}"/>
                         <filter string="Bedrooms" icon="terp-partner" domain="[]" context="{'group_by':'bedrooms'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
@@ -80,9 +82,9 @@
 			<field name="arch" type="xml">
 				<form string="Real Estate Unit">
 					<header>
-						<field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
-                        <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Features"/>
-                        <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Features"/>
+                        <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight o_wow"/>
+                        <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
+                        <field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
 					</header>
 					<sheet>
                         <div class="oe_button_box" name="button_box">
@@ -191,15 +193,12 @@
 												<t t-name="kanban-box">
 													<div class="oe_kanban_global_click" style="position: relative">
 														<a t-if="! read_only_mode" type="delete"
-															style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+															style="position: absolute; right: 0; padding: 4px; display: inline-block">X</a>
 														<div class="oe_module_vignette">
 															<img
 																t-att-src="kanban_image('rem.image', 'image_medium', record.unit_id.raw_value)"
-																t-att-title="record.unit_id.value"  
+																t-att-title="record.name.value"  
 																class="img-responsive"/>
-															<div class="oe_module_desc">
-																<field name="name"/>
-															</div>
 														</div>
 													</div>
 												</t>
