@@ -249,6 +249,7 @@ class RemUnit(models.Model):
                 'listing_contract_count': len(self.listing_contract_ids)
             })
 
+    @api.one
     @api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
     def _check_active(self):
         for unit in self:
