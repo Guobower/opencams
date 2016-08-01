@@ -13,6 +13,7 @@
             <field name="arch" type="xml">
                 <tree string="Real Estate Unit">
                     <field name="display_name"/>
+                    <field name="user_id"/>
                     <field name="contract_type_id"/>
                     <field name="living_area"/>
                     <field name="bedrooms"/>
@@ -63,6 +64,7 @@
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
+                    	<filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
                     	<filter name="forsale" string="For Sale" domain="[('is_rent','=',0)]" help = "Units to sell"/>
                     	<filter name="forrent" string="For Rent" domain="[('is_rent','=', 1)]" help = "Rentable units"/>
                     	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>

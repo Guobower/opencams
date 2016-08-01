@@ -297,11 +297,13 @@ class RemUnit(models.Model):
             units.append((rec.id, name))
         return units
 
+    contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
+                                       default=_get_default_contract_type)
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
-    user_id = fields.Many2one('res.users', string='Salesman', required=False,
-                              default=lambda self: self.env.user.id)
+    # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
+    user_id = fields.Many2one('res.users', string='Salesman', required=True, default=lambda self: self.env.user)
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
     price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
@@ -325,8 +327,6 @@ class RemUnit(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
-    contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
-                                       default=_get_default_contract_type)
     price = fields.Float(string='Sale Price', digits=(16, 2), required=True)
     description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(

@@ -984,6 +984,8 @@
                                                 </div>
                                                 <input type="hidden" name="type" value="opportunity"/>
                                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="unit_id" t-att-value="unit.id"/>
+                                                <input type="hidden" name="type_buyer" t-att-value="1"/>
                                                 <div class="form-group">
                                                     <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
                                                 </div>

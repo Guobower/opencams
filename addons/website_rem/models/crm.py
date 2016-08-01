@@ -22,8 +22,19 @@ class Lead(models.Model):
 
             values.update({
                 'priority': '3',
+                'color': 3,
                 'name': 'Seller contact: ' + request.params.get('name').strip(),
                 're_city': re_city,
             })
-
+        elif request.params.get('type_buyer', False):
+            if request.params.get('unit_id'):
+                unit_id = request.params.get('unit_id')
+            unit = self.sudo().env['rem.unit'].search_read(domain=[('id', '=', unit_id)])[0]
+            print "_____________", unit['contract_type_id'][1]
+            values.update({
+                'priority': '3',
+                'color': 5,
+                'name': ('%s contact: %s' % (unit['contract_type_id'][1], request.params.get('name').strip())),
+                'user_id': unit['user_id'][0]
+            })
         return res

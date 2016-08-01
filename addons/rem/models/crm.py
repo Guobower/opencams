@@ -35,7 +35,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     planned_revenue = fields.Float('Costumer Badget', track_visibility='always')
-    unit_lead = fields.Many2many('rem.unit', string='Units')
+    unit_ids = fields.Many2many('rem.unit', string='Units')
     re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
 
     # General Features
