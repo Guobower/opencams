@@ -249,25 +249,26 @@ class RemUnit(models.Model):
                 'listing_contract_count': len(self.listing_contract_ids)
             })
 
-    @api.one
+    @api.multi
     @api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
     def _check_active(self):
         for unit in self:
-            res = False
-            if self.stage_id.force_show:
-                unit.update({'active': True})
-                return
-            if self.stage_id.force_hide:
-                unit.update({'active': False})
-                return
-            if len(self.listing_contract_ids) == 0:
-                unit.update({'active': True})
-                return
+            flag = False
             date_now = fields.Date.today()
             if (self.current_contract_id.date_start <= date_now and
                     self.current_contract_id.date_end >= date_now):
-                res = True
-            unit.update({'active': res})
+                flag = True
+
+            if self.stage_id.force_show:
+                unit.active = True
+                break
+            if self.stage_id.force_hide:
+                unit.active = False
+                break
+
+            if len(self.listing_contract_ids) == 0:
+                flag = True
+            unit.active = flag
 
     reference = fields.Char(string='Reference', required=True, copy=False,
                             readonly=True, index=True, default='New')
@@ -281,7 +282,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active', store=True, 
+    active = fields.Boolean(compute='_check_active', #store=True, 
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')

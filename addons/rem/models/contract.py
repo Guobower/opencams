@@ -119,7 +119,6 @@ class RemListingContract(models.Model):
         today_date = fields.Date.today()
         for ct in contracts:
             flag = (ct.date_start <= today_date and ct.date_end >= today_date)
-            print "%s: %s  - %s = %s" % (ct.id, ct.date_start, ct.date_end, flag)
             ct.current = flag
 
     @api.multi
