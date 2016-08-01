@@ -310,7 +310,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active', #store=True, 
+    active = fields.Boolean(compute='_check_active', store=True, 
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
