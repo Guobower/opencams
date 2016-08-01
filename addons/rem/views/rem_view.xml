@@ -113,7 +113,6 @@
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 			                    <label for="street" string="Address"/>
 			                    <div class="o_address_format">
-                                    <field name="door_number" placeholder="Door number"/>
 			                        <field name="street" placeholder="Street..." class="o_address_street"/>
 			                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
 			                        <field name="city_id" placeholder="City" class="o_address_city"/>
