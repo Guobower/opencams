@@ -35,7 +35,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     planned_revenue = fields.Float('Costumer Badget', track_visibility='always')
-    unit_ids = fields.Many2many('rem.unit', string='Units')
+    unit_ids = fields.Many2many('rem.unit', 'crm_lead_rem_unit_rel', 'unit_id', 'lead_id', string='Units')
     re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
 
     # General Features
@@ -85,12 +85,12 @@ class CrmLead(models.Model):
 
     @api.multi
     def action_find_matching_units(self):
-        context = {}
+        context = dict(self._context or {})
         for conditions in MATCH_RE:
             if eval(conditions):
                 for key, val in MATCH_RE[conditions].iteritems():
-                    context.update({key: eval(val)})
-
+                    context[key] = eval(val)
+        context['from_lead_id'] = self.id
         res = {
             'name': _('Search results'),
             'type': 'ir.actions.act_window',

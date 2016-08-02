@@ -20,6 +20,7 @@
                     <field name="bathrooms"/>
                     <field name="is_new"/>
                     <field name="stage_id"/>
+                    <button name="action_select_unit" string="Select Unit" invisible="not context.get('from_lead_id', False)" type="object" icon="gtk-apply"/>
                 </tree>
             </field>
         </record>
@@ -128,7 +129,7 @@
 							</group>
 							<group>
                                 <field name="create_date"/>
-                                <field name="user_id" placeholder="Salesman"/>
+                                <field name="user_id" placeholder="Salesperson"/>
 								<field name="active" readonly="1"/>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>

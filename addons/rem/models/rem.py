@@ -303,7 +303,7 @@ class RemUnit(models.Model):
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
-    user_id = fields.Many2one('res.users', string='Salesman', required=True, default=lambda self: self.env.user)
+    user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
     price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
@@ -339,6 +339,7 @@ class RemUnit(models.Model):
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
     current_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
                                           compute='_get_current_contract',)
+    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel', 'lead_id', 'unit_id', string='Leads')
 
     # Location
     street = fields.Char(string='Street', required=True)
@@ -377,7 +378,15 @@ class RemUnit(models.Model):
     alarm = fields.Boolean(string='Alarm System', default=False)
     sw_pool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
-    
+
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
+
+    @api.multi
+    def action_select_unit(self):
+        lead_id = self._context.get('from_lead_id', False)
+        print lead_id
+        
+        return True
+    
