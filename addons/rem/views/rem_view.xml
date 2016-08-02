@@ -20,7 +20,13 @@
                     <field name="bathrooms"/>
                     <field name="is_new"/>
                     <field name="stage_id"/>
-                    <button name="action_select_unit" string="Select Unit" invisible="not context.get('from_lead_id', False)" type="object" icon="gtk-apply"/>
+                    <field name="has_lead_id" invisible="1"/>
+                    <button name="action_select_unit" string="Select Unit" type="object" icon="gtk-apply"
+                    		invisible="not context.get('from_lead_id', False)"
+                    		attrs="{'invisible': [('has_lead_id','=', True)]}"/>
+                    <button name="action_remove_unit" string="Remove Unit" type="object" icon="gtk-remove"
+                    		invisible="not context.get('from_lead_id', False)"
+                    		attrs="{'invisible': [('has_lead_id','!=', True)]}"/>
                 </tree>
             </field>
         </record>

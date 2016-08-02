@@ -270,6 +270,12 @@ class RemUnit(models.Model):
                 flag = True
             unit.active = flag
 
+    @api.one
+    def _context_has_lead_id(self):
+        lead_id = int(self._context.get('from_lead_id', False))
+        for unit in self:
+            unit.has_lead_id = (lead_id in unit.lead_ids.ids)
+
     @api.multi
     def action_listing_contracts(self):
         return {
@@ -339,8 +345,8 @@ class RemUnit(models.Model):
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
     current_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
                                           compute='_get_current_contract',)
-    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel', 'lead_id', 'unit_id', string='Leads')
-
+    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
+    has_lead_id = fields.Boolean(compute='_context_has_lead_id')
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
@@ -385,8 +391,14 @@ class RemUnit(models.Model):
 
     @api.multi
     def action_select_unit(self):
-        lead_id = self._context.get('from_lead_id', False)
-        print lead_id
-        
+        lead_id = int(self._context.get('from_lead_id', False))
+        self.lead_ids = list(set(self.lead_ids.ids) | set([lead_id]))
         return True
-    
+
+    @api.multi
+    def action_remove_unit(self):
+        lead_id = int(self._context.get('from_lead_id', False))
+        print "_______________", list(set(self.lead_ids.ids) - set([lead_id]))
+        self.lead_ids = list(set(self.lead_ids.ids) - set([lead_id]))
+        return True
+
