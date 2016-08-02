@@ -9,7 +9,6 @@
             <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tag_ids']" position="after">
-                    <field name="unit_ids" widget="many2many_tags"/>
                     <field name="re_reason"/>
                 </xpath>
                 <xpath expr="//div[@name='button_box']" position="inside">
@@ -66,12 +65,44 @@
                                 <field name="re_dog_friendly"/>
                             </group>
                         </group>
-                	</page>   
+                	</page>
+                	<page string="Unit Selection">
+                            <field name="unit_ids" widget="many2many_kanban">
+                                <kanban quick_create="false" create="true">
+                                    <field name="display_name"/>
+                                    <field name="main_img"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div>
+                                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                <div class="oe_group_details" style="min-height: 40px">
+                                                    <img t-att-src="kanban_image('rem.unit', 'main_img', record.id.value)"
+                                                         style="margin-right: 10px;max-width:140px"/><br/>
+                                                    <span><t t-esc="record.display_name.value"/></span>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                	</page>
                 </xpath>
               
             </field>
         </record>
-
+        
+		<!--  Calendar Events Form View -->
+	    <record model="ir.ui.view" id="view_calendar_event_form_rem_inherit">
+	        <field name="name">calendar.event.rem.inherit</field>
+	        <field name="model">calendar.event</field>
+	        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+	        <field name="arch" type="xml">
+		        <xpath expr="//field[@name='user_id']" position="after">
+		        	<field name="unit_ids" widget="many2many_tags"/>
+		        </xpath>
+	        </field>
+	    </record>
+	    
     </data>
 </openerp>
 

@@ -249,7 +249,22 @@ class RemUnit(models.Model):
                 'listing_contract_count': len(self.listing_contract_ids)
             })
 
-    #@api.depends('stage_id', 'contract_type_id', 'contract_type_id.is_rent')
+    @api.multi
+    @api.depends('image_ids', 'lead_ids')
+    def _get_main_image(self):
+        for unit in self:
+            id = False
+            res = False
+            if unit.id:
+                self.env.cr.execute('SELECT id FROM rem_image WHERE unit_id=%s '
+                                    'ORDER BY sequence asc, id asc LIMIT 1;', [unit.id])
+                res = self.env.cr.dictfetchone()
+                if res:
+                    id = int(res['id'])
+                    res = self.env['rem.image'].search_read([('id', '=', id)])[0]['image_medium']
+            unit.main_img = res
+            unit.main_img_id = id
+
     @api.multi
     def _check_active(self):
         for unit in self:
@@ -326,10 +341,11 @@ class RemUnit(models.Model):
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(
         'rem.image', 'unit_id', string='Photos', ondelete='cascade')
+    main_img = fields.Binary('Main Image', compute='_get_main_image', attachment=True, store=True)
+    main_img_id = fields.Integer('Main Image ID', compute='_get_main_image')
     feature_id = fields.Many2many(
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(compute=_is_featured, store=False)
-    reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
     type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
@@ -347,6 +363,7 @@ class RemUnit(models.Model):
                                           compute='_get_current_contract',)
     lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
     has_lead_id = fields.Boolean(compute='_context_has_lead_id')
+
     # Location
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street2')
@@ -391,14 +408,13 @@ class RemUnit(models.Model):
 
     @api.multi
     def action_select_unit(self):
-        lead_id = int(self._context.get('from_lead_id', False))
-        self.lead_ids = list(set(self.lead_ids.ids) | set([lead_id]))
-        return True
+        for unit in self:
+            lead_id = int(self._context.get('from_lead_id', False))
+            unit.lead_ids = [(6, 0, list(set(self.lead_ids.ids) | set([lead_id])))]
 
     @api.multi
     def action_remove_unit(self):
-        lead_id = int(self._context.get('from_lead_id', False))
-        print "_______________", list(set(self.lead_ids.ids) - set([lead_id]))
-        self.lead_ids = list(set(self.lead_ids.ids) - set([lead_id]))
-        return True
+        for unit in self:
+            lead_id = int(self._context.get('from_lead_id', False))
+            unit.lead_ids = [(6, 0, list(set(self.lead_ids.ids) - set([lead_id])))]
 

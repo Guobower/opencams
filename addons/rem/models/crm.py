@@ -84,6 +84,16 @@ class CrmLead(models.Model):
         string='Outdoor Entertaining Area', help='Active if you want to search for units with outdoor entertaining area.')
 
     @api.multi
+    def action_schedule_meeting(self):
+        for lead in self:
+            res1 = super(CrmLead, self).action_schedule_meeting()
+            res1['context'].update({
+                'default_unit_ids': (0, 0, list(lead.unit_ids.ids)),
+            })
+
+        return res1
+
+    @api.multi
     def action_find_matching_units(self):
         context = dict(self._context or {})
         for conditions in MATCH_RE:
