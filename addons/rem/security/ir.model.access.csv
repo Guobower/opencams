@@ -5,6 +5,8 @@ access_contract_type,access_contract_type,model_contract_type,,1,0,0,0
 access_rem_unit_stage,access_rem_unit_stage,model_rem_unit_stage,,1,0,0,0
 access_rem_image,access_rem_image,model_rem_image,,1,0,0,0
 access_rem_unit_city,access_rem_unit_city,model_rem_unit_city,,1,0,0,0
+access_rem_unit_street,access_rem_unit_street,model_rem_unit_street,,1,0,0,0
+access_rem_unit_zip,access_rem_unit_zip,model_rem_unit_zip,,1,0,0,0
 access_rem_unit_zone,access_rem_unit_zone,model_rem_unit_zone,,1,0,0,0
 access_stage_history,access_stage_history,model_stage_history,,1,0,0,0
 access_reason_for_buy,access_reason_for_buy,model_reason_for_buy,,1,0,0,0
