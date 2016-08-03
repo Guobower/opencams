@@ -31,7 +31,7 @@ $(function() {
         if (!$(this).hasClass("active")) {
             $(".rem-form-search .nav-tabs li").removeClass("active");
             $(this).addClass("active");
-            $("#ct").val($(this).attr("id").replace("ct-", ""));
+            $("#contract_type_id").val($(this).attr("id").replace("ct-", ""));
         }
     });
 
@@ -56,7 +56,7 @@ function get_multi_search_results()
     {
         $.ajax(
         {
-            url: "/rem/search/" + $("#multi_search").val(),
+            url: "/rem/search/" + $("#multi_search").val() + "/" + $("#contract_type_id").val(),
             type: "GET",
             dataType: "json",
             success: function(json)
@@ -73,7 +73,7 @@ function get_multi_search_results()
 
                     for (var i = 0; i < units.length; i++)
                     {
-                        $(".rem-autocomplete").append('<li onmousedown="autofill_multi_search(\'' + units[i].name + '\');">' + units[i].name + "</li>");
+                        $(".rem-autocomplete").append('<li onmousedown="autofill_multi_search(\'' + units[i].result + '\');">' + units[i].result + "</li>");
                     }
 
                     $(".rem-autocomplete").show();

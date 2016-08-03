@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-        
+
         <!--
         	Real Estate Asset
         -->
@@ -616,6 +616,39 @@
                 </form>
             </field>
         </record>
+
+        <!--
+            Rem Unit Search
+        -->
+
+        <!-- Rem Unit Search Wizard Form -->
+        <record id="wizard_populate_rem_unit_search_view" model="ir.ui.view">
+            <field name="name">Populate Rem Unit Search</field>
+            <field name="model">wizard.rem.unit.search</field>
+            <field name="arch" type="xml">
+                <form>
+                    <footer>
+                        <button name="do_populate_rem_unit_search" string="Populate Rem Unit Search" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Rem Unit Search Wizard Action -->
+        <act_window id="action_wizard_populate_rem_unit_search"
+            name="Populate Rem Unit Search"
+            res_model="wizard.rem.unit.search"
+            view_type="form"
+            view_mode="form"
+            view_id="wizard_populate_rem_unit_search_view"
+            target="new"
+            groups="base.group_system"/>
+
+        <!-- Rem Unit Search Wizard Menu -->
+        <menuitem action="action_wizard_populate_rem_unit_search" id="menu_setting_wizard_populate_rem_unit_search"
+            parent="base.menu_users" groups="base.group_system"/>
 
 	</data>
 </openerp>

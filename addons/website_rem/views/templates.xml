@@ -80,7 +80,7 @@
                                                 </t>
                                             </ul>
                                         </t>
-                                        <input type="hidden" id="ct" name="contract_type" t-att-value="selected_contract_type"/>
+                                        <input type="hidden" id="contract_type_id" name="contract_type_id" t-att-value="selected_contract_type"/>
                                         <div class="row">
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">

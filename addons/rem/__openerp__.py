@@ -27,6 +27,7 @@ This module allows to sell/rent real estate units
         'views/res_config_view.xml',
         'views/rem_menu.xml',
         'wizard/event_unit_multi.xml',
+        'views/rem_cron.xml',
     ],
     'test': [
     ],
