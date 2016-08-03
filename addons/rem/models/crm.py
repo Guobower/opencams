@@ -90,8 +90,7 @@ class CrmLead(models.Model):
             res1['context'].update({
                 'default_unit_ids': lead.unit_ids.ids,
             })
-
-        return res1
+            return res1
 
     @api.multi
     def action_find_matching_units(self):
