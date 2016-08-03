@@ -91,14 +91,48 @@
             </field>
         </record>
         
+        <!--  Calendar Events Search View -->
+	    <record id="view_rem_meeting_search" model="ir.ui.view">
+	        <field name="name">REM - Meetings Search</field>
+	        <field name="model">calendar.event</field>
+	        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='user_id']" position="after">
+	                <field name="unit_ids"/>
+	            </xpath>
+	        </field>
+	    </record>
+
 		<!--  Calendar Events Form View -->
 	    <record model="ir.ui.view" id="view_calendar_event_form_rem_inherit">
 	        <field name="name">calendar.event.rem.inherit</field>
 	        <field name="model">calendar.event</field>
 	        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
 	        <field name="arch" type="xml">
-		        <xpath expr="//field[@name='user_id']" position="after">
-		        	<field name="unit_ids" widget="many2many_tags"/>
+		        <xpath expr="//page[1]" position="after">
+		        <page string="Sales">
+			        <group>
+			        	<field name="opportunity_id" attrs="{'invisible': [('opportunity_id','=',False)]}"/>
+			        	<field name="unit_ids" widget="many2many_tags"/>
+			        </group>
+		        </page>
+		        </xpath>
+	        </field>
+	    </record>
+	    
+		<!--  Calendar Events popup Form View -->
+	    <record model="ir.ui.view" id="view_calendar_event_popupform_rem_inherit">
+	        <field name="name">calendar.event.popup.rem.inherit</field>
+	        <field name="model">calendar.event</field>
+	        <field name="inherit_id" ref="calendar.view_calendar_event_form_popup"/>
+	        <field name="arch" type="xml">
+		        <xpath expr="//group" position="after">
+		        	<group>
+		        		<group>
+		        		<field name="opportunity_id" attrs="{'invisible': [('opportunity_id','=',False)]}"/>
+		        		<field name="unit_ids" widget="many2many_tags" attrs="{'invisible': [('unit_ids','=',False)]}"/>
+		        		</group>
+		        	</group>
 		        </xpath>
 	        </field>
 	    </record>

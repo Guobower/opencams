@@ -88,7 +88,7 @@ class CrmLead(models.Model):
         for lead in self:
             res1 = super(CrmLead, self).action_schedule_meeting()
             res1['context'].update({
-                'default_unit_ids': (0, 0, list(lead.unit_ids.ids)),
+                'default_unit_ids': lead.unit_ids.ids,
             })
 
         return res1

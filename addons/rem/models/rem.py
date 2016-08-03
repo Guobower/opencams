@@ -242,12 +242,17 @@ class RemUnit(models.Model):
                     'current_contract_id': curr_ctr,
                 })
 
+    @api.multi
     @api.depends('listing_contract_count', 'listing_contract_ids')
     def _listing_contract_count(self):
         for unit in self:
-            unit.update({
-                'listing_contract_count': len(self.listing_contract_ids)
-            })
+            unit.listing_contract_count = unit.listing_contract_ids
+
+    @api.multi
+    @api.depends('event_ids_count', 'event_ids')
+    def _event_count(self):
+        for unit in self:
+            unit.event_ids_count = len(unit.event_ids)
 
     @api.multi
     @api.depends('image_ids', 'lead_ids')
@@ -285,22 +290,11 @@ class RemUnit(models.Model):
                 flag = True
             unit.active = flag
 
-    @api.one
+    @api.multi
     def _context_has_lead_id(self):
         lead_id = int(self._context.get('from_lead_id', False))
         for unit in self:
             unit.has_lead_id = (lead_id in unit.lead_ids.ids)
-
-    @api.multi
-    def action_listing_contracts(self):
-        return {
-            'name': _('Get listing contracts'),
-            'type': 'ir.actions.act_window',
-            'view_mode': 'list,form,graph',
-            'res_model': 'rem.listing.contract',
-            'domain': "[('unit_id','=',active_id)]",
-            'context': {'default_unit_id': self.id}
-        }
 
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
@@ -320,7 +314,7 @@ class RemUnit(models.Model):
 
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
-    reference = fields.Char(string='Reference', required=True, copy=False,
+    reference = fields.Char(string='Reference', copy=False,
                             readonly=True, index=True, default='New')
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
@@ -337,6 +331,9 @@ class RemUnit(models.Model):
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
+    event_ids = fields.Many2many('calendar.event', 'crm_lead_calendar_rel1', 'cal_id', 'unit_id', string='Show Units',
+                                 help="Appointment / meetings related to this unit")
+    event_ids_count = fields.Integer(compute='_event_count')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(
@@ -417,4 +414,18 @@ class RemUnit(models.Model):
         for unit in self:
             lead_id = int(self._context.get('from_lead_id', False))
             unit.lead_ids = [(6, 0, list(set(self.lead_ids.ids) - set([lead_id])))]
+
+    @api.multi
+    def get_unit_events(self):
+        unit_ids = []
+        for unit in self:
+            unit_ids.append(unit.id)
+        return {
+            'name': _('Appointments/Meetings'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'calendar,tree,form',
+            'res_model': 'calendar.event',
+            'domain': [('unit_ids', 'in', unit_ids)],
+            'context': {'default_unit_ids': unit_ids, 'default_duration': 4.0}
+        }
 
