@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="0">
+    <data noupdate="1">
 
         <!-- Listing Contract Types -->    
     
-        <record model="ir.config_parameter" id="google_app_key">
-            <field name="key">rem.unit_name_format</field>
+        <record model="ir.config_parameter" id="unit_websitename_format_key">
+            <field name="key">rem.unit_websitename_format</field>
             <field name="value">{street} {street2}, {city}, {state} {zip}</field>
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        </record>
+    
+        <record model="ir.config_parameter" id="unit_name_format_key">
+            <field name="key">rem.unit_name_format</field>
+            <field name="value">{street:.10}, {city:.5}, {bedrooms}bd {bathrooms}ba</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
         

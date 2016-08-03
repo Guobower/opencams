@@ -15,6 +15,7 @@ class RemConfigSettings(models.TransientModel):
                                                help="By checking this option you will make visible buyer representation"
                                                " agreements / contracts in the system ")
     unit_name_format = fields.Char(string='Unit Name Format', required=True)
+    unit_websitename_format = fields.Char(string='Unit Website Name Format', required=True)
 
     @api.model
     def get_default_unit_name_format(self, fields):
@@ -23,6 +24,15 @@ class RemConfigSettings(models.TransientModel):
             unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
         return {
             'unit_name_format': unit_name_format
+        }
+
+    @api.model
+    def get_default_unit_websitename_format(self, fields):
+        unit_websitename_format = False
+        if 'unit_websitename_format' in fields:
+            unit_websitename_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_websitename_format')
+        return {
+            'unit_websitename_format': unit_websitename_format
         }
 
     @api.multi

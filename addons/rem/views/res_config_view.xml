@@ -213,9 +213,10 @@
 	                        	<field name="unit_name_format">
 	                        	<help>This setting allows you to define 
 	                        		the naming format for your units, 
-	                        		both on the back-end and on the website. 
+	                        		both on the back-end system. 
 	                        		You can use {street}, {street2},
-	                        		{city}, {state}, {zip}</help>
+	                        		{city}, {state}, {zip}, {bedrooms},
+	                        		{bathrooms}, {living_area} and  {land_area}.</help>
 	                        	</field>
 	                        </div>
                         </div>
@@ -237,6 +238,19 @@
 	                                <field name="module_website_rem" class="oe_inline"/>
 	                                <label for="module_website_rem" />
 	                            </div>
+	                        </div>
+                        </div>
+                        <label for="unit_websitename_format" string="Unit name format"/>
+                        <div name="unit_websitename_format">
+	                        <div name="unit_websitename_format" class="oe_inline">
+	                        	<field name="unit_websitename_format">
+	                        	<help>This setting allows you to define 
+	                        		the naming format for your units, 
+	                        		both on the website pages. 
+	                        		You can use {street}, {street2},
+	                        		{city}, {state}, {zip}, {bedrooms},
+	                        		{bathrooms}, {living_area} and  {land_area}.</help>
+	                        	</field>
 	                        </div>
                         </div>
                     </group>

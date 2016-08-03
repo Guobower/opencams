@@ -316,7 +316,9 @@ class RemUnit(models.Model):
             unit.has_lead_id = (lead_id in unit.lead_ids.ids)
 
     @api.multi
-    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    @api.depends('street', 'street2', 'zone_id.name',
+                 'city_id.name', 'zip', 'bedrooms',
+                 'bathrooms', 'living_area', 'land_area')
     def name_get(self):
         units = []
         unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
@@ -326,7 +328,11 @@ class RemUnit(models.Model):
                 street2=rec.street2 or '',
                 city=rec.city_id.name or '',
                 state=rec.state_id.code or '',
-                zip=rec.zip or ''
+                zip=rec.zip or '',
+                bedrooms=rec.bedrooms or 0,
+                bathrooms=rec.bathrooms or 0,
+                living_area=rec.living_area or 0,
+                land_area=rec.land_area or 0,
             )
             units.append((rec.id, name))
         return units
@@ -335,7 +341,7 @@ class RemUnit(models.Model):
     @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
     def _get_website_name(self):
         units = []
-        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_websitename_format')
         for rec in self:
             name = unit_name_format.format(
                 street=rec.street,
