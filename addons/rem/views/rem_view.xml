@@ -5,7 +5,7 @@
         <!--
         	Real Estate Asset
         -->
-
+        
         <!-- Real Estate Asset Tree View -->
         <record id="view_rem_unit_tree" model="ir.ui.view">
             <field name="name">rem.unit.tree</field>
@@ -38,6 +38,7 @@
             <field name="arch" type="xml">
                 <search string="Search Real Estate Unit">
                     <field name="display_name"/>
+                    <field name="website_name"/>
                     <!-- General Features -->
                     <field name="contract_type_id"/>
                     <field name="partner_id"/>
@@ -121,6 +122,7 @@
 						</div>
 						<group>
 							<group>
+								<field name="reference" invisible="1"/>
 								<field name="contract_type_id"/>
 								<field name="current_contract_id"/>
 								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>

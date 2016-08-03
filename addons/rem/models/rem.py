@@ -182,13 +182,6 @@ class RemUnit(models.Model):
         return True
 
     @api.model
-    def create(self, vals):
-        if vals.get('reference', 'New') == 'New':
-            vals['reference'] = self.env[
-                'ir.sequence'].next_by_code('rem.unit') or 'New'
-            return super(RemUnit, self).create(vals)
-
-    @api.model
     def _is_featured(self):
         self.env.cr.execute(
             'SELECT COUNT(rem_unit_id) FROM rem_unit_res_users_rel WHERE rem_unit_id=%s AND res_user_id=%s LIMIT 1',
@@ -312,10 +305,27 @@ class RemUnit(models.Model):
             units.append((rec.id, name))
         return units
 
+    @api.multi
+    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    def _get_website_name(self):
+        units = []
+        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        for rec in self:
+            name = unit_name_format.format(
+                street=rec.street,
+                street2=rec.street2 or '',
+                city=rec.city_id.name or '',
+                state=rec.state_id.code or '',
+                zip=rec.zip or ''
+            )
+            units.append((rec.id, name))
+        return units
+
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
-    reference = fields.Char(string='Reference', copy=False,
-                            readonly=True, index=True, default='New')
+    reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
+                            copy=False, readonly=True, index=True)
+    website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
