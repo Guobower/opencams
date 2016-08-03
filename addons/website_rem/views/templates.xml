@@ -509,55 +509,50 @@
                     <div id="map" class="rem-box-shadow"></div>
                     <script type="text/javascript">
                         function initMap() {
-                            <t t-foreach="all_units" t-as="unit">
-                                var unit_<t t-esc="unit_index"/> = {
-                                    info: '<div class="maps_marker_container clearfix">' +
-                                              '<div>' +
-                                                  <t t-if="len(unit.image_ids) > 0">
-                                                      '<div itemprop="image" t-field="unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>' +
-                                                  </t>
-                                                  '<strong><t t-esc="unit.display_name"/></strong>' +
-                                              '</div>' +
-                                              <t t-if="unit.price > 0">
-                                                    '<div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}' class="margin-top-10"></div>' +
-                                              </t>
-                                              '<div class="margin-top-10">' +
-                                                    <t t-if="unit.bedrooms > 0">
-                                                        '<span title="Bedrooms">' +
-                                                            '<i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>' +
-                                                        '</span>' +
-                                                    </t>
-                                                    <t t-if="unit.bathrooms > 0">
-                                                        '<span title="Bathrooms">' +
-                                                            '<i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>' +
-                                                        '</span>' +
-                                                    </t>
-                                                    <t t-if="unit.garages > 0">
-                                                        '<span title="Garages">' +
-                                                            '<i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>' +
-                                                        '</span>' +
-                                                    </t>
-                                              '</div>' +
-                                              '<a itemprop="url" t-att-href="'/rem/unit/%s' % slug(unit)">Details <i class="fa fa-angle-right" aria-hidden="true"></i></a>' +
-                                          '</div>',
-                                    latitude: <t t-esc="unit.latitude"/>,
-                                    longitude: <t t-esc="unit.longitude"/>
-                                };
-                            </t>
-
                             var locations = [
                             <t t-foreach="all_units" t-as="unit">
-                                [unit_<t t-esc="unit_index"/>.info, unit_<t t-esc="unit_index"/>.latitude, unit_<t t-esc="unit_index"/>.longitude, <t t-esc="unit_index"/>],
+                                ['<div class="maps_marker_container clearfix">' +
+                                     '<div>' +
+                                         <t t-if="len(unit.image_ids) > 0">
+                                             '<div itemprop="image" t-field="unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>' +
+                                         </t>
+                                         '<strong><t t-esc="unit.display_name"/></strong>' +
+                                     '</div>' +
+                                     <t t-if="unit.price > 0">
+                                         '<div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}' class="margin-top-10"></div>' +
+                                     </t>
+                                     '<div class="margin-top-10">' +
+                                         <t t-if="unit.bedrooms > 0">
+                                             '<span title="Bedrooms">' +
+                                                 '<i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>' +
+                                             '</span>' +
+                                         </t>
+                                         <t t-if="unit.bathrooms > 0">
+                                             '<span title="Bathrooms">' +
+                                                 '<i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>' +
+                                             '</span>' +
+                                         </t>
+                                         <t t-if="unit.garages > 0">
+                                             '<span title="Garages">' +
+                                                 '<i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>' +
+                                             '</span>' +
+                                         </t>
+                                     '</div>' +
+                                     '<a itemprop="url" t-att-href="'/rem/unit/%s' % slug(unit)">Details <i class="fa fa-angle-right" aria-hidden="true"></i></a>' +
+                                 '</div>',
+                                 <t t-esc="unit.latitude"/>,
+                                 <t t-esc="unit.longitude"/>,
+                                 <t t-esc="unit_index"/>],
                             </t>
                             ];
 
-                            var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 13,
-                                center: new google.maps.LatLng(41.976816, -87.659916),
+                            window.map = new google.maps.Map(document.getElementById('map'), {
                                 mapTypeId: google.maps.MapTypeId.ROADMAP
                             });
 
-                            var infowindow = new google.maps.InfoWindow({});
+                            var infowindow = new google.maps.InfoWindow();
+
+                            var bounds = new google.maps.LatLngBounds();
 
                             var marker, i;
 
@@ -567,6 +562,8 @@
                                     map: map
                                 });
 
+                                bounds.extend(marker.position);
+
                                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                                     return function () {
                                         infowindow.setContent(locations[i][0]);
@@ -574,9 +571,23 @@
                                     }
                                 })(marker, i));
                             }
+
+                            map.fitBounds(bounds);
+
+                            var listener = google.maps.event.addListener(map, "idle", function () {
+                                google.maps.event.removeListener(listener);
+                            });
                         }
+
+                        function loadScript() {
+                            var script = document.createElement('script');
+                            script.type = 'text/javascript';
+                            script.src = '<t t-raw="gmaps_url"/>';
+                            document.body.appendChild(script);
+                        }
+
+                        window.onload = loadScript;
                     </script>
-                    <script t-att-src="gmaps_url" type="text/javascript"></script>
                 </div>
             </section>
         </template>
