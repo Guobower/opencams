@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
+import urllib
 from openerp import tools, api, fields, models, _
 from openerp import exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
+from openerp.exceptions import UserError
+from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
 
 
 class RemUniCity(models.Model):
@@ -320,6 +324,22 @@ class RemUnit(models.Model):
             )
             units.append((rec.id, name))
         return units
+
+    @api.one
+    def get_geo_coordinates(self):
+        coordinates = geo_find(
+            geo_query_address(
+                street=self.street,
+                zip=self.zip,
+                city=self.city_id.name,
+                state=self.state_id.name,
+                country=self.country_id.name,
+            )
+        )
+
+        if coordinates:
+            self.latitude = coordinates[0]
+            self.longitude = coordinates[1]
 
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)

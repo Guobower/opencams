@@ -95,6 +95,7 @@
                         <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight o_wow"/>
                         <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
                         <field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
+                        <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" string="Get Coordinates" class="oe_highlight"/>
 					</header>
 					<sheet>
                         <div class="oe_button_box" name="button_box">
