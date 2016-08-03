@@ -2,7 +2,7 @@
 from openerp import api, fields, models
 
 
-class RemUniCity(models.Model):
+class RemUnitSearch(models.Model):
     _name = 'rem.unit.search'
     _description = 'Search'
 

@@ -11,7 +11,7 @@ from openerp.exceptions import UserError
 from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
 
 
-class RemUniCity(models.Model):
+class RemUnitCity(models.Model):
     _name = 'rem.unit.city'
     _description = 'Unit City'
 
@@ -22,13 +22,24 @@ class RemUniCity(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class RemUniZone(models.Model):
-    _name = 'rem.unit.zone'
-    _description = 'Unit Zone'
+class RemUnitStreet(models.Model):
+    _name = 'rem.unit.street'
+    _description = 'Unit Street'
 
     name = fields.Char(
-        string='Zone Name', size=32, required=True, help='Zone Name.')
-    city_id = fields.Many2one('rem.unit.city', string='Unit City', required=False)
+        string='Street Name', size=32, required=True, help='Street Name.')
+    city_id = fields.Many2one('rem.unit.city', string='City', required=False)
+    active = fields.Boolean(string='Active', default=True,
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
+
+
+class RemUnitZip(models.Model):
+    _name = 'rem.unit.zip'
+    _description = 'Unit Zip'
+
+    name = fields.Char(
+        string='Zip Name', size=32, required=True, help='Zip Name.')
+    street_id = fields.Many2one('rem.unit.street', string='Street', required=False)
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
@@ -40,6 +51,17 @@ class RemUniType(models.Model):
     name = fields.Char(string='Type Name', size=32,
                        required=True, help='Type Name.')
     notes = fields.Text(string='Notes', help='Description of the type.')
+    active = fields.Boolean(string='Active', default=True,
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
+
+
+class RemUnitZone(models.Model):
+    _name = 'rem.unit.zone'
+    _description = 'Unit Zone'
+
+    name = fields.Char(
+        string='Zone Name', size=32, required=True, help='Zone Name.')
+    city_id = fields.Many2one('rem.unit.city', string='Unit City', required=False)
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
