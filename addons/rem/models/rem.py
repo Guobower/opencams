@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
 from openerp.exceptions import UserError
 from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
+from openerp.osv import expression
 
 
 class RemUnitCity(models.Model):
@@ -182,6 +183,31 @@ class RemUnit(models.Model):
             res[unit.id] = "/rem/unit/%s" % (unit.id,)
         return res
 
+    def get_formated_name(self, rec, mask):
+        STREET = (rec.street or '').upper()
+        STREET2 = (rec.street2 or '').upper()
+        CITY = (rec.city_id.name or '').upper()
+        STATE = (rec.state_id.code or '').upper()
+        try:
+            res = mask.format(
+                street=rec.street,
+                STREET=STREET,
+                street2=rec.street2 or '',
+                STREET2=STREET2,
+                city=rec.city_id.name or '',
+                CITY=CITY,
+                state=rec.state_id.code or '',
+                STATE=STATE,
+                zip=rec.zip or '',
+                bedrooms=rec.bedrooms or 0,
+                bathrooms=rec.bathrooms or 0,
+                living_area=rec.living_area or 0,
+                land_area=rec.land_area or 0,
+            )
+        except:
+            res = _("Parsing ERROR - Check your name format in Listing >> Settings")
+        return res
+
     @api.model
     def _get_stage(self):
         return self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
@@ -220,6 +246,18 @@ class RemUnit(models.Model):
         return True
 
     @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        print "__________", name, args
+        domain = []
+        if name:
+            domain = ['|', ('reference', '=ilike', name + '%'), ('display', operator, name)]
+            if operator in expression.NEGATIVE_TERM_OPERATORS:
+                domain = ['&'] + domain
+        units = self.search(domain + args, limit=limit)
+        return units.name_get()
+
+    @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         context = self._context or {}
         if context.get('max_planned_revenue'):
@@ -232,7 +270,6 @@ class RemUnit(models.Model):
             args += [('bathrooms', '>=', context.get('min_bathrooms'))]
         if context.get('min_living_areas'):
             args += [('living_areas', '>=', context.get('min_living_areas'))]
-
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
     @api.one
@@ -323,33 +360,29 @@ class RemUnit(models.Model):
         units = []
         unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
         for rec in self:
-            name = unit_name_format.format(
-                street=rec.street,
-                street2=rec.street2 or '',
-                city=rec.city_id.name or '',
-                state=rec.state_id.code or '',
-                zip=rec.zip or '',
-                bedrooms=rec.bedrooms or 0,
-                bathrooms=rec.bathrooms or 0,
-                living_area=rec.living_area or 0,
-                land_area=rec.land_area or 0,
-            )
+            name = self.get_formated_name(rec, unit_name_format)
             units.append((rec.id, name))
         return units
 
     @api.multi
-    @api.depends('street', 'street2', 'zone_id.name', 'city_id.name', 'zip')
+    @api.depends('street', 'street2', 'zone_id.name',
+                 'city_id.name', 'zip', 'bedrooms',
+                 'bathrooms', 'living_area', 'land_area')
+    def _compute_name(self):
+        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
+        for rec in self:
+            name = self.get_formated_name(rec, unit_name_format)
+            rec.name = name
+
+    @api.multi
+    @api.depends('street', 'street2', 'zone_id.name',
+                 'city_id.name', 'zip', 'bedrooms',
+                 'bathrooms', 'living_area', 'land_area')
     def _get_website_name(self):
         units = []
-        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_websitename_format')
+        unit_websitename_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_websitename_format')
         for rec in self:
-            name = unit_name_format.format(
-                street=rec.street,
-                street2=rec.street2 or '',
-                city=rec.city_id.name or '',
-                state=rec.state_id.code or '',
-                zip=rec.zip or ''
-            )
+            name = self.get_formated_name(rec, unit_websitename_format)
             units.append((rec.id, name))
         return units
 
@@ -371,6 +404,7 @@ class RemUnit(models.Model):
 
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
+    name = fields.Char(string='Name', compute='_compute_name', store=True)
     reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
                             copy=False, readonly=True, index=True)
     website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
@@ -486,4 +520,3 @@ class RemUnit(models.Model):
             'domain': [('unit_ids', 'in', unit_ids)],
             'context': {'default_unit_ids': unit_ids, 'default_duration': 4.0}
         }
-

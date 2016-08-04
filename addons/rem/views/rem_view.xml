@@ -11,7 +11,9 @@
             <field name="name">rem.unit.tree</field>
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
-                <tree string="Real Estate Unit">
+                <tree  decoration-info="is_rent == True" string="Real Estate Unit">
+                    <field name="has_lead_id" invisible="1"/>
+                    <field name="is_rent" invisible="1"/>
                     <field name="display_name"/>
                     <field name="user_id"/>
                     <field name="contract_type_id"/>
@@ -20,7 +22,6 @@
                     <field name="bathrooms"/>
                     <field name="is_new"/>
                     <field name="stage_id"/>
-                    <field name="has_lead_id" invisible="1"/>
                     <button name="action_select_unit" string="Select Unit" type="object" icon="gtk-apply"
                     		invisible="not context.get('from_lead_id', False)"
                     		attrs="{'invisible': [('has_lead_id','=', True)]}"/>
@@ -37,7 +38,7 @@
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
                 <search string="Search Real Estate Unit">
-                    <field name="display_name"/>
+                    <field name="name"/>
                     <field name="website_name"/>
                     <!-- General Features -->
                     <field name="contract_type_id"/>
