@@ -224,12 +224,13 @@ class WebsiteRem(http.Controller):
         unit_ids = units_obj.search(cr, SUPERUSER_ID, domain, limit=ppg, offset=pager['offset'], context=context)
         units = units_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
 
-        all_units = []
+        gmaps_units = []
 
         if selected_type_listing == 1:
-            all_units_obj = pool.get('rem.unit')
-            all_units_ids = all_units_obj.search(cr, uid, [('latitude', '!=', 0),('longitude', '!=', 0)], context=context)
-            all_units = all_units_obj.browse(cr, uid, all_units_ids, context=context)
+            domain += [('latitude', '!=', 0),('longitude', '!=', 0)]
+            gmaps_units_obj = pool.get('rem.unit')
+            gmaps_units_ids = gmaps_units_obj.search(cr, uid, domain, context=context)
+            gmaps_units = gmaps_units_obj.browse(cr, uid, gmaps_units_ids, context=context)
 
         values = {
             'units': units,
@@ -245,7 +246,7 @@ class WebsiteRem(http.Controller):
             'result_max_price': str(max_price),
             'selected_contract_type': selected_contract_type,
             'selected_type_listing': selected_type_listing,
-            'all_units': all_units,
+            'gmaps_units': gmaps_units,
             'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + pool.get('ir.config_parameter').get_param(request.cr, SUPERUSER_ID, 'gmaps_key') + '&callback=initMap',
             'keep': keep,
         }

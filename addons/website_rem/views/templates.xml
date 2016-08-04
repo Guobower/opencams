@@ -510,7 +510,7 @@
                     <script type="text/javascript">
                         function initMap() {
                             var locations = [
-                            <t t-foreach="all_units" t-as="unit">
+                            <t t-foreach="gmaps_units" t-as="unit">
                                 ['<div class="maps_marker_container clearfix">' +
                                      '<div>' +
                                          <t t-if="len(unit.image_ids) > 0">
