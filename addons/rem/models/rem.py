@@ -75,15 +75,18 @@ class RemUnitContractType(models.Model):
                        help='Type of contract : renting, buying, selling ..')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
-                             help='Set if the contract type is rent based. This will make the Unit of Rent apear in the unit (e.g.: per month, per week..).')
+                             help='Set if the contract type is rent based. This will make the Unit of Rent '
+                             'appear in the unit (e.g.: per month, per week..).')
     notes = fields.Text(string='Notes', help='Notes for the contract type.')
-    active = fields.Boolean(string='Active', default=True,
-                            help='If the active field is set to False, it will allow you to hide without removing it.')
+    active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
+                            'allow you to hide without removing it.')
+    stage_id = fields.One2many('rem.unit.stage', 'contract_type_id', string='Stage Name', ondelete='restrict')
 
 
 class RemUnitStage(models.Model):
     _name = 'rem.unit.stage'
     _description = 'Unit Stage'
+    _order = "contract_type_id,sequence,id"
 
     name = fields.Char(
         string='Stage Name', size=32, required=True, help='Stage Name.')
@@ -248,7 +251,6 @@ class RemUnit(models.Model):
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
-        print "__________", name, args
         domain = []
         if name:
             domain = ['|', ('reference', '=ilike', name + '%'), ('display', operator, name)]
@@ -419,7 +421,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active', store=True,
+    active = fields.Boolean(compute='_check_active',
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
@@ -520,3 +522,14 @@ class RemUnit(models.Model):
             'domain': [('unit_ids', 'in', unit_ids)],
             'context': {'default_unit_ids': unit_ids, 'default_duration': 4.0}
         }
+
+    @api.onchange('contract_type_id')
+    def _onchange_contract_type_id(self):
+        if self.contract_type_id:
+            ids = self.env['rem.unit.stage'].search(
+                [('contract_type_id', '=', self.contract_type_id.id)], order='sequence, id').ids
+            if ids:
+                self.stage_id = ids[0]
+            else:
+                self.stage_id = False
+

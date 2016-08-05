@@ -30,7 +30,6 @@ class Lead(models.Model):
             if request.params.get('unit_id'):
                 unit_id = request.params.get('unit_id')
             unit = self.sudo().env['rem.unit'].search_read(domain=[('id', '=', unit_id)])[0]
-            print "_____________", unit['contract_type_id'][1]
             values.update({
                 'priority': '3',
                 'color': 5,
