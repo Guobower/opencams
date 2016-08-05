@@ -94,7 +94,7 @@
 			<field name="arch" type="xml">
 				<form string="Real Estate Unit">
 					<header>
-                        <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight o_wow"/>
+                        <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight"/>
                         <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
                         <field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
 					</header>

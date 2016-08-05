@@ -85,7 +85,7 @@ class RemUnitContractType(models.Model):
     object_id = fields.Selection('_get_contract_type', string='Resource')
 
     def _get_contract_type(self):
-        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'),('model','!=','rem.contract.type')], 
+        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'), ('model', '!=', 'rem.contract.type')],
                                                  fields=['name', 'model'])
         res = []
         for rec in model:
@@ -231,14 +231,17 @@ class RemUnit(models.Model):
 
     @api.one
     def add_feature(self):
-        self.env.cr.execute('SELECT COUNT(rem_unit_id) FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1',
+        max_feature_units = self.pool.get('ir.config_parameter').get_param(self.env.cr, self.env.uid, 'max_feature_units')
+
+        self.env.cr.execute('SELECT COUNT(rem_unit_id) AS total FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1',
                             [self.env.uid])
         for feature_units in self.env.cr.dictfetchall():
-            if feature_units['count'] < 5:
+            if int(max_feature_units) == 0 or int(feature_units['total']) < int(max_feature_units):
                 self.feature_id = [(4, self.env.uid)]
+                self.is_featured = True
             else:
                 raise exceptions.ValidationError(
-                    'You can only have 5 Feature Units.')
+                    'You can only have %s Feature Units.' % max_feature_units)
         return True
 
     @api.one
@@ -247,23 +250,11 @@ class RemUnit(models.Model):
         return True
 
     @api.model
-    def _is_featured(self):
-        self.env.cr.execute(
-            'SELECT COUNT(rem_unit_id) FROM rem_unit_res_users_rel WHERE rem_unit_id=%s AND res_user_id=%s LIMIT 1',
-            [self.id, self.env.uid])
-        for feature_units in self.env.cr.dictfetchall():
-            if feature_units['count'] > 0:
-                self.is_featured = 1
-            else:
-                self.is_featured = 0
-        return True
-
-    @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('reference', '=ilike', name + '%'), ('display', operator, name)]
+            domain = ['|', ('reference', '=ilike', name + '%'), ('name', operator, name)]
             if operator in expression.NEGATIVE_TERM_OPERATORS:
                 domain = ['&'] + domain
         units = self.search(domain + args, limit=limit)
@@ -470,7 +461,7 @@ class RemUnit(models.Model):
     main_img_id = fields.Integer('Main Image ID', compute='_get_main_image')
     feature_id = fields.Many2many(
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
-    is_featured = fields.Boolean(compute=_is_featured, store=False)
+    is_featured = fields.Boolean(string='Is Featured', default=False)
     type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')

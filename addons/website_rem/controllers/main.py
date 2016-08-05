@@ -9,6 +9,7 @@ from openerp.addons.web.controllers.main import binary_content
 from openerp import SUPERUSER_ID
 
 PPG = 8  # Units Per Page
+UPR = 4 # Units Per Row
 
 
 class QueryURL(object):
@@ -67,7 +68,46 @@ class WebsiteRem(http.Controller):
         units_types_obj = pool.get('rem.unit.type')
         units_types_ids = units_types_obj.search(cr, uid, [], context=context)
         units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
-        
+
+        featured_units_obj = pool.get('rem.unit')
+        featured_units_ids = featured_units_obj.search(cr, uid, [('is_featured', '=', True)], context=context)
+        featured_units = featured_units_obj.browse(cr, uid, featured_units_ids, context=context)
+
+        row = 0
+        first = True
+        featured_units_html = ''
+
+        if featured_units:
+            for featured_unit in featured_units:
+                if row == 0:
+                    if first:
+                        featured_units_html += '<div class="item active">'
+                        first = False
+                    else:
+                        featured_units_html += '<div class="item">'
+                    featured_units_html += '<div class="row">'
+
+                featured_units_html += '''
+                    <div class="col-sm-3">
+                        <div class="rem-feature-unit">
+                            <div class="rem-feature-unit-img">
+                                <img class="img img-responsive" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''" style="">
+                            </div>
+                            <div class="rem-feature-unit-text">
+                            ''' + featured_unit.display_name + '''
+                            </div>
+                        </div>
+                    </div>
+                    '''
+
+                row += 1;
+                if row == UPR:
+                    featured_units_html += '</div></div>'
+                    row = 0
+
+            if row != UPR:
+                featured_units_html += '</div></div>'
+
         try:
             selected_contract_type = contracts_type[0].id
         except IndexError:
@@ -87,10 +127,28 @@ class WebsiteRem(http.Controller):
             'units_types': units_types,
             'selected_contract_type': selected_contract_type,
             'selected_type_listing': 0,
+            'featured_units_html': featured_units_html,
             'keep': keep,
         }
 
         return request.website.render('website_rem.homepage_rem', values)
+
+    @http.route(['/rem/unit/image/<int:image_id>'], type='http', auth="public", website=True)
+    def unit_image(self, image_id=0, **post):
+        status, headers, content = binary_content(model='rem.image', id=image_id, field='image', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
+
+        if not content:
+            img_path = openerp.modules.get_module_resource('website_rem', 'static/img/units', 'default_unit.jpg')
+            with open(img_path, 'rb') as f:
+                image = f.read()
+            content = image.encode('base64')
+        if status == 304:
+            return werkzeug.wrappers.Response(status=304)
+        image_base64 = base64.b64decode(content)
+        headers.append(('Content-Length', len(image_base64)))
+        response = request.make_response(image_base64, headers)
+        response.status = str(status)
+        return response
 
     @http.route(['/rem',
                  '/rem/page/<int:page>',

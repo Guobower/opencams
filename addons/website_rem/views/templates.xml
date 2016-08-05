@@ -93,7 +93,8 @@
                                                             class="form-control"
                                                             title="Search for state, city or zone"
                                                             placeholder="Search for state, city or zone"
-                                                            t-att-value="result_multi_search"/>
+                                                            t-att-value="result_multi_search"
+                                                            autocomplete="off"/>
                                                     </t>
                                                     <t t-if="result_multi_search==''">
                                                         <input
@@ -103,7 +104,8 @@
                                                             maxlength="128"
                                                             class="form-control"
                                                             title="Search for state, city or zone"
-                                                            placeholder="Search for state, city or zone"/>
+                                                            placeholder="Search for state, city or zone"
+                                                            autocomplete="off"/>
                                                     </t>
                                                     <div class="rem-autocomplete-container">
                                                         <ul id="multi_search_autocomplete" class="rem-autocomplete rem-box-shadow display-none"></ul>
@@ -375,113 +377,28 @@
         <template id="rem_feature_units" name="Feature Units">
             <section>
                 <div class="oe_structure">
-                    <div class="container margin-bottom-50 hidden-xs">
-                        <div class="row">
+                    <t t-if="featured_units_html!=''">
+                        <div class="container margin-bottom-50 hidden-xs">
                             <div class="row">
-                                <div class="col-sm-9">
-                                    <h3 class="margin-bottom-0 pull-left">Feature units</h3>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="rem-feature-units-controls controls pull-right">
-                                        <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
-                                        <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h3 class="margin-bottom-0 pull-left">Feature units</h3>
                                     </div>
-                                </div>
-                            </div>
-                            <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        5620 Belmont Ave UNIT 7, Dallas, TX 71206
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-1-2.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        6049 Milton St, Dallas, TX 72206
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        17205 Meadow Tree Cir, Dallas, TX 77248
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        1122 Jackson St APT 609, Dallas, TX 79202
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-sm-3">
+                                        <div class="rem-feature-units-controls controls pull-right">
+                                            <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
+                                            <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
                                         </div>
                                     </div>
-                                    <div class="item">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-4-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        1122 Jackson St APT 609, Dallas, TX 79202
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-3-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        17205 Meadow Tree Cir, Dallas, TX 77248
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-1-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        5620 Belmont Ave UNIT 7, Dallas, TX 71206
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="rem-feature-unit">
-                                                    <div class="rem-feature-unit-img">
-                                                        <img src="/rem/static/img/unit-2-1.jpg" alt="" class="img-responsive"/>
-                                                    </div>
-                                                    <div class="rem-feature-unit-text">
-                                                        6049 Milton St, Dallas, TX 72206
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <t t-raw="featured_units_html"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </t>
                 </div>
             </section>
         </template>
