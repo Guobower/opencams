@@ -80,6 +80,7 @@
                     	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
                         <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'contract_type_id'}"/>
                         <filter string="Bedrooms" icon="terp-partner" domain="[]" context="{'group_by':'bedrooms'}"/>
+                        <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
                     </group>
                 </search>
