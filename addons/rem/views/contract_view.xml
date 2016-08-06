@@ -2,6 +2,97 @@
 <openerp>
 	<data>
         <!--
+        	Tenant / Renting Contract
+        -->
+
+        <!-- Tenant Contract Tree View -->
+        <record id="view_rem_tenant_contract_tree" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.tree</field>
+            <field name="model">rem.tenant.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Tenant Contract">
+                	<field name="partner_id"/>
+                	<field name="type_id"/>
+                    <field name="current"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="notice_date"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Tenant Contract Search View -->
+        <record id="view_rem_tenant_contract_filter" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.filter</field>
+            <field name="model">rem.tenant.contract</field>
+            <field name="arch" type="xml">
+                <search string="Tenant Contract">
+                	<field name="partner_id"/>
+                	<field name="type_id"/>
+                	<field name="unit_id"/>
+                    <field name="current"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="notice_date"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tenant Contract Form View -->
+        <record id="view_rem_tenant_contract_form" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.form</field>
+            <field name="model">rem.tenant.contract</field>
+            <field name="arch" type="xml">
+                <form string="Tenant Contracts">
+	                <sheet>
+	                    <div class="oe_title">
+	                        <h1>
+	                            <field name="display_name" readonly="1"/>
+	                        </h1>
+	                    </div>
+	                	<group>
+		                	<group>
+		                		<field name="type_id"/>
+		                		<field name="unit_id" readonly="True"/>
+		                		<field name="partner_id" context="{'search_default_tenant':1, 'default_tenant':1}"/>
+	                            <field name="date_start" attrs="{'readonly':[('current','=',False)]}"/>
+	                            <field name="period" attrs="{'readonly':[('current','=',False)]}"/>
+	                            <field name="period_unit" attrs="{'readonly':[('current','=',False)]}"/>
+			                    <field name="date_end"/>
+		                    </group>
+		                	<group>
+		                		<field name="current" attrs="{'readonly':[('current','=',False)]}"/>
+			                    <field name="auto_renew" attrs="{'readonly':[('current','=',False)]}"/>
+			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+		                    </group>
+	                    </group>
+	                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        
+	    <record model="ir.actions.act_window" id="unit_tenant_contract">
+	        <field name="name">Tenant Contracts</field>
+	        <field name="res_model">rem.tenant.contract</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="domain">[('unit_id','=',active_id)]</field>
+	        <field name="context">{'default_unit_id': active_id}</field>
+	        <field name="help" type="html">
+	            <p>
+	                Unit Tenant Contracts will help you to manage your renewals.
+	            </p><p>
+	                You will be able to keep track of your tenants.
+	            </p>
+	        </field>
+	    </record>
+	    
+        <!--
         	Listing Contract
         -->
 
@@ -52,7 +143,7 @@
 	                    </div>
 	                	<group>
 		                	<group>
-		                		<field name="unit_id" attrs="{'readonly':[('current','=',False)]}"/>
+		                		<field name="unit_id" readonly="True"/>
 		                		<field name="type_id"/>
 		                		<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
 	                            <field name="date_start" attrs="{'readonly':[('current','=',False)]}"/>
@@ -81,12 +172,13 @@
 	        <field name="name">Listing Contracts</field>
 	        <field name="res_model">rem.listing.contract</field>
 	        <field name="view_mode">tree,form</field>
+	        <field name="domain">[('unit_id','=',active_id)]</field>
+	        <field name="context">{'default_unit_id': active_id}</field>
 	        <field name="help" type="html">
 	            <p>
 	                Unit Listing Contracts will help you to manage your renewals.
 	            </p><p>
-	                You will be able to plan meetings and phone calls according 
-	                and create notification appointments
+	                You will be able to keep track of your tenants.
 	            </p>
 	        </field>
 	    </record>

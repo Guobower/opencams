@@ -2,7 +2,7 @@
 <openerp>
     <data noupdate="1">
 		
-        <!-- Listing Contract Types -->    
+        <!-- Configuration Parameters -->    
     	
         <record model="ir.config_parameter" id="unit_websitename_format_key">
             <field name="key">rem.unit_websitename_format</field>
@@ -16,6 +16,26 @@
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
         
+        <!-- Tenant / Renting Contract Types -->      
+        
+        <record id="tenant_contract_type_0" model="rem.tenant.contract.type">
+            <field name="code">MON</field>
+            <field name="name">Monthly rent contract - 2 Advance payments</field>
+            <field name="notes">
+            	With this type of contract the
+            	tenant gets no laundry access
+            </field>
+        </record>
+        
+        <record id="tenant_contract_type_1" model="rem.tenant.contract.type">
+            <field name="code">WEEK</field>
+            <field name="name">Weekly rent contract</field>
+            <field name="notes">
+            	With this type of contract the
+            	tenant needs to provide credit card
+            </field>
+        </record>
+
         <!-- Listing Contract Types -->      
         
         <record id="listing_contract_type_0" model="rem.listing.contract.type">

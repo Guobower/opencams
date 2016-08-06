@@ -115,7 +115,7 @@ class RemListingContract(models.Model):
     # TODO: scheduled action for auto renewal or just trigger when unit is read
 
     def update_current_unit(self, unit_id, **kwargs):
-        contracts = self.with_context(avoid_recusrion=True).search([('unit_id', '=', unit_id)])
+        contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])
         today_date = fields.Date.today()
         for ct in contracts:
             flag = (ct.date_start <= today_date and ct.date_end >= today_date)
@@ -131,7 +131,7 @@ class RemListingContract(models.Model):
     def write(self, vals):
         ct = super(RemListingContract, self).write(vals)
         for ct1 in self:
-            if not self._context.get('avoid_recusrion', False):
+            if not self._context.get('avoid_recursion', False):
                 self.update_current_unit(ct1.unit_id.id)
         return ct
 
@@ -169,3 +169,38 @@ class RemBuyerContract(models.Model):
                                           default='months')
     current = fields.Boolean(string='Current Contract', default=True,
                              help='This contract is the current one?')
+
+
+class RemTenantContract(models.Model):
+    _name = 'rem.tenant.contract'
+    _description = 'Buyer Contract'
+    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+
+    unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
+    type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
+    partner_id = fields.Many2one('res.partner', string='Tenant', required=True)
+    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
+                                          default='months')
+    current = fields.Boolean(string='Current Contract', default=True,
+                             help='This contract is the current one?')
+
+    def update_current_unit(self, unit_id, **kwargs):
+        contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])
+        today_date = fields.Date.today()
+        for ct in contracts:
+            flag = (ct.date_start <= today_date and ct.date_end >= today_date)
+            ct.current = flag
+
+    @api.multi
+    def unlink(self):
+        for ct1 in self:
+            self.update_current_unit(ct1.unit_id.id)
+        return super(RemTenantContract, self).unlink()
+
+    @api.multi
+    def write(self, vals):
+        ct = super(RemTenantContract, self).write(vals)
+        for ct1 in self:
+            if not self._context.get('avoid_recursion', False):
+                self.update_current_unit(ct1.unit_id.id)
+        return ct

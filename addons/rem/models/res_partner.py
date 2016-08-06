@@ -1,7 +1,7 @@
 from openerp import models, fields, api
 
 
-class res_partner(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.depends('unit_ids')
@@ -26,3 +26,17 @@ class res_partner(models.Model):
     unit_ids = fields.One2many('rem.unit', 'partner_id', string='Unit(s)')
     buyer_contract_count = fields.Integer(compute='_buyer_contract_count')
     buyer_contract_ids = fields.One2many('rem.buyer.contract', 'partner_id', string='Contract(s)')
+
+    @api.multi
+    def write(self, vals):
+        ct = super(ResPartner, self).write(vals)
+        for ct1 in self:
+            # if an existing contact gets new type of contract
+            # gets marked as respective seller, buyer, tenant
+            if self._context.get('default_tenant', False):
+                ct1.tenant = True
+            if self._context.get('default_buyer', False):
+                ct1.buyer = True
+            if self._context.get('default_seller', False):
+                ct1.seller = True
+        return ct

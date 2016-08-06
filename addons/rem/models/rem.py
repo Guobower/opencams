@@ -10,6 +10,7 @@ from openerp.exceptions import ValidationError
 from openerp.exceptions import UserError
 from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
 from openerp.osv import expression
+import contract
 
 
 class RemUnitCity(models.Model):
@@ -69,10 +70,10 @@ class RemUnitZone(models.Model):
 
 class RemUnitContractType(models.Model):
     _name = 'contract.type'
-    _description = 'Contract Type'
+    _description = 'Offer Type'
 
-    name = fields.Char(string='Contract Name', size=32, required=True,
-                       help='Type of contract : renting, buying, selling ..')
+    name = fields.Char(string='Offer Name', size=32, required=True,
+                       help='Type of offer : renting, buying, selling ..')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
                              help='Set if the contract type is rent based. This will make the Unit of Rent '
@@ -81,6 +82,15 @@ class RemUnitContractType(models.Model):
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'contract_type_id', string='Stage Name', ondelete='restrict')
+    object_id = fields.Selection('_get_contract_type', string='Resource')
+
+    def _get_contract_type(self):
+        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'),('model','!=','rem.contract.type')], 
+                                                 fields=['name', 'model'])
+        res = []
+        for rec in model:
+            res.append((rec['model'], rec['name']))
+        return res
 
 
 class RemUnitStage(models.Model):
@@ -286,8 +296,8 @@ class RemUnit(models.Model):
         # TODO: implement rent rate depending on season for vacation rental
         pass
 
-    @api.depends('current_contract_id', 'listing_contract_ids')
-    def _get_current_contract(self):
+    @api.depends('current_listing_contract_id', 'listing_contract_ids')
+    def _get_current_listing_contract(self):
         for unit in self:
             curr_ctr = False
             self.env.cr.execute('select id from rem_listing_contract '
@@ -297,14 +307,34 @@ class RemUnit(models.Model):
             if all_lines:
                 curr_ctr = all_lines[0]
                 unit.update({
-                    'current_contract_id': curr_ctr,
+                    'current_listing_contract_id': curr_ctr,
+                })
+
+    @api.depends('current_tenant_contract_id', 'tenant_contract_ids')
+    def _get_current_tenant_contract(self):
+        for unit in self:
+            curr_ctr = False
+            self.env.cr.execute('select id from rem_tenant_contract '
+                                'where unit_id=%s and current = True;'
+                                , [unit.id])
+            all_lines = self.env.cr.fetchone()
+            if all_lines:
+                curr_ctr = all_lines[0]
+                unit.update({
+                    'current_tenant_contract_id': curr_ctr,
                 })
 
     @api.multi
     @api.depends('listing_contract_count', 'listing_contract_ids')
     def _listing_contract_count(self):
         for unit in self:
-            unit.listing_contract_count = unit.listing_contract_ids
+            unit.listing_contract_count = len(unit.listing_contract_ids)
+
+    @api.multi
+    @api.depends('tenant_contract_count', 'tenant_contract_ids')
+    def _tenant_contract_count(self):
+        for unit in self:
+            unit.tenant_contract_count = len(unit.tenant_contract_ids)
 
     @api.multi
     @api.depends('event_ids_count', 'event_ids')
@@ -333,8 +363,12 @@ class RemUnit(models.Model):
         for unit in self:
             flag = False
             date_now = fields.Date.today()
-            if (self.current_contract_id.date_start <= date_now and
-                    self.current_contract_id.date_end >= date_now):
+            if (self.current_listing_contract_id.date_start <= date_now and
+                    self.current_listing_contract_id.date_end >= date_now):
+                flag = True
+
+            if (self.current_tenant_contract_id.date_start <= date_now and
+                    self.current_tenant_contract_id.date_end >= date_now):
                 flag = True
 
             if self.stage_id.force_show:
@@ -421,7 +455,7 @@ class RemUnit(models.Model):
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active',
+    active = fields.Boolean(compute='_check_active', default=True,
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
@@ -444,16 +478,23 @@ class RemUnit(models.Model):
     description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
-
+    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
+    has_lead_id = fields.Boolean(compute='_context_has_lead_id')
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
                                   readonly=True)
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
+
+    # Listing contracts
     listing_contract_count = fields.Integer(compute='_listing_contract_count')
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
-    current_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
-                                          compute='_get_current_contract',)
-    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
-    has_lead_id = fields.Boolean(compute='_context_has_lead_id')
+    current_listing_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
+                                                  compute='_get_current_listing_contract',)
+
+    # Tenant contracts
+    tenant_contract_count = fields.Integer(compute='_tenant_contract_count')
+    tenant_contract_ids = fields.One2many('rem.tenant.contract', 'unit_id', string='Rent Contracts')
+    current_tenant_contract_id = fields.Many2one('rem.tenant.contract', string='Current Contract',
+                                                 compute='_get_current_tenant_contract',)
 
     # Location
     street = fields.Char(string='Street', required=True)
