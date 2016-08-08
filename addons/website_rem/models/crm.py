@@ -6,7 +6,6 @@ class Lead(models.Model):
 
     def website_form_input_filter(self, request, values):
         res = super(Lead, self).website_form_input_filter(request, values)
-
         if request.params.get('type_seller', False):
 
             city = ''
@@ -34,6 +33,9 @@ class Lead(models.Model):
                 'priority': '3',
                 'color': 5,
                 'name': ('%s contact: %s' % (unit['contract_type_id'][1], request.params.get('name').strip())),
-                'user_id': unit['user_id'][0]
+                'user_id': unit['user_id'][0],
+                're_contract_type_id': unit['contract_type_id'][0],
+                #'re_type': [(6, 0, [unit['id']])],
+                'unit_ids': [(6, 0, [unit['type_id']])],
             })
         return res

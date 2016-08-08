@@ -5,6 +5,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
+from docutils.parsers.rst.directives import flag
 
 
 class RemContractType(models.Model):
@@ -41,44 +42,6 @@ class RemAbstractContract(models.Model):
     _name = 'rem.abstract.contract'
     _description = 'Abstract Contract'
 
-    type_id = fields.Many2one('rem.contract.type', string='Type', required=True)
-    date_start = fields.Date('Start Date', required=True)
-    date_end = fields.Date('End Date', required=True)
-    auto_renew = fields.Boolean(string='Auto Renew?', default=True,
-                                help='Check for automatically renew for same period and log in the chatter')
-    notice_date = fields.Date('Notice Date')
-    period = fields.Integer('Period', default=1)
-    period_unit = fields.Selection([('days', 'Day(s)'), ('months', 'Month(s)')], string='Period Unit', change_default=True,
-                                   default='months')
-    notice_period = fields.Integer('Notice Period', default=1)
-
-    @api.onchange('date_start', 'period', 'period_unit')
-    def onchange_period(self):
-        date_calc = False
-        if not self.date_start:
-            return {}
-        if self.period_unit == 'months':
-            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=self.period)
-        else:
-            date_calc = datetime.strptime(self.date_start + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=self.period)
-        self.date_end = date_calc
-        return {}
-
-    @api.onchange('date_end', 'notice_period_unit', 'notice_period')
-    def onchange_period_unit(self):
-        date_calc = False
-        if not self.date_end:
-            return
-        if self.notice_period_unit == 'months':
-            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) - relativedelta(months=self.notice_period)
-        else:
-            date_calc = datetime.strptime(self.date_end + ' 00:00:00',
-                                          DEFAULT_SERVER_DATETIME_FORMAT) - timedelta(days=self.notice_period)
-        self.notice_date = date_calc
-
     @api.multi
     @api.depends('date_start', 'period', 'period_unit')
     def name_get(self):
@@ -86,10 +49,76 @@ class RemAbstractContract(models.Model):
         for rec in self:
             name = rec.type_id.code or _("Agreement")
             if rec.date_start and rec.period and rec.period_unit:
-                name += " %s - %s %s" % (rec.date_start
-                                         , rec.period, rec.period_unit)
+                name += " %s - %s %s" % (rec.date_start, rec.period, rec.period_unit)
             units.append((rec.id, name))
         return units
+
+    type_id = fields.Many2one('rem.contract.type', string='Type', required=True)
+    date_start = fields.Date('Start Date', required=True)
+    date_end = fields.Date('End Date', compute='_compute_date_end', required=True)
+    auto_renew = fields.Boolean(string='Auto Renew?', default=False,
+                                help='Check for automatically renew for same period and log in the chatter')
+    notice_date = fields.Date('Notice Date', compute='_compute_date_notice',)
+    period = fields.Integer('Period', default=1)
+    period_unit = fields.Selection([('days', 'Day(s)'), ('months', 'Month(s)')], string='Period Unit',
+                                   default='months')
+    notice_period = fields.Integer('Notice Period', default=15)
+    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit',
+                                          default='days')
+    current = fields.Boolean(string='Current Contract', default=True,
+                             help='This contract is the current one for this unit?')
+
+    @api.multi
+    @api.depends('date_start', 'period', 'period_unit')
+    def _compute_date_end(self):
+        for rec in self:
+            date_calc = False
+            if not rec.date_start:
+                return False
+            if rec.period_unit == 'months':
+                date_calc = datetime.strptime(rec.date_start + ' 00:00:00',
+                                              DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=rec.period)
+            else:
+                date_calc = datetime.strptime(rec.date_start + ' 00:00:00',
+                                              DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=rec.period)
+            rec.date_end = date_calc
+
+    @api.multi
+    @api.depends('date_end', 'notice_period_unit', 'notice_period')
+    def _compute_date_notice(self):
+        for rec in self:
+            date_calc = False
+            if rec.notice_period_unit == 'months':
+                date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
+                                              DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=rec.notice_period)
+            else:
+                date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
+                                              DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=rec.notice_period)
+            rec.notice_date = date_calc
+
+    def get_is_contract_current(self, date_start, date_end):
+        today_date = fields.Date.today()
+        return (date_start <= today_date and date_end >= today_date)
+
+    @api.multi
+    def unlink(self):
+        for ct1 in self:
+            ct1.with_context(avoid_recursion=True).current = self.get_is_contract_current(ct1.date_start, ct1.date_end)
+        return super(RemListingContract, self).unlink()
+
+    @api.multi
+    def write(self, vals):
+        ct = super(RemListingContract, self).write(vals)
+        for ct1 in self:
+            if not self._context.get('avoid_recursion', False):
+                ct1.with_context(avoid_recursion=True).current = self.get_is_contract_current(ct1.date_start, ct1.date_end)
+        return ct
+
+    @api.model
+    def create(self, vals):
+        res = super(RemListingContract, self).create(vals)
+        res.update({'current': self.get_is_contract_current(vals['date_start'], vals['date_end'])})
+        return res
 
 
 class RemListingContract(models.Model):
@@ -107,33 +136,9 @@ class RemListingContract(models.Model):
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
     partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller')
+    commission = fields.Float(string='Commission', help="For percent enter a ratio between 0-100.")
     ordering = fields.Integer('Ordering Field', default=1)
-    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
-                                          default='months')
-    current = fields.Boolean(string='Current Contract', default=True,
-                             help='This contract is the current one for this unit?')
     # TODO: scheduled action for auto renewal or just trigger when unit is read
-
-    def update_current_unit(self, unit_id, **kwargs):
-        contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])
-        today_date = fields.Date.today()
-        for ct in contracts:
-            flag = (ct.date_start <= today_date and ct.date_end >= today_date)
-            ct.current = flag
-
-    @api.multi
-    def unlink(self):
-        for ct1 in self:
-            self.update_current_unit(ct1.unit_id.id)
-        return super(RemListingContract, self).unlink()
-
-    @api.multi
-    def write(self, vals):
-        ct = super(RemListingContract, self).write(vals)
-        for ct1 in self:
-            if not self._context.get('avoid_recursion', False):
-                self.update_current_unit(ct1.unit_id.id)
-        return ct
 
     @api.multi
     @api.constrains('date_start', 'period')
@@ -165,10 +170,6 @@ class RemBuyerContract(models.Model):
 
     type_id = fields.Many2one('rem.buyer.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Buyer', required=True)
-    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
-                                          default='months')
-    current = fields.Boolean(string='Current Contract', default=True,
-                             help='This contract is the current one?')
 
 
 class RemTenantContract(models.Model):
@@ -179,10 +180,6 @@ class RemTenantContract(models.Model):
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Tenant', required=True)
-    notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit', change_default=True,
-                                          default='months')
-    current = fields.Boolean(string='Current Contract', default=True,
-                             help='This contract is the current one?')
 
     def update_current_unit(self, unit_id, **kwargs):
         contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])

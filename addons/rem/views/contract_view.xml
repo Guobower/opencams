@@ -55,17 +55,17 @@
 		                		<field name="type_id"/>
 		                		<field name="unit_id" readonly="True"/>
 		                		<field name="partner_id" context="{'search_default_tenant':1, 'default_tenant':1}"/>
-	                            <field name="date_start" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period_unit" attrs="{'readonly':[('current','=',False)]}"/>
+	                            <field name="date_start"/>
+	                            <field name="period"/>
+	                            <field name="period_unit"/>
 			                    <field name="date_end"/>
 		                    </group>
 		                	<group>
-		                		<field name="current" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="auto_renew" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+		                		<field name="current" readonly="1"/>
+			                    <field name="auto_renew"/>
+			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 		                    </group>
 	                    </group>
 	                </sheet>
@@ -143,20 +143,20 @@
 	                    </div>
 	                	<group>
 		                	<group>
-		                		<field name="unit_id" readonly="True"/>
+		                		<field name="unit_id" readonly="1"/>
 		                		<field name="type_id"/>
 		                		<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
-	                            <field name="date_start" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period_unit" attrs="{'readonly':[('current','=',False)]}"/>
+	                            <field name="date_start"/>
+	                            <field name="period"/>
+	                            <field name="period_unit"/>
 			                    <field name="date_end"/>
 		                    </group>
 		                	<group>
-		                		<field name="current" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="auto_renew" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+		                		<field name="current" readonly="1"/>
+			                    <field name="auto_renew"/>
+			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 		                    </group>
 	                    </group>
 	                </sheet>
@@ -280,17 +280,17 @@
 		                	<group>
 		                		<field name="type_id"/>
 		                		<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
-	                            <field name="date_start" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period" attrs="{'readonly':[('current','=',False)]}"/>
-	                            <field name="period_unit" attrs="{'readonly':[('current','=',False)]}"/>
+	                            <field name="date_start"/>
+	                            <field name="period"/>
+	                            <field name="period_unit"/>
 			                    <field name="date_end"/>
 		                    </group>
 		                	<group>
-		                		<field name="current" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="auto_renew" attrs="{'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
-			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)],'readonly':[('current','=',False)]}"/>
+		                		<field name="current" readonly="1"/>
+			                    <field name="auto_renew"/>
+			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 		                    </group>
 	                    </group>
 	                </sheet>
