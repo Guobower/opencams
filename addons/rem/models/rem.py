@@ -10,7 +10,8 @@ from openerp.exceptions import ValidationError
 from openerp.exceptions import UserError
 from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
 from openerp.osv import expression
-import contract
+
+import openerp.addons.decimal_precision as dp
 
 
 class RemUnitCity(models.Model):
@@ -150,6 +151,35 @@ class NeighborhoodContacts(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
+class PriceTable(models.Model):
+    _name = 'rent.table'
+    _description = 'Rent Discount Table'
+
+    unit_ids = fields.One2many('rem.unit', 'table_id', string='Units')
+    name = fields.Char(string='Name', size=32, required=True,
+                       help='Discount table name, e.g. Highest/High/Low/Lowest Seasons')
+    line_ids = fields.One2many('rent.table.line', 'table_id', string='Table Lines')
+
+
+class PriceTableLine(models.Model):
+    _name = 'rent.table.line'
+    _description = 'Rent Discount Table Line'
+    _rec_name = 'id'
+
+    table_id = fields.Many2one('rent.table', string='Rent Table', required=True)
+    date_start = fields.Date('Start Date', required=True)
+    date_end = fields.Date('End Date', required=True)
+    discount = fields.Float(string='Discount', help="For percent enter a ratio between 0-100.")
+    fixed_price = fields.Float(string='Fixed Price', digits=dp.get_precision('Product Price'))
+
+    @api.multi
+    @api.constrains('date_start', 'date_end')
+    def _check_dates(self):
+        for line in self:
+            if line.date_start > line.date_end:
+                raise ValidationError(_('Start date cannot be older then the end date.'))
+
+
 class RemImage(models.Model):
     _name = 'rem.image'
     _description = 'Unit Image'
@@ -281,11 +311,6 @@ class RemUnit(models.Model):
             self.currency_id = self.sudo().company_id.currency_id
         else:
             self.currency_id = self.env.user.company_id.currency_id
-
-    @api.depends('price_rent')
-    def _get_rent_rate(self):
-        # TODO: implement rent rate depending on season for vacation rental
-        pass
 
     @api.depends('current_listing_contract_id', 'listing_contract_ids')
     def _get_current_listing_contract(self):
@@ -439,8 +464,10 @@ class RemUnit(models.Model):
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
+    price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
-    price_rent = fields.Float(compute='_get_rent_rate', string='Rent Rate', digits=(16, 2))
+    table_id = fields.Many2one('rent.table', string='Discount Table')
+    rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
@@ -465,7 +492,6 @@ class RemUnit(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
-    price = fields.Float(string='Sale Price', digits=(16, 2), required=True)
     description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)

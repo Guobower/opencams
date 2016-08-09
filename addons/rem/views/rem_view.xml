@@ -2,6 +2,86 @@
 <openerp>
 	<data>
 
+        <!-- 
+        	Rent Discount Table 
+		-->
+        <!-- Rent Discount Table Tree View -->
+
+        <record model="ir.ui.view" id="view_rent_table_tree">
+            <field name="name">rent.table.tree</field>
+            <field name="model">rent.table</field>
+            <field name="arch" type="xml">
+                <tree string="Rent Discount Table">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Rent Discount Table Search View -->
+
+        <record id="view_rent_table_filter" model="ir.ui.view">
+            <field name="name">rent.table.filter</field>
+            <field name="model">rent.table</field>
+            <field name="arch" type="xml">
+                <search string="Search Rent Discount Table">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Rent Discount Table Form View -->
+        
+        <record model="ir.ui.view" id="view_rent_table_form">
+            <field name="name">rent.table.form</field>
+            <field name="model">rent.table</field>
+            <field name="arch" type="xml">
+                <form string="Rent Discount Table">
+	                <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Describe the discount table"/></h1>
+                        </div>
+	                	<group>
+		                	<field name="line_ids" nolabel="1">
+		                	<tree editable="bottom">
+		                		<field name="date_start"/>   	
+		                		<field name="date_end"/>
+		                		<field name="discount" attrs="{'invisible': [('fixed_price', '>', 0)]}"/>
+		                		<field name="fixed_price" attrs="{'invisible': [('discount', '>', 0)]}"/>
+		                	</tree>
+		                	<form>
+			                	<group>
+			                		<field name="date_start"/>   	
+			                		<field name="date_end"/>
+			                		<field name="discount"/>
+			                		<field name="fixed_price"/>
+			                	</group>   	
+		                	</form>
+		                	</field>
+	                    </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<!-- Rent Discount Table Action Window -->
+        
+        <record id="action_rent_table" model="ir.actions.act_window">
+            <field name="name">Rent Discount Table</field>
+            <field name="res_model">rent.table</field>
+            <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	            <p class="oe_view_nocontent_create">
+	                Click to add a Rent Discount Table.
+	            </p><p>
+	                The Rent Discount Tables allow you to 
+	                define the Seasons:
+	                e.g. Highest, High, Low, Lowest Season
+	            </p>
+	        </field>
+        </record>
+
+
         <!--
         	Real Estate Asset
         -->
@@ -145,9 +225,13 @@
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
-								<field name="price"/>
+								<field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="is_rent" invisible="1"/>
+								
+								<field name="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+								<field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+								
 			                    <label for="street" string="Address"/>
 			                    <div class="o_address_format">
 			                        <field name="street" placeholder="Street..." class="o_address_street"/>

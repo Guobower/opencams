@@ -228,6 +228,14 @@
 	                                <label for="group_use_buyer_contracts" />
 	                            </div>
 	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_rent_table)d" 
+	                                		string="Rent discount tables for seasons (e.g. highest, high, low, lowest seasons)" 
+	                                		help="Setting season discounts allow you to implement season prices"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
                         </div>
                     </group>
                     <group string="Website Configuration">
