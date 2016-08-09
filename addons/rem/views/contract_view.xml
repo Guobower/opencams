@@ -152,6 +152,7 @@
 			                    <field name="date_end"/>
 		                    </group>
 		                	<group>
+		                		<field name="commission"/>
 		                		<field name="current" readonly="1"/>
 			                    <field name="auto_renew"/>
 			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>

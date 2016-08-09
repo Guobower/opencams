@@ -501,6 +501,8 @@ class RemUnit(models.Model):
         string='Bedrooms', default=1, required=True)
     bathrooms = fields.Integer(
         string='Bathrooms', default=1, required=True)
+    toilets = fields.Integer(
+        string='Toilets', default=1, required=True)
     living_area = fields.Float('Living Area', default=0)
     land_area = fields.Float('Land Area', default=0)
     points_interest = fields.Many2many(

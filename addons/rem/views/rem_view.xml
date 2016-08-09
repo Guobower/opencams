@@ -50,12 +50,13 @@
                     <field name="state_id"/>
                     <field name="zip"/>
                     <field name="country_id"/> 
-                    <field name='bedrooms'/>
-                    <field name='bathrooms'/>
-                    <field name='points_interest'/>
-                    <field name='is_new'/>
-                    <field name='latitude'/>
-                    <field name='longitude'/>
+                    <field name="bedrooms"/>
+                    <field name="bathrooms"/>
+                    <field name="toilets"/>
+                    <field name="points_interest"/>
+                    <field name="is_new"/>
+                    <field name="latitude"/>
+                    <field name="longitude"/>
                     <!-- Indoor Features -->
                     <field name="air_conditioned"/>
                     <field name="ducted_cooling"/>
@@ -181,8 +182,9 @@
                                     <group>
                                         <field name="bedrooms"/>
                                         <field name="bathrooms"/>
-                                        <field name='living_area'/>
-                                        <field name='land_area'/>
+                                        <field name="toilets"/>
+                                        <field name="living_area"/>
+                                        <field name="land_area"/>
                                     </group>
                                     <group>
                                         <field name='points_interest' widget="many2many_tags"/>
@@ -192,28 +194,28 @@
                             <page string="Indoor Features">
                                 <group>
                                     <group>
-                                        <field name='air_conditioned'/>
-                                        <field name='ducted_cooling'/>
-                                        <field name='wardrobes'/>
-                                        <field name='dishwasher'/>
+                                        <field name="air_conditioned"/>
+                                        <field name="ducted_cooling"/>
+                                        <field name="wardrobes"/>
+                                        <field name="dishwasher"/>
                                     </group>
                                     <group>
-                                        <field name='living_areas'/>
+                                        <field name="living_areas"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Outdoor Features">
                                 <group>
                                     <group>
-                                        <field name='backyard'/>
-                                        <field name='alarm'/>
-                                        <field name='sw_pool'/>
-                                        <field name='entertaining'/>
+                                        <field name="backyard"/>
+                                        <field name="alarm"/>
+                                        <field name="sw_pool"/>
+                                        <field name="entertaining"/>
                                     </group>
                                     <group>
-                                        <field name='garages'/>
-                                        <field name='secure_parking'/>
-                                        <field name='dog_friendly'/>
+                                        <field name="garages"/>
+                                        <field name="secure_parking"/>
+                                        <field name="dog_friendly"/>
                                     </group>
                                 </group>
                             </page>

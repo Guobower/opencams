@@ -65,8 +65,16 @@ class RemAbstractContract(models.Model):
     notice_period = fields.Integer('Notice Period', default=15)
     notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit',
                                           default='days')
-    current = fields.Boolean(string='Current Contract', default=True,
+    current = fields.Boolean(string='Current Contract', compute='_compute_current',
                              help='This contract is the current one for this unit?')
+
+    def get_date_end(self, date_start, period, unit):
+        if unit == 'months':
+            return datetime.strptime(date_start + ' 00:00:00',
+                                     DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=period)
+        else:
+            return datetime.strptime(date_start + ' 00:00:00',
+                                     DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=period)
 
     @api.multi
     @api.depends('date_start', 'period', 'period_unit')
@@ -96,29 +104,15 @@ class RemAbstractContract(models.Model):
                                               DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=rec.notice_period)
             rec.notice_date = date_calc
 
-    def get_is_contract_current(self, date_start, date_end):
+    def get_is_contract_current(self, date_start=False, date_end=False):
         today_date = fields.Date.today()
         return (date_start <= today_date and date_end >= today_date)
 
     @api.multi
-    def unlink(self):
-        for ct1 in self:
-            ct1.with_context(avoid_recursion=True).current = self.get_is_contract_current(ct1.date_start, ct1.date_end)
-        return super(RemListingContract, self).unlink()
-
-    @api.multi
-    def write(self, vals):
-        ct = super(RemListingContract, self).write(vals)
-        for ct1 in self:
-            if not self._context.get('avoid_recursion', False):
-                ct1.with_context(avoid_recursion=True).current = self.get_is_contract_current(ct1.date_start, ct1.date_end)
-        return ct
-
-    @api.model
-    def create(self, vals):
-        res = super(RemListingContract, self).create(vals)
-        res.update({'current': self.get_is_contract_current(vals['date_start'], vals['date_end'])})
-        return res
+    @api.depends('date_start', 'period', 'period_unit')
+    def _compute_current(self):
+        for ct in self:
+            ct.current = self.get_is_contract_current(ct.date_start, ct.date_end)
 
 
 class RemListingContract(models.Model):
@@ -138,16 +132,22 @@ class RemListingContract(models.Model):
     partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller')
     commission = fields.Float(string='Commission', help="For percent enter a ratio between 0-100.")
     ordering = fields.Integer('Ordering Field', default=1)
-    # TODO: scheduled action for auto renewal or just trigger when unit is read
+    # TODO: scheduled action for auto renewal
 
     @api.multi
-    @api.constrains('date_start', 'period')
+    @api.constrains('date_start', 'period', 'period_unit')
     def _check_dates(self):
-        contracts = self.search([('unit_id', '=', self.unit_id.id)])
-        for ct in contracts:
-            if ct.id != self.id:
-                if ct.date_end > self.date_start:
-                    raise ValidationError(_('The last contract date for this unit is %s. please chose a following start date.') % ct.date_end)
+        for ct1 in self:
+            contracts = self.search([('unit_id', '=', ct1.unit_id.id), ('id', '!=', ct1.id)])
+            maxdate = False
+            mindate = False
+            for ct in contracts:
+                maxdate = max(maxdate, ct.date_end) if maxdate else ct.date_end
+                mindate = min(mindate, ct.date_start) if mindate else ct.date_start
+            if ct1.date_start < maxdate and ct1.date_end > mindate:
+                raise ValidationError(_('The first contract start date for this unit is %s.\n'
+                                        'The last contract end date for this unit is %s.\n'
+                                        'Please chose a prior or next start-end period for this contract.') % (mindate, maxdate))
 
     @api.model
     def default_get(self, flds):
