@@ -203,7 +203,7 @@
                                                     <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light rem-box-shadow"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                                    <button id="rem-search-button" type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
                                                 </div>
                                             </div>
                                         </div>

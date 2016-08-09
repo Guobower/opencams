@@ -24,6 +24,8 @@ $(function() {
                 $("#type_listing").val("1");
             $(".type-listing").removeClass("selected");
             $(this).addClass("selected");
+
+            $("#rem-search-button").click();
         }
     });
 
