@@ -41,6 +41,7 @@ class RemListingContractType(models.Model):
 class RemAbstractContract(models.Model):
     _name = 'rem.abstract.contract'
     _description = 'Abstract Contract'
+    _order = "date_start desc"
 
     @api.multi
     @api.depends('date_start', 'period', 'period_unit')

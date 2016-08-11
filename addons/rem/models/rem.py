@@ -151,22 +151,23 @@ class NeighborhoodContacts(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class PriceTable(models.Model):
-    _name = 'rent.table'
-    _description = 'Rent Discount Table'
+class SeasonalRates(models.Model):
+    _name = 'season.rates'
+    _description = 'Seasonal Rates'
 
     unit_ids = fields.One2many('rem.unit', 'table_id', string='Units')
     name = fields.Char(string='Name', size=32, required=True,
-                       help='Discount table name, e.g. Highest/High/Low/Lowest Seasons')
-    line_ids = fields.One2many('rent.table.line', 'table_id', string='Table Lines')
+                       help='Discount table name, e.g. Summer 2029')
+    line_ids = fields.One2many('season.rates.line', 'table_id', string='Table Lines')
 
 
 class PriceTableLine(models.Model):
-    _name = 'rent.table.line'
+    _name = 'season.rates.line'
     _description = 'Rent Discount Table Line'
-    _rec_name = 'id'
 
-    table_id = fields.Many2one('rent.table', string='Rent Table', required=True)
+    name = fields.Char(string='Name', size=32, required=True,
+                       help='Season name, e.g. Highest/High/Shoulder/Low/Lowest Seasons')
+    table_id = fields.Many2one('season.rates', string='Rent Table', required=True)
     date_start = fields.Date('Start Date', required=True)
     date_end = fields.Date('End Date', required=True)
     discount = fields.Float(string='Discount', help="For percent enter a ratio between 0-100.")
@@ -219,12 +220,6 @@ class RemUnit(models.Model):
     _inherit = ['website.seo.metadata', 'website.published.mixin']
     _name = 'rem.unit'
     _description = 'Real Estate Unit'
-
-    def _website_url(self, cr, uid, ids, field_name, arg, context=None):
-        res = super(RemUnit, self)._website_url(cr, uid, ids, field_name, arg, context=context)
-        for unit in self.browse(cr, uid, ids, context=context):
-            res[unit.id] = "/rem/unit/%s" % (unit.id,)
-        return res
 
     def get_formated_name(self, rec, mask):
         STREET = (rec.street or '').upper()
@@ -466,14 +461,14 @@ class RemUnit(models.Model):
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
     price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
     # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
-    table_id = fields.Many2one('rent.table', string='Discount Table')
+    table_id = fields.Many2one('season.rates', string='Discount Table')
     rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
-    active = fields.Boolean(compute='_check_active', store=True, default=True,
+    active = fields.Boolean(compute='_check_active',
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')

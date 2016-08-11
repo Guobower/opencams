@@ -18,3 +18,6 @@ access_rem_listing_contract_type,access_rem_listing_contract_type,model_rem_list
 access_rem_tenant_contract_type,access_rem_tenant_contract_type,model_rem_tenant_contract_type,,1,0,0,0
 access_rem_abstract_contract,access_rem_abstract_contract,model_rem_abstract_contract,,1,0,0,0
 access_rem_unit_search,access_rem_unit_search,model_rem_unit_search,,1,0,0,0
+access_season_rates,access_season_rates,model_season_rates,,1,0,0,0
+access_season_rates_line,access_season_rates_line,model_season_rates_line,,1,0,0,0
+
