@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rem_unit_public,rem.unit.public,rem.model_rem_unit,base.group_sale_salesman,1,0,0,0
+access_rem_unit_public,rem.unit.public,rem.model_rem_unit,,1,0,0,0
+access_rem_image_public,rem.image.public,rem.model_rem_image,,1,0,0,0
+access_rem_unit_city_public,rem.unit.city.public,rem.model_rem_unit_city,,1,0,0,0

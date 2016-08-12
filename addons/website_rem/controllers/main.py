@@ -60,7 +60,6 @@ class WebsiteRem(http.Controller):
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
     def homepage(self):
         env = request.env
-
         featured_units = env['rem.unit'].sudo().search([('is_featured', '=', True)])
 
         row = 0
@@ -144,8 +143,7 @@ class WebsiteRem(http.Controller):
                  '/rem/page/<int:page>',
                  ], type='http', auth='public', website=True)
     def rem(self, page=0, type_listing=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
-        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
-
+        env = request.env
         if ppg:
             try:
                 ppg = int(ppg)
@@ -154,14 +152,6 @@ class WebsiteRem(http.Controller):
             post["ppg"] = ppg
         else:
             ppg = PPG
-
-        contracts_type_obj = pool.get('contract.type')
-        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
-        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
-
-        units_types_obj = pool.get('rem.unit.type')
-        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
-        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
 
         url = '/rem'
 
@@ -194,7 +184,7 @@ class WebsiteRem(http.Controller):
                 domain += [('contract_type_id.id', '=', contract_type)]
                 post["contract_type"] = contract_type
             else:
-                selected_contract_type = contracts_type[0].id
+                selected_contract_type = env['contract.type'].sudo().search([])[0].id
                 domain += [('contract_type_id.id', '=', selected_contract_type)]
                 post["contract_type"] = contract_type
         except:
@@ -206,18 +196,18 @@ class WebsiteRem(http.Controller):
             domain += [('type_id.id', '=', unit_type)]
             post["unit_type"] = unit_type
         except ValueError:
-            unit_type=0
+            unit_type = 0
 
         # Bedrooms
         try:
             min_beds = int(min_beds)
         except ValueError:
-            min_beds=0
+            min_beds = 0
 
         try:
             max_beds = int(max_beds)
         except ValueError:
-            max_beds=0
+            max_beds = 0
 
         # Switch min to max and vice-versa if min > max
         if min_beds > 0 and max_beds > 0 and min_beds > max_beds:
@@ -238,12 +228,12 @@ class WebsiteRem(http.Controller):
         try:
             min_price = int(min_price.replace(',', ''))
         except ValueError:
-            min_price=0
+            min_price = 0
 
         try:
             max_price = int(max_price.replace(',', ''))
         except ValueError:
-            max_price=0
+            max_price = 0
 
         # Switch min to max and vice-versa if min > max
         if min_price > 0 and max_price > 0 and min_price > max_price:
@@ -262,28 +252,24 @@ class WebsiteRem(http.Controller):
 
         # Query state, city, zone, street and zip
         if multi_search:
-            rem_unit_searchs = request.env['rem.unit.search'].search([('result', '=', multi_search)])
+            rem_unit_searchs = env['rem.unit.search'].sudo().search([('result', '=', multi_search)])
             if rem_unit_searchs:
                 domain += eval(rem_unit_searchs.domain)
 
-        units_obj = pool.get('rem.unit')
-        units_count = units_obj.search_count(cr, SUPERUSER_ID, domain, context=context)
+        units_count = env['rem.unit'].sudo().search_count(domain)
         pager = request.website.pager(url=url, total=units_count, page=page, step=ppg, scope=7, url_args=post)
-        unit_ids = units_obj.search(cr, SUPERUSER_ID, domain, limit=ppg, offset=pager['offset'], context=context)
-        units = units_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
+        units = env['rem.unit'].sudo().search(domain, limit=ppg, offset=pager['offset'])
 
         gmaps_units = []
 
         if selected_type_listing == 1:
-            domain += [('latitude', '!=', 0),('longitude', '!=', 0)]
-            gmaps_units_obj = pool.get('rem.unit')
-            gmaps_units_ids = gmaps_units_obj.search(cr, uid, domain, context=context)
-            gmaps_units = gmaps_units_obj.browse(cr, uid, gmaps_units_ids, context=context)
+            domain += [('latitude', '!=', 0), ('longitude', '!=', 0)]
+            gmaps_units = env['rem.unit'].sudo().search(domain)
 
         values = {
             'units': units,
-            'contracts_type': contracts_type,
-            'units_types': units_types,
+            'contracts_type': env['contract.type'].sudo().search([]),
+            'units_types': env['rem.unit.type'].sudo().search([]),
             'pager': pager,
             'result_contract_type': contract_type,
             'result_unit_type': unit_type,
@@ -295,7 +281,7 @@ class WebsiteRem(http.Controller):
             'selected_contract_type': selected_contract_type,
             'selected_type_listing': selected_type_listing,
             'gmaps_units': gmaps_units,
-            'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + pool.get('ir.config_parameter').get_param(request.cr, SUPERUSER_ID, 'gmaps_key') + '&callback=initMap',
+            'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + env['ir.config_parameter'].get_param('gmaps_key') + '&callback=initMap',
             'keep': keep,
         }
 
@@ -303,16 +289,11 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit):
-        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
-
-        unit_obj = pool.get('rem.unit')
-        unit_ids = unit_obj.search(cr, SUPERUSER_ID, [('id', '=', unit[0].id)], context=context)
-        unit = unit_obj.browse(cr, SUPERUSER_ID, unit_ids, context=context)
+        env = request.env
 
         values = {
-            'unit': unit
+            'unit': env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
         }
-
         return request.website.render('website_rem.rem_unit_page', values)
 
     @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
