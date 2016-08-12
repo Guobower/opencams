@@ -8,8 +8,8 @@ from openerp.exceptions import ValidationError
 from docutils.parsers.rst.directives import flag
 
 
-class RemContractType(models.Model):
-    _name = 'rem.contract.type'
+class RemAbstractContractType(models.AbstractModel):
+    _name = 'rem.abstract.contract.type'
     _description = 'Contract Type'
 
     name = fields.Char(string='Type Name', size=32,
@@ -23,22 +23,22 @@ class RemContractType(models.Model):
 class RemTenantContractType(models.Model):
     _name = 'rem.tenant.contract.type'
     _description = 'Tenant Agreement Type'
-    _inherit = ['rem.contract.type']
+    _inherit = ['rem.abstract.contract.type']
 
 
 class RemBuyerContractType(models.Model):
     _name = 'rem.buyer.contract.type'
     _description = 'Buyer Agreement Type'
-    _inherit = ['rem.contract.type']
+    _inherit = ['rem.abstract.contract.type']
 
 
 class RemListingContractType(models.Model):
     _name = 'rem.listing.contract.type'
     _description = 'Listing Agreement Type'
-    _inherit = ['rem.contract.type']
+    _inherit = ['rem.abstract.contract.type']
 
 
-class RemAbstractContract(models.Model):
+class RemAbstractContract(models.AbstractModel):
     _name = 'rem.abstract.contract'
     _description = 'Abstract Contract'
     _order = "date_start desc"
@@ -54,7 +54,7 @@ class RemAbstractContract(models.Model):
             units.append((rec.id, name))
         return units
 
-    type_id = fields.Many2one('rem.contract.type', string='Type', required=True)
+    type_id = fields.Many2one('rem.abstract.contract.type', string='Type', required=True)
     date_start = fields.Date('Start Date', required=True)
     date_end = fields.Date('End Date', compute='_compute_date_end', required=True)
     auto_renew = fields.Boolean(string='Auto Renew?', default=False,

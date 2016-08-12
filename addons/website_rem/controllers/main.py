@@ -59,19 +59,9 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
     def homepage(self):
-        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+        env = request.env
 
-        contracts_type_obj = pool.get('contract.type')
-        contracts_type_ids = contracts_type_obj.search(cr, uid, [], context=context)
-        contracts_type = contracts_type_obj.browse(cr, uid, contracts_type_ids, context=context)
-
-        units_types_obj = pool.get('rem.unit.type')
-        units_types_ids = units_types_obj.search(cr, uid, [], context=context)
-        units_types = units_types_obj.browse(cr, uid, units_types_ids, context=context)
-
-        featured_units_obj = pool.get('rem.unit')
-        featured_units_ids = featured_units_obj.search(cr, uid, [('is_featured', '=', True)], context=context)
-        featured_units = featured_units_obj.browse(cr, uid, featured_units_ids, context=context)
+        featured_units = env['rem.unit'].sudo().search([('is_featured', '=', True)])
 
         row = 0
         first = True
@@ -109,7 +99,7 @@ class WebsiteRem(http.Controller):
                 featured_units_html += '</div></div>'
 
         try:
-            selected_contract_type = contracts_type[0].id
+            selected_contract_type = env['contract.type'].sudo().search([])[0].id
         except IndexError:
             selected_contract_type = 0
 
@@ -123,8 +113,8 @@ class WebsiteRem(http.Controller):
                         max_price='')
 
         values = {
-            'contracts_type': contracts_type,
-            'units_types': units_types,
+            'contracts_type': env['contract.type'].sudo().search([]),
+            'units_types': env['rem.unit.type'].sudo().search([]),
             'selected_contract_type': selected_contract_type,
             'selected_type_listing': 0,
             'featured_units_html': featured_units_html,

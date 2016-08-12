@@ -86,7 +86,7 @@ class RemUnitContractType(models.Model):
     object_id = fields.Selection('_get_contract_type', string='Resource')
 
     def _get_contract_type(self):
-        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'), ('model', '!=', 'rem.contract.type')],
+        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'), ('model', '!=', 'rem.abstract.contract.type')],
                                                  fields=['name', 'model'])
         res = []
         for rec in model:
