@@ -231,6 +231,7 @@
 								<field name="is_rent" invisible="1"/>
 								
 								<field name="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+								<field name="rent_current_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								
@@ -586,9 +587,7 @@
 	                	<group>
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
-		                        <field name="is_rent"/>
-		                        <field name="object_id"/>
-		                        
+		                        <field name="is_rent"/>   
 	                        </group>
 	                    </group>
 	                </sheet>

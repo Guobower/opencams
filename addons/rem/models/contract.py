@@ -178,9 +178,23 @@ class RemTenantContract(models.Model):
     _description = 'Buyer Contract'
     _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
 
+    @api.multi
+    @api.depends('date_start', 'period', 'period_unit')
+    def name_get(self):
+        units = []
+        for rec in self:
+            if rec.date_start and rec.period and rec.period_unit:
+                name = "%s %s - %s %s" % (rec.partner_id.name,
+                                          rec.date_start, rec.period, rec.period_unit)
+            units.append((rec.id, name))
+        return units
+    allday = fields.Boolean('All Day', default=True),
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Tenant', required=True)
+    reservation = fields.Boolean(string='Reservation', default=False,
+                                 help='Check if this is a reservation')
+    deposit = fields.Float(string='Deposit', help="For percentage for deposit.")
 
     def update_current_unit(self, unit_id, **kwargs):
         contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])

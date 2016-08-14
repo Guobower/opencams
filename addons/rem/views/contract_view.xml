@@ -10,13 +10,14 @@
             <field name="name">rem.tenant.contract.tree</field>
             <field name="model">rem.tenant.contract</field>
             <field name="arch" type="xml">
-                <tree string="Tenant Contract">
+                <tree string="Tenant Contract" decoration-info="reservation is True" >
                 	<field name="partner_id"/>
                 	<field name="type_id"/>
                     <field name="current"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
                     <field name="notice_date"/>
+                    <field name="reservation"/>
                 </tree>
             </field>
         </record>
@@ -34,10 +35,27 @@
                     <field name="date_start"/>
                     <field name="date_end"/>
                     <field name="notice_date"/>
+                    <field name="reservation"/>
                 </search>
             </field>
         </record>
-
+        
+        <!-- Tenant Contract Calendar View -->
+        <record id="view_rem_tenant_contract_calendar" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.calendar</field>
+            <field name="model">rem.tenant.contract</field>
+            <field name="arch" type="xml">
+                <calendar string="Tenant Contracts" date_start="date_start" allday="1" mode="month"
+                	date_stop="date_end" display="[display_name]" color="reservation" quick_add="False"
+                	event_open_popup="%(rem.view_rem_tenant_contract_form)s">
+                    <field name="display_name"/>
+                    <field name="partner_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </calendar>
+            </field>
+        </record>
+        
         <!-- Tenant Contract Form View -->
         <record id="view_rem_tenant_contract_form" model="ir.ui.view">
             <field name="name">rem.tenant.contract.form</field>
@@ -66,6 +84,8 @@
 			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
+			                    <field name="reservation"/>
+			                    <field name="deposit" attrs="{'invisible':[('reservation','=',False)]}"/>
 		                    </group>
 	                    </group>
 	                </sheet>
@@ -80,7 +100,7 @@
 	    <record model="ir.actions.act_window" id="unit_tenant_contract">
 	        <field name="name">Tenant Contracts</field>
 	        <field name="res_model">rem.tenant.contract</field>
-	        <field name="view_mode">tree,form</field>
+	        <field name="view_mode">tree,calendar,form</field>
 	        <field name="domain">[('unit_id','=',active_id)]</field>
 	        <field name="context">{'default_unit_id': active_id}</field>
 	        <field name="help" type="html">

@@ -83,15 +83,6 @@ class RemUnitContractType(models.Model):
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'contract_type_id', string='Stage Name', ondelete='restrict')
-    object_id = fields.Selection('_get_contract_type', string='Resource')
-
-    def _get_contract_type(self):
-        model = self.env['ir.model'].search_read([('model', 'ilike', 'contract.type'), ('model', '!=', 'rem.abstract.contract.type')],
-                                                 fields=['name', 'model'])
-        res = []
-        for rec in model:
-            res.append((rec['model'], rec['name']))
-        return res
 
 
 class RemUnitStage(models.Model):
@@ -159,6 +150,20 @@ class SeasonalRates(models.Model):
     name = fields.Char(string='Name', size=32, required=True,
                        help='Discount table name, e.g. Summer 2029')
     line_ids = fields.One2many('season.rates.line', 'table_id', string='Table Lines')
+
+    def get_unit_price(self, unit, date=fields.Date.today()):
+        unit_rent = unit.rent_price
+        for table in self:
+            lin = False
+            for line in table.line_ids:
+                if date > line.date_start and date < line.date_end and lin is False:
+                    lin = line
+            if lin:
+                if lin.fixed_price == 0:
+                    unit_rent = unit_rent * ((100.0 - lin.discount) / 100)
+                else:
+                    unit_rent = lin.fixed_price
+        return unit_rent
 
 
 class PriceTableLine(models.Model):
@@ -433,6 +438,16 @@ class RemUnit(models.Model):
             units.append((rec.id, name))
         return units
 
+    @api.multi
+    @api.depends('table_id', 'rent_price', 'rent_unit')
+    def _get_current_rent(self):
+        today_date = fields.Date.today()
+        for unit in self:
+            if unit.table_id:
+                unit.rent_current_price = unit.table_id.get_unit_price(unit, today_date)
+            else:
+                unit.rent_current_price = unit.rent_price
+
     @api.one
     def get_geo_coordinates(self):
         coordinates = geo_find(
@@ -460,12 +475,13 @@ class RemUnit(models.Model):
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
     is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
     price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
-    # TODO: implement rent rate depending on season for vacation rental or simple for long term rent
+    # Rental
     table_id = fields.Many2one('season.rates', string='Discount Table')
     rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
     rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
                                   ('per_month', 'per Month')], string='Rent Unit', change_default=True,
                                  default=lambda self: self._context.get('rent_unit', 'per_month'))
+    rent_current_price = fields.Float(string='Current Rent Rate', compute='_get_current_rent', digits=dp.get_precision('Product Price'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     active = fields.Boolean(compute='_check_active',
