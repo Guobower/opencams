@@ -15,12 +15,71 @@
             <field name="value">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
+
+		<!-- Default Category and Product for invoicing rent/ leasing -->
+        
+        <record id="uom_categ_rentime" model="product.uom.categ">
+            <field name="name">Rental Units</field>
+        </record>
+
+        <record id="product_rent_day" model="product.uom">
+            <field name="name">Day(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+        <record id="product_rent_week" model="product.uom">
+            <field name="name">Week(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="7"/>
+            <field name="uom_type">bigger</field>
+        </record>
+
+        <record id="product_rent_month" model="product.uom">
+            <field name="name">Month(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="30"/>
+            <field name="uom_type">bigger</field>
+        </record>
+		
+        <record id="product_houserental_category" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">House Rental</field>
+        </record>
+
+        <record id="product_rem_rentservice" model="product.product">
+            <field name="name">Rent Service</field>
+            <field name="categ_id" ref="product_houserental_category"/>
+            <field name="standard_price">1</field>
+            <field name="list_price">1</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product_rent_day"/>
+            <field name="uom_po_id" ref="product_rent_day"/>
+            <field name="description">Daily Rent Service</field>
+        </record>
+		
+        <record id="product_brokerage_category" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Brokerage</field>
+        </record>
+
+        <record id="product_rem_brokerservice" model="product.product">
+            <field name="name">Brokerage Service</field>
+            <field name="categ_id" ref="product_brokerage_category"/>
+            <field name="standard_price">1</field>
+            <field name="list_price">1</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_uom_hour"/>
+            <field name="uom_po_id" ref="product.product_uom_hour"/>
+            <field name="description">Brokerage Service</field>
+        </record>
         
         <!-- Tenant / Renting Contract Types -->      
         
         <record id="tenant_contract_type_0" model="rem.tenant.contract.type">
             <field name="code">MON</field>
             <field name="name">Monthly rent contract - 2 Advance payments</field>
+            <field name="sale_product_id" ref="product_rem_rentservice"/>
             <field name="notes">
             	With this type of contract the
             	tenant gets no laundry access
@@ -30,6 +89,7 @@
         <record id="tenant_contract_type_1" model="rem.tenant.contract.type">
             <field name="code">WEEK</field>
             <field name="name">Weekly rent contract</field>
+            <field name="sale_product_id" ref="product_rem_rentservice"/>
             <field name="notes">
             	With this type of contract the
             	tenant needs to provide credit card
@@ -41,6 +101,7 @@
         <record id="listing_contract_type_0" model="rem.listing.contract.type">
             <field name="code">XSELL</field>
             <field name="name">Exclusive Right to Sell Listing</field>
+            <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[In this agreement, the agent gets paid no matter who sells the property,
 regardless of whether it's the agent or the seller.]]></field>
         </record>
@@ -48,6 +109,7 @@ regardless of whether it's the agent or the seller.]]></field>
         <record id="listing_contract_type_1" model="rem.listing.contract.type">
         	<field name="code">AGENCY</field>
             <field name="name">Exclusive Agency Listing</field>
+            <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[Agents get paid in this type of agreement only if they sell the property. 
  No fee is earned if the owner alone sells the property.]]></field>
         </record>
@@ -55,6 +117,7 @@ regardless of whether it's the agent or the seller.]]></field>
         <record id="listing_contract_type_2" model="rem.listing.contract.type">
         	<field name="code">OPEN</field>
             <field name="name">Open Listing</field>
+            <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[In this type of agreement, sellers have the right to use
  as many brokers as they want. The seller is not, however, obligated to pay any
  of them if he or she sells the property without the broker's help.]]></field>
@@ -63,6 +126,7 @@ regardless of whether it's the agent or the seller.]]></field>
         <record id="listing_contract_type_3" model="rem.listing.contract.type">
         	<field name="code">NET</field>
             <field name="name">Net Listing</field>
+            <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[This type of agreement may be illegal in your state. 
  The agent gets to keep everything he can get that's more than the sale price the owner wants.]]></field>
         </record>
@@ -160,45 +224,6 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="value">8</field>
         </record>
 
-		<!-- Default Category and Product for invoicing rent/ leasing -->
-        <record id="product_houserental_category" model="product.category">
-            <field name="parent_id" ref="product.product_category_all"/>
-            <field name="name">House Rental</field>
-        </record>
-        
-        <record id="uom_categ_rentime" model="product.uom.categ">
-            <field name="name">Rental Units</field>
-        </record>
-        
-
-        <record id="product_rent_day" model="product.uom">
-            <field name="name">Day(s)</field>
-            <field eval="uom_categ_rentime" name="category_id"/>
-            <field name="factor" eval="1.0"/>
-        </record>
-        <record id="product_rent_week" model="product.uom">
-            <field name="name">Week(s)</field>
-            <field eval="uom_categ_rentime" name="category_id"/>
-            <field name="factor" eval="7"/>
-            <field name="uom_type">bigger</field>
-        </record>
-        <record id="product_rent_month" model="product.uom">
-            <field name="name">Month(s)</field>
-            <field eval="uom_categ_rentime" name="category_id"/>
-            <field name="factor" eval="30"/>
-            <field name="uom_type">bigger</field>
-        </record>
-        
-        <record id="product_rem_rentservice" model="product.product">
-            <field name="name">Rent Service</field>
-            <field name="categ_id" ref="product_houserental_category"/>
-            <field name="standard_price">1</field>
-            <field name="list_price">1</field>
-            <field name="type">service</field>
-            <field name="uom_id" ref="product.product_rent_day"/>
-            <field name="uom_po_id" ref="product.product_uom_day"/>
-            <field name="description">Daily Rent Service</field>
-        </record>
     </data>
 </openerp>
         

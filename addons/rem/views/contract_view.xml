@@ -40,22 +40,6 @@
             </field>
         </record>
         
-        <!-- Tenant Contract Calendar View -->
-        <record id="view_rem_tenant_contract_calendar" model="ir.ui.view">
-            <field name="name">rem.tenant.contract.calendar</field>
-            <field name="model">rem.tenant.contract</field>
-            <field name="arch" type="xml">
-                <calendar string="Tenant Contracts" date_start="date_start" allday="1" mode="month"
-                	date_stop="date_end" display="[display_name]" color="reservation" quick_add="False"
-                	event_open_popup="%(rem.view_rem_tenant_contract_form)s">
-                    <field name="display_name"/>
-                    <field name="partner_id"/>
-                    <field name="date_start"/>
-                    <field name="date_end"/>
-                </calendar>
-            </field>
-        </record>
-        
         <!-- Tenant Contract Form View -->
         <record id="view_rem_tenant_contract_form" model="ir.ui.view">
             <field name="name">rem.tenant.contract.form</field>
@@ -146,6 +130,22 @@
             </field>
         </record>
         
+        <!-- Tenant Contract Calendar View -->
+        <record id="view_rem_tenant_contract_calendar" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.calendar</field>
+            <field name="model">rem.tenant.contract</field>
+            <field name="arch" type="xml">
+                <calendar string="Tenant Contracts" date_start="date_start" allday="1" mode="month"
+                	date_stop="date_end" display="[display_name]" color="reservation" quick_add="False"
+                	event_open_popup="%(rem.view_rem_tenant_contract_form)s">
+                    <field name="display_name"/>
+                    <field name="partner_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </calendar>
+            </field>
+        </record>
+
 	    <record model="ir.actions.act_window" id="unit_tenant_contract">
 	        <field name="name">Tenant Contracts</field>
 	        <field name="res_model">rem.tenant.contract</field>

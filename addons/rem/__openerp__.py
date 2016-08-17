@@ -12,12 +12,12 @@ This module allows to sell/rent real estate units
 
     """,
     'website': 'http://www.odoogap.com',
-    'depends': ['account', 'crm', 'calendar', 'analytic'],
+    'depends': ['account', 'crm', 'calendar', 'analytic', 'sale'],
     'category': 'Real Estate',
     'data': [
         'data/rem_data.xml',
-        'security/ir.model.access.csv',
         'security/rem_security.xml',
+        'security/ir.model.access.csv',
         'views/crm_view.xml',
         'views/contract_view.xml',
         'views/partner_view.xml',

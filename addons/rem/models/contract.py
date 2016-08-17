@@ -4,7 +4,7 @@ from openerp import exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, UserError
 from docutils.parsers.rst.directives import flag
 
 
@@ -18,6 +18,8 @@ class RemAbstractContractType(models.AbstractModel):
     notes = fields.Text(string='Description', help='Brief description.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
+    sale_product_id = fields.Many2one('product.product', string='Sale Product', required=True, 
+                                      domain=lambda self: [('uom_id.category_id', '=', self.env.ref('rem.uom_categ_rentime').id)],)
 
 
 class RemTenantContractType(models.Model):
@@ -25,17 +27,23 @@ class RemTenantContractType(models.Model):
     _description = 'Tenant Agreement Type'
     _inherit = ['rem.abstract.contract.type']
 
+    sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_rentservice'))
+
 
 class RemBuyerContractType(models.Model):
     _name = 'rem.buyer.contract.type'
     _description = 'Buyer Agreement Type'
     _inherit = ['rem.abstract.contract.type']
 
+    sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_brokerservice'))
+
 
 class RemListingContractType(models.Model):
     _name = 'rem.listing.contract.type'
     _description = 'Listing Agreement Type'
     _inherit = ['rem.abstract.contract.type']
+
+    sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_brokerservice'))
 
 
 class RemAbstractContract(models.AbstractModel):
@@ -198,7 +206,7 @@ class RemTenantContract(models.Model):
             units.append((rec.id, name))
         return units
 
-    allday = fields.Boolean('All Day', default=True),
+    allday = fields.Boolean('All Day', default=True)
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Tenant', required=True)
@@ -217,13 +225,26 @@ class RemTenantContract(models.Model):
 
         date_start = datetime.strptime(ctr.date_start + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
         date_end = datetime.strptime(ctr.date_end + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
+
+        renttime_categ = self.env.ref('rem.uom_categ_rentime')
+        if ctr.type_id.sale_product_id.categ_id.id != renttime_categ.id:
+            raise UserError(_('Contract type "%s", sale product "%s" unit of\n'
+                              'measure must in the "%s" UoM category.') %
+                            (ctr.type_id.display_name, ctr.type_id.sale_product_id.name, renttime_categ.name))
+
         if ctr.unit_id.table_id:
             print "___________", date_start, date_end
             for single_date in daterange(date_start, date_end):
                 print single_date.strftime("%Y-%m-%d")
         else:
             qtt = (date_end - date_start).days
-            res = {'qtt': qtt, 'price': ctr.unit_id.rent_price}
+            ctr.type_id.sale_product_id.cate
+            res = {
+                'product_id': ctr.type_id.sale_product_id.id,
+                'qtt': qtt,
+                'uom': ctr.unit_id.rent_uom_id.id,
+                'price': ctr.unit_id.rent_price
+            }
             return [res]
 
     @api.multi
@@ -242,7 +263,6 @@ class RemTenantContract(models.Model):
 
     @api.multi
     def create_sale_order(self):
-        prod = self.env.ref('rem.product_rem_rentservice')
         action = self.env.ref('sale.action_quotations')
         edit_form_action = action.read()[0]
         for ctr in self:
@@ -256,12 +276,13 @@ class RemTenantContract(models.Model):
 
             lines = []
             for ln in qtt_rate_lines:
+                prod = self.env['product.product'].browse(ln['product_id'])
                 lines.append((0, 0, {
                     'name': prod.name,
                     'product_id': prod.id,
                     'product_uom_qty': ln['qtt'],
-                    'product_uom': prod.uom_id.id,
-                    'price_unit': ln['qtt'],
+                    'product_uom': ln['uom'],
+                    'price_unit': ln['price'],
                 }))
 
             order.update({'order_line': lines})
