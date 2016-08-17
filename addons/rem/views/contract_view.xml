@@ -63,6 +63,14 @@
             <field name="arch" type="xml">
                 <form string="Tenant Contracts">
 	                <sheet>
+						<div class="oe_button_box" name="button_box">
+	                        <button class="oe_stat_button" type="object"
+	                            name="get_sale_orders"
+	                            attrs="{'invisible': [('order_ids_count', '=', 0)]}"
+	                            icon="fa-usd">
+	                            <field string="Sale(s)" name="order_ids_count" widget="statinfo"/>
+	                        </button>
+	                    </div>
 	                    <div class="oe_title">
 	                        <h1>
 	                            <field name="display_name" readonly="1"/>
@@ -86,13 +94,54 @@
 			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 			                    <field name="reservation"/>
 			                    <field name="deposit" attrs="{'invisible':[('reservation','=',False)]}"/>
+			                    <button 
+			                    	type="object"
+			                    	name="create_sale_order"
+			                    	string="Create Sale Order"
+			                    	attrs="{'invisible': [('order_ids_count', '>', 0)]}"
+			                    	class="oe_link oe_inline"/>
 		                    </group>
 	                    </group>
+	                    <notebook>
+		                    <page string="Attachments">
+		                    	<field readonly="1" name="attachment_ids" nolabel="1" widget="many2many_kanban">
+				                <kanban>
+				                    <field name="id"/>
+				                    <field name="mimetype"/>
+				                    <field name="type"/>
+				                    <field name="datas_fname"/>
+				                    <field name="name"/>
+				                    <templates>
+				                        <t t-name="kanban-box">
+				                            <div class="oe_kanban_card">
+				                                <div class="oe_kanban_vignette">
+				                                    <div class="oe_attachment">
+				                                        <div class="oe_name">
+				                                            <field name="name"/>
+				                                        </div>
+				                                        <div t-if="record.type.raw_value == 'binary'">
+				                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+				                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+				                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+				                                                <div t-if="webimage" class="o_kanban_attachment_image">
+				                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+				                                                </div>
+				                                            </a>
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                        </t>
+				                    </templates>
+				                </kanban>
+		                    	</field>
+		                    </page>
+	                    </notebook>
 	                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
                 </form>
             </field>
         </record>
@@ -180,11 +229,46 @@
 			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 		                    </group>
 	                    </group>
+	                    <notebook>
+		                    <page string="Attachments">
+		                    	<field readonly="1" name="attachment_ids" nolabel="1" widget="many2many_kanban">
+				                <kanban>
+				                    <field name="id"/>
+				                    <field name="mimetype"/>
+				                    <field name="type"/>
+				                    <field name="datas_fname"/>
+				                    <field name="name"/>
+				                    <templates>
+				                        <t t-name="kanban-box">
+				                            <div class="oe_kanban_card">
+				                                <div class="oe_kanban_vignette">
+				                                    <div class="oe_attachment">
+				                                        <div class="oe_name">
+				                                            <field name="name"/>
+				                                        </div>
+				                                        <div t-if="record.type.raw_value == 'binary'">
+				                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+				                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+				                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+				                                                <div t-if="webimage" class="o_kanban_attachment_image">
+				                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+				                                                </div>
+				                                            </a>
+				                                        </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                        </t>
+				                    </templates>
+				                </kanban>
+		                    	</field>
+		                    </page>
+	                    </notebook>
 	                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
                 </form>
             </field>
         </record>
@@ -315,10 +399,45 @@
 		                    </group>
 	                    </group>
 	                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
+                    <notebook>
+	                    <page string="Attachments">
+	                    	<field readonly="1" name="attachment_ids" nolabel="1" widget="many2many_kanban">
+			                <kanban>
+			                    <field name="id"/>
+			                    <field name="mimetype"/>
+			                    <field name="type"/>
+			                    <field name="datas_fname"/>
+			                    <field name="name"/>
+			                    <templates>
+			                        <t t-name="kanban-box">
+			                            <div class="oe_kanban_card">
+			                                <div class="oe_kanban_vignette">
+			                                    <div class="oe_attachment">
+			                                        <div class="oe_name">
+			                                            <field name="name"/>
+			                                        </div>
+			                                        <div t-if="record.type.raw_value == 'binary'">
+			                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+			                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+			                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+			                                                <div t-if="webimage" class="o_kanban_attachment_image">
+			                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+			                                                </div>
+			                                            </a>
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </t>
+			                    </templates>
+			                </kanban>
+	                    	</field>
+	                    </page>
+                    </notebook>
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
                 </form>
             </field>
         </record>

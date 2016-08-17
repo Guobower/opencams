@@ -2,7 +2,7 @@
 from openerp import tools, api, fields, models, _
 from openerp import exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
 from docutils.parsers.rst.directives import flag
@@ -97,12 +97,13 @@ class RemAbstractContract(models.AbstractModel):
     def _compute_date_notice(self):
         for rec in self:
             date_calc = False
-            if rec.notice_period_unit == 'months':
-                date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
-                                              DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=rec.notice_period)
-            else:
-                date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
-                                              DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=rec.notice_period)
+            if rec.date_end:
+                if rec.notice_period_unit == 'months':
+                    date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
+                                                  DEFAULT_SERVER_DATETIME_FORMAT) + relativedelta(months=rec.notice_period)
+                else:
+                    date_calc = datetime.strptime(rec.date_end + ' 00:00:00',
+                                                  DEFAULT_SERVER_DATETIME_FORMAT) + timedelta(days=rec.notice_period)
             rec.notice_date = date_calc
 
     def get_is_contract_current(self, date_start=False, date_end=False):
@@ -131,8 +132,9 @@ class RemListingContract(models.Model):
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
     partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller')
-    commission = fields.Float(string='Commission', help="For percent enter a ratio between 0-100.")
+    commission = fields.Float(string='Commission', help="For percent enter a ratio between 0-100.", default=5)
     ordering = fields.Integer('Ordering Field', default=1)
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.listing.contract')], string='Attachments')
     # TODO: scheduled action for auto renewal
 
     @api.multi
@@ -171,12 +173,19 @@ class RemBuyerContract(models.Model):
 
     type_id = fields.Many2one('rem.buyer.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Buyer', required=True)
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.buyer.contract')], string='Attachments')
 
 
 class RemTenantContract(models.Model):
     _name = 'rem.tenant.contract'
     _description = 'Buyer Contract'
     _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+
+    @api.multi
+    @api.depends('order_ids_count', 'order_ids')
+    def _sale_order_count(self):
+        for ctr in self:
+            ctr.order_ids_count = len(ctr.order_ids)
 
     @api.multi
     @api.depends('date_start', 'period', 'period_unit')
@@ -188,13 +197,81 @@ class RemTenantContract(models.Model):
                                           rec.date_start, rec.period, rec.period_unit)
             units.append((rec.id, name))
         return units
+
     allday = fields.Boolean('All Day', default=True),
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Tenant', required=True)
     reservation = fields.Boolean(string='Reservation', default=False,
                                  help='Check if this is a reservation')
-    deposit = fields.Float(string='Deposit', help="For percentage for deposit.")
+    deposit = fields.Float(string='Deposit', help="For percentage for deposit.", default=30)
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.tenant.contract')], string='Attachments')
+    order_ids_count = fields.Integer(compute='_sale_order_count')
+    order_ids = fields.Many2many('sale.order', 'sale_order_tenant_ctr_rel', 'order_id', 'ctr_id', string='Sale Orders')
+
+    def get_rates_and_qtts(self, ctr):
+
+        def daterange(start_date, end_date):
+            for n in range(int((end_date - start_date).days)):
+                yield start_date + timedelta(n)
+
+        date_start = datetime.strptime(ctr.date_start + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
+        date_end = datetime.strptime(ctr.date_end + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
+        if ctr.unit_id.table_id:
+            print "___________", date_start, date_end
+            for single_date in daterange(date_start, date_end):
+                print single_date.strftime("%Y-%m-%d")
+        else:
+            qtt = (date_end - date_start).days
+            res = {'qtt': qtt, 'price': ctr.unit_id.rent_price}
+            return [res]
+
+    @api.multi
+    def get_sale_orders(self):
+        contract_ids = []
+        for ctr in self:
+            contract_ids.append(ctr.id)
+        return {
+            'name': _('Sales Orders'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,kanban,form,calendar,pivot,graph',
+            'res_model': 'sale.order',
+            'domain': [('tenant_contract_ids', 'in', contract_ids)],
+            'context': {'default_tenant_contract_ids': contract_ids}
+        }
+
+    @api.multi
+    def create_sale_order(self):
+        prod = self.env.ref('rem.product_rem_rentservice')
+        action = self.env.ref('sale.action_quotations')
+        edit_form_action = action.read()[0]
+        for ctr in self:
+            qtt_rate_lines = self.get_rates_and_qtts(ctr)
+            order = {
+                'partner_id': self.partner_id.id,
+                'partner_invoice_id': self.partner_id.id,
+                'partner_shipping_id': self.partner_id.id,
+                'tenant_contract_ids': [(6, 0, [ctr.id])],
+            }
+
+            lines = []
+            for ln in qtt_rate_lines:
+                lines.append((0, 0, {
+                    'name': prod.name,
+                    'product_id': prod.id,
+                    'product_uom_qty': ln['qtt'],
+                    'product_uom': prod.uom_id.id,
+                    'price_unit': ln['qtt'],
+                }))
+
+            order.update({'order_line': lines})
+            print "____________lines__", order
+            so = self.env['sale.order'].create(order)
+
+            edit_form_action['views'] = [(False, 'form')]
+            edit_form_action['res_id'] = so.id
+            #edit_form_action['target'] = 'inline'
+            return edit_form_action
 
     def update_current_unit(self, unit_id, **kwargs):
         contracts = self.with_context(avoid_recursion=True).search([('unit_id', '=', unit_id)])

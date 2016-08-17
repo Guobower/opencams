@@ -223,18 +223,30 @@
 								<button string="New rent agreement"
 									name="%(unit_tenant_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}" class="btn-link"/>
 
-								
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
 								<field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
+								<field name="create_date"/>
+                                <field name="user_id" placeholder="Salesperson"/>
+							</group>
+							<group>
 								<field name="is_rent" invisible="1"/>
-								
-								<field name="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								<field name="rent_current_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								<field name="rent_unit" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								<field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								
+								<label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+								<div name="rent_price_div" class="o_row" attrs="{'invisible': [('is_rent', '=', False)]}">
+                                    <field name="rent_price"/>
+                                    <field name="rent_uom_id" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                                <field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+
+								<label for="rent_current_price" attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}"/>
+								<div name="current_rent_price_div" class="o_row" attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}">
+                                    <field name="rent_current_price"/>
+                                    <field name="rent_current_uom_id" options="{'no_open': True}"/>
+                                </div>
+
+							</group>
+							<group>
 			                    <label for="street" string="Address"/>
 			                    <div class="o_address_format">
 			                        <field name="street" placeholder="Street..." class="o_address_street"/>
@@ -247,8 +259,7 @@
 			                    </div>
 							</group>
 							<group>
-                                <field name="create_date"/>
-                                <field name="user_id" placeholder="Salesperson"/>
+                                
 								<field name="active" readonly="1"/>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>

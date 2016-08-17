@@ -439,7 +439,7 @@ class RemUnit(models.Model):
         return units
 
     @api.multi
-    @api.depends('table_id', 'rent_price', 'rent_unit')
+    @api.depends('table_id', 'rent_price', 'rent_uom_id')
     def _get_current_rent(self):
         today_date = fields.Date.today()
         for unit in self:
@@ -464,6 +464,10 @@ class RemUnit(models.Model):
             self.latitude = coordinates[0]
             self.longitude = coordinates[1]
 
+    def _default_uom(self):
+        uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
+        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1)
+
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
     name = fields.Char(string='Name', compute='_compute_name', store=True)
@@ -471,26 +475,37 @@ class RemUnit(models.Model):
                             copy=False, readonly=True, index=True)
     website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
-    # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
-    user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
-    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
-    price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
-    # Rental
-    table_id = fields.Many2one('season.rates', string='Discount Table')
-    rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
-    rent_unit = fields.Selection([('per_hour', 'per Hour'), ('per_day', 'per Day'), ('per_week', 'per Week'),
-                                  ('per_month', 'per Month')], string='Rent Unit', change_default=True,
-                                 default=lambda self: self._context.get('rent_unit', 'per_month'))
-    rent_current_price = fields.Float(string='Current Rent Rate', compute='_get_current_rent', digits=dp.get_precision('Product Price'))
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     active = fields.Boolean(compute='_check_active',
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
+    currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency', readonly=True)
+    # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
+    user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
+    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
+    price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
+
+    # Rental
+    table_id = fields.Many2one('season.rates', string='Discount Table', help="Season price table that sets"
+                               " discounts on the base rent price or fixed values for unit types or"
+                               " with the same category")
+    rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
+    rent_uom_id = fields.Many2one('product.uom', string='Rent Unit', default=_default_uom)
+    rent_current_price = fields.Float(string='Current Rent Rate', compute='_get_current_rent',
+                                      help="Current rent rate, based on the Season price table defined for this unit"
+                                      " or unit type and the current date", digits=dp.get_precision('Product Price'))
+    rent_current_uom_id = fields.Many2one('product.uom', related="rent_uom_id", string='Rent Unit', readonly=True)
+    rent_min = fields.Float(string='Minimal Period', digits=dp.get_precision('Product Price'))
+    rent_min_uom_id = fields.Many2one('product.uom', string='Period Unit', default=_default_uom)
+
+    # Leads and Events
     event_ids = fields.Many2many('calendar.event', 'crm_lead_calendar_rel1', 'cal_id', 'unit_id', string='Show Units',
                                  help="Appointment / meetings related to this unit")
     event_ids_count = fields.Integer(compute='_event_count')
+    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
+    has_lead_id = fields.Boolean(compute='_context_has_lead_id')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
     image_ids = fields.One2many(
@@ -506,10 +521,7 @@ class RemUnit(models.Model):
     description = fields.Text(string='Detailed Description', required=True)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
-    lead_ids = fields.Many2many('crm.lead', 'crm_lead_rem_unit_rel1', 'lead_id', 'unit_id', string='Leads')
-    has_lead_id = fields.Boolean(compute='_context_has_lead_id')
-    currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency',
-                                  readonly=True)
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')], string='Attachments')
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
 
     # Listing contracts

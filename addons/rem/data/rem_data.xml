@@ -159,7 +159,46 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="key">max_feature_units</field>
             <field name="value">8</field>
         </record>
+
+		<!-- Default Category and Product for invoicing rent/ leasing -->
+        <record id="product_houserental_category" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">House Rental</field>
+        </record>
         
+        <record id="uom_categ_rentime" model="product.uom.categ">
+            <field name="name">Rental Units</field>
+        </record>
+        
+
+        <record id="product_rent_day" model="product.uom">
+            <field name="name">Day(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="1.0"/>
+        </record>
+        <record id="product_rent_week" model="product.uom">
+            <field name="name">Week(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="7"/>
+            <field name="uom_type">bigger</field>
+        </record>
+        <record id="product_rent_month" model="product.uom">
+            <field name="name">Month(s)</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="30"/>
+            <field name="uom_type">bigger</field>
+        </record>
+        
+        <record id="product_rem_rentservice" model="product.product">
+            <field name="name">Rent Service</field>
+            <field name="categ_id" ref="product_houserental_category"/>
+            <field name="standard_price">1</field>
+            <field name="list_price">1</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_rent_day"/>
+            <field name="uom_po_id" ref="product.product_uom_day"/>
+            <field name="description">Daily Rent Service</field>
+        </record>
     </data>
 </openerp>
         
