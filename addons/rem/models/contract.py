@@ -18,8 +18,7 @@ class RemAbstractContractType(models.AbstractModel):
     notes = fields.Text(string='Description', help='Brief description.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
-    sale_product_id = fields.Many2one('product.product', string='Sale Product', required=True, 
-                                      domain=lambda self: [('uom_id.category_id', '=', self.env.ref('rem.uom_categ_rentime').id)],)
+    sale_product_id = fields.Many2one('product.product', string='Sale Product', required=True)
 
 
 class RemTenantContractType(models.Model):
@@ -27,7 +26,8 @@ class RemTenantContractType(models.Model):
     _description = 'Tenant Agreement Type'
     _inherit = ['rem.abstract.contract.type']
 
-    sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_rentservice'))
+    sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_rentservice'),
+                                      domain=lambda self: [('uom_id.category_id.id', '=', self.env.ref('rem.uom_categ_rentime').id)])
 
 
 class RemBuyerContractType(models.Model):
@@ -227,18 +227,23 @@ class RemTenantContract(models.Model):
         date_end = datetime.strptime(ctr.date_end + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
 
         renttime_categ = self.env.ref('rem.uom_categ_rentime')
-        if ctr.type_id.sale_product_id.categ_id.id != renttime_categ.id:
-            raise UserError(_('Contract type "%s", sale product "%s" unit of\n'
-                              'measure must in the "%s" UoM category.') %
-                            (ctr.type_id.display_name, ctr.type_id.sale_product_id.name, renttime_categ.name))
+        uom_day = self.env.ref('rem.product_rent_day').id
+        uom_week = self.env.ref('rem.product_rent_week').id
+        uom_month = self.env.ref('rem.product_rent_month').id
+
+#         if ctr.type_id.sale_product_id.categ_id.id != renttime_categ.id:
+#             raise UserError(_('Contract type "%s", sale product "%s" unit of\n'
+#                               'measure must in the "%s" UoM category.') %
+#                             (ctr.type_id.display_name, ctr.type_id.sale_product_id.name, renttime_categ.name))
 
         if ctr.unit_id.table_id:
             print "___________", date_start, date_end
             for single_date in daterange(date_start, date_end):
                 print single_date.strftime("%Y-%m-%d")
         else:
+
             qtt = (date_end - date_start).days
-            ctr.type_id.sale_product_id.cate
+            
             res = {
                 'product_id': ctr.type_id.sale_product_id.id,
                 'qtt': qtt,
@@ -286,12 +291,10 @@ class RemTenantContract(models.Model):
                 }))
 
             order.update({'order_line': lines})
-            print "____________lines__", order
             so = self.env['sale.order'].create(order)
 
             edit_form_action['views'] = [(False, 'form')]
             edit_form_action['res_id'] = so.id
-            #edit_form_action['target'] = 'inline'
             return edit_form_action
 
     def update_current_unit(self, unit_id, **kwargs):

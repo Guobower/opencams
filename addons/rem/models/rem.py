@@ -468,6 +468,18 @@ class RemUnit(models.Model):
         uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
         return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1)
 
+    @api.depends('order_ids')
+    def _compute_orders(self):
+        for unit in self:
+            orders = self.env['sale.order'].search([('tenant_contract_ids', 'in', unit.tenant_contract_ids.ids)])
+            unit.order_ids = orders.ids
+
+    @api.multi
+    @api.depends('order_ids_count', 'order_ids')
+    def _sale_order_count(self):
+        for unit in self:
+            unit.order_ids_count = len(unit.order_ids)
+
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
     name = fields.Char(string='Name', compute='_compute_name', store=True)
@@ -508,6 +520,9 @@ class RemUnit(models.Model):
     has_lead_id = fields.Boolean(compute='_context_has_lead_id')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Contract/Analytic',
                                           help='Link this asset to an analytic account.')
+    order_ids_count = fields.Integer(compute='_sale_order_count')
+    order_ids = fields.Many2many('sale.order', compute='_compute_orders', string='Units', readonly=True)
+
     image_ids = fields.One2many(
         'rem.image', 'unit_id', string='Photos', ondelete='cascade')
     main_img = fields.Binary('Main Image', compute='_get_main_image', attachment=True, store=True)
@@ -591,6 +606,17 @@ class RemUnit(models.Model):
         for unit in self:
             lead_id = int(self._context.get('from_lead_id', False))
             unit.lead_ids = [(6, 0, list(set(self.lead_ids.ids) - set([lead_id])))]
+
+    @api.multi
+    def get_sale_orders(self):
+        for unit in self:
+            return {
+                'name': _('Sales Orders'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'tree,kanban,form,calendar,pivot,graph',
+                'res_model': 'sale.order',
+                'domain': [('tenant_contract_ids', 'in', unit.tenant_contract_ids.ids)],
+            }
 
     @api.multi
     def get_unit_events(self):

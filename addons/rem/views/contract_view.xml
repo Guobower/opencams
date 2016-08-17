@@ -60,7 +60,7 @@
 	                            <field name="display_name" readonly="1"/>
 	                        </h1>
 	                    </div>
-	                	<group>
+                		<group>
 		                	<group>
 		                		<field name="type_id"/>
 		                		<field name="unit_id" readonly="True"/>
@@ -77,7 +77,6 @@
 			                    <field name="notice_period" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 			                    <field name="notice_period_unit" attrs="{'invisible':[('auto_renew','=',False)]}"/>
 			                    <field name="reservation"/>
-			                    <field name="deposit" attrs="{'invisible':[('reservation','=',False)]}"/>
 			                    <button 
 			                    	type="object"
 			                    	name="create_sale_order"
@@ -291,6 +290,7 @@
         <!-- 
         	Listing Contract Type
         -->
+        
         <!-- Tree View -->
         <record id="view_rem_listing_contract_type_tree" model="ir.ui.view">
             <field name="name">rem.listing.contract.type.tree</field>
@@ -322,6 +322,56 @@
 	                <sheet>
 	                	<group>
 		                    <field name="name" string="Name"/>
+		                    <field name="code"/>
+		                    <field name="sale_product_id"/>
+	                    </group>
+	                    <notebook>
+		                    <page string="Description" name="description">
+		                    	<field name="notes" nolabel="1"/>
+		                    </page>
+	                    </notebook>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 
+        	Tenant Contract Type
+        -->
+        
+        <!-- Tree View -->
+        <record id="view_rem_tenant_contract_type_tree" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.type.tree</field>
+            <field name="model">rem.tenant.contract.type</field>
+            <field name="arch" type="xml">
+                <tree string="Contract Type">
+                    <field name="name" string="Name"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Search View -->
+        <record id="view_rem_tenant_contract_type_filter" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.type.filter</field>
+            <field name="model">rem.tenant.contract.type</field>
+            <field name="arch" type="xml">
+                <search string="Search Contract Type">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_rem_tenant_contract_type_form" model="ir.ui.view">
+            <field name="name">rem.tenant.contract.type.form</field>
+            <field name="model">rem.tenant.contract.type</field>
+            <field name="arch" type="xml">
+                <form string="Contract Type">
+	                <sheet>
+	                	<group>
+		                    <field name="name" string="Name"/>
+		                    <field name="code"/>
+		                    <field name="sale_product_id"/>
 	                    </group>
 	                    <notebook>
 		                    <page string="Description" name="description">

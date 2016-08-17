@@ -184,6 +184,12 @@
 					<sheet>
                         <div class="oe_button_box" name="button_box">
 	                        <button class="oe_stat_button" type="object"
+	                            name="get_sale_orders"
+	                            attrs="{'invisible': [('order_ids_count', '=', 0)]}"
+	                            icon="fa-usd">
+	                            <field string="Sale(s)" name="order_ids_count" widget="statinfo"/>
+	                        </button>
+	                        <button class="oe_stat_button" type="object"
 	                            name="get_unit_events"
 	                            icon="fa-calendar">
 	                            <field string="Event(s)" name="event_ids_count" widget="statinfo"/>

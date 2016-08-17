@@ -31,14 +31,14 @@
         <record id="product_rent_week" model="product.uom">
             <field name="name">Week(s)</field>
             <field eval="uom_categ_rentime" name="category_id"/>
-            <field name="factor" eval="7"/>
+            <field name="factor_inv" eval="7"/>
             <field name="uom_type">bigger</field>
         </record>
 
         <record id="product_rent_month" model="product.uom">
             <field name="name">Month(s)</field>
             <field eval="uom_categ_rentime" name="category_id"/>
-            <field name="factor" eval="30"/>
+            <field name="factor_inv" eval="30"/>
             <field name="uom_type">bigger</field>
         </record>
 		
