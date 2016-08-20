@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from openerp import tools, api, fields, models, _
 from openerp import exceptions
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError, UserError
 from docutils.parsers.rst.directives import flag
+from utils import RentDate
+import pytz
 
 
 class RemAbstractContractType(models.AbstractModel):
@@ -196,6 +198,12 @@ class RemTenantContract(models.Model):
             ctr.order_ids_count = len(ctr.order_ids)
 
     @api.multi
+    @api.depends('order_ids.invoice_ids')
+    def _invoice_count(self):
+        for ctr in self:
+            ctr.invoice_ids_count = len(ctr.invoice_ids)
+
+    @api.multi
     @api.depends('date_start', 'period', 'period_unit')
     def name_get(self):
         units = []
@@ -205,6 +213,11 @@ class RemTenantContract(models.Model):
                                           rec.date_start, rec.period, rec.period_unit)
             units.append((rec.id, name))
         return units
+
+    @api.depends('order_ids.invoice_ids')
+    def _get_invoice_ids(self):
+        for ctr in self:
+            ctr.invoice_ids = list(set([oid for order in ctr.order_ids for oid in order.invoice_ids.ids]))
 
     allday = fields.Boolean('All Day', default=True)
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
@@ -216,6 +229,44 @@ class RemTenantContract(models.Model):
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.tenant.contract')], string='Attachments')
     order_ids_count = fields.Integer(compute='_sale_order_count')
     order_ids = fields.Many2many('sale.order', 'sale_order_tenant_ctr_rel', 'order_id', 'ctr_id', string='Sale Orders')
+    invoice_ids = fields.Many2many('account.invoice', compute='_get_invoice_ids', string='Invoices', readonly=True)
+    invoice_ids_count = fields.Integer(compute='_invoice_count')
+
+    def sale_lines(self, date_start, date_end, rent_uom_id, rent_price, sale_product_id):
+        dlt = relativedelta(date_end, date_start)
+        qtt = RentDate(env=self.env)
+        tz = pytz.timezone(self._context.get('tz') or 'UTC')
+        if rent_uom_id.id == qtt.uom_month.id:
+            qtt.months = dlt.months + (dlt.years * 12)
+            qtt.t_months = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
+                pytz.utc.localize(date_start).astimezone(tz),
+                pytz.utc.localize(date_start + relativedelta(months=qtt.months)).astimezone(tz),)
+            qtt.r_months = rent_price
+            qtt.days = dlt.days
+            qtt.r_days = rent_price / qtt.uom_month.factor_inv
+            qtt.t_days = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
+                pytz.utc.localize(date_start).astimezone(tz),
+                pytz.utc.localize(date_start + timedelta(days=qtt.days)).astimezone(tz))
+
+        elif rent_uom_id.id == qtt.uom_week.id:
+            qtt.weeks, qtt.days = divmod((date_end - date_start).days, qtt.uom_week.factor_inv)
+            qtt.t_weeks = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
+                pytz.utc.localize(date_start).astimezone(tz),
+                pytz.utc.localize(date_start + timedelta(days=qtt.weeks * 7)).astimezone(tz))
+            qtt.r_weeks = rent_price
+            qtt.r_days = rent_price / qtt.uom_week.factor_inv
+            qtt.t_days = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
+                pytz.utc.localize(date_start).astimezone(tz),
+                pytz.utc.localize(date_start + timedelta(days=qtt.days)).astimezone(tz))
+
+        elif rent_uom_id.id == qtt.uom_day.id:
+            qtt.days = (date_end - date_start).days
+            qtt.t_days = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
+                pytz.utc.localize(date_start).astimezone(tz),
+                pytz.utc.localize(date_start + timedelta(days=qtt.days)).astimezone(tz))
+            qtt.r_days = rent_price
+
+        return qtt.get_lines(sale_product_id)
 
     def get_rates_and_qtts(self, ctr):
 
@@ -227,30 +278,22 @@ class RemTenantContract(models.Model):
         date_end = datetime.strptime(ctr.date_end + ' 00:00:00', DEFAULT_SERVER_DATETIME_FORMAT)
 
         renttime_categ = self.env.ref('rem.uom_categ_rentime')
-        uom_day = self.env.ref('rem.product_rent_day').id
-        uom_week = self.env.ref('rem.product_rent_week').id
-        uom_month = self.env.ref('rem.product_rent_month').id
 
-#         if ctr.type_id.sale_product_id.categ_id.id != renttime_categ.id:
-#             raise UserError(_('Contract type "%s", sale product "%s" unit of\n'
-#                               'measure must in the "%s" UoM category.') %
-#                             (ctr.type_id.display_name, ctr.type_id.sale_product_id.name, renttime_categ.name))
+        if ctr.type_id.sale_product_id.uom_id.category_id.id != renttime_categ.id:
+            raise UserError(_('Contract type "%s", sale product "%s" unit of\n'
+                              'measure must in the "%s" UoM category.') %
+                            (ctr.type_id.display_name, ctr.type_id.sale_product_id.name, renttime_categ.name))
 
         if ctr.unit_id.table_id:
-            print "___________", date_start, date_end
-            for single_date in daterange(date_start, date_end):
-                print single_date.strftime("%Y-%m-%d")
-        else:
+            for datep in daterange(date_start, date_end):
+                print datep.strftime("%Y-%m-%d")
 
-            qtt = (date_end - date_start).days
-            
-            res = {
-                'product_id': ctr.type_id.sale_product_id.id,
-                'qtt': qtt,
-                'uom': ctr.unit_id.rent_uom_id.id,
-                'price': ctr.unit_id.rent_price
-            }
-            return [res]
+        else:
+            return self.sale_lines(
+                date_start, date_end,
+                ctr.unit_id.rent_uom_id,
+                ctr.unit_id.rent_price,
+                ctr.type_id.sale_product_id.id)
 
     @api.multi
     def get_sale_orders(self):
@@ -264,6 +307,19 @@ class RemTenantContract(models.Model):
             'res_model': 'sale.order',
             'domain': [('tenant_contract_ids', 'in', contract_ids)],
             'context': {'default_tenant_contract_ids': contract_ids}
+        }
+
+    @api.multi
+    def get_account_invoices(self):
+        inv_ids = []
+        for ctr in self:
+            inv_ids += ctr.invoice_ids.ids
+        return {
+            'name': _('Invoices'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form,calendar,graph',
+            'res_model': 'account.invoice',
+            'domain': [('id', 'in', inv_ids)],
         }
 
     @api.multi
@@ -283,8 +339,8 @@ class RemTenantContract(models.Model):
             for ln in qtt_rate_lines:
                 prod = self.env['product.product'].browse(ln['product_id'])
                 lines.append((0, 0, {
-                    'name': prod.name,
-                    'product_id': prod.id,
+                    'name': ln['name'],
+                    'product_id': ln['product_id'],
                     'product_uom_qty': ln['qtt'],
                     'product_uom': ln['uom'],
                     'price_unit': ln['price'],

@@ -482,6 +482,7 @@ class RemUnit(models.Model):
 
     contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
                                        default=_get_default_contract_type)
+    type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
     reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
                             copy=False, readonly=True, index=True)
@@ -530,7 +531,6 @@ class RemUnit(models.Model):
     feature_id = fields.Many2many(
         'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
     is_featured = fields.Boolean(string='Is Featured', default=False)
-    type_id = fields.Many2one('rem.unit.type', string='Type')
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
     description = fields.Text(string='Detailed Description', required=True)

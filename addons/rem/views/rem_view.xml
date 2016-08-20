@@ -98,6 +98,7 @@
                     <field name="is_rent" invisible="1"/>
                     <field name="display_name"/>
                     <field name="user_id"/>
+                    <field name="type_id"/>
                     <field name="contract_type_id"/>
                     <field name="living_area"/>
                     <field name="bedrooms"/>
@@ -221,22 +222,43 @@
 						</div>
 						<group>
 							<group>
-								<field name="reference" invisible="1"/>
-								<field name="contract_type_id" options="{'no_create': True}"/>
-								
 								<button string="New listing agreement"
 									name="%(unit_listing_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', True),('listing_contract_count','!=',0)]}" class="btn-link"/>
 								<button string="New rent agreement"
 									name="%(unit_tenant_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}" class="btn-link"/>
-
+								<field name="reference" invisible="1"/>
+								<field name="contract_type_id" options="{'no_create': True}"/>
+								<field name="type_id"/>
+								<field name="is_new"/>
+								<field name="create_date"/>
+                                <field name="user_id" placeholder="Salesperson"/>
+								<field name="active" readonly="1"/>
+								<!-- Address -->
+			                    <label for="street" string="Address"/>
+			                    <div class="o_address_format">
+			                        <field name="street" placeholder="Street..." class="o_address_street"/>
+			                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+			                        <field name="city_id" placeholder="City" class="o_address_city"/>
+                                    <field name="zone_id" placeholder="Zone"/>
+			                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+			                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+			                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+			                    </div>
+							</group>
+							<group>
+                                <field name="feature_id" invisible="1"/>
+                                <field name="is_featured" placeholder="Is Featured"/>
+                                
+                                <field name='latitude'/>
+                                <field name='longitude'/>
+                                <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" 
+                                	string="Get Coordinates" colspan="2" icon="gtk-apply"/>
+								<!-- Listings -->
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
 								<field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
-								<field name="create_date"/>
-                                <field name="user_id" placeholder="Salesperson"/>
-							</group>
-							<group>
+								<!-- Rentals -->
 								<field name="is_rent" invisible="1"/>
 								<label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<div name="rent_price_div" class="o_row" attrs="{'invisible': [('is_rent', '=', False)]}">
@@ -250,36 +272,8 @@
                                     <field name="rent_current_price"/>
                                     <field name="rent_current_uom_id" options="{'no_open': True}"/>
                                 </div>
-
-							</group>
-							<group>
-			                    <label for="street" string="Address"/>
-			                    <div class="o_address_format">
-			                        <field name="street" placeholder="Street..." class="o_address_street"/>
-			                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-			                        <field name="city_id" placeholder="City" class="o_address_city"/>
-                                    <field name="zone_id" placeholder="Zone"/>
-			                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
-			                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-			                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
-			                    </div>
-							</group>
-							<group>
-                                
-								<field name="active" readonly="1"/>
-                                <field name="feature_id" invisible="1"/>
-                                <field name="is_featured" placeholder="Is Featured"/>
-                                <field name="is_new"/>
-                                <field name='latitude'/>
-                                <field name='longitude'/>
-                                <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" 
-                                	string="Get Coordinates" colspan="2" icon="gtk-apply"/>
 							</group>
 						</group>
-                        <div>
-                            <label for="description"/>
-                            <field name='description' widget="html" placeholder="Add some important details about your unit ..."/>
-                        </div>
 						<notebook>
                             <page string="General Features">
                                 <group>
@@ -294,6 +288,10 @@
                                         <field name='points_interest' widget="many2many_tags"/>
                                     </group>
                                 </group>
+		                        <div>
+		                            <label for="description"/>
+		                            <field name='description' widget="html" placeholder="Add some important details about your unit ..."/>
+		                        </div>
                             </page>
                             <page string="Indoor Features">
                                 <group>
