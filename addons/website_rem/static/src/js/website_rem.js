@@ -33,7 +33,7 @@ $(function() {
         if (!$(this).hasClass("active")) {
             $(".rem-form-search .nav-tabs li").removeClass("active");
             $(this).addClass("active");
-            $("#contract_type_id").val($(this).attr("id").replace("ct-", ""));
+            $("#offer_type_id").val($(this).attr("id").replace("ct-", ""));
         }
     });
 
@@ -58,7 +58,7 @@ function get_multi_search_results()
     {
         $.ajax(
         {
-            url: "/rem/search/" + $("#multi_search").val() + "/" + $("#contract_type_id").val(),
+            url: "/rem/search/" + $("#multi_search").val() + "/" + $("#offer_type_id").val(),
             type: "GET",
             dataType: "json",
             success: function(json)

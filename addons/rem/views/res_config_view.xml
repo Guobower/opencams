@@ -74,12 +74,12 @@
         </record>
 
         <!--
-        	Contract Type
+        	Offer Type
 		-->
 
-        <record id="action_re_contract_type" model="ir.actions.act_window">
+        <record id="action_re_offer_type" model="ir.actions.act_window">
             <field name="name">Offer Type</field>
-            <field name="res_model">contract.type</field>
+            <field name="res_model">offer.type</field>
             <field name="view_mode">tree,form</field>
 	        <field name="help" type="html">
 	            <p class="oe_view_nocontent_create">
@@ -149,7 +149,7 @@
                         <div>
 	                        <div>
 	                            <div>
-	                                <button type="action" name="%(action_re_contract_type)d" 
+	                                <button type="action" name="%(action_re_offer_type)d" 
 	                                		string="Configure type of offer (e.g. buy, rent, co-share ...)"
 	                                		help="This setting will allow you to configure the type of operations to implement in the system (e.g. buy, rent, holiday-rent, co-share ..)"
 	                                		class="oe_link btn-link"/>

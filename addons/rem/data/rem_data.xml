@@ -131,13 +131,13 @@ regardless of whether it's the agent or the seller.]]></field>
  The agent gets to keep everything he can get that's more than the sale price the owner wants.]]></field>
         </record>
         
-        <!-- Contract Types -->
-        <record id="contract_type_buy" model="contract.type">
+        <!-- Offer Types -->
+        <record id="offer_type_buy" model="offer.type">
             <field name="name">Buy</field>
             <field name="is_rent" eval="0"/>
         </record>
         
-        <record id="contract_type_rent" model="contract.type">
+        <record id="offer_type_rent" model="offer.type">
             <field name="name">Rent</field>
             <field name="is_rent" eval="1"/>
         </record>
@@ -145,7 +145,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​        <!-- Unit Stages -->
         <record id="rem_unit_stage_buy_staging" model="rem.unit.stage">
             <field name="name">Staging</field>
-            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="1"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="10"/>
@@ -153,7 +153,7 @@ regardless of whether it's the agent or the seller.]]></field>
         
 ​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
             <field name="name">Available</field>
-            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
@@ -161,7 +161,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​        
 ​        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
             <field name="name">Sold</field>
-            <field name="contract_type_id" ref="contract_type_buy"/>
+            <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="1"/>
             <field name="sequence" eval="30"/>
@@ -169,7 +169,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​        
 ​        <record id="rem_unit_stage_rent_refurbish" model="rem.unit.stage">
             <field name="name">Refurbish</field>
-            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="1"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="10"/>
@@ -177,7 +177,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​        
 ​        <record id="rem_unit_stage_rent_available" model="rem.unit.stage">
             <field name="name">Available</field>
-            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
@@ -185,7 +185,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​
 ​        <record id="rem_unit_stage_rent_occupied" model="rem.unit.stage">
             <field name="name">Occupied</field>
-            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="30"/>
@@ -193,7 +193,7 @@ regardless of whether it's the agent or the seller.]]></field>
 ​​        
 ​        <record id="rem_unit_stage_rent_out" model="rem.unit.stage">
             <field name="name">Out of market</field>
-            <field name="contract_type_id" ref="contract_type_rent"/>
+            <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="1"/>
             <field name="sequence" eval="40"/>

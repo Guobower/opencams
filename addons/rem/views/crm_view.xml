@@ -25,7 +25,7 @@
 		                </div>
 	                	<group string="General Features">
                             <group>
-    	                		<field name="re_contract_type_id"/>
+    	                		<field name="re_offer_type_id"/>
     	                		<field name="re_type" widget="many2many_tags"/>
                                 <label for="re_min_bedrooms" string="Bedroms min/max"/>
                                 <div name="re_bedrooms" class="o_row">

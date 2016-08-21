@@ -6,7 +6,7 @@ import datetime
 MATCH_RE = {
     'self.planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
     # General Features
-    'self.re_contract_type_id': {'search_default_contract_type_id': 'self.re_contract_type_id.id'},
+    'self.re_offer_type_id': {'search_default_offer_type_id': 'self.re_offer_type_id.id'},
     'self.re_city': {'search_default_city_id': 'self.re_city.id'},
     'self.re_type': {'search_default_type_id': 'self.re_type.id'},
     'self.re_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
@@ -39,8 +39,8 @@ class CrmLead(models.Model):
     re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')
 
     # General Features
-    re_contract_type_id = fields.Many2one(
-        'contract.type', string='Contract Type')
+    re_offer_type_id = fields.Many2one(
+        'offer.type', string='Offer Type')
     re_type = fields.Many2many('rem.unit.type', string='Property Type')
     re_min_bedrooms = fields.Integer(
         'Min Bedrooms', help="Min number of bedrooms")

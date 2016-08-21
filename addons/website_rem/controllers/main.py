@@ -36,8 +36,8 @@ class QueryURL(object):
 
 class WebsiteRem(http.Controller):
 
-    @http.route('/rem/search/<string:multi_search>/<int:contract_type_id>', type='http', auth="public", methods=['GET'], website=True)
-    def get_contract_type_products(self, multi_search, contract_type_id, **kwargs):
+    @http.route('/rem/search/<string:multi_search>/<int:offer_type_id>', type='http', auth="public", methods=['GET'], website=True)
+    def get_offer_type_products(self, multi_search, offer_type_id, **kwargs):
         results = {
             'result': []
         }
@@ -46,11 +46,11 @@ class WebsiteRem(http.Controller):
                 SELECT result
                 FROM rem_unit_search
                 WHERE keys ilike %s AND
-                      contract_type_id = %s
+                      offer_type_id = %s
                 LIMIT 10
                 '''
 
-        request.env.cr.execute(query, ('%' + multi_search + '%', contract_type_id))
+        request.env.cr.execute(query, ('%' + multi_search + '%', offer_type_id))
 
         for row in request.env.cr.fetchall():
             results['result'].append({'result': row})
@@ -98,12 +98,12 @@ class WebsiteRem(http.Controller):
                 featured_units_html += '</div></div>'
 
         try:
-            selected_contract_type = env['contract.type'].sudo().search([])[0].id
+            selected_offer_type = env['offer.type'].sudo().search([])[0].id
         except IndexError:
-            selected_contract_type = 0
+            selected_offer_type = 0
 
         keep = QueryURL('/rem',
-                        contract_type=selected_contract_type,
+                        offer_type=selected_offer_type,
                         unit_type='',
                         multi_search='',
                         min_beds='',
@@ -112,9 +112,9 @@ class WebsiteRem(http.Controller):
                         max_price='')
 
         values = {
-            'contracts_type': env['contract.type'].sudo().search([]),
+            'contracts_type': env['offer.type'].sudo().search([]),
             'units_types': env['rem.unit.type'].sudo().search([]),
-            'selected_contract_type': selected_contract_type,
+            'selected_offer_type': selected_offer_type,
             'selected_type_listing': 0,
             'featured_units_html': featured_units_html,
             'keep': keep,
@@ -142,7 +142,7 @@ class WebsiteRem(http.Controller):
     @http.route(['/rem',
                  '/rem/page/<int:page>',
                  ], type='http', auth='public', website=True)
-    def rem(self, page=0, type_listing=0, contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
+    def rem(self, page=0, type_listing=0, offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
         env = request.env
         if ppg:
             try:
@@ -158,7 +158,7 @@ class WebsiteRem(http.Controller):
         domain = []
 
         keep = QueryURL('/rem',
-                        contract_type=contract_type,
+                        offer_type=offer_type,
                         unit_type=unit_type,
                         multi_search=multi_search,
                         min_beds=min_beds,
@@ -178,17 +178,17 @@ class WebsiteRem(http.Controller):
 
         # Query contract type
         try:
-            if contract_type > 0:
-                contract_type = int(contract_type)
-                selected_contract_type = contract_type
-                domain += [('contract_type_id.id', '=', contract_type)]
-                post["contract_type"] = contract_type
+            if offer_type > 0:
+                offer_type = int(offer_type)
+                selected_offer_type = offer_type
+                domain += [('offer_type_id.id', '=', offer_type)]
+                post["offer_type"] = offer_type
             else:
-                selected_contract_type = env['contract.type'].sudo().search([])[0].id
-                domain += [('contract_type_id.id', '=', selected_contract_type)]
-                post["contract_type"] = contract_type
+                selected_offer_type = env['offer.type'].sudo().search([])[0].id
+                domain += [('offer_type_id.id', '=', selected_offer_type)]
+                post["offer_type"] = offer_type
         except:
-            selected_contract_type = 0
+            selected_offer_type = 0
 
         # Query unit type
         try:
@@ -268,17 +268,17 @@ class WebsiteRem(http.Controller):
 
         values = {
             'units': units,
-            'contracts_type': env['contract.type'].sudo().search([]),
+            'contracts_type': env['offer.type'].sudo().search([]),
             'units_types': env['rem.unit.type'].sudo().search([]),
             'pager': pager,
-            'result_contract_type': contract_type,
+            'result_offer_type': offer_type,
             'result_unit_type': unit_type,
             'result_multi_search': multi_search,
             'result_min_beds': min_beds,
             'result_max_beds': max_beds,
             'result_min_price': str(min_price),
             'result_max_price': str(max_price),
-            'selected_contract_type': selected_contract_type,
+            'selected_offer_type': selected_offer_type,
             'selected_type_listing': selected_type_listing,
             'gmaps_units': gmaps_units,
             'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + env['ir.config_parameter'].get_param('gmaps_key') + '&callback=initMap',

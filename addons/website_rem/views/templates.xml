@@ -66,21 +66,21 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                                <form method="get" t-att-action="keep('/rem', contract_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='')">
+                                <form method="get" t-att-action="keep('/rem', offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='')">
                                     <div class="rem-form-search rem-box-shadow padding-0-30">
-                                        <t t-if="selected_contract_type>0">
+                                        <t t-if="selected_offer_type>0">
                                             <ul class="nav nav-tabs">
-                                                <t t-foreach="contracts_type" t-as="contract_type">
-                                                    <t t-if="selected_contract_type==contract_type.id">
-                                                        <li t-att-id="'ct-' + str(contract_type.id)" class="active"><a href="#"><t t-esc="contract_type.name"/></a></li>
+                                                <t t-foreach="contracts_type" t-as="offer_type">
+                                                    <t t-if="selected_offer_type==offer_type.id">
+                                                        <li t-att-id="'ct-' + str(offer_type.id)" class="active"><a href="#"><t t-esc="offer_type.name"/></a></li>
                                                     </t>
-                                                    <t t-if="selected_contract_type!=contract_type.id">
-                                                        <li t-att-id="'ct-' + str(contract_type.id)"><a href="#"><t t-esc="contract_type.name"/></a></li>
+                                                    <t t-if="selected_offer_type!=offer_type.id">
+                                                        <li t-att-id="'ct-' + str(offer_type.id)"><a href="#"><t t-esc="offer_type.name"/></a></li>
                                                     </t>
                                                 </t>
                                             </ul>
                                         </t>
-                                        <input type="hidden" id="contract_type_id" name="contract_type_id" t-att-value="selected_contract_type"/>
+                                        <input type="hidden" id="offer_type_id" name="offer_type_id" t-att-value="selected_offer_type"/>
                                         <div class="row">
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">

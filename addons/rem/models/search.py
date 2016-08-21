@@ -9,7 +9,7 @@ class RemUnitSearch(models.Model):
     keys = fields.Char(string='Keys', required=True)
     result = fields.Char(string='Result', required=True)
     domain = fields.Char(string='Domain', required=True)
-    contract_type_id = fields.Integer(string='Contract Type', required=True)
+    offer_type_id = fields.Integer(string='Offer Type', required=True)
 
     @api.model
     def populate_rem_unit_search(self):
@@ -32,7 +32,7 @@ class RemUnitSearch(models.Model):
 
         for unit in units:
 
-            for contract_type_id in unit.contract_type_id:
+            for offer_type_id in unit.offer_type_id:
 
                 result = ''
                 domain = ''
@@ -46,7 +46,7 @@ class RemUnitSearch(models.Model):
                         if domain != '':
                             domain += ', '
                         domain += '("state_id", "=", ' + str(unit.state_id.id) + ')'
-                        self.create_rem_unit_search(unit.state_id.name, result, domain, contract_type_id.id)
+                        self.create_rem_unit_search(unit.state_id.name, result, domain, offer_type_id.id)
 
                 if unit.city_id:
                     if not unit.city_id in cities:
@@ -57,7 +57,7 @@ class RemUnitSearch(models.Model):
                         if domain != '':
                             domain += ', '
                         domain += '("city_id", "=", ' + str(unit.city_id.id) + ')'
-                        self.create_rem_unit_search(unit.city_id.name, result, domain, contract_type_id.id)
+                        self.create_rem_unit_search(unit.city_id.name, result, domain, offer_type_id.id)
 
                 if unit.zone_id:
                     if not unit.zone_id in zones:
@@ -68,7 +68,7 @@ class RemUnitSearch(models.Model):
                         if domain != '':
                             domain += ', '
                         domain += '("zone_id", "=", ' + str(unit.zone_id.id) + ')'
-                        self.create_rem_unit_search(unit.zone_id.name, result, domain, contract_type_id.id)
+                        self.create_rem_unit_search(unit.zone_id.name, result, domain, offer_type_id.id)
 
                 if unit.street:
                     if not unit.street in streets:
@@ -79,7 +79,7 @@ class RemUnitSearch(models.Model):
                         if domain != '':
                             domain += ', '
                         domain += '("street", "=", "' + str(unit.street) + '")'
-                        self.create_rem_unit_search(unit.street, result, domain, contract_type_id.id)
+                        self.create_rem_unit_search(unit.street, result, domain, offer_type_id.id)
 
                 if unit.zip:
                     if not unit.zip in zips:
@@ -90,14 +90,14 @@ class RemUnitSearch(models.Model):
                         if domain != '':
                             domain += ', '
                         domain += '("zip", "=", "' + str(unit.zip) + '")'
-                        self.create_rem_unit_search(unit.zip, result, domain, contract_type_id.id)
+                        self.create_rem_unit_search(unit.zip, result, domain, offer_type_id.id)
 
-    def create_rem_unit_search(self, keys, result, domain, contract_type_id):
+    def create_rem_unit_search(self, keys, result, domain, offer_type_id):
         self.env['rem.unit.search'].create({
             'keys': keys,
             'result': result,
             'domain': '[' + domain + ']',
-            'contract_type_id': contract_type_id,
+            'offer_type_id': offer_type_id,
         })
 
 

@@ -69,26 +69,26 @@ class RemUnitZone(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class RemUnitContractType(models.Model):
-    _name = 'contract.type'
+class RemUnitOfferType(models.Model):
+    _name = 'offer.type'
     _description = 'Offer Type'
 
     name = fields.Char(string='Offer Name', size=32, required=True,
                        help='Type of offer : renting, buying, selling ..')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
-                             help='Set if the contract type is rent based. This will make the Unit of Rent '
+                             help='Set if the offer type is rent based. This will make the Unit of Rent '
                              'appear in the unit (e.g.: per month, per week..).')
-    notes = fields.Text(string='Notes', help='Notes for the contract type.')
+    notes = fields.Text(string='Notes', help='Notes for the offer type.')
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
-    stage_id = fields.One2many('rem.unit.stage', 'contract_type_id', string='Stage Name', ondelete='restrict')
+    stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
 
 
 class RemUnitStage(models.Model):
     _name = 'rem.unit.stage'
     _description = 'Unit Stage'
-    _order = "contract_type_id,sequence,id"
+    _order = "offer_type_id,sequence,id"
 
     name = fields.Char(
         string='Stage Name', size=32, required=True, help='Stage Name.')
@@ -101,8 +101,8 @@ class RemUnitStage(models.Model):
     notes = fields.Text(string='Notes', help='Description of the stage.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide the analytic journal without removing it.')
-    contract_type_id = fields.Many2one(
-        'contract.type', string='Contract Type', required=False)
+    offer_type_id = fields.Many2one(
+        'offer.type', string='Contract Type', required=False)
     # TODO: what could happen to the units if some stage (with units assigned) is deactivated?
 
 
@@ -253,11 +253,11 @@ class RemUnit(models.Model):
 
     @api.model
     def _get_stage(self):
-        return self.env['rem.unit.stage'].search([('contract_type_id', '=', False)], limit=1, order='sequence')
+        return self.env['rem.unit.stage'].search([('offer_type_id', '=', False)], limit=1, order='sequence')
 
     @api.model
-    def _get_default_contract_type(self):
-        return self.env['contract.type'].search([], limit=1, order='id')
+    def _get_default_offer_type(self):
+        return self.env['offer.type'].search([], limit=1, order='id')
 
     @api.one
     def add_feature(self):
@@ -480,8 +480,8 @@ class RemUnit(models.Model):
         for unit in self:
             unit.order_ids_count = len(unit.order_ids)
 
-    contract_type_id = fields.Many2one('contract.type', string='Offer Type', required=True,
-                                       default=_get_default_contract_type)
+    offer_type_id = fields.Many2one('offer.type', string='Offer Type', required=True,
+                                       default=_get_default_offer_type)
     type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
     reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
@@ -497,7 +497,7 @@ class RemUnit(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency', readonly=True)
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
-    is_rent = fields.Boolean(related='contract_type_id.is_rent', string='Is Rentable', store=True)
+    is_rent = fields.Boolean(related='offer_type_id.is_rent', string='Is Rentable', store=True)
     price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
 
     # Rental
@@ -632,11 +632,11 @@ class RemUnit(models.Model):
             'context': {'default_unit_ids': unit_ids, 'default_duration': 4.0}
         }
 
-    @api.onchange('contract_type_id')
-    def _onchange_contract_type_id(self):
-        if self.contract_type_id:
+    @api.onchange('offer_type_id')
+    def _onchange_offer_type_id(self):
+        if self.offer_type_id:
             ids = self.env['rem.unit.stage'].search(
-                [('contract_type_id', '=', self.contract_type_id.id)], order='sequence, id').ids
+                [('offer_type_id', '=', self.offer_type_id.id)], order='sequence, id').ids
             if ids:
                 self.stage_id = ids[0]
             else:

@@ -99,7 +99,7 @@
                     <field name="display_name"/>
                     <field name="user_id"/>
                     <field name="type_id"/>
-                    <field name="contract_type_id"/>
+                    <field name="offer_type_id"/>
                     <field name="living_area"/>
                     <field name="bedrooms"/>
                     <field name="bathrooms"/>
@@ -124,7 +124,7 @@
                     <field name="name"/>
                     <field name="website_name"/>
                     <!-- General Features -->
-                    <field name="contract_type_id"/>
+                    <field name="offer_type_id"/>
                     <field name="partner_id"/>
                     <field name="type_id"/>
                     <field name="street"/>
@@ -162,7 +162,7 @@
                     	<filter name="forrent" string="For Rent" domain="[('is_rent','=', 1)]" help = "Rentable units"/>
                     	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>
                     	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
-                        <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'contract_type_id'}"/>
+                        <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
                         <filter string="Bedrooms" icon="terp-partner" domain="[]" context="{'group_by':'bedrooms'}"/>
                         <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
@@ -180,7 +180,7 @@
 					<header>
                         <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight"/>
                         <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
-                        <field name="stage_id" widget="statusbar" clickable="True" domain="[('contract_type_id', '=', contract_type_id)]"/>
+                        <field name="stage_id" widget="statusbar" clickable="True" domain="[('offer_type_id', '=', offer_type_id)]"/>
 					</header>
 					<sheet>
                         <div class="oe_button_box" name="button_box">
@@ -227,7 +227,7 @@
 								<button string="New rent agreement"
 									name="%(unit_tenant_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}" class="btn-link"/>
 								<field name="reference" invisible="1"/>
-								<field name="contract_type_id" options="{'no_create': True}"/>
+								<field name="offer_type_id" options="{'no_create': True}"/>
 								<field name="type_id"/>
 								<field name="is_new"/>
 								<field name="create_date"/>
@@ -508,7 +508,7 @@
                 <tree string="Unit Stage">
                 	<field name="sequence" widget="handle" />
                     <field name="name"/>
-                    <field name="contract_type_id"/>
+                    <field name="offer_type_id"/>
                     <field name="force_show"/>
                     <field name="force_hide"/>
                 </tree>
@@ -522,9 +522,9 @@
             <field name="arch" type="xml">
                 <search string="Search Unit Stage">
                     <field name="name"/>
-                    <field name="contract_type_id"/>
+                    <field name="offer_type_id"/>
                     <group string="Group By" expand="1">
-                        <filter string="Type" name="grouppertype" context="{'group_by':'contract_type_id'}" domain="[]" help="Contract Type"/>
+                        <filter string="Type" name="grouppertype" context="{'group_by':'offer_type_id'}" domain="[]" help="Contract Type"/>
                     </group>
                 </search>
             </field>
@@ -550,7 +550,7 @@
                         </div>
 	                	<group>
 	                	    <group>
-	                	    	<field name="contract_type_id"/>
+	                	    	<field name="offer_type_id"/>
 	                	    	<field name="force_show"/>
 	                	    	<field name="force_hide"/>
 		                        <field name="create_date" string="Date"/>
@@ -562,13 +562,13 @@
         </record>
         
         <!-- 
-        	Real Estate Contract Type 
+        	Real Estate Offer Type 
 		-->
 
-        <!-- Real Estate Contract Type Tree View -->
-        <record id="view_re_contract_type_tree" model="ir.ui.view">
-            <field name="name">contract.type.tree</field>
-            <field name="model">contract.type</field>
+        <!-- Real Estate Offer Type Tree View -->
+        <record id="view_re_offer_type_tree" model="ir.ui.view">
+            <field name="name">offer.type.tree</field>
+            <field name="model">offer.type</field>
             <field name="arch" type="xml">
                 <tree string="Offer Type">
                     <field name="name"/>
@@ -578,9 +578,9 @@
         </record>
 
 		<!-- Real Estate Contract Type Search View -->
-        <record id="view_re_contract_type_filter" model="ir.ui.view">
-            <field name="name">contract.type.filter</field>
-            <field name="model">contract.type</field>
+        <record id="view_re_offer_type_filter" model="ir.ui.view">
+            <field name="name">offer.type.filter</field>
+            <field name="model">offer.type</field>
             <field name="arch" type="xml">
                 <search string="Offer Type">
                     <field name="name"/>
@@ -589,9 +589,9 @@
         </record>
 
         <!-- Real Estate Contract Type Form View -->
-        <record id="view_re_contract_type_form" model="ir.ui.view">
-            <field name="name">contract.type.form</field>
-            <field name="model">contract.type</field>
+        <record id="view_re_offer_type_form" model="ir.ui.view">
+            <field name="name">offer.type.form</field>
+            <field name="model">offer.type</field>
             <field name="arch" type="xml">
                 <form string="Offer Type">
 	                <sheet>
