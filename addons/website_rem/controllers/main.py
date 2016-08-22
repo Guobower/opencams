@@ -255,7 +255,8 @@ class WebsiteRem(http.Controller):
         if multi_search:
             rem_unit_searchs = env['rem.unit.search'].sudo().search([('result', '=', multi_search)])
             if rem_unit_searchs:
-                domain += eval(rem_unit_searchs.domain)
+                for rem_unit_search in rem_unit_searchs:
+                    domain += eval(rem_unit_search.domain)
 
         units_count = env['rem.unit'].sudo().search_count(domain)
         pager = request.website.pager(url=url, total=units_count, page=page, step=ppg, scope=7, url_args=post)
