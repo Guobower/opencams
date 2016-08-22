@@ -70,7 +70,7 @@
                                     <div class="rem-form-search rem-box-shadow padding-0-30">
                                         <t t-if="selected_offer_type>0">
                                             <ul class="nav nav-tabs">
-                                                <t t-foreach="contracts_type" t-as="offer_type">
+                                                <t t-foreach="offers_type" t-as="offer_type">
                                                     <t t-if="selected_offer_type==offer_type.id">
                                                         <li t-att-id="'ct-' + str(offer_type.id)" class="active"><a href="#"><t t-esc="offer_type.name"/></a></li>
                                                     </t>
@@ -80,7 +80,7 @@
                                                 </t>
                                             </ul>
                                         </t>
-                                        <input type="hidden" id="offer_type_id" name="offer_type_id" t-att-value="selected_offer_type"/>
+                                        <input type="hidden" id="offer_type" name="offer_type" t-att-value="selected_offer_type"/>
                                         <div class="row">
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">

@@ -112,7 +112,7 @@ class WebsiteRem(http.Controller):
                         max_price='')
 
         values = {
-            'contracts_type': env['offer.type'].sudo().search([]),
+            'offers_type': env['offer.type'].sudo().search([]),
             'units_types': env['rem.unit.type'].sudo().search([]),
             'selected_offer_type': selected_offer_type,
             'selected_type_listing': 0,
@@ -144,6 +144,7 @@ class WebsiteRem(http.Controller):
                  ], type='http', auth='public', website=True)
     def rem(self, page=0, type_listing=0, offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
         env = request.env
+
         if ppg:
             try:
                 ppg = int(ppg)
@@ -176,7 +177,7 @@ class WebsiteRem(http.Controller):
         except ValueError:
             pass
 
-        # Query contract type
+        # Query Offer type
         try:
             if offer_type > 0:
                 offer_type = int(offer_type)
@@ -268,7 +269,7 @@ class WebsiteRem(http.Controller):
 
         values = {
             'units': units,
-            'contracts_type': env['offer.type'].sudo().search([]),
+            'offers_type': env['offer.type'].sudo().search([]),
             'units_types': env['rem.unit.type'].sudo().search([]),
             'pager': pager,
             'result_offer_type': offer_type,
