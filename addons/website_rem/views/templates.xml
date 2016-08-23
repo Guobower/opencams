@@ -603,6 +603,9 @@
                                             </t>
                                             <div class="rem-unit-card-agent-container">
                                                 <figure class="rem-unit-card-agent">
+                                                    <div itemtype="http://schema.org/RealEstateAgent" itemscope="">
+                                                        <meta itemprop="name" t-att-content="rem_unit.user_id.name"/>
+                                                    </div>
                                                     <div class="rem-unit-card-agent-wrapper">
                                                         <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{rem_unit.user_id.id}" t-att-alt="rem_unit.user_id.name" t-att-title="rem_unit.user_id.name"/>
                                                     </div>
@@ -611,6 +614,16 @@
                                             </div>
                                         </div>
                                         <div class="rem-unit-card-text-container">
+                                            <div itemtype="http://schema.org/Product" itemscope="">
+                                                <meta itemprop="name" t-att-content="rem_unit.display_name"/>
+                                                <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
+                                                    <meta itemprop="description" t-att-content="rem_unit.description"/>
+                                                    <t t-if="rem_unit.price > 0">
+                                                        <meta itemprop="priceCurrency" t-att-content="rem_unit.currency_id.name"/>
+                                                        <meta itemprop="price" t-att-content="rem_unit.price"/>
+                                                    </t>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="rem-unit-card-price">
                                                     <t t-if="rem_unit.price > 0">
@@ -753,6 +766,16 @@
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-6 col-xs-12">
                                     <div class="rem-unit-info-container">
+                                        <div itemtype="http://schema.org/Product" itemscope="">
+                                            <meta itemprop="name" t-att-content="unit.display_name"/>
+                                            <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
+                                                <meta itemprop="description" t-att-content="unit.description"/>
+                                                <t t-if="unit.price > 0">
+                                                    <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
+                                                    <meta itemprop="price" t-att-content="unit.price"/>
+                                                </t>
+                                            </div>
+                                        </div>
                                         <div class="rem-unit-title">
                                             <div t-esc='unit.display_name'/>
                                         </div>
@@ -860,6 +883,9 @@
                                             <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
                                                 <div class="rem-unit-contact-agent-container">
                                                     <figure class="rem-unit-contact-agent">
+                                                        <div itemtype="http://schema.org/RealEstateAgent" itemscope="">
+                                                            <meta itemprop="name" t-att-content="unit.user_id.name"/>
+                                                        </div>
                                                         <div class="rem-unit-contact-agent-wrapper">
                                                             <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{unit.user_id.id}" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
                                                         </div>
