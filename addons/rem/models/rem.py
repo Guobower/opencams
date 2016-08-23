@@ -315,30 +315,22 @@ class RemUnit(models.Model):
     @api.depends('current_listing_contract_id', 'listing_contract_ids')
     def _get_current_listing_contract(self):
         for unit in self:
-            curr_ctr = False
-            self.env.cr.execute('select id from rem_listing_contract '
-                                'where unit_id=%s and current = True;'
-                                , [unit.id])
-            all_lines = self.env.cr.fetchone()
-            if all_lines:
-                curr_ctr = all_lines[0]
-                unit.update({
-                    'current_listing_contract_id': curr_ctr,
-                })
+            contracts = self.env['rem.listing.contract'].search([('unit_id', '=', unit.id)], limit=1)
+            for ct in contracts:
+                if ct.current:
+                    unit.update({
+                        'current_listing_contract_id': ct.id,
+                    })
 
     @api.depends('current_tenant_contract_id', 'tenant_contract_ids')
     def _get_current_tenant_contract(self):
         for unit in self:
-            curr_ctr = False
-            self.env.cr.execute('select id from rem_tenant_contract '
-                                'where unit_id=%s and current = True;'
-                                , [unit.id])
-            all_lines = self.env.cr.fetchone()
-            if all_lines:
-                curr_ctr = all_lines[0]
-                unit.update({
-                    'current_tenant_contract_id': curr_ctr,
-                })
+            contracts = self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id)], limit=1)
+            for ct in contracts:
+                if ct.current:
+                    unit.update({
+                        'current_tenant_contract_id': ct.id,
+                    })
 
     @api.multi
     @api.depends('listing_contract_count', 'listing_contract_ids')
