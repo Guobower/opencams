@@ -77,7 +77,37 @@ class RemAbstractContract(models.AbstractModel):
     notice_period_unit = fields.Selection([('days', 'Days'), ('months', 'Months')], string='Notice Unit',
                                           default='days')
     current = fields.Boolean(string='Current Contract', compute='_compute_current',
-                             help='This contract is the current one for this unit?')
+                             search='_search_current', help='This contract is the current one for this unit?')
+
+    def _search_current(self, operator, value):
+        self._do_search_current('rem_abstract_contract', operator, value)
+
+    def _do_search_current(self, table_name, operator, value):
+        contracts = []
+        ids = []
+        if (operator == '=' and value == True) or (operator in ('<>', '!=') and value == False):
+            query = """
+                SELECT id
+                FROM """ + str(table_name) + """
+                WHERE date_start <= now() AND
+                      (
+                        (date_start + interval '1 day' * period >= now() AND period_unit = 'days') OR
+                        (date_start + interval '1 month' * period >= now() AND period_unit = 'months')
+                      )
+                """
+        else:
+            query = """
+                SELECT id
+                FROM """ + str(table_name) + """
+                WHERE date_start > now() OR
+                      (date_start + interval '1 day' * period < now() AND period_unit = 'days') OR
+                      (date_start + interval '1 month' * period < now() AND period_unit = 'months')
+                """
+        self.env.cr.execute(query)
+        for ct in self.env.cr.dictfetchall():
+            ids.append((ct['id']))
+        contracts.append(('id', 'in', ids))
+        return contracts
 
     def get_date_end(self, date_start, period, unit):
         if unit == 'months':
@@ -138,6 +168,9 @@ class RemListingContract(models.Model):
         if 'auto_renew' in init_values and self.auto_renew:
             return 'rem.mt_listing_created'
         return super(RemListingContract, self)._track_subtype(init_values)
+
+    def _search_current(self, operator, value):
+        self._do_search_current('rem_listing_contract', operator, value)
 
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
@@ -218,6 +251,9 @@ class RemTenantContract(models.Model):
     def _get_invoice_ids(self):
         for ctr in self:
             ctr.invoice_ids = list(set([oid for order in ctr.order_ids for oid in order.invoice_ids.ids]))
+
+    def _search_current(self, operator, value):
+        self._do_search_current('rem_tenant_contract', operator, value)
 
     allday = fields.Boolean('All Day', default=True)
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
