@@ -314,13 +314,13 @@ class WebsiteRem(http.Controller):
         response.status = str(status)
         return response
 
-    @http.route(['/atomsellers/<model("offer.type"):otype>/feed'], type='http', auth="public")
+    @http.route(['/atom/sellers/<model("offer.type"):otype>/feed'], type='http', auth="public")
     def re_atom_feed(self, otype, limit='15'):
         v = {}
         v['otype'] = otype
         v['base_url'] = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         v['posts'] = request.env['rem.unit'].sudo().search(
-            [('offer_type_id', '=', otype.id)], limit=min(int(limit), 50))
+            [('offer_type_id', '=', otype.id), ('website_published', '=', True)], limit=min(int(limit), 50))
         return request.render("website_rem.sell_feed", v, headers=[('Content-Type', 'application/atom+xml')])
 
 
