@@ -881,7 +881,7 @@
                                                     <t t-foreach="unit.table_id.line_ids" t-as="line">
                                                         <tr>
                                                             <td>
-                                                                <t t-esc="line.date_start"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="line.date_end"/>
+                                                                <t t-esc="unit.table_id.format_season_dates(line.date_start)"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
                                                             </td>
                                                             <td class="text-right">
                                                                 <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)" t-esc-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>

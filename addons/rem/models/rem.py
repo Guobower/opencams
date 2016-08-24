@@ -167,6 +167,9 @@ class SeasonalRates(models.Model):
                 unit_rent = self.calculate_unit_price(unit_rent, lin.discount, lin.fixed_price)
         return unit_rent
 
+    def format_season_dates(self, date):
+        return datetime.strptime(str(date), '%Y-%m-%d').strftime("%d %b %Y")
+
 
 class PriceTableLine(models.Model):
     _name = 'season.rates.line'
