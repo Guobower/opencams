@@ -708,268 +708,264 @@
                         <div class="clearfix margin-10"></div>
                         <section>
                             <div class="oe_structure">
-                                <div id="carousel-unit" class="carousel slide carousel-fade rem-box-shadow" data-ride="carousel">
-                                    <!--  Only has 1 iteration to use _size -->
-                                    <t t-foreach="unit.image_ids" t-as="i">
-                                        <t t-if="i_first">
-                                            <!--  1 image - don't show carousel -->
-                                            <t t-if="i_size==1">
-                                                <!--  Wrapper for slides -->
-                                                <div class="carousel-inner" role="listbox">
-                                                    <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                                        <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
-                                                    </t>
-                                                </div>
-                                            </t>
-                                            <!--  More than 1 image - show carousel -->
-                                            <t t-if="i_size>1">
-                                                <!--  Wrapper for slides -->
-                                                <div class="carousel-inner" role="listbox">
-                                                    <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                                        <t t-if="rem_unit_image_first">
-                                                            <div class="item active">
-                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                            </div>
+                                <div class="rem-unit-container rem-box-shadow">
+                                    <div id="carousel-unit" class="carousel slide carousel-fade" data-ride="carousel">
+                                        <!--  Only has 1 iteration to use _size -->
+                                        <t t-foreach="unit.image_ids" t-as="i">
+                                            <t t-if="i_first">
+                                                <!--  1 image - don't show carousel -->
+                                                <t t-if="i_size==1">
+                                                    <!--  Wrapper for slides -->
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                            <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
                                                         </t>
-                                                        <t t-if="rem_unit_image_index>0">
-                                                            <div class="item">
-                                                                <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
-                                                            </div>
+                                                    </div>
+                                                </t>
+                                                <!--  More than 1 image - show carousel -->
+                                                <t t-if="i_size>1">
+                                                    <!--  Wrapper for slides -->
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <t t-foreach="unit.image_ids" t-as="rem_unit_image">
+                                                            <t t-if="rem_unit_image_first">
+                                                                <div class="item active">
+                                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="rem_unit_image_index>0">
+                                                                <div class="item">
+                                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                                </div>
+                                                            </t>
                                                         </t>
-                                                    </t>
-                                                </div>
-                                                <!--  Controls -->
-                                                <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
-                                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
-                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+                                                    </div>
+                                                    <!--  Controls -->
+                                                    <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
+                                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
+                                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </t>
                                             </t>
                                         </t>
+                                    </div>
+                                    <t t-if="len(unit.image_ids) == 0">
+                                        <div class="margin-top-100"></div>
                                     </t>
+                                    <div class="rem-unit-info-contact-container">
+                                        <div class="row">
+                                            <div class="col-sm-8 col-xs-12 rem-unit-info-container">
+                                                <div class="rem-unit-info">
+                                                    <div itemtype="http://schema.org/Product" itemscope="">
+                                                        <meta itemprop="name" t-att-content="unit.display_name"/>
+                                                        <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
+                                                            <meta itemprop="description" t-att-content="unit.description"/>
+                                                            <t t-if="unit.price > 0">
+                                                                <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
+                                                                <meta itemprop="price" t-att-content="unit.price"/>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rem-unit-title">
+                                                        <div t-esc='unit.display_name'/>
+                                                    </div>
+                                                    <t t-if="not unit.table_id">
+                                                        <div class="rem-unit-price">
+                                                            <t t-if="unit.price > 0">
+                                                                <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <div class="rem-unit-sub-title">
+                                                        <t t-if="unit.bedrooms > 0">
+                                                            <span title="Bedrooms" class="margin-right-30">
+                                                                <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
+                                                            </span>
+                                                        </t>
+                                                        <t t-if="unit.bathrooms > 0">
+                                                            <span title="Bathrooms" class="margin-right-30">
+                                                                <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
+                                                            </span>
+                                                        </t>
+                                                        <t t-if="unit.garages > 0">
+                                                            <span title="Garages">
+                                                                <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
+                                                            </span>
+                                                        </t>
+                                                    </div>
+                                                    <div class="rem-unit-description">
+                                                        <t t-raw="unit.description"/>
+                                                    </div>
+                                                    <div class="features">
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12">
+                                                                <div class="feature-title margin-bottom-10">General Features</div>
+                                                                <t t-if="unit.bedrooms > 0">
+                                                                    <div><label>Bedrooms:</label><t t-esc="unit.bedrooms"/></div>
+                                                                </t>
+                                                                <t t-if="unit.bathrooms > 0">
+                                                                    <div><label>Bathrooms:</label><t t-esc="unit.bathrooms"/></div>
+                                                                </t>
+                                                                <t t-if="unit.living_area > 0">
+                                                                    <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
+                                                                </t>
+                                                                <t t-if="unit.land_area > 0">
+                                                                    <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
+                                                                </t>
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12">
+                                                                <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
+                                                                    <div class="feature-title margin-bottom-10">Indoor Features</div>
+                                                                </t>
+                                                                <t t-if="unit.air_conditioned">
+                                                                    <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.ducted_cooling">
+                                                                    <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.wardrobes">
+                                                                    <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.dishwasher">
+                                                                    <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.living_areas > 0">
+                                                                    <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
+                                                                </t>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12">
+                                                                <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
+                                                                    <div class="feature-title margin-bottom-10">Outdoor Features</div>
+                                                                </t>
+                                                                <t t-if="unit.backyard">
+                                                                    <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.alarm">
+                                                                    <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.sw_pool">
+                                                                    <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.entertaining">
+                                                                    <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.garages > 0">
+                                                                    <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
+                                                                </t>
+                                                                <t t-if="unit.secure_parking">
+                                                                    <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                                <t t-if="unit.dog_friendly">
+                                                                    <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
+                                                                </t>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <t t-if="unit.table_id and unit.table_id.line_ids">
+                                                        <table class="table table-responsive table-striped rem-unit-table-price">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Rental Period</th>
+                                                                    <th class="text-right">Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <body>
+                                                                <t t-foreach="unit.table_id.line_ids" t-as="line">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <t t-esc="unit.table_id.format_season_dates(line.date_start)"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)" t-esc-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+                                                            </body>
+                                                        </table>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
+                                                <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                                    <div class="text-center rem-unit-contact-title">
+                                                        Want me to call you?
+                                                    </div>
+                                                    <div class="rem-unit-contact-agent-container">
+                                                        <figure class="rem-unit-contact-agent">
+                                                            <div itemtype="http://schema.org/RealEstateAgent" itemscope="">
+                                                                <meta itemprop="name" t-att-content="unit.user_id.name"/>
+                                                            </div>
+                                                            <div class="rem-unit-contact-agent-wrapper">
+                                                                <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{unit.user_id.id}" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
+                                                            </div>
+                                                            <figcaption><t t-esc="unit.user_id.name"/></figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="form-group form-field o_website_form_required_custom">
+                                                    <input
+                                                        type="text"
+                                                        id="name"
+                                                        name="name"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Name"
+                                                        placeholder="Name"
+                                                        required="required"/>
+                                                    </div>
+                                                    <div class="form-group form-field o_website_form_required_custom">
+                                                        <input
+                                                            type="text"
+                                                            id="phone"
+                                                            name="phone"
+                                                            maxlength="128"
+                                                            class="form-control o_website_form_input"
+                                                            title="Phone Number"
+                                                            placeholder="Phone Number"/>
+                                                    </div>
+                                                    <div class="form-group form-field o_website_form_required_custom">
+                                                        <input
+                                                            type="email"
+                                                            id="email_from"
+                                                            name="email_from"
+                                                            maxlength="128"
+                                                            class="form-control o_website_form_input"
+                                                            title="Email"
+                                                            placeholder="Email"
+                                                            required="required"/>
+                                                    </div>
+                                                    <div class="form-group form-field o_website_form_required_custom">
+                                                        <textarea
+                                                            type="text"
+                                                            id="description"
+                                                            name="description"
+                                                            maxlength="1024"
+                                                            class="form-control o_website_form_input"
+                                                            title="Your Question"
+                                                            placeholder="Your Question"
+                                                            rows="6"
+                                                            required="required">I am interested in <t t-esc='unit.display_name'/>.</textarea>
+                                                    </div>
+                                                    <input type="hidden" name="type" value="opportunity"/>
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <input type="hidden" name="unit_id" t-att-value="unit.id"/>
+                                                    <input type="hidden" name="type_buyer" t-att-value="1"/>
+                                                    <div class="form-group">
+                                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
+                                                    </div>
+                                                    <span id="o_website_form_result" class="text-center"></span>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <t t-if="len(unit.image_ids) == 0">
-                                    <div class="margin-top-100"></div>
-                                </t>
                             </div>
                         </section>
                     </div>
-                    <section>
-                        <div class="oe_structure">
-                            <div class="row">
-                                <div class="col-sm-offset-1 col-sm-6 col-xs-12">
-                                    <div class="rem-form rem-unit-info-container rem-box-shadow">
-                                        <div itemtype="http://schema.org/Product" itemscope="">
-                                            <meta itemprop="name" t-att-content="unit.display_name"/>
-                                            <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
-                                                <meta itemprop="description" t-att-content="unit.description"/>
-                                                <t t-if="unit.price > 0">
-                                                    <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
-                                                    <meta itemprop="price" t-att-content="unit.price"/>
-                                                </t>
-                                            </div>
-                                        </div>
-                                        <div class="rem-unit-title">
-                                            <div t-esc='unit.display_name'/>
-                                        </div>
-                                        <t t-if="not unit.table_id">
-                                            <div class="rem-unit-price">
-                                                <t t-if="unit.price > 0">
-                                                    <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
-                                                </t>
-                                            </div>
-                                        </t>
-                                        <div class="rem-unit-sub-title">
-                                            <t t-if="unit.bedrooms > 0">
-                                                <span title="Bedrooms" class="margin-right-30">
-                                                    <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
-                                                </span>
-                                            </t>
-                                            <t t-if="unit.bathrooms > 0">
-                                                <span title="Bathrooms" class="margin-right-30">
-                                                    <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
-                                                </span>
-                                            </t>
-                                            <t t-if="unit.garages > 0">
-                                                <span title="Garages">
-                                                    <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
-                                                </span>
-                                            </t>
-                                        </div>
-                                        <div class="rem-unit-description">
-                                            <t t-raw="unit.description"/>
-                                        </div>
-                                        <div class="features">
-                                            <div class="row">
-                                                <div class="col-md-6 col-sm-12">
-                                                    <div class="feature-title margin-bottom-10">General Features</div>
-                                                    <t t-if="unit.bedrooms > 0">
-                                                        <div><label>Bedrooms:</label><t t-esc="unit.bedrooms"/></div>
-                                                    </t>
-                                                    <t t-if="unit.bathrooms > 0">
-                                                        <div><label>Bathrooms:</label><t t-esc="unit.bathrooms"/></div>
-                                                    </t>
-                                                    <t t-if="unit.living_area > 0">
-                                                        <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
-                                                    </t>
-                                                    <t t-if="unit.land_area > 0">
-                                                        <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
-                                                    </t>
-                                                </div>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
-                                                        <div class="feature-title margin-bottom-10">Indoor Features</div>
-                                                    </t>
-                                                    <t t-if="unit.air_conditioned">
-                                                        <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.ducted_cooling">
-                                                        <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.wardrobes">
-                                                        <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.dishwasher">
-                                                        <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.living_areas > 0">
-                                                        <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
-                                                    </t>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 col-sm-12">
-                                                    <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
-                                                        <div class="feature-title margin-bottom-10">Outdoor Features</div>
-                                                    </t>
-                                                    <t t-if="unit.backyard">
-                                                        <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.alarm">
-                                                        <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.sw_pool">
-                                                        <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.entertaining">
-                                                        <div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.garages > 0">
-                                                        <div><label>Garage spaces:</label><t t-esc="unit.garages"/></div>
-                                                    </t>
-                                                    <t t-if="unit.secure_parking">
-                                                        <div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                    <t t-if="unit.dog_friendly">
-                                                        <div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>
-                                                    </t>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <t t-if="unit.table_id and unit.table_id.line_ids">
-                                            <table class="table table-responsive table-striped rem-unit-table-price">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Rental Period</th>
-                                                        <th class="text-right">Price</th>
-                                                    </tr>
-                                                </thead>
-                                                <body>
-                                                    <t t-foreach="unit.table_id.line_ids" t-as="line">
-                                                        <tr>
-                                                            <td>
-                                                                <t t-esc="unit.table_id.format_season_dates(line.date_start)"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)" t-esc-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
-                                                            </td>
-                                                        </tr>
-                                                    </t>
-                                                </body>
-                                            </table>
-                                        </t>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
-                                                <div class="text-center rem-unit-contact-title">
-                                                    Want me to call you?
-                                                </div>
-                                                <div class="rem-unit-contact-agent-container">
-                                                    <figure class="rem-unit-contact-agent">
-                                                        <div itemtype="http://schema.org/RealEstateAgent" itemscope="">
-                                                            <meta itemprop="name" t-att-content="unit.user_id.name"/>
-                                                        </div>
-                                                        <div class="rem-unit-contact-agent-wrapper">
-                                                            <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{unit.user_id.id}" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
-                                                        </div>
-                                                        <figcaption><t t-esc="unit.user_id.name"/></figcaption>
-                                                    </figure>
-                                                </div>
-                                                <div class="form-group form-field o_website_form_required_custom">
-                                                <input
-                                                    type="text"
-                                                    id="name"
-                                                    name="name"
-                                                    maxlength="128"
-                                                    class="form-control o_website_form_input"
-                                                    title="Name"
-                                                    placeholder="Name"
-                                                    required="required"/>
-                                                </div>
-                                                <div class="form-group form-field o_website_form_required_custom">
-                                                    <input
-                                                        type="text"
-                                                        id="phone"
-                                                        name="phone"
-                                                        maxlength="128"
-                                                        class="form-control o_website_form_input"
-                                                        title="Phone Number"
-                                                        placeholder="Phone Number"/>
-                                                </div>
-                                                <div class="form-group form-field o_website_form_required_custom">
-                                                    <input
-                                                        type="email"
-                                                        id="email_from"
-                                                        name="email_from"
-                                                        maxlength="128"
-                                                        class="form-control o_website_form_input"
-                                                        title="Email"
-                                                        placeholder="Email"
-                                                        required="required"/>
-                                                </div>
-                                                <div class="form-group form-field o_website_form_required_custom">
-                                                    <textarea
-                                                        type="text"
-                                                        id="description"
-                                                        name="description"
-                                                        maxlength="1024"
-                                                        class="form-control o_website_form_input"
-                                                        title="Your Question"
-                                                        placeholder="Your Question"
-                                                        rows="6"
-                                                        required="required">I am interested in <t t-esc='unit.display_name'/>.</textarea>
-                                                </div>
-                                                <input type="hidden" name="type" value="opportunity"/>
-                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="unit_id" t-att-value="unit.id"/>
-                                                <input type="hidden" name="type_buyer" t-att-value="1"/>
-                                                <div class="form-group">
-                                                    <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
-                                                </div>
-                                                <span id="o_website_form_result" class="text-center"></span>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
         </template>
