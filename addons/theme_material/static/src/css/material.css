@@ -645,13 +645,15 @@ h3 {
     border-bottom: 2px solid #3c763d !important;
 }
 
-#rem-hidden-form {
-    display: none;
+.rem-unit-contact-title {
+    display: block;
+    font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
+    font-size: 1.4em;
+    margin-bottom: 30px;
 }
 
-#unit-contact-form
-{
-    margin-top: -50px;
+#rem-hidden-form {
+    display: none;
 }
 
 @media (max-width: 767px)
@@ -692,14 +694,9 @@ h3 {
     font-size: 15px;
 }
 
-.rem-unit-title,
 .rem-unit-sub-title,
 .rem-unit-description {
     margin-top: 20px;
-}
-
-.rem-unit-contact-container #rem_form {
-    margin-top: -50px;
 }
 
 .rem-unit-contact-agent-container {
@@ -732,18 +729,41 @@ h3 {
     margin: auto;
 }
 
-.rem-unit-price
-{
+.rem-unit-price {
     margin-top: 20px;
     font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
     font-size: 26px;
+}
+
+.rem-unit-table-price {
+    font-size: 0.9em;
+    margin: 30px auto 0 auto;
+}
+
+.table.rem-unit-table-price > thead > tr> th {
+    background: #aa4d93;
+    color: #FFF;
+}
+
+.table.rem-unit-table-price > thead > tr > th {
+    vertical-align: middle;
+    border-bottom: none;
+}
+
+.table.rem-unit-table-price > thead > tr > th,
+.table.rem-unit-table-price > tbody > tr > th,
+.table.rem-unit-table-price > tfoot > tr > th,
+.table.rem-unit-table-price > thead > tr > td,
+.table.rem-unit-table-price > tbody > tr > td,
+.table.rem-unit-table-price > tfoot > tr > td {
+    border-top: none;
 }
 
 @media (max-width: 767px)
 {
     .rem-unit-info-container {
         text-align: center;
-        margin: 0 auto;
+        margin: 20px auto 0 auto;
     }
 
     .rem-unit-info-container,
