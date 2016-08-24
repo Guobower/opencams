@@ -13,3 +13,13 @@ class RemUnit(models.Model):
         for unit in self.browse(cr, uid, ids, context=context):
             res[unit.id] = "/rem/unit/%s" % (unit.id,)
         return res
+
+
+class RemUnitOfferType(models.Model):
+    _inherit = 'offer.type'
+
+    def _website_url(self, cr, uid, ids, field_name, arg, context=None):
+        res = super(RemUnitOfferType, self)._website_url(cr, uid, ids, field_name, arg, context=context)
+        for unit in self.browse(cr, uid, ids, context=context):
+            res[unit.id] = "/rem?offer_type=%s" % (unit.id,)
+        return res

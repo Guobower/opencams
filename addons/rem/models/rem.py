@@ -71,6 +71,7 @@ class RemUnitZone(models.Model):
 
 class RemUnitOfferType(models.Model):
     _name = 'offer.type'
+    _inherit = ['website.seo.metadata', 'website.published.mixin']
     _description = 'Offer Type'
 
     name = fields.Char(string='Offer Name', size=32, required=True,
@@ -502,7 +503,7 @@ class RemUnit(models.Model):
             unit.order_ids_count = len(unit.order_ids)
 
     offer_type_id = fields.Many2one('offer.type', string='Offer Type', required=True,
-                                       default=_get_default_offer_type)
+                                    default=_get_default_offer_type)
     type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
     reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),

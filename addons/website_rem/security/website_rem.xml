@@ -11,5 +11,13 @@
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
     </record>
+    
+    <record model="ir.rule" id="website_offer_type_public">
+        <field name="name">Offer Type: public: published only</field>
+        <field name="model_id" ref="model_offer_type"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+        <field name="groups" eval="[(4, ref('base.group_public')), (4, ref('base.group_portal'))]"/>
+    </record>
+
 </data>
 </openerp>
