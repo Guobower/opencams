@@ -13,6 +13,7 @@ from openerp.osv import expression
 
 import openerp.addons.decimal_precision as dp
 
+
 class RemUnitCity(models.Model):
     _name = 'rem.unit.city'
     _description = 'Unit City'
@@ -153,8 +154,7 @@ class SeasonalRates(models.Model):
     def calculate_unit_price(self, price, discount, fixed):
         if fixed == 0:
             return price * ((100.0 - discount) / 100)
-        else:
-            return fixed
+        return fixed
 
     def get_unit_price(self, unit, date=fields.Date.today()):
         unit_rent = unit.rent_price
