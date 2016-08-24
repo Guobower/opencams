@@ -13,7 +13,6 @@ from openerp.osv import expression
 
 import openerp.addons.decimal_precision as dp
 
-
 class RemUnitCity(models.Model):
     _name = 'rem.unit.city'
     _description = 'Unit City'
@@ -151,6 +150,12 @@ class SeasonalRates(models.Model):
                        help='Discount table name, e.g. Summer 2029')
     line_ids = fields.One2many('season.rates.line', 'table_id', string='Table Lines')
 
+    def calculate_unit_price(self, price, discount, fixed):
+        if fixed == 0:
+            return price * ((100.0 - discount) / 100)
+        else:
+            return fixed
+
     def get_unit_price(self, unit, date=fields.Date.today()):
         unit_rent = unit.rent_price
         for table in self:
@@ -159,10 +164,7 @@ class SeasonalRates(models.Model):
                 if date > line.date_start and date < line.date_end and lin is False:
                     lin = line
             if lin:
-                if lin.fixed_price == 0:
-                    unit_rent = unit_rent * ((100.0 - lin.discount) / 100)
-                else:
-                    unit_rent = lin.fixed_price
+                unit_rent = self.calculate_unit_price(unit_rent, lin.discount, lin.fixed_price)
         return unit_rent
 
 
@@ -179,11 +181,37 @@ class PriceTableLine(models.Model):
     fixed_price = fields.Float(string='Fixed Price', digits=dp.get_precision('Product Price'))
 
     @api.multi
-    @api.constrains('date_start', 'date_end')
+    @api.constrains('date_start', 'date_end', 'discount', 'fixed_price')
     def _check_dates(self):
         for line in self:
             if line.date_start > line.date_end:
                 raise ValidationError(_('Start date cannot be older then the end date.'))
+            if line.discount == 0 and line.fixed_price == 0:
+                raise ValidationError(_('Enter a discount or product price.'))
+            if line.discount < 0 or line.discount > 100:
+                raise ValidationError(_('Discount ratio must be between 0-100.'))
+            if line.fixed_price < 0:
+                raise ValidationError(_('Product Price must be positive.'))
+        self.check_if_season_rates_table_has_overlaping_dates(self.table_id.id)
+
+    def dates_are_overlaping(self, i_date_start, i_date_end, j_date_start, j_date_end):
+        latest_start = max(datetime.strptime(i_date_start, '%Y-%m-%d'), datetime.strptime(j_date_start, '%Y-%m-%d'))
+        earliest_end = min(datetime.strptime(i_date_end, '%Y-%m-%d'), datetime.strptime(j_date_end, '%Y-%m-%d'))
+        if ((earliest_end - latest_start).days + 1) > 0:
+            return True
+        return False
+
+    def check_if_season_rates_table_has_overlaping_dates(self, table_id):
+        lines = self.env['season.rates.line'].search([('table_id', '=', table_id)])
+        dates = []
+        for line in lines:
+            dates.append((line.id, line.date_start, line.date_end))
+        for i in range(len(dates)):
+            for j in range(len(dates)):
+                if dates[i][0] == dates[j][0]:
+                    continue;
+                if self.dates_are_overlaping(dates[i][1], dates[i][2], dates[j][1], dates[j][2]):
+                    raise ValidationError(_('The following dates are overlaping: %s until %s and %s until %s') % (dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
 
 
 class RemImage(models.Model):
