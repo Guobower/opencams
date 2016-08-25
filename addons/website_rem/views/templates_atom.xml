@@ -16,7 +16,7 @@
         <author><name t-esc="post.sudo().user_id.name"/></author>
         <summary t-esc="post.display_name"/>
         <updated t-esc="post.write_date.replace(' ', 'T') + 'Z'"/>
-        <summary t-esc="post.bedrooms"/>
+        <bedrooms t-esc="post.bedrooms"/>
     </entry>
 </feed>
 </template>

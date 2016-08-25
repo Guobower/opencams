@@ -397,6 +397,10 @@ class RemUnit(models.Model):
             unit.main_img_id = id
 
     @api.multi
+    @api.depends('stage_id', 'current_listing_contract_id.date_start',
+                 'current_listing_contract_id.period', 'current_listing_contract_id.period_unit',
+                 'current_tenant_contract_id.date_start', 'current_tenant_contract_id.period',
+                 'current_tenant_contract_id.period_unit',)
     def _check_active(self):
         for unit in self:
             flag = False
@@ -513,7 +517,7 @@ class RemUnit(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     active = fields.Boolean(compute='_check_active',
-                            store=True,
+                            store=True, default=True,
                             help='An inactive unit will not be listed in the'
                             ' back-end nor in the Website. Active field depends'
                             ' on the stage and on the current contract start and end date')
