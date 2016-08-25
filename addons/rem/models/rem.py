@@ -405,22 +405,22 @@ class RemUnit(models.Model):
         for unit in self:
             flag = False
             date_now = fields.Date.today()
-            if (self.current_listing_contract_id.date_start <= date_now and
-                    self.current_listing_contract_id.date_end >= date_now):
+            if (unit.current_listing_contract_id.date_start <= date_now and
+                    unit.current_listing_contract_id.date_end >= date_now):
                 flag = True
 
-            if (self.current_tenant_contract_id.date_start <= date_now and
-                    self.current_tenant_contract_id.date_end >= date_now):
+            if (unit.current_tenant_contract_id.date_start <= date_now and
+                    unit.current_tenant_contract_id.date_end >= date_now):
                 flag = True
 
-            if self.stage_id.force_show:
+            if unit.stage_id.force_show:
                 unit.active = True
                 break
-            if self.stage_id.force_hide:
+            if unit.stage_id.force_hide:
                 unit.active = False
                 break
 
-            if len(self.listing_contract_ids) == 0:
+            if len(unit.listing_contract_ids) == 0:
                 flag = True
             unit.active = flag
 

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-
+	
+        <!-- CRM Opportunities Form View -->
+        <record id="view_calendar_event_calendar_rem" model="ir.ui.view">
+        	<field name="name">Meeting</field>
+        	<field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ids']" position="after">
+                <field name="unit_ids"/>
+            </xpath>
+        	</field>
+    	</record>
+    
 	    <record id="action_calendar_event_rem_unit" model="ir.actions.act_window">
 	        <field name="name">Create Meetings/Showings</field>
 	        <field name="res_model">calendar.event</field>
