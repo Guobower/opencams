@@ -806,7 +806,7 @@
                                                         </t>
                                                     </div>
                                                     <div class="rem-unit-description">
-                                                        <t t-raw="unit.website_description"/>
+                                                        <div itemprop="description" t-field="unit.website_description" class="oe_structure"/>
                                                     </div>
                                                     <div class="features">
                                                         <div class="row">
