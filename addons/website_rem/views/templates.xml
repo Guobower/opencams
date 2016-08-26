@@ -20,9 +20,14 @@
         <!-- Snippets -->
         <template id="rem_snippets" inherit_id="website.snippets">
             <xpath expr="//div[@id='snippet_feature']/div[@class='o_panel_body']" position="inside">
-                <t t-snippet="website_rem.rem_highlights" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
-                <t t-snippet="website_rem.rem_feature_units" t-thumbnail="/website/static/src/img/blocks/block_text_image.png"/>
             </xpath>
+        </template>
+
+        <!-- Allow snippets -->
+        <template id="allow_snippets">
+            <div id="wrap" class="oe_structure oe_empty"></div>
+            <t t-raw="0"/>
+            <div id="wrap" class="oe_structure oe_empty"></div>
         </template>
 
         <!-- Homepage -->
@@ -406,16 +411,18 @@
         <!-- REM Units List Page -->
         <template id="rem_units_list_page" name="Units">
             <t t-call="website.layout">
-                <t t-set="additional_title">Real Estate</t>
-                <t t-call="website_rem.search_form"/>
-                <t t-if="selected_type_listing==0">
-                    <t t-call="website_rem.rem_units_cards"/>
+                <t t-call="website_rem.allow_snippets">
+                    <t t-set="additional_title">Real Estate</t>
+                    <t t-call="website_rem.search_form"/>
+                    <t t-if="selected_type_listing==0">
+                        <t t-call="website_rem.rem_units_cards"/>
+                    </t>
+                    <t t-if="selected_type_listing==1">
+                        <t t-call="website_rem.rem_units_gmap"/>
+                        <t t-call="website_rem.rem_units_photo_cards"/>
+                    </t>
+                    <t t-call="website_rem.rem_pager"/>
                 </t>
-                <t t-if="selected_type_listing==1">
-                    <t t-call="website_rem.rem_units_gmap"/>
-                    <t t-call="website_rem.rem_units_photo_cards"/>
-                </t>
-                <t t-call="website_rem.rem_pager"/>
             </t>
         </template>
 
@@ -689,8 +696,10 @@
         <!--  Unit List -->
         <template id="rem_unit_page">
             <t t-call="website.layout">
-                <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
-                <t t-call="website_rem.rem_unit_content"/>
+                <t t-call="website_rem.allow_snippets">
+                    <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
+                    <t t-call="website_rem.rem_unit_content"/>
+                </t>
             </t>
         </template>
 
@@ -990,78 +999,80 @@
         <!-- Conatct Us Form -->
         <template id="contact_us_page" name="Contact us">
             <t t-call="website.layout">
-                <section>
-                    <div class="oe_structure">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
-                                    <h1 class="rem-title text-center">Contact us</h1>
-                                    <div class="form-group form-field o_website_form_required_custom">
-                                        <input
-                                            type="text"
-                                            id="contact_name"
-                                            name="contact_name"
-                                            maxlength="128"
-                                            class="form-control o_website_form_input"
-                                            title="Name"
-                                            placeholder="Name"
-                                            required="required"/>
-                                    </div>
-                                    <div class="form-group form-field o_website_form_required_custom">
-                                        <input
-                                            type="text"
-                                            id="phone"
-                                            name="phone"
-                                            maxlength="128"
-                                            class="form-control o_website_form_input"
-                                            title="Phone Number"
-                                            placeholder="Phone Number"/>
-                                    </div>
-                                    <div class="form-group form-field o_website_form_required_custom">
-                                        <input
-                                            type="email"
-                                            id="email_from"
-                                            name="email_from"
-                                            maxlength="128"
-                                            class="form-control o_website_form_input"
-                                            title="Email"
-                                            placeholder="Email"
-                                            required="required"/>
-                                    </div>
-                                    <div class="form-group form-field o_website_form_required_custom">
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            maxlength="128"
-                                            class="form-control o_website_form_input"
-                                            title="Subject"
-                                            placeholder="Subject"
-                                            required="required"/>
-                                    </div>
-                                    <div class="form-group form-field o_website_form_required_custom">
-                                        <textarea
-                                            type="text"
-                                            id="description"
-                                            name="description"
-                                            maxlength="1024"
-                                            class="form-control o_website_form_input"
-                                            title="Your Question"
-                                            placeholder="Your Question"
-                                            rows="6"
-                                            required="required"></textarea>
-                                    </div>
-                                    <input type="hidden" name="type" value="opportunity"/>
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <div class="form-group">
-                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
-                                    </div>
-                                    <span id="o_website_form_result" class="text-center"></span>
-                                </form>
+                <t t-call="website_rem.allow_snippets">
+                    <section>
+                        <div class="oe_structure">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                        <h1 class="rem-title text-center">Contact us</h1>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                            <input
+                                                type="text"
+                                                id="contact_name"
+                                                name="contact_name"
+                                                maxlength="128"
+                                                class="form-control o_website_form_input"
+                                                title="Name"
+                                                placeholder="Name"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                            <input
+                                                type="text"
+                                                id="phone"
+                                                name="phone"
+                                                maxlength="128"
+                                                class="form-control o_website_form_input"
+                                                title="Phone Number"
+                                                placeholder="Phone Number"/>
+                                        </div>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                            <input
+                                                type="email"
+                                                id="email_from"
+                                                name="email_from"
+                                                maxlength="128"
+                                                class="form-control o_website_form_input"
+                                                title="Email"
+                                                placeholder="Email"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                maxlength="128"
+                                                class="form-control o_website_form_input"
+                                                title="Subject"
+                                                placeholder="Subject"
+                                                required="required"/>
+                                        </div>
+                                        <div class="form-group form-field o_website_form_required_custom">
+                                            <textarea
+                                                type="text"
+                                                id="description"
+                                                name="description"
+                                                maxlength="1024"
+                                                class="form-control o_website_form_input"
+                                                title="Your Question"
+                                                placeholder="Your Question"
+                                                rows="6"
+                                                required="required"></textarea>
+                                        </div>
+                                        <input type="hidden" name="type" value="opportunity"/>
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="form-group">
+                                            <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                        </div>
+                                        <span id="o_website_form_result" class="text-center"></span>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </t>
             </t>
         </template>
         

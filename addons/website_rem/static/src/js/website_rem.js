@@ -1,8 +1,6 @@
 $(function() {
 	"use strict";
 
-    window.ondragstart = function() {return false;}
-
     $("select.form-control").change(function() {
         if ($(this).val() == "")
             $(this).removeClass("selected");
