@@ -289,8 +289,8 @@
                                     </group>
                                 </group>
 		                        <div>
-		                            <label for="description"/>
-		                            <field name='description' widget="html" placeholder="Add some important details about your unit ..."/>
+		                            <label for="website_description"/>
+		                            <field name='website_description' widget="html" placeholder="Add some important details about your unit ..."/>
 		                        </div>
                             </page>
                             <page string="Indoor Features">

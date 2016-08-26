@@ -10,6 +10,7 @@ from openerp.exceptions import ValidationError
 from openerp.exceptions import UserError
 from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
 from openerp.osv import expression
+from openerp.tools.translate import html_translate
 
 import openerp.addons.decimal_precision as dp
 
@@ -560,7 +561,7 @@ class RemUnit(models.Model):
     is_featured = fields.Boolean(string='Is Featured', default=False)
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
-    description = fields.Text(string='Detailed Description', required=True)
+    website_description = fields.Html(string='Description', sanitize=False, translate=html_translate)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')], string='Attachments')

@@ -624,7 +624,7 @@
                                             <div itemtype="http://schema.org/Product" itemscope="">
                                                 <meta itemprop="name" t-att-content="rem_unit.display_name"/>
                                                 <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
-                                                    <meta itemprop="description" t-att-content="rem_unit.description"/>
+                                                    <meta itemprop="description" t-att-content="rem_unit.website_description"/>
                                                     <t t-if="rem_unit.price > 0">
                                                         <meta itemprop="priceCurrency" t-att-content="rem_unit.currency_id.name"/>
                                                         <meta itemprop="price" t-att-content="rem_unit.price"/>
@@ -771,7 +771,7 @@
                                                     <div itemtype="http://schema.org/Product" itemscope="">
                                                         <meta itemprop="name" t-att-content="unit.display_name"/>
                                                         <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
-                                                            <meta itemprop="description" t-att-content="unit.description"/>
+                                                            <meta itemprop="description" t-att-content="unit.website_description"/>
                                                             <t t-if="unit.price > 0">
                                                                 <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
                                                                 <meta itemprop="price" t-att-content="unit.price"/>
@@ -806,7 +806,7 @@
                                                         </t>
                                                     </div>
                                                     <div class="rem-unit-description">
-                                                        <t t-raw="unit.description"/>
+                                                        <t t-raw="unit.website_description"/>
                                                     </div>
                                                     <div class="features">
                                                         <div class="row">
