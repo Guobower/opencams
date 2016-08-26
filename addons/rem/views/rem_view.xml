@@ -599,10 +599,12 @@
                             <label for="name" class="oe_edit_only"/>
                             <h1><field name="name" placeholder="Offer Type Description"/></h1>
                         </div>
+
 	                	<group>
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
-		                        <field name="is_rent"/>   
+		                        <field name="is_rent"/>  
+		                        <field name="website_published"/> 
 	                        </group>
 	                    </group>
 	                </sheet>
