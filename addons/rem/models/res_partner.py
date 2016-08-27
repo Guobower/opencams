@@ -1,4 +1,5 @@
 from openerp import models, fields, api
+from __builtin__ import True
 
 
 class ResPartner(models.Model):
@@ -29,14 +30,14 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
-        ct = super(ResPartner, self).write(vals)
         for ct1 in self:
             # if an existing contact gets new type of contract
             # gets marked as respective seller, buyer, tenant
             if self._context.get('default_tenant', False):
-                ct1.tenant = True
+                vals['tenant'] = True
             if self._context.get('default_buyer', False):
-                ct1.buyer = True
+                vals['buyer'] = True
             if self._context.get('default_seller', False):
-                ct1.seller = True
-        return ct
+                vals['seller'] = True
+        res = super(ResPartner, self).write(vals)
+        return res
