@@ -425,10 +425,10 @@ class RemUnit(models.Model):
 
             if unit.stage_id.force_show:
                 unit.active = True
-                break
+                continue
             if unit.stage_id.force_hide:
                 unit.active = False
-                break
+                continue
 
             if len(unit.listing_contract_ids) == 0:
                 flag = True
