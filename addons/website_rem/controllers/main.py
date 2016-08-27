@@ -3,10 +3,13 @@ import openerp
 import werkzeug
 import json
 import base64
+import random
+import string
 from openerp import http, api
 from openerp.http import request
-from openerp.addons.web.controllers.main import binary_content
+from openerp.addons.web.controllers.main import binary_content, ensure_db
 from openerp import SUPERUSER_ID
+from openerp.addons.website.models.website import slug
 
 PPG = 8  # Units Per Page
 UPR = 4 # Units Per Row
@@ -35,6 +38,90 @@ class QueryURL(object):
 
 
 class WebsiteRem(http.Controller):
+
+    @http.route(['/my/favorites',
+                 '/my/favorites/page/<int:page>',
+                 ], type='http', auth='public', website=True)
+    def my_favorites(self, page=0, ppg=False, **post):
+        env = request.env
+        ensure_db()
+
+        if not request.session.uid:
+            return werkzeug.utils.redirect('/web/login', 303)
+
+        PPG = 9
+
+        if ppg:
+            try:
+                ppg = int(ppg)
+            except ValueError:
+                ppg = PPG
+            post["ppg"] = ppg
+        else:
+            ppg = PPG
+
+        url = '/my/favorites'
+
+        domain_user = [('user_id', '=', request.session.uid)]
+        domain_ids = []
+
+        favorites_units = env['rem.unit.favorite'].sudo().search_read(domain_user, ['unit_id'])
+
+        for favorite_unit in favorites_units:
+            domain_ids.append([favorite_unit['unit_id'][0]])
+
+        domain_ids = [('id', 'in', domain_ids)]
+
+        favorites_units = env['rem.unit.favorite'].sudo().search(domain_user)
+
+        units_count = env['rem.unit'].sudo().search_count(domain_ids)
+        pager = request.website.pager(url=url, total=units_count, page=page, step=ppg, scope=9, url_args=post)
+        units = env['rem.unit'].sudo().search(domain_ids, limit=ppg, offset=pager['offset'])
+
+        favorites_units = env['rem.unit.favorite'].sudo().search(domain_user)
+
+        values = {
+            'units': units,
+            'favorites_units': favorites_units,
+            'pager': pager,
+        }
+
+        return request.website.render('website_rem.my_favorites_units_page', values)
+
+    @http.route('/rem/favorite/set/<int:rem_unit_id>', type='http', auth="public", methods=['GET'], website=True)
+    def set_rem_favorite(self, rem_unit_id, **kwargs):
+        env = request.env
+        ensure_db()
+        results = {'result': []}
+        if request.session.uid:
+            record = env['rem.unit.favorite'].sudo().search([
+                ('user_id', '=', request.session.uid), ('unit_id', '=', rem_unit_id)], limit=1)
+            if not record:
+                env['rem.unit.favorite'].sudo().create({
+                    'user_id': [(4, request.session.uid)],
+                    'unit_id': [(4, rem_unit_id)],
+                    })
+            results['result'].append({'result': 1})
+        else:
+            results['result'].append({'result': 0})
+
+        return json.dumps(results)
+
+    @http.route('/rem/favorite/unset/<int:rem_unit_id>', type='http', auth="public", methods=['GET'], website=True)
+    def unset_rem_favorite(self, rem_unit_id, **kwargs):
+        env = request.env
+        ensure_db()
+        results = {'result': []}
+        if request.session.uid:
+            record = env['rem.unit.favorite'].sudo().search([
+                ('user_id', '=', request.session.uid), ('unit_id', '=', rem_unit_id)], limit=1)
+            if record:
+                record.sudo().unlink()
+            results['result'].append({'result': 1})
+        else:
+            results['result'].append({'result': 0})
+
+        return json.dumps(results)
 
     @http.route('/rem/search/<string:multi_search>/<int:offer_type_id>', type='http', auth="public", methods=['GET'], website=True)
     def get_offer_type_products(self, multi_search, offer_type_id, **kwargs):
@@ -77,16 +164,18 @@ class WebsiteRem(http.Controller):
                     featured_units_html += '<div class="row">'
 
                 featured_units_html += '''
-                    <div class="col-sm-3">
-                        <div class="rem-feature-unit">
-                            <div class="rem-feature-unit-img">
-                                <img class="img img-responsive" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''" style="">
-                            </div>
-                            <div class="rem-feature-unit-text">
-                            ''' + featured_unit.display_name + '''
+                    <a href="rem/unit/''' + slug(featured_unit) + '''" target="_blank">
+                        <div class="col-sm-3">
+                            <div class="rem-feature-unit">
+                                <div class="rem-feature-unit-img">
+                                    <img class="img img-responsive" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''" style="">
+                                </div>
+                                <div class="rem-feature-unit-text">
+                                ''' + featured_unit.display_name + '''
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     '''
 
                 row += 1;
@@ -267,6 +356,11 @@ class WebsiteRem(http.Controller):
             domain += [('latitude', '!=', 0), ('longitude', '!=', 0)]
             gmaps_units = env['rem.unit'].sudo().search(domain)
 
+        ensure_db()
+        favorites_units = []
+        if request.session.uid:
+            favorites_units = env['rem.unit.favorite'].sudo().search([('user_id', '=', request.session.uid)])
+
         values = {
             'units': units,
             'offers_type': env['offer.type'].sudo().search([]),
@@ -281,6 +375,7 @@ class WebsiteRem(http.Controller):
             'result_max_price': str(max_price),
             'selected_offer_type': selected_offer_type,
             'selected_type_listing': selected_type_listing,
+            'favorites_units': favorites_units,
             'gmaps_units': gmaps_units,
             'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + env['ir.config_parameter'].get_param('gmaps_key') + '&callback=initMap',
             'keep': keep,
@@ -296,6 +391,21 @@ class WebsiteRem(http.Controller):
             'unit': env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
         }
         return request.website.render('website_rem.rem_unit_page', values)
+
+    @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)
+    def user_signup(self, email, **kwargs):
+        env = request.env
+        ensure_db()
+        results = {'result': []}
+        password = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
+
+        # TODO:
+        # create user
+        # send an email with password
+
+        results['result'].append({'result': 1})
+
+        return json.dumps(results)
 
     @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
     def user_agent(self, user_id=0, **post):
@@ -322,6 +432,14 @@ class WebsiteRem(http.Controller):
         v['posts'] = request.env['rem.unit'].sudo().search(
             [('offer_type_id', '=', otype.id), ('website_published', '=', True)], limit=min(int(limit), 50))
         return request.render("website_rem.sell_feed", v, headers=[('Content-Type', 'application/atom+xml')])
+
+    @http.route(['/rem/sell'], type='http', auth='public', website=True)
+    def website_rem_sell(self):
+        env = request.env
+        values = {
+            'unit_types': env['rem.unit.type'].sudo().search([]),
+        }
+        return request.website.render('website_rem.sell', values)
 
 
 class WebsiteContact(openerp.addons.web.controllers.main.Home):

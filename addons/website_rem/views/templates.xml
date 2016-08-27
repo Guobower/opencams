@@ -6,6 +6,7 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+                <script type="text/javascript" src="/website_rem/static/src/js/bootbox.min.js"/>
                 <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"/>
             </xpath>
         </template>
@@ -33,12 +34,14 @@
         <!-- Homepage -->
         <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
             <xpath expr="//div[@id='wrap']" position="after">
-                <t t-call="website_rem.homepage_carousel"/>
-                <div id="search-homepage">
-                    <t t-call="website_rem.search_form"/>
+                <div id="rem-container">
+                    <t t-call="website_rem.homepage_carousel"/>
+                    <div id="search-homepage">
+                        <t t-call="website_rem.search_form"/>
+                    </div>
+                    <t t-call="website_rem.rem_highlights"/>
+                    <t t-call="website_rem.rem_feature_units"/>
                 </div>
-                <t t-call="website_rem.rem_highlights"/>
-                <t t-call="website_rem.rem_feature_units"/>
             </xpath>
         </template>
 
@@ -135,10 +138,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row margin-top-30">
+                                        <div class="row margin-top-20">
                                             <div class="col-sm-push-8 col-sm-4 col-xs-12 hidden-xs">
                                                 <div class="form-group">
-                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light rem-box-shadow"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
+                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
                                                 </div>
                                             </div>
                                             <div class="col-sm-pull-4 col-sm-4 col-xs-12">
@@ -172,7 +175,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row margin-top-30">
+                                        <div class="row margin-top-20">
                                             <div class="col-sm-4 col-xs-12">
                                                 <div class="form-group">
                                                     <select name="min_price" class="form-control">
@@ -204,25 +207,25 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-xs-12">
-                                                <div class="form-group margin-top-30 hidden-lg hidden-md hidden-sm">
-                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light rem-box-shadow"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
+                                                <div class="form-group margin-top-20 hidden-lg hidden-md hidden-sm">
+                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id="rem-search-button" type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                                    <button id="rem-search-button" type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="rem-listing material-form rem-box-shadow padding-30">
-                                        <t t-if="selected_type_listing==0">
-                                            <span id="type-list" class="type-listing selected"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
-                                            <span id="type-map" class="type-listing"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
-                                        </t>
-                                        <t t-if="selected_type_listing==1">
-                                            <span id="type-list" class="type-listing"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
-                                            <span id="type-map" class="type-listing selected"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
-                                        </t>
-                                        <input type="hidden" id="type_listing" name="type_listing" t-att-value="selected_type_listing"/>
+                                        <div class="rem-listing margin-top-20">
+                                            <t t-if="selected_type_listing==0">
+                                                <span id="type-list" class="type-listing selected"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
+                                                <span id="type-map" class="type-listing"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                            </t>
+                                            <t t-if="selected_type_listing==1">
+                                                <span id="type-list" class="type-listing"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
+                                                <span id="type-map" class="type-listing selected"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                            </t>
+                                            <input type="hidden" id="type_listing" name="type_listing" t-att-value="selected_type_listing"/>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -380,25 +383,27 @@
 
         <!-- Feature Units -->
         <template id="rem_feature_units" name="Feature Units">
-            <section>
+            <section class="clearfix">
                 <div class="oe_structure">
                     <t t-if="featured_units_html!=''">
                         <div class="container margin-bottom-50 hidden-xs">
                             <div class="row">
-                                <div class="row">
-                                    <div class="col-sm-9">
-                                        <h3 class="margin-bottom-0 pull-left">Feature units</h3>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="rem-feature-units-controls controls pull-right">
-                                            <a class="left fa fa-angle-left" href="#carousel-feature-units" data-slide="prev"></a>
-                                            <a class="right fa fa-angle-right" href="#carousel-feature-units"  data-slide="next"></a>
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-sm-9">
+                                            <div class="margin-bottom-0 pull-left featured_title">Feature units</div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="rem-feature-units-controls controls pull-right">
+                                                <a class="left fa fa-chevron-left waves-effect waves-light" href="#carousel-feature-units" data-slide="prev"></a>
+                                                <a class="right fa fa-chevron-right waves-effect waves-light" href="#carousel-feature-units"  data-slide="next"></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <t t-raw="featured_units_html"/>
+                                    <div id="carousel-feature-units" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <t t-raw="featured_units_html"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -412,16 +417,20 @@
         <template id="rem_units_list_page" name="Units">
             <t t-call="website.layout">
                 <t t-call="website_rem.allow_snippets">
-                    <t t-set="additional_title">Real Estate</t>
-                    <t t-call="website_rem.search_form"/>
-                    <t t-if="selected_type_listing==0">
-                        <t t-call="website_rem.rem_units_cards"/>
-                    </t>
-                    <t t-if="selected_type_listing==1">
-                        <t t-call="website_rem.rem_units_gmap"/>
-                        <t t-call="website_rem.rem_units_photo_cards"/>
-                    </t>
-                    <t t-call="website_rem.rem_pager"/>
+                    <div id="rem-container">
+                        <t t-set="additional_title">Real Estate</t>
+                        <t t-call="website_rem.search_form"/>
+                        <t t-if="selected_type_listing==0">
+                            <t t-call="website_rem.rem_units_cards"/>
+                        </t>
+                        <t t-if="selected_type_listing==1">
+                            <t t-call="website_rem.rem_units_gmap"/>
+                            <div id="units-list-photo-cards">
+                                <t t-call="website_rem.rem_units_photo_cards"/>
+                            </div>
+                        </t>
+                        <t t-call="website_rem.rem_pager"/>
+                    </div>
                 </t>
             </t>
         </template>
@@ -430,7 +439,7 @@
         <template id="rem_units_gmap">
             <section>
                 <div class="oe_structure">
-                    <div id="map" class="rem-box-shadow"></div>
+                    <div id="map"></div>
                     <script type="text/javascript">
                         function initMap() {
                             var locations = [
@@ -530,7 +539,7 @@
                                                 <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
                                             </t>
                                         </div>
-                                        <div class="row margin-0">
+                                        <div class="row margin-0 height-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-unit-photo-card-info">
                                                     <div class="rem-unit-photo-card-price"><div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "rem_unit.currency_id"}' class="margin-top-10"></div></div>
@@ -544,7 +553,22 @@
                                         <t t-if="len(rem_unit.image_ids) > 1">
                                             <div class="rem-unit-photo-card-photos"><t t-esc="len(rem_unit.image_ids)"/> photos</div>
                                         </t>
-                                        <div class="rem-unit-photo-card-favorite"><i class="zmdi zmdi-favorite-outline"></i></div>
+                                        <t t-set="found" t-value="0"/>
+                                        <t t-foreach="favorites_units" t-as="favorite_unit">
+                                            <t t-if="favorite_unit.unit_id.id == rem_unit.id">
+                                                <t t-set="found" t-value="1"/>
+                                            </t>
+                                        </t>
+                                        <t t-if="found == 1">
+                                            <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-photo-card-favorite saved">
+                                                <i class="zmdi zmdi-star"></i>
+                                            </span>
+                                        </t>
+                                        <t t-if="found == 0">
+                                            <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-photo-card-favorite">
+                                                <i class="zmdi zmdi-star-outline"></i>
+                                            </span>
+                                        </t>
                                     </div>
                                 </a>
                             </div>
@@ -663,9 +687,22 @@
                                                             Details <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                         </span>
                                                     </a>
-                                                    <span class="rem-unit-card-actions-favorite">
-                                                        <i class="zmdi zmdi-star-outline"></i> Save
-                                                    </span>
+                                                    <t t-set="found" t-value="0"/>
+                                                    <t t-foreach="favorites_units" t-as="favorite_unit">
+                                                        <t t-if="favorite_unit.unit_id.id == rem_unit.id">
+                                                            <t t-set="found" t-value="1"/>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="found == 1">
+                                                        <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-card-actions-favorite saved">
+                                                            <i class="zmdi zmdi-star"></i> Saved
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="found == 0">
+                                                        <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-card-actions-favorite">
+                                                            <i class="zmdi zmdi-star-outline"></i> Save
+                                                        </span>
+                                                    </t>
                                                 </div>
                                             </div>
                                         </div>
@@ -697,8 +734,18 @@
         <template id="rem_unit_page">
             <t t-call="website.layout">
                 <t t-call="website_rem.allow_snippets">
-                    <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
-                    <t t-call="website_rem.rem_unit_content"/>
+                    <div class="rem-publish-button">
+                        <div id="website_published_button" class="margin-10">
+                            <t t-call="website.publish_management" groups="base.group_sale_manager">
+                              <t t-set="object" t-value="unit"/>
+                              <t t-set="publish_edit" t-value="True"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div id="rem-container">
+                        <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
+                        <t t-call="website_rem.rem_unit_content"/>
+                    </div>
                 </t>
             </t>
         </template>
@@ -708,13 +755,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="website_published_button" class="margin-10">
-                            <t t-call="website.publish_management" groups="base.group_sale_manager">
-                              <t t-set="object" t-value="unit"/>
-                              <t t-set="publish_edit" t-value="True"/>
-                            </t>
-                        </div>
-                        <div class="clearfix margin-10"></div>
                         <section>
                             <div class="oe_structure">
                                 <div class="rem-unit-container rem-box-shadow">
@@ -964,7 +1004,7 @@
                                                     <input type="hidden" name="unit_id" t-att-value="unit.id"/>
                                                     <input type="hidden" name="type_buyer" t-att-value="1"/>
                                                     <div class="form-group">
-                                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
+                                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
                                                     </div>
                                                     <span id="o_website_form_result" class="text-center"></span>
                                                 </form>
@@ -1000,78 +1040,102 @@
         <template id="contact_us_page" name="Contact us">
             <t t-call="website.layout">
                 <t t-call="website_rem.allow_snippets">
-                    <section>
-                        <div class="oe_structure">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
-                                        <h1 class="rem-title text-center">Contact us</h1>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="contact_name"
-                                                name="contact_name"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Name"
-                                                placeholder="Name"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="phone"
-                                                name="phone"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Phone Number"
-                                                placeholder="Phone Number"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="email"
-                                                id="email_from"
-                                                name="email_from"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Email"
-                                                placeholder="Email"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <input
-                                                type="text"
-                                                id="name"
-                                                name="name"
-                                                maxlength="128"
-                                                class="form-control o_website_form_input"
-                                                title="Subject"
-                                                placeholder="Subject"
-                                                required="required"/>
-                                        </div>
-                                        <div class="form-group form-field o_website_form_required_custom">
-                                            <textarea
-                                                type="text"
-                                                id="description"
-                                                name="description"
-                                                maxlength="1024"
-                                                class="form-control o_website_form_input"
-                                                title="Your Question"
-                                                placeholder="Your Question"
-                                                rows="6"
-                                                required="required"></textarea>
-                                        </div>
-                                        <input type="hidden" name="type" value="opportunity"/>
-                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <div class="form-group">
-                                            <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light rem-box-shadow margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
-                                        </div>
-                                        <span id="o_website_form_result" class="text-center"></span>
-                                    </form>
+                    <div id="rem-container">
+                        <section>
+                            <div class="oe_structure">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                            <h1 class="rem-title text-center">Contact us</h1>
+                                            <div class="form-group form-field o_website_form_required_custom">
+                                                <input
+                                                    type="text"
+                                                    id="contact_name"
+                                                    name="contact_name"
+                                                    maxlength="128"
+                                                    class="form-control o_website_form_input"
+                                                    title="Name"
+                                                    placeholder="Name"
+                                                    required="required"/>
+                                            </div>
+                                            <div class="form-group form-field o_website_form_required_custom">
+                                                <input
+                                                    type="text"
+                                                    id="phone"
+                                                    name="phone"
+                                                    maxlength="128"
+                                                    class="form-control o_website_form_input"
+                                                    title="Phone Number"
+                                                    placeholder="Phone Number"/>
+                                            </div>
+                                            <div class="form-group form-field o_website_form_required_custom">
+                                                <input
+                                                    type="email"
+                                                    id="email_from"
+                                                    name="email_from"
+                                                    maxlength="128"
+                                                    class="form-control o_website_form_input"
+                                                    title="Email"
+                                                    placeholder="Email"
+                                                    required="required"/>
+                                            </div>
+                                            <div class="form-group form-field o_website_form_required_custom">
+                                                <input
+                                                    type="text"
+                                                    id="name"
+                                                    name="name"
+                                                    maxlength="128"
+                                                    class="form-control o_website_form_input"
+                                                    title="Subject"
+                                                    placeholder="Subject"
+                                                    required="required"/>
+                                            </div>
+                                            <div class="form-group form-field o_website_form_required_custom">
+                                                <textarea
+                                                    type="text"
+                                                    id="description"
+                                                    name="description"
+                                                    maxlength="1024"
+                                                    class="form-control o_website_form_input"
+                                                    title="Your Question"
+                                                    placeholder="Your Question"
+                                                    rows="6"
+                                                    required="required"></textarea>
+                                            </div>
+                                            <input type="hidden" name="type" value="opportunity"/>
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <div class="form-group">
+                                                <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                            </div>
+                                            <span id="o_website_form_result" class="text-center"></span>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="my_favorites_link" name="Link to frontend portal" inherit_id="website.layout">
+            <xpath expr="//li[@id='o_logout']" position="before">
+                <li><a href="/my/favorites" role="menuitem">Favorites</a></li>
+            </xpath>
+        </template>
+
+        <!-- My Favorites Units Page -->
+        <template id="my_favorites_units_page" name="My Favorites">
+            <t t-call="website.layout">
+                <t t-call="website_rem.allow_snippets">
+                    <div id="rem-container">
+                        <t t-set="additional_title">My Favorites</t>
+                        <div class="text-center padding-30 my-favorite-title"><i class="zmdi zmdi-star"></i> <![CDATA[&nbsp;]]>My Favorites</div>
+                        <div id="my-favorites-photo-cards">
+                            <t t-call="website_rem.rem_units_photo_cards"/>
                         </div>
-                    </section>
+                        <t t-call="website_rem.rem_pager"/>
+                    </div>
                 </t>
             </t>
         </template>

@@ -15,6 +15,15 @@ from openerp.tools.translate import html_translate
 import openerp.addons.decimal_precision as dp
 
 
+class RemUnitFavorite(models.Model):
+    _name = 'rem.unit.favorite'
+    _description = 'Favorite'
+
+    user_id = fields.Many2many(
+        'res.users', 'rem_unit_favorite_res_users_rel', 'rem_unit_favorite_id', 'res_user_id')
+    unit_id = fields.Many2many(
+        'rem.unit', 'rem_unit_favorite_res_rem_unit_rel', 'rem_unit_favorite_id', 'rem_unit_id')
+
 class RemUnitCity(models.Model):
     _name = 'rem.unit.city'
     _description = 'Unit City'
@@ -669,4 +678,3 @@ class RemUnit(models.Model):
                 self.stage_id = ids[0]
             else:
                 self.stage_id = False
-

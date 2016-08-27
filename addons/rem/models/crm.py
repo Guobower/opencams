@@ -46,6 +46,7 @@ class CrmLead(models.Model):
         'Min Bedrooms', help="Min number of bedrooms")
     re_max_bedrooms = fields.Integer(
         'Max Bedrooms', help="Max number of bedrooms")
+    re_bedrooms = fields.Integer(string='Bedrooms', help="Bedrooms")
     re_bathrooms = fields.Integer(
         'Min Bathrooms', help="Min Number of bathrooms", re_field='bathrooms')
     re_street = fields.Char('Street')

@@ -6,7 +6,7 @@
 
         <record id="websitemenu_seller" model="website.menu">
             <field name="name">Sell</field>
-            <field name="url">/page/website_rem.sell</field>
+            <field name="url">/rem/sell</field>
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence" type="int">20</field>
             <field name="website_id" ref="website.default_website"/>
