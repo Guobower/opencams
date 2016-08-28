@@ -8,12 +8,12 @@ MATCH_RE = {
     # General Features
     'self.re_offer_type_id': {'search_default_offer_type_id': 'self.re_offer_type_id.id'},
     'self.re_city': {'search_default_city_id': 'self.re_city.id'},
-    'self.re_type': {'search_default_type_id': 'self.re_type.id'},
+    'self.re_type': {'search_default_type_id': 'self.re_type.ids[0]'},
     'self.re_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
     'self.re_max_bedrooms': {'max_bedrooms': 'self.re_max_bedrooms'},
     'self.re_bathrooms > 0': {'min_bathrooms': 'self.re_bathrooms'},
     'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
-    'self.re_points_interest': {'search_default_points_interest': '[x.id for x in self.re_points_interest]'},
+    'self.re_points_interest': {'search_default_points_interest': 'self.re_points_interest.ids'},
     # Indoor Features
     'self.re_air_conditioned': {'search_default_air_condicioned': 'self.re_air_conditioned'},
     'self.re_ducted_cooling': {'search_default_ducted_cooling': 'self.re_ducted_cooling'},
