@@ -575,6 +575,8 @@ class RemUnit(models.Model):
         'rem.unit.stage', string='Stage', default=_get_stage)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')], string='Attachments')
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env['res.company']._company_default_get('rem.unit'))
 
     # Listing contracts
     listing_contract_count = fields.Integer(compute='_listing_contract_count')

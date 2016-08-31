@@ -195,6 +195,7 @@
                 	<field name="partner_id"/>
                 	<field name="type_id"/>
                     <field name="unit_id"/>
+                    <field name="listing_price"/>
                     <field name="current"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
@@ -226,7 +227,9 @@
 			                    <field name="date_end"/>
 		                    </group>
 		                	<group>
-		                		<field name="commission"/>
+		                		<field name="listing_price"/>
+		                		<field name="fee"/>
+		                		<field name="fee_amount"/>
 		                		<field name="current" readonly="1"/>
 			                    <field name="auto_renew"/>
 			                    <field name="notice_date" attrs="{'invisible':[('auto_renew','=',False)]}"/>

@@ -162,6 +162,16 @@ class RemListingContract(models.Model):
     _description = 'Listing Contract'
     _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
 
+    @api.onchange('listing_price', 'fee')
+    def _onchange_fee(self):
+        if self.fee != 0:
+            self.fee_amount = self.fee * self.listing_price
+
+    @api.onchange('fee_amount')
+    def _onchange_fee_amount(self):
+        if self.fee_amount > 0 and self.listing_price > 0:
+            self.fee = self.fee_amount / self.listing_price
+
     @api.multi
     def _track_subtype(self, init_values):
         self.ensure_one()
@@ -175,9 +185,14 @@ class RemListingContract(models.Model):
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
     partner_id = fields.Many2one(related='unit_id.partner_id', string='Seller')
-    commission = fields.Float(string='Commission', help="For percent enter a ratio between 0-100.", default=5)
+    listing_price = fields.Monetary(string='Listing Price', default=0.0, currency_field='company_currency_id')
+    fee = fields.Float(string='Fee', help="For percent enter a ratio between 0-100.", default=5)
+    fee_amount = fields.Monetary(string='Fee Amount', default=0.0, currency_field='company_currency_id')
     ordering = fields.Integer('Ordering Field', default=1)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.listing.contract')], string='Attachments')
+    company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', readonly=True,
+                                          help='Utility field to express amount currency', store=True)
+    company_id = fields.Many2one('res.company', related='unit_id.company_id', string='Company', store=True)
     # TODO: scheduled action for auto renewal
 
     @api.multi
