@@ -8,6 +8,7 @@ import string
 from openerp import http, api
 from openerp.http import request
 from openerp.addons.web.controllers.main import binary_content, ensure_db
+from openerp.addons.auth_signup.res_users.res_users import signup
 from openerp import SUPERUSER_ID
 from openerp.addons.website.models.website import slug
 
@@ -168,7 +169,7 @@ class WebsiteRem(http.Controller):
                         <div class="col-sm-3">
                             <div class="rem-feature-unit">
                                 <div class="rem-feature-unit-img">
-                                    <img class="img img-responsive" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''" style="">
+                                    <img class="img img-responsive" alt="" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''">
                                 </div>
                                 <div class="rem-feature-unit-text">
                                 ''' + featured_unit.display_name + '''

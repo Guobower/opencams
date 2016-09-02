@@ -697,6 +697,11 @@
     font-size: 30px;
 }
 
+#rem-container .rem-unit-photo-card-favorite:hover
+{
+    color: #AA4D93;
+}
+
 /* CONTACT FORM
    -------------------------------------------------- */
 #rem-container .rem-title
@@ -712,7 +717,7 @@
 
 #rem-container .rem-form
 {
-    background: #fff;
+    background: #FFF;
     border-top: 4px solid #AA4D93;
     max-width: 600px;
     margin: 30px auto;
@@ -939,7 +944,7 @@
    -------------------------------------------------- */
 #rem-container .rem-unit-container
 {
-    background: #fff;
+    background: #FFF;
     max-width: 1024px;
     margin: 30px auto;
 }
@@ -1133,7 +1138,7 @@
 
 #rem-container .features .zmdi-check
 {
-    color: #029f56;
+    color: #029F56;
 }
 
 #rem-container .type-listing
