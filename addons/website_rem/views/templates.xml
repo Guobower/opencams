@@ -866,38 +866,38 @@
                                                                 </t>
                                                             </div>
                                                             <div class="col-md-6 col-sm-12">
-                                                                <t t-if="unit.air_conditioned or unit.ducted_cooling or unit.wardrobes or unit.dishwasher or unit.living_areas > 0">
+                                                                <t t-if="unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher or unit.livingArea > 0">
                                                                     <div class="feature-title margin-bottom-10">Indoor Features</div>
                                                                 </t>
-                                                                <t t-if="unit.air_conditioned">
+                                                                <t t-if="unit.airConditioning">
                                                                     <div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
                                                                 <t t-if="unit.ducted_cooling">
                                                                     <div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
-                                                                <t t-if="unit.wardrobes">
+                                                                <t t-if="unit.builtInRobes">
                                                                     <div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
                                                                 <t t-if="unit.dishwasher">
                                                                     <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
-                                                                <t t-if="unit.living_areas > 0">
-                                                                    <div><label>Living Areas:</label><t t-esc="unit.living_areas"/></div>
+                                                                <t t-if="unit.livingArea > 0">
+                                                                    <div><label>Living Areas:</label><t t-esc="unit.livingArea"/></div>
                                                                 </t>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12">
-                                                                <t t-if="unit.backyard or unit.alarm or unit.sw_pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
+                                                                <t t-if="unit.backyard or unit.alarmSystem or unit.pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly">
                                                                     <div class="feature-title margin-bottom-10">Outdoor Features</div>
                                                                 </t>
                                                                 <t t-if="unit.backyard">
                                                                     <div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
-                                                                <t t-if="unit.alarm">
+                                                                <t t-if="unit.alarmSystem">
                                                                     <div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
-                                                                <t t-if="unit.sw_pool">
+                                                                <t t-if="unit.pool">
                                                                     <div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>
                                                                 </t>
                                                                 <t t-if="unit.entertaining">

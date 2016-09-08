@@ -141,16 +141,16 @@
                     <field name="latitude"/>
                     <field name="longitude"/>
                     <!-- Indoor Features -->
-                    <field name="air_conditioned"/>
+                    <field name="airConditioning"/>
                     <field name="ducted_cooling"/>
-                    <field name="wardrobes"/>
+                    <field name="builtInRobes"/>
                     <field name="dishwasher"/>
-                    <field name="living_areas"/>
+                    <field name="livingArea"/>
                     <!-- Outdoor Features -->
                     <field name="backyard"/>
-                    <field name="alarm"/>
+                    <field name="alarmSystem"/>
                     <field name="entertaining"/>
-                    <field name="sw_pool"/>
+                    <field name="pool"/>
                     <field name="garages"/>
                     <field name="secure_parking"/>
                     <field name="dog_friendly"/>
@@ -296,13 +296,13 @@
                             <page string="Indoor Features">
                                 <group>
                                     <group>
-                                        <field name="air_conditioned"/>
+                                        <field name="airConditioning"/>
                                         <field name="ducted_cooling"/>
-                                        <field name="wardrobes"/>
+                                        <field name="builtInRobes"/>
                                         <field name="dishwasher"/>
                                     </group>
                                     <group>
-                                        <field name="living_areas"/>
+                                        <field name="livingArea"/>
                                     </group>
                                 </group>
                             </page>
@@ -310,8 +310,8 @@
                                 <group>
                                     <group>
                                         <field name="backyard"/>
-                                        <field name="alarm"/>
-                                        <field name="sw_pool"/>
+                                        <field name="alarmSystem"/>
+                                        <field name="pool"/>
                                         <field name="entertaining"/>
                                     </group>
                                     <group>

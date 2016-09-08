@@ -8,7 +8,6 @@ import string
 from openerp import http, api
 from openerp.http import request
 from openerp.addons.web.controllers.main import binary_content, ensure_db
-from openerp.addons.auth_signup.res_users.res_users import signup
 from openerp import SUPERUSER_ID
 from openerp.addons.website.models.website import slug
 

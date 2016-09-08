@@ -24,6 +24,7 @@ class RemUnitFavorite(models.Model):
     unit_id = fields.Many2many(
         'rem.unit', 'rem_unit_favorite_res_rem_unit_rel', 'rem_unit_favorite_id', 'rem_unit_id')
 
+
 class RemUnitCity(models.Model):
     _name = 'rem.unit.city'
     _description = 'Unit City'
@@ -344,7 +345,7 @@ class RemUnit(models.Model):
         if context.get('min_bathrooms'):
             args += [('bathrooms', '>=', context.get('min_bathrooms'))]
         if context.get('min_living_areas'):
-            args += [('living_areas', '>=', context.get('min_living_areas'))]
+            args += [('livingArea', '>=', context.get('min_living_areas'))]
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
     @api.one
@@ -614,11 +615,11 @@ class RemUnit(models.Model):
     # Indoor Features
     # TODO: check if area is being used, it's not being used on backend (unit -> indoor features)
     area = fields.Float(string='Area', default=0, required=True)
-    air_conditioned = fields.Boolean(string='Air Conditioned', default=False)
+    airConditioning = fields.Boolean(string='Air Conditioned', default=False)
     ducted_cooling = fields.Boolean(string='Ducted Cooling', default=False)
-    wardrobes = fields.Boolean(string='Built-in Wardrobes', default=False)
+    builtInRobes = fields.Boolean(string='Built-in Wardrobes', default=False)
     dishwasher = fields.Boolean(string='Dishwasher', default=False)
-    living_areas = fields.Float('Living Areas', default=0)
+    livingArea = fields.Float('Living Areas', default=0)
 
     # Outdoor Features
     garages = fields.Integer(
@@ -626,13 +627,125 @@ class RemUnit(models.Model):
     backyard = fields.Boolean(string='Backyard', default=False)
     dog_friendly = fields.Boolean(string='Dog Friendly', default=False)
     secure_parking = fields.Boolean(string='Secure Parking', default=False)
-    alarm = fields.Boolean(string='Alarm System', default=False)
-    sw_pool = fields.Boolean(string='Swimming Pool', default=False)
+    alarmSystem = fields.Boolean(string='Alarm System', default=False)
+    pool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
 
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
+
+    # return = fields.Char(string='Annual rate of return in percentage')
+    # rentPerSquareMetre = fields.Char(string='Rent per square metre per annum')
+    # buildingDetails = fields.Char(string='Information about the physical structure of the building')
+    # externalLink = fields.Char(string='Link to other material')
+    # energyRating = fields.Char(string='Energy efficiency rating')
+    # site = fields.Char(string='Name or site of the commercial listing')
+    # improvements = fields.Char(string='Improvements made')
+    # councilRates = fields.Char(string='Annual council rates')
+    # irrigation = fields.Char(string='Developed irrigation')
+    # carryingCapacity = fields.Char(string='Stock carrying capacity')
+    # fencing = fields.Char(string='State of the fencing')
+    # annualRainfall = fields.Char(string='Annual rain fall')
+    # balcony = fields.Char(string='Balcony')
+    # videoLink = fields.Char(string='Link to a video display of the listing')
+    # vendorDetails = fields.Char(string='Contact details for the vendor')
+    # linkedInURL = fields.Char(string='LinkedIn profile page of a listing agent')
+    # facebookURL = fields.Char(string='Facebook page of a listing agent')
+    # twitterURL = fields.Char(string='Twitter profile of a listing agent')
+    # terms = fields.Char(string='Sale terms of the property')
+    # municipality = fields.Char(string='Local administrative entity')
+    # outgoings = fields.Char(string='Expenses incurred in generating income')
+    # soilTypes = fields.Char(string='Services supplied')
+    # broadband = fields.Boolean(string='Broadband Internet')
+    # remoteGarage = fields.Boolean(string='Remotely controlled garage door')
+    # secureParking = fields.Boolean(string='Secure parking')
+    # study = fields.Boolean(string='Study')
+    # gym = fields.Boolean(string='Gym')
+    # workshop = fields.Boolean(string='Workshop')
+    # rumpusRoom = fields.Boolean(string='Rumpus Room')
+    # floorboards = fields.Boolean(string='Floorboards')
+    # payTV = fields.Boolean(string='Pay TV')
+    # ductedHeating = fields.Boolean(string='Ducted Heating')
+    # ductedCooling = fields.Boolean(string='Ducted Cooling')
+    # splitsystemHeating = fields.Boolean(string='Split-System Heating')
+    # hydronicHeating = fields.Boolean(string='Hydronic Heating')
+    # splitsystemAircon = fields.Boolean(string='Split-System Air Conditioning')
+    # gasHeating = fields.Boolean(string='Gas Heating')
+    # reverseCycleAircon = fields.Boolean(string='Reverse Cycle Air Conditioning')
+    # evaporativeCooling = fields.Boolean(string='Evaporative Cooling')
+    # vacuumSystem = fields.Boolean(string='Built-in ducted vacuum system')
+    # intercom = fields.Boolean(string='Intercom')
+    # poolInGround = fields.Boolean(string='Inground swimming pool')
+    # poolAboveGround = fields.Boolean(string='Above ground swimming pool')
+    # spa = fields.Boolean(string='Spa')
+    # tennisCourt = fields.Boolean(string='Tennis court')
+    # deck = fields.Boolean(string='Deck')
+    # courtyard = fields.Boolean(string='Courtyard')
+    # outdoorEnt = fields.Boolean(string='Outdoor entertaining area')
+    # shed = fields.Boolean(string='Shed')
+    # fullyFenced = fields.Boolean(string='Fence around the full perimeter')
+    # openFirePlace = fields.Boolean(string='')
+    # insideSpa = fields.Boolean(string='Open fire place')
+    # outsideSpa = fields.Boolean(string='Spa outside the house')
+    # waterTank = fields.Boolean(string='Water tank')
+    # underOffer = fields.Boolean(string='Currently under any offer')
+    # solarHotWater = fields.Boolean(string='Solar hot water')
+    # solarPanels = fields.Boolean(string='Solar panels')
+    # petFriendly = fields.Boolean(string='Allow pets')
+    # newConstruction = fields.Boolean(string='New construction')
+    # greyWaterSystem = fields.Boolean(string='Hrey water system')
+    # furnished = fields.Boolean(string='Is furnished')
+    # crossOver = fields.Boolean(string='Cross over is present on a vacant block of land')
+    # smokers = fields.Boolean(string='Smokers are welcome')
+    # ensuite = fields.Integer(string='Ensuites')
+    # carports = fields.Integer(string='Car spaces')
+    # openSpaces = fields.Integer(string='Car spaces available on the entire property')
+    # heating = fields.Selection([
+    #     ('Gas', _('Gas')),
+    #     ('Electric', _('Electric')),
+    #     ('GDH', _('GDH')),
+    #     ('Solid', _('Solid')),
+    #     ('Other', _('Other'))],
+    #     string="Type of heating")
+    # hotWaterService = fields.Selection([
+    #     ('Gas', _('Gas')),
+    #     ('Electric', _('Electric')),
+    #     ('Solar', _('Solar'))],
+    #     string="Type of hot water")
+    # views = fields.Selection([
+    #     ('City', _('City')),
+    #     ('Water', _('Water')),
+    #     ('Valley', _('Valley')),
+    #     ('Mountain', _('Mountain')),
+    #     ('Ocean', _('Ocean'))],
+    #     string="Views available from the property")
+    # tax = fields.Selection([
+    #     ('Unknown', _('Unknown')),
+    #     ('Exempt', _('Exempt')),
+    #     ('Inclusive', _('Inclusive')),
+    #     ('Exclusive', _('Exclusive'))],
+    #     string="Sale Tax", default="Unknown")
+    # idealFor = fields.Selection([
+    #     ('firstHomeBuyer', _('First home buyer')),
+    #     ('investors', _('Investors')),
+    #     ('downsizing', _('Downsizing')),
+    #     ('couples', _('Couples')),
+    #     ('students', _('Students')),
+    #     ('lrgFamilies', _('Large families')),
+    #     ('reitrees', _('Reitrees'))],
+    #     string="Suitable for")
+    # ruralCategory = fields.Selection([
+    #     ('Cropping', _('Cropping')),
+    #     ('Dairy', _('Dairy')),
+    #     ('Farmlet', _('Farmlet')),
+    #     ('Horticulture', _('Horticulture')),
+    #     ('Lifestyle', _('Lifestyle')),
+    #     ('Livestock', _('Livestock')),
+    #     ('Viticulture', _('Viticulture')),
+    #     ('MixedFarming', _('MixedFarming')),
+    #     ('Other', _('Other'))],
+    #     string="Principal agricultural focus")
 
     @api.multi
     def action_select_unit(self):
