@@ -1,5 +1,4 @@
 from openerp import models, fields, api
-from __builtin__ import True
 
 
 class ResPartner(models.Model):
@@ -23,6 +22,7 @@ class ResPartner(models.Model):
     buyer = fields.Boolean('Buyer', help="Check this box if this contact is a buyer.")
     seller = fields.Boolean('Seller', help="Check this box if this contact is a seller.")
     tenant = fields.Boolean('Tenant', help="Check this box if this contact is a tenant.")
+    agent = fields.Boolean('Agent', help="Check this box if this contact is a real estate agent.")
     unit_count = fields.Integer(compute='_unit_count')
     unit_ids = fields.One2many('rem.unit', 'partner_id', string='Unit(s)')
     buyer_contract_count = fields.Integer(compute='_buyer_contract_count')

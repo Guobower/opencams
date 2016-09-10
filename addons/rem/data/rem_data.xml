@@ -2,13 +2,15 @@
 <openerp>
     <data noupdate="1">
 		
-        <!-- Configuration Parameters -->    
+        <!-- For Demo Server -->
     	
         <record model="ir.actions.act_url" id="action_pos_pos">
             <field name="name">Start Listings</field>
             <field name="url">/web#menu_id=211</field>
             <field name="target">self</field>
         </record>   	
+ 
+ 		<!-- Configuration Parameters -->
  
         <record model="ir.config_parameter" id="unit_websitename_format_key">
             <field name="key">rem.unit_websitename_format</field>

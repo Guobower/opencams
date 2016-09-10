@@ -11,6 +11,7 @@
 	                <filter string="Buyers" name="buyer" domain="[('buyer','=',1), ('parent_id', '=', False)]"/>
 	                <filter string="Tenants" name="tenant" domain="[('tenant','=',1), ('parent_id', '=', False)]"/>
 	                <filter string="Sellers" name="seller" domain="[('seller','=',1), ('parent_id', '=', False)]"/>
+	                <filter string="Agent" name="Agent" domain="[('agent','=',1), ('parent_id', '=', False)]" help="Real Estate Agents"/>
 	                <filter string="Neighbors" name="is_neighbor" domain="[('is_neighbor','=',1), ('parent_id', '=', False)]"/>
 	            </filter>
 	        </field>
