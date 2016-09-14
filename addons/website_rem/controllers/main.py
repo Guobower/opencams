@@ -39,6 +39,24 @@ class QueryURL(object):
 
 class WebsiteRem(http.Controller):
 
+    @http.route(['/mobile/units'], type='http', auth="public", methods=['GET'], website=True)
+    def feed_units(self):
+        env = request.env
+
+        results = {}
+
+        units_in_html = ''
+
+        units = env['rem.unit'].sudo().search([])
+
+        if units:
+            for unit in units:
+                units_in_html += ' ' + unit.display_name
+
+            results = { 'result': units_in_html }
+
+        return json.dumps(results)
+
     @http.route(['/my/favorites',
                  '/my/favorites/page/<int:page>',
                  ], type='http', auth='public', website=True)
