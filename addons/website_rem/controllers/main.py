@@ -183,7 +183,7 @@ class WebsiteRem(http.Controller):
                     featured_units_html += '</div></div>'
                     row = 0
 
-            if row != UPR:
+            if row != 0:
                 featured_units_html += '</div></div>'
 
         try:
