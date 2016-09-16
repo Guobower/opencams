@@ -862,7 +862,7 @@
                                                                     <div><label>Living Area:</label><t t-esc="unit.living_area"/></div>
                                                                 </t>
                                                                 <t t-if="unit.land_area > 0">
-                                                                    <div><label>land_area:</label><t t-esc="unit.land_area"/></div>
+                                                                    <div><label>Land area:</label><t t-esc="unit.land_area"/></div>
                                                                 </t>
                                                             </div>
                                                             <div class="col-md-6 col-sm-12">
