@@ -13,6 +13,8 @@ from openerp.addons.website.models.website import slug
 
 PPG = 8  # Units Per Page
 UPR = 4 # Units Per Row
+domain = 'http://retest.odoogap.com'
+#domain = 'http://localhost:8069'
 
 
 class QueryURL(object):
@@ -45,15 +47,201 @@ class WebsiteRem(http.Controller):
 
         results = {}
 
-        units_in_html = ''
+        units_html = ''
 
         units = env['rem.unit'].sudo().search([])
 
         if units:
             for unit in units:
-                units_in_html += ' ' + unit.display_name
 
-            results = { 'result': units_in_html }
+                units_html += '''
+                    <a href="#/tab/unit/''' + str(unit.id) + '''" class="rem-unit-link">
+                        <div class="list card">
+                            <div class="item item-image">
+                                <img src="''' + domain + '''/rem/unit/image/''' + str(unit.image_ids[0].id) + '''" alt="''' + unit.display_name + '''">
+                            </div>
+                            <div class="rem-unit-card-agent-container">
+                                <figure class="rem-unit-card-agent">
+                                    <div class="rem-unit-card-agent-wrapper">
+                                        <img class="rem-unit-card-agent-photo" src="''' + domain + '''/rem/user/''' + str(unit.user_id.id) + '''" alt="Jermaine D. Fort" title="''' + unit.user_id.name + '''">
+                                    </div>
+                                    <figcaption>''' + unit.user_id.name + '''</figcaption>
+                                </figure>
+                            </div>
+                            <div class="rem-unit-card-price">
+                    '''
+
+                if unit.price > 0:
+                    units_html += str(unit.price)
+
+                units_html += '''
+                            </div>
+                            <div class="rem-unit-card-title">''' + unit.display_name + '''</div>
+                            <div class="rem-unit-card-details">
+                    '''
+
+                if unit.bedrooms > 0:
+                    units_html += '<span><i class="zmdi zmdi-hotel"></i> ' + str(unit.bedrooms) + '</span>'
+                if unit.bathrooms > 0:
+                    units_html += '<span><i class="fa fa-shower"></i> ' + str(unit.bathrooms) + '</span>'
+                if unit.garages > 0:
+                    units_html += '<span><i class="zmdi zmdi-car"></i> ' + str(unit.garages) + '</span>'
+
+                units_html += '''
+                            </div>
+                        </div>
+                    </a>
+                    '''
+
+        results = { 'result': units_html }
+
+        return json.dumps(results)
+
+    @http.route(['/mobile/units/<int:unit_id>'], type='http', auth="public", methods=['GET'], website=True)
+    def feed_unit(self, unit_id):
+        env = request.env
+
+        results = {}
+
+        unit_html = ''
+        unit_title = ''
+        unit_images = []
+
+        unit = env['rem.unit'].sudo().search([('id', '=', unit_id)])
+
+        if unit:
+
+            unit_title = unit.display_name
+
+            for img in unit.image_ids:
+                unit_images.append(('<img src="' + domain + '/rem/unit/image/' + str(img.id) + '" alt="' + unit.display_name + '" class="item item-image">'))
+
+            unit_html += '''
+                <div class="rem-unit-card">
+                    <div class="rem-unit-title">''' + unit.display_name + '''</div>
+                '''
+
+            if unit.price > 0:
+                unit_html += '<div class="rem-unit-price">' + str(unit.price) + '</div>'
+
+            unit_html += '<div class="rem-unit-sub-title">'
+
+            if unit.bedrooms > 0:
+                unit_html += '<span title="Bedrooms" class="margin-right-20"><i class="zmdi zmdi-hotel"></i> ' + str(unit.bedrooms) + '</span>'
+
+            if unit.bathrooms > 0:
+                unit_html += '<span title="Bathrooms" class="margin-right-20"><i class="fa fa-shower aria-hidden="true""></i> ' + str(unit.bathrooms) + '</span>'
+
+            if unit.garages > 0:
+                unit_html += '<span title="Garages" class="margin-right-20"><i class="zmdi zmdi-car"></i> ' + str(unit.garages) + '</span>'
+
+            unit_html += '</div>'
+
+            unit_html += '''
+                    <div class="rem-unit-description">''' + unit.website_description + '''</div>
+                </div>
+                <div class="features">
+                    <div class="rem-unit-card">
+                        <div class="feature-title margin-bottom-10">General Features</div>
+            '''
+
+            if unit.bedrooms > 0:
+                unit_html += '<div><label>Bedrooms:</label>' + str(unit.bedrooms) + '</div>'
+
+            if unit.bathrooms > 0:
+                unit_html += '<div><label>Bathrooms:</label>' + str(unit.bathrooms) + '</div>'
+
+            if unit.living_area > 0:
+                unit_html += '<div><label>Living Area:</label>' + str(unit.living_area) + '</div>'
+
+            if unit.land_area > 0:
+                unit_html += '<div><label>Land area:</label>' + str(unit.land_area) + '</div>'
+
+            unit_html += '</div>'
+
+            if unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher or unit.livingArea > 0:
+
+                unit_html += '<div class="rem-unit-card"><div class="feature-title margin-bottom-10">Indoor Features</div>'
+
+                if unit.airConditioning:
+                    unit_html += '<div><label>Air Conditioned:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.ducted_cooling:
+                    unit_html += '<div><label>Ducted Cooling:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.builtInRobes:
+                    unit_html += '<div><label>Built-in Wardrobes:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.dishwasher:
+                    unit_html += '<div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.livingArea > 0:
+                    unit_html += '<div><label>Living Areas:</label>' + str(unit.livingArea) + '</div>'
+
+                unit_html += '</div>'
+
+            if unit.backyard or unit.alarmSystem or unit.pool or unit.entertaining or unit.garages > 0 or unit.secure_parking or  unit.dog_friendly:
+
+                unit_html += '<div class="rem-unit-card"><div class="feature-title margin-bottom-10">Outdoor Features</div>'
+
+                if unit.backyard:
+                    unit_html += '<div><label>Backyard:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.alarmSystem:
+                    unit_html += '<div><label>Alarm System:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.pool:
+                    unit_html += '<div><label>Swimming Pool:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.entertaining:
+                    unit_html += '<div><label>Outdoor Entertaining Area:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.garages > 0:
+                    unit_html += '<div><label>Garage spaces:</label>' + str(unit.garages) + '</div>'
+
+                if unit.secure_parking:
+                    unit_html += '<div><label>Secure Parking:</label><i class="zmdi zmdi-check"></i></div>'
+
+                if unit.dog_friendly:
+                    unit_html += '<div><label>Dog Friendly:</label><i class="zmdi zmdi-check"></i></div>'
+
+                unit_html += '</div>'
+
+            unit_html += '</div>'
+
+            if unit.table_id and unit.table_id.line_ids:
+
+                unit_html += '''
+                    <div class="rem-unit-card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rental Period</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <body>
+                    '''
+
+                for line in unit.table_id.line_ids:
+                    unit_html += '''
+                                <tr>
+                                    <td>
+                                        ''' + str(unit.table_id.format_season_dates(line.date_start)) + ''' &nbsp;-&nbsp; ''' + str(unit.table_id.format_season_dates(line.date_end)) + '''
+                                    </td>
+                                    <td>
+                                        ''' + str(unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)) + '''
+                                    </td>
+                                </tr>
+                    '''
+
+                unit_html += '''
+                            </body>
+                        </table>
+                    </div>
+                '''
+
+        results = { 'result': unit_html, 'title': unit_title, 'images': unit_images }
 
         return json.dumps(results)
 
