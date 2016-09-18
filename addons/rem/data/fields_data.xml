@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Custom Offer-type fields -->
+        
+        <record id="rem_fld_irrigation" model="ir.model.fields">
+             <field name="name">x_irrigation</field>
+             <field name="field_description">Irrigation</field>
+             <field name="help">Developed irrigation</field>
+             <field name="ttype">char</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        
+        <record id="offer_type_cfield_irrigation" model="offer.type.fields"><field name="name">x_irrigation</field></record>
+        
+
+        <record id="rem_fld_fencing" model="ir.model.fields">
+             <field name="name">x_fencing</field>
+             <field name="field_description">State of the fencing</field>
+             <field name="help">State of the fencing</field>
+             <field name="ttype">char</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        
+        <record id="offer_type_cfield_fencing" model="offer.type.fields"><field name="name">x_fencing</field></record>
+        
+
+        <record id="rem_fld_tax" model="ir.model.fields">
+             <field name="name">x_tax</field>
+             <field name="field_description">Sale Tax</field>
+             <field name="help">Sale Tax</field>
+             <field name="ttype">selection</field>
+             <field name="rem_category">general</field>
+             <field name="selection">[('Unknown', 'Unknown'),('Exempt', 'Exempt'),('Inclusive', 'Inclusive'),('Exclusive', 'Exclusive')]</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        
+        <record id="offer_type_cfield_tax" model="offer.type.fields"><field name="name">x_tax</field></record>
+
+        <!-- Hook into Existing Offer Types -->
+        
+        <record id="rem.offer_type_buy" model="offer.type">
+             <field name="showfields_ids" eval="[(6,0,[
+             		ref('offer_type_cfield_tax')
+             ])]"/>
+        </record>
+
+        <record id="rem.offer_type_rent" model="offer.type">
+             <field name="showfields_ids" eval="[(6,0,[
+             		ref('offer_type_cfield_tax')
+             ])]"/>
+        </record>
+
+    </data>
+</openerp>

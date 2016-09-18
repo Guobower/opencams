@@ -3,6 +3,19 @@
     <data>
     
         <!--
+        	Custom Fields
+		-->
+        
+        <record id="action_re_ir_model_fields" model="ir.actions.act_window">
+            <field name="name">Custom Fields</field>
+            <field name="res_model">ir.model.fields</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('state', '=', 'manual')]</field>
+            <field name="context" eval="{'default_model_id': ref('rem.model_rem_unit')}"/>
+            <field name="view_id" ref="view_model_fields_tree_rem_1"/>
+        </record>
+        
+        <!--
             Location Preferences
         -->
 
@@ -236,6 +249,15 @@
 	                                		class="oe_link btn-link"/>
 	                            </div>
 	                        </div>
+	                        <div>
+	                            <div>
+	                                <button type="action" name="%(action_re_ir_model_fields)d" 
+	                                		string="Unit fields customization" 
+	                                		help="Unit customizable fields, allows to define extra fields in the real estate unit."
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+	                        
                         </div>
                     </group>
                     <group string="Website Configuration">

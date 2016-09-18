@@ -16,9 +16,11 @@ This module allows to sell/rent real estate units
     'category': 'Real Estate',
     'data': [
         'data/rem_data.xml',
+        'data/fields_data.xml',
         'security/rem_security.xml',
         'security/ir.model.access.csv',
         'views/crm_view.xml',
+        'views/ir_model_view.xml',
         'views/contract_view.xml',
         'views/partner_view.xml',
         'views/sale_view.xml',

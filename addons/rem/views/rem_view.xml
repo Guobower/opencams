@@ -150,7 +150,7 @@
                     <field name="backyard"/>
                     <field name="alarmSystem"/>
                     <field name="entertaining"/>
-                    <field name="pool"/>
+                    <field name="swpool"/>
                     <field name="garages"/>
                     <field name="secure_parking"/>
                     <field name="dog_friendly"/>
@@ -276,17 +276,18 @@
 						</group>
 						<notebook>
                             <page string="General Features">
-                                <group>
-                                    <group>
+                                <group name="general_features">
+                                    <group class="rem_left">
                                         <field name="bedrooms"/>
                                         <field name="bathrooms"/>
                                         <field name="toilets"/>
                                         <field name="living_area"/>
                                         <field name="land_area"/>
                                     </group>
-                                    <group>
+                                    <group class="rem_right">
                                         <field name='points_interest' widget="many2many_tags"/>
                                     </group>
+                                    
                                 </group>
 		                        <div>
 		                            <label for="website_description"/>
@@ -294,27 +295,27 @@
 		                        </div>
                             </page>
                             <page string="Indoor Features">
-                                <group>
-                                    <group>
+                                <group name="indoor_features">
+                                    <group class="rem_left">
                                         <field name="airConditioning"/>
                                         <field name="ducted_cooling"/>
                                         <field name="builtInRobes"/>
                                         <field name="dishwasher"/>
                                     </group>
-                                    <group>
+                                    <group class="rem_right">
                                         <field name="livingArea"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Outdoor Features">
-                                <group>
-                                    <group>
+                                <group name="outdoor_features">
+                                    <group class="rem_left">
                                         <field name="backyard"/>
                                         <field name="alarmSystem"/>
-                                        <field name="pool"/>
+                                        <field name="swpool"/>
                                         <field name="entertaining"/>
                                     </group>
-                                    <group>
+                                    <group class="rem_right">
                                         <field name="garages"/>
                                         <field name="secure_parking"/>
                                         <field name="dog_friendly"/>
@@ -364,6 +365,7 @@
 			</field>
 		</record>
 
+		<function model="rem.unit" name="add_custom_fields_while_updating_module"/>
         <!--
         	Unit City
         -->
@@ -604,7 +606,8 @@
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
 		                        <field name="is_rent"/>  
-		                        <field name="website_published"/> 
+		                        <field name="website_published" string="Feed Syndication"/>
+		                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
 	                        </group>
 	                    </group>
 	                </sheet>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
 		
         <!-- For Demo Server -->
     	
@@ -140,6 +140,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <!-- Offer Types -->
+        
         <record id="offer_type_buy" model="offer.type">
             <field name="name">Buy</field>
             <field name="is_rent" eval="0"/>
@@ -151,6 +152,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
 ​        <!-- Unit Stages -->
+
         <record id="rem_unit_stage_buy_staging" model="rem.unit.stage">
             <field name="name">Staging</field>
             <field name="offer_type_id" ref="offer_type_buy"/>
@@ -232,6 +234,27 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="value">8</field>
         </record>
 
+        <!-- Offer-type fields -->
+
+        <record id="offer_type_field1" model="offer.type.fields"><field name="name">bedrooms</field></record>
+        <record id="offer_type_field2" model="offer.type.fields"><field name="name">bathrooms</field></record>
+        <record id="offer_type_field3" model="offer.type.fields"><field name="name">toilets</field></record>
+        <record id="offer_type_field4" model="offer.type.fields"><field name="name">living_area</field></record>
+        <record id="offer_type_field5" model="offer.type.fields"><field name="name">land_area</field></record>
+        <record id="offer_type_field6" model="offer.type.fields"><field name="name">points_interest</field></record>
+        <record id="offer_type_field7" model="offer.type.fields"><field name="name">area</field></record>
+        <record id="offer_type_field8" model="offer.type.fields"><field name="name">airConditioning</field></record>
+        <record id="offer_type_field9" model="offer.type.fields"><field name="name">ducted_cooling</field></record>
+        <record id="offer_type_field10" model="offer.type.fields"><field name="name">builtInRobes</field></record>
+        <record id="offer_type_field11" model="offer.type.fields"><field name="name">dishwasher</field></record>
+        <record id="offer_type_field12" model="offer.type.fields"><field name="name">livingArea</field></record>
+        <record id="offer_type_field13" model="offer.type.fields"><field name="name">garages</field></record>
+        <record id="offer_type_field14" model="offer.type.fields"><field name="name">backyard</field></record>
+        <record id="offer_type_field15" model="offer.type.fields"><field name="name">dog_friendly</field></record>
+        <record id="offer_type_field16" model="offer.type.fields"><field name="name">secure_parking</field></record>
+        <record id="offer_type_field17" model="offer.type.fields"><field name="name">alarmSystem</field></record>
+        <record id="offer_type_field18" model="offer.type.fields"><field name="name">swpool</field></record>
+        
     </data>
 </openerp>
         

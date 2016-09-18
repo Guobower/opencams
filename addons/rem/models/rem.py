@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import urllib
+from lxml import etree
 from openerp import tools, api, fields, models, _
 from openerp import exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
@@ -80,6 +81,14 @@ class RemUnitZone(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
+class OfferTypeFields(models.Model):
+    _name = 'offer.type.fields'
+    _description = 'Offer Type Fields'
+
+    name = fields.Char(string='Key', required=True)
+    description = fields.Char(string='Field Name', size=32)
+
+
 class RemUnitOfferType(models.Model):
     _name = 'offer.type'
     _inherit = ['website.seo.metadata', 'website.published.mixin']
@@ -95,6 +104,7 @@ class RemUnitOfferType(models.Model):
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
+    showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offe_type_id', 'field_id', string="Show Fields")
 
 
 class RemUnitStage(models.Model):
@@ -628,26 +638,59 @@ class RemUnit(models.Model):
     dog_friendly = fields.Boolean(string='Dog Friendly', default=False)
     secure_parking = fields.Boolean(string='Secure Parking', default=False)
     alarmSystem = fields.Boolean(string='Alarm System', default=False)
-    pool = fields.Boolean(string='Swimming Pool', default=False)
+    swpool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
 
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
 
-    # return = fields.Char(string='Annual rate of return in percentage')
+    balconies = fields.Integer(string='Balconies')
+#     fencing = fields.Char(string='State of the fencing')
+#     energyRating = fields.Char(string='Energy efficiency rating')
+#     councilRates = fields.Float(string='Annual council rates')
+#     secureParking = fields.Boolean(string='Secure parking')
+#     broadband = fields.Boolean(string='Broadband Internet')
+#     recreationRoom = fields.Boolean(string='Recreation Room')
+#     gym = fields.Boolean(string='Gym')
+#     payTV = fields.Boolean(string='Pay TV')
+#     ductedHeating = fields.Boolean(string='Ducted Heating')
+#     ductedCooling = fields.Boolean(string='Ducted Cooling')
+#     splitsystemHeating = fields.Boolean(string='Split-System Heating')
+#     hydronicHeating = fields.Boolean(string='Hydronic Heating')
+#     splitsystemAircon = fields.Boolean(string='Split-System Air Conditioning')
+#     gasHeating = fields.Boolean(string='Gas Heating')
+#     reverseCycleAircon = fields.Boolean(string='Reverse Cycle Air Conditioning')
+#     evaporativeCooling = fields.Boolean(string='Evaporative Cooling')
+#     vacuumSystem = fields.Boolean(string='Built-in ducted vacuum system')
+#     intercom = fields.Boolean(string='Intercom')
+#     poolInGround = fields.Boolean(string='Inground swimming pool')
+#     poolAboveGround = fields.Boolean(string='Above ground swimming pool')
+#     spa = fields.Boolean(string='Spa')
+#     tennisCourt = fields.Boolean(string='Tennis court')
+#     deck = fields.Boolean(string='Deck')
+#     courtyard = fields.Boolean(string='Courtyard')
+#     outdoorEnt = fields.Boolean(string='Outdoor entertaining area')
+#     shed = fields.Boolean(string='Shed')
+#     fullyFenced = fields.Boolean(string='Fence around the full perimeter')
+#     openFirePlace = fields.Boolean(string='')
+#     insideSpa = fields.Boolean(string='Open fire place')
+#     outsideSpa = fields.Boolean(string='Spa outside the house')
+#     waterTank = fields.Boolean(string='Water tank')
+
+    # anualReturn = fields.Char(string='Annual rate of return in percentage')
     # rentPerSquareMetre = fields.Char(string='Rent per square metre per annum')
     # buildingDetails = fields.Char(string='Information about the physical structure of the building')
     # externalLink = fields.Char(string='Link to other material')
-    # energyRating = fields.Char(string='Energy efficiency rating')
+    # 
     # site = fields.Char(string='Name or site of the commercial listing')
     # improvements = fields.Char(string='Improvements made')
-    # councilRates = fields.Char(string='Annual council rates')
-    # irrigation = fields.Char(string='Developed irrigation')
+    # 
+    #
     # carryingCapacity = fields.Char(string='Stock carrying capacity')
-    # fencing = fields.Char(string='State of the fencing')
+    # 
     # annualRainfall = fields.Char(string='Annual rain fall')
-    # balcony = fields.Char(string='Balcony')
+    # 
     # videoLink = fields.Char(string='Link to a video display of the listing')
     # vendorDetails = fields.Char(string='Contact details for the vendor')
     # linkedInURL = fields.Char(string='LinkedIn profile page of a listing agent')
@@ -657,47 +700,24 @@ class RemUnit(models.Model):
     # municipality = fields.Char(string='Local administrative entity')
     # outgoings = fields.Char(string='Expenses incurred in generating income')
     # soilTypes = fields.Char(string='Services supplied')
-    # broadband = fields.Boolean(string='Broadband Internet')
+    #
     # remoteGarage = fields.Boolean(string='Remotely controlled garage door')
-    # secureParking = fields.Boolean(string='Secure parking')
+    #
     # study = fields.Boolean(string='Study')
-    # gym = fields.Boolean(string='Gym')
+    #
     # workshop = fields.Boolean(string='Workshop')
-    # rumpusRoom = fields.Boolean(string='Rumpus Room')
+    #
     # floorboards = fields.Boolean(string='Floorboards')
-    # payTV = fields.Boolean(string='Pay TV')
-    # ductedHeating = fields.Boolean(string='Ducted Heating')
-    # ductedCooling = fields.Boolean(string='Ducted Cooling')
-    # splitsystemHeating = fields.Boolean(string='Split-System Heating')
-    # hydronicHeating = fields.Boolean(string='Hydronic Heating')
-    # splitsystemAircon = fields.Boolean(string='Split-System Air Conditioning')
-    # gasHeating = fields.Boolean(string='Gas Heating')
-    # reverseCycleAircon = fields.Boolean(string='Reverse Cycle Air Conditioning')
-    # evaporativeCooling = fields.Boolean(string='Evaporative Cooling')
-    # vacuumSystem = fields.Boolean(string='Built-in ducted vacuum system')
-    # intercom = fields.Boolean(string='Intercom')
-    # poolInGround = fields.Boolean(string='Inground swimming pool')
-    # poolAboveGround = fields.Boolean(string='Above ground swimming pool')
-    # spa = fields.Boolean(string='Spa')
-    # tennisCourt = fields.Boolean(string='Tennis court')
-    # deck = fields.Boolean(string='Deck')
-    # courtyard = fields.Boolean(string='Courtyard')
-    # outdoorEnt = fields.Boolean(string='Outdoor entertaining area')
-    # shed = fields.Boolean(string='Shed')
-    # fullyFenced = fields.Boolean(string='Fence around the full perimeter')
-    # openFirePlace = fields.Boolean(string='')
-    # insideSpa = fields.Boolean(string='Open fire place')
-    # outsideSpa = fields.Boolean(string='Spa outside the house')
-    # waterTank = fields.Boolean(string='Water tank')
-    # underOffer = fields.Boolean(string='Currently under any offer')
+
+
     # solarHotWater = fields.Boolean(string='Solar hot water')
     # solarPanels = fields.Boolean(string='Solar panels')
     # petFriendly = fields.Boolean(string='Allow pets')
-    # newConstruction = fields.Boolean(string='New construction')
+
     # greyWaterSystem = fields.Boolean(string='Hrey water system')
     # furnished = fields.Boolean(string='Is furnished')
     # crossOver = fields.Boolean(string='Cross over is present on a vacant block of land')
-    # smokers = fields.Boolean(string='Smokers are welcome')
+
     # ensuite = fields.Integer(string='Ensuites')
     # carports = fields.Integer(string='Car spaces')
     # openSpaces = fields.Integer(string='Car spaces available on the entire property')
@@ -746,6 +766,61 @@ class RemUnit(models.Model):
     #     ('MixedFarming', _('MixedFarming')),
     #     ('Other', _('Other'))],
     #     string="Principal agricultural focus")
+
+    @api.model
+    def add_custom_fields_while_updating_module(self):
+        rem_form_id = self.env.ref('rem.view_rem_unit_form').id
+        for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
+            doc = etree.XML(rem_form.arch_base)
+            for node in doc.xpath("//group[@name='general_features']"):
+                grpl = node.xpath(".//group[@class='rem_left']")[0]
+                grpr = node.xpath(".//group[@class='rem_right']")[0]
+                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
+                                                                      ('model', '=', 'rem.unit'),
+                                                                      ('rem_category', '=', 'general')]):
+                    nd = etree.Element("field", name=fld.name, invisible="1")
+                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
+                        grpr.append(nd)
+                    else:
+                        grpl.append(nd)
+            for node in doc.xpath("//group[@name='indoor_features']"):
+                grpl = node.xpath(".//group[@class='rem_left']")[0]
+                grpr = node.xpath(".//group[@class='rem_right']")[0]
+                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
+                                                                      ('model', '=', 'rem.unit'),
+                                                                      ('rem_category', '=', 'indoor')]):
+                    nd = etree.Element("field", name=fld.name, invisible="1")
+                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
+                        grpr.append(nd)
+                    else:
+                        grpl.append(nd)
+            for node in doc.xpath("//group[@name='outdoor_features']"):
+                grpl = node.xpath(".//group[@class='rem_left']")[0]
+                grpr = node.xpath(".//group[@class='rem_right']")[0]
+                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
+                                                                      ('model', '=', 'rem.unit'),
+                                                                      ('rem_category', '=', 'outdoor')]):
+                    nd = etree.Element("field", name=fld.name, invisible="1")
+                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
+                        grpr.append(nd)
+                    else:
+                        grpl.append(nd)
+            rem_form.arch_base = etree.tostring(doc)
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=None, toolbar=False, submenu=False):
+        res = super(RemUnit, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+            if self._context.get('offer_type'):
+                offer = self.env['offer.type'].sudo().search([('id', '=', self._context.get('offer_type'))])
+                for fld in offer.showfields_ids:
+                    for node in doc.xpath("//field[@name='%s']" % fld.name):
+                        node.set('invisible', '0')
+                        node.set('modifiers', '')
+            res['arch'] = etree.tostring(doc)
+        return res
 
     @api.multi
     def action_select_unit(self):
