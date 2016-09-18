@@ -105,6 +105,7 @@ class RemUnitOfferType(models.Model):
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
     showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offe_type_id', 'field_id', string="Show Fields")
+    hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offe_type_id', 'field_id', string="Hide Fields")
 
 
 class RemUnitStage(models.Model):
@@ -646,8 +647,7 @@ class RemUnit(models.Model):
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
 
     balconies = fields.Integer(string='Balconies')
-#     fencing = fields.Char(string='State of the fencing')
-#     energyRating = fields.Char(string='Energy efficiency rating')
+
 #     councilRates = fields.Float(string='Annual council rates')
 #     secureParking = fields.Boolean(string='Secure parking')
 #     broadband = fields.Boolean(string='Broadband Internet')
@@ -768,6 +768,26 @@ class RemUnit(models.Model):
     #     string="Principal agricultural focus")
 
     @api.model
+    def add_custom_offer_type_fields_while_updating_module(self):
+        self._cr.execute("""
+        DELETE FROM offer_type_fields where name ilike 'x_%';
+        DELETE FROM ir_model_data where name ilike 'offer_type_cfield_%';
+        """)
+        for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
+                                                              ('model', '=', 'rem.unit')]):
+            rec = self.env['offer.type.fields'].sudo().create({
+                'name': fld.name,
+                'description': fld.field_description,
+            })
+            self.env['ir.model.data'].sudo().create({
+                'name': 'offer_type_cfield_' + fld.name,
+                'model': 'offer.type.fields',
+                'module': 'rem',
+                'res_id': rec.id,
+                'noupdate': True
+            })
+
+    @api.model
     def add_custom_fields_while_updating_module(self):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
         for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
@@ -819,6 +839,9 @@ class RemUnit(models.Model):
                     for node in doc.xpath("//field[@name='%s']" % fld.name):
                         node.set('invisible', '0')
                         node.set('modifiers', '')
+                for fld in offer.hidefields_ids:
+                    for node in doc.xpath("//field[@name='%s']" % fld.name):
+                        node.set('invisible', '1')
             res['arch'] = etree.tostring(doc)
         return res
 

@@ -608,6 +608,7 @@
 		                        <field name="is_rent"/>  
 		                        <field name="website_published" string="Feed Syndication"/>
 		                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
+		                        <field name="hidefields_ids" widget="many2many_tags" options="{'no_open': True}"/>
 	                        </group>
 	                    </group>
 	                </sheet>

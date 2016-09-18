@@ -11,12 +11,12 @@
            
             <field name="arch" type="xml">
                 <tree string="Fields" editable="top">
-                    <field name="rem_category" required="True"/>
                     <field name="name"/>
                     <field name="field_description"/>
                     <field name="ttype" domain="[('state', '=', 'manual')]"/>
                     <field name="help"/>
                     <field name="selection"/>
+                    <field name="rem_category" required="True"/>
                     <field name="model_id" invisible="1"/>
                 </tree>
             </field>
