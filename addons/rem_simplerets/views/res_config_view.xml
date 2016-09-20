@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!--
+            REM Settings
+        -->
+
+        <record id="view_rem_config_settings" model="ir.ui.view">
+            <field name="name">rem settings inherit</field>
+            <field name="model">rem.config.settings</field>
+            <field name="inherit_id" ref="rem.view_rem_config_settings"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//group[@name='website_configuration']" position="after">
+                    <group string="SimplyRETS Configuration">
+
+                        <label for="simplyrets_api" string="simplyRETS API Key"/>
+                        <div name="simplyrets_api">
+	                        <div name="simplyrets_api" class="oe_inline">
+	                        	<field name="simplyrets_api">
+	                        	<help>simplyRETS API Key</help>
+	                        	</field>
+	                        </div>
+                        </div>
+
+                        <label for="simplyrets_secret" string="simplyRETS API Secret"/>
+                        <div name="simplyrets_secret">
+	                        <div name="simplyrets_secret" class="oe_inline">
+	                        	<field name="simplyrets_secret">
+	                        	<help>simplyRETS API Secret</help>
+	                        	</field>
+	                        </div>
+                        </div>
+
+                        <label for="simplyrets_url" string="simplyRETS API URL"/>
+                        <div name="simplyrets_url">
+	                        <div name="simplyrets_url" class="oe_inline">
+	                        	<field name="simplyrets_url">
+	                        	<help>simplyRETS API URL</help>
+	                        	</field>
+	                        	
+                                <button string="Test Connection"
+                                    icon="gtk-go-forward"
+                                    name="check_simple_rets"
+                                    type="object"
+                                    class="oe_link"/>
+	                        </div>
+                        </div>
+                    </group>
+	            </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

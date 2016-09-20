@@ -260,7 +260,7 @@
 	                        
                         </div>
                     </group>
-                    <group string="Website Configuration">
+                    <group string="Website Configuration" name="website_configuration">
                         <label for="id" string="Options"/>
                         <div>
 	                        <div>
