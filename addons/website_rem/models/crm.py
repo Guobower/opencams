@@ -35,7 +35,6 @@ class Lead(models.Model):
                 'name': ('%s contact: %s' % (unit['offer_type_id'][1], request.params.get('name').strip())),
                 'user_id': unit['user_id'][0],
                 're_offer_type_id': unit['offer_type_id'][0],
-                #'re_type': [(6, 0, [unit['id']])],
-                'unit_ids': [(6, 0, [unit['type_id']])],
+                'unit_ids': [(6, 0, [unit['id']])],
             })
         return res
