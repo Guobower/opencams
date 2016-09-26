@@ -13,8 +13,6 @@ from openerp.addons.website.models.website import slug
 
 PPG = 8  # Units Per Page
 UPR = 4 # Units Per Row
-domain = 'http://retest.odoogap.com'
-#domain = 'http://localhost:8069'
 
 
 class QueryURL(object):
@@ -41,15 +39,19 @@ class QueryURL(object):
 
 class WebsiteRem(http.Controller):
 
-    @http.route(['/mobile/units'], type='http', auth="public", methods=['GET'], website=True)
-    def feed_units(self):
+    @http.route(['/mobile/units',
+                 '/mobile/units/page/<int:page>',
+                 ], type='http', auth="public", methods=['GET'], website=True)
+    def feed_units(self, page=0, ppg=10, **post):
         env = request.env
 
         results = {}
-
         units_html = ''
+        mobile_feed_domain = env['ir.config_parameter'].get_param('mobile_feed_domain')
 
-        units = env['rem.unit'].sudo().search([])
+        units_count = env['rem.unit'].sudo().search_count([])
+        pager = request.website.pager(url='', total=units_count, page=page, step=ppg, scope=7, url_args=post)
+        units = env['rem.unit'].sudo().search([], limit=ppg, offset=pager['offset'])
 
         if units:
             for unit in units:
@@ -58,12 +60,13 @@ class WebsiteRem(http.Controller):
                     <a href="#/tab/unit/''' + str(unit.id) + '''" class="rem-unit-link">
                         <div class="list card">
                             <div class="item item-image">
-                                <img src="''' + domain + '''/rem/unit/image/''' + str(unit.image_ids[0].id) + '''" alt="''' + unit.display_name + '''">
+                                <img src="''' + mobile_feed_domain + '''/rem/unit/image/''' + str(unit.image_ids[0].id) + '''" alt="''' + unit.display_name + '''">
+                                <div class="rem-unit-offer-type">''' + unit.offer_type_id.name + '''</div>
                             </div>
                             <div class="rem-unit-card-agent-container">
                                 <figure class="rem-unit-card-agent">
                                     <div class="rem-unit-card-agent-wrapper">
-                                        <img class="rem-unit-card-agent-photo" src="''' + domain + '''/rem/user/''' + str(unit.user_id.id) + '''" alt="Jermaine D. Fort" title="''' + unit.user_id.name + '''">
+                                        <img class="rem-unit-card-agent-photo" src="''' + mobile_feed_domain + '''/rem/user/''' + str(unit.user_id.id) + '''" alt="Jermaine D. Fort" title="''' + unit.user_id.name + '''">
                                     </div>
                                     <figcaption>''' + unit.user_id.name + '''</figcaption>
                                 </figure>
@@ -72,7 +75,7 @@ class WebsiteRem(http.Controller):
                     '''
 
                 if unit.price > 0:
-                    units_html += str(unit.price)
+                    units_html += self.display_price_with_currency(unit)
 
                 units_html += '''
                             </div>
@@ -93,9 +96,21 @@ class WebsiteRem(http.Controller):
                     </a>
                     '''
 
-        results = { 'result': units_html }
+        results = {
+            'result': units_html,
+            'page_previous': pager['page_previous']['num'],
+            'page_next': pager['page_next']['num'],
+            'page_num': pager['page']['num'],
+            'page_count': pager['page_count'],
+            'col_off_set': ' col-offset-50' if pager['page']['num'] == 1 else '',
+        }
 
         return json.dumps(results)
+
+    def display_price_with_currency(self, unit):
+        if unit.currency_id.position == 'before':
+            return unit.currency_id.symbol + ' ' + '{0:g}'.format(unit.price)
+        return '{0:g}'.format(unit.price) + ' ' + unit.currency_id.symbol
 
     @http.route(['/mobile/units/<int:unit_id>'], type='http', auth="public", methods=['GET'], website=True)
     def feed_unit(self, unit_id):
@@ -106,6 +121,7 @@ class WebsiteRem(http.Controller):
         unit_html = ''
         unit_title = ''
         unit_images = []
+        mobile_feed_domain = env['ir.config_parameter'].get_param('mobile_feed_domain')
 
         unit = env['rem.unit'].sudo().search([('id', '=', unit_id)])
 
@@ -114,7 +130,7 @@ class WebsiteRem(http.Controller):
             unit_title = unit.display_name
 
             for img in unit.image_ids:
-                unit_images.append(('<img src="' + domain + '/rem/unit/image/' + str(img.id) + '" alt="' + unit.display_name + '" class="item item-image">'))
+                unit_images.append(('<img src="' + mobile_feed_domain + '/rem/unit/image/' + str(img.id) + '" alt="' + unit.display_name + '" class="item item-image">'))
 
             unit_html += '''
                 <div class="rem-unit-card">
