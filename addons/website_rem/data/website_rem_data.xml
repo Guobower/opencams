@@ -8,6 +8,12 @@
             <field name="value">AIzaSyBoBeDUuU-1bxafFCk1zOCSNDpITzgA1e4</field>
         </record>
 
+        <!-- Mobile Feed Domain -->
+        <record id="mobile_feed_domain" model="ir.config_parameter">
+            <field name="key">mobile_feed_domain</field>
+            <field name="value">http://retest.odoogap.com</field>
+        </record>
+
     </data>
 </openerp>
         
