@@ -733,6 +733,7 @@
         <!--  Unit List -->
         <template id="rem_unit_page">
             <t t-call="website.layout">
+                <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
                 <t t-call="website_rem.allow_snippets">
                     <div class="rem-publish-button">
                         <div id="website_published_button" class="margin-10">
@@ -743,7 +744,6 @@
                         </div>
                     </div>
                     <div id="rem-container">
-                        <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
                         <t t-call="website_rem.rem_unit_content"/>
                     </div>
                 </t>
@@ -1002,7 +1002,7 @@
                                                     <input type="hidden" name="type" value="opportunity"/>
                                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                     <input type="hidden" name="unit_id" t-att-value="unit.id"/>
-                                                    <input type="hidden" name="type_buyer" t-att-value="1"/>
+                                                    <input type="hidden" name="type_buyer" value="1"/>
                                                     <div class="form-group">
                                                         <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
                                                     </div>
