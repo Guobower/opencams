@@ -27,3 +27,4 @@ access_rem_listing_contract,access_rem_listing_contract,model_rem_listing_contra
 access_rem_buyer_contract,access_rem_buyer_contract,model_rem_buyer_contract,rem.group_rem_user,1,1,1,1
 access_rem_tenant_contract,access_rem_tenant_contract,model_rem_tenant_contract,rem.group_rem_user,1,1,1,1
 access_rem_unit_favorite,access_rem_unit_favorite,model_rem_unit_favorite,rem.group_rem_user,1,1,1,1
+access_offer_type_fields,access_offer_type_fields,model_offer_type_fields,,1,1,1,1
