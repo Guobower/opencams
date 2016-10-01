@@ -18,6 +18,8 @@ This Module allows to sync the listings from MLS through SimpleRETS Service API
     ],
     'data': [
         'views/res_config_view.xml',
+        'data/convert_data.xml',
+        'data/re.connector.rets.csv'
     ],
     'test': [
     ],

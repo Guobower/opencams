@@ -12,7 +12,6 @@ class RemConfigSettings(models.TransientModel):
     @api.multi
     def check_simple_rets(self):
         print "______________"
-
         # These are our demo API keys, you can use them!
         api_key = 'simplyrets'
         api_secret = 'simplyrets'
@@ -20,9 +19,12 @@ class RemConfigSettings(models.TransientModel):
 
         response = requests.get(api_url, auth=(api_key, api_secret)) 
         for r in response.json():
-            print "____", r
-            for k in r:
-                print "__", k
+            print "___V_", r
+            field_list = []
+            for k, v in r.iteritems():
+                print "_K_", k, v
+                field_list.append(k)
+            print field_list 
 
     simplyrets_api = fields.Char(string='simplyRETS API Key')
     simplyrets_secret = fields.Char(string='simplyRETS API Secret')
