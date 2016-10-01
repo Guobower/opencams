@@ -21,7 +21,7 @@
             <field name="res_model">rem.unit</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
-            <field name="context" eval="{'search_default_forsale':True, 'default_offer_type': ref('offer_type_buy')}"/>
+            <field name="context" eval="{'search_default_offer_type_id': ref('offer_type_buy'), 'default_offer_type': ref('offer_type_buy')}"/>
 	        <field name="help" type="html">
 	            <p class="oe_view_nocontent_create">
 	                Click to list a new unit.
@@ -40,7 +40,7 @@
             <field name="res_model">rem.unit</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
-            <field name="context" eval="{'search_default_forrent':True, 'default_offer_type': ref('offer_type_rent')}"/>
+            <field name="context" eval="{'search_default_offer_type_id': ref('offer_type_rent'), 'default_offer_type': ref('offer_type_rent')}"/>
 	        <field name="help" type="html">
 	            <p class="oe_view_nocontent_create">
 	                Click to list a new unit.
