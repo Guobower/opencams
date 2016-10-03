@@ -106,65 +106,68 @@ class RemUnitOfferType(models.Model):
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
     showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offe_type_id', 'field_id', string="Show Fields")
     hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offe_type_id', 'field_id', string="Hide Fields")
-    listing_menu_id = fields.Integer(string='Listing Menu Id', default=0)
-    listing_action_id = fields.Integer(string='Listing Menu Id', default=0)
+    listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
+    listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
 
-    @api.one
+    @api.multi
     def create_offer_type_menu(self):
-        higher_sequence = self.env['ir.ui.menu'].search(
-            [('parent_id', '=', self.env.ref('rem.menu_rem_properties').id)],
-            order='sequence desc',
-            limit=1
-        )
+        for offer in self:
+            higher_sequence = self.env['ir.ui.menu'].search(
+                [('parent_id', '=', self.env.ref('rem.menu_rem_properties').id)],
+                order='sequence desc',
+                limit=1
+            )
 
-        vals = {
-            'name': self.name,
-            'res_model': 'rem.unit',
-            'view_mode': 'tree,form',
-            'target': 'current',
-            'context': "{'search_default_offer_type_id': " + str(self.id) + ", 'default_offer_type': " + str(self.id) + "}",
-            'help':
-'''
-<p class="oe_view_nocontent_create">
-    Click to list a new unit.
-</p><p>
-    The real estate units / listing can be rentable or sellable
-    being owned or just commissioned by your company.
-</p>
-'''
+            vals = {
+                'name': offer.name,
+                'res_model': 'rem.unit',
+                'view_mode': 'tree,form',
+                'target': 'current',
+                'context': "{'search_default_offer_type_id': " + str(offer.id) + ", 'default_offer_type': " + str(offer.id) + "}",
+                'help': '''
+                <p class="oe_view_nocontent_create">
+                    Click to list a new unit.
+                </p><p>
+                    The real estate units / listing can be rentable or sellable
+                    being owned or just commissioned by your company.
+                </p>
+                '''
+            }
+
+            new_action = self.env['ir.actions.act_window'].create(vals)
+
+            vals = {
+                'name': offer.name,
+                'parent_id': self.env.ref('rem.menu_rem_properties').id,
+                'sequence': int(higher_sequence.sequence) + 1,
+                'action': 'ir.actions.act_window,%s' % (new_action.id,)
+            }
+
+            new_menu = self.env['ir.ui.menu'].create(vals)
+
+            offer.listing_menu_id = new_menu.id
+            offer.listing_action_id = new_action.id
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
         }
 
-        new_action = self.env['ir.actions.act_window'].create(vals)
-
-        vals = {
-            'name': self.name,
-            'parent_id': self.env.ref('rem.menu_rem_properties').id,
-            'sequence': int(higher_sequence.sequence) + 1,
-            'action': 'ir.actions.act_window,%s' % (new_action.id,)
-        }
-
-        new_menu = self.env['ir.ui.menu'].create(vals)
-
-        self.update({
-            'listing_menu_id': new_action.id,
-            'listing_action_id': new_menu.id,
-        })
-
-        self.env.cr.commit()
-        raise Warning("Menu successfully created, please refresh your browser.")
-
-    @api.one
+    @api.multi
     def remove_offer_type_menu(self):
-        self.env['ir.ui.menu'].search([('id', '=', self.listing_menu_id)]).unlink()
-        self.env['ir.actions.act_window'].search([('id', '=', self.listing_action_id)]).unlink()
+        for offer in self:
+            if offer.listing_menu_id.id:
+                self.env['ir.ui.menu'].browse(offer.listing_menu_id.id).unlink()
+                offer.listing_menu_id = False
 
-        self.update({
-            'listing_menu_id': 0,
-            'listing_action_id': 0,
-        })
+            if offer.listing_action_id.id:
+                self.env['ir.actions.act_window'].browse(offer.listing_action_id.id).unlink()
+                offer.listing_action_id = False
 
-        self.env.cr.commit()
-        raise Warning("Menu successfully removed, please refresh your browser.")
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
 
 
 class RemUnitStage(models.Model):

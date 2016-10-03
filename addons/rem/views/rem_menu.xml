@@ -33,7 +33,12 @@
         </record>
 		
 		<menuitem id="menu_rem_properties_unit" parent="menu_rem_properties" action="action_rem_unit_sale" sequence="10"/>
-		
+        
+        <record id="offer_type_buy" model="offer.type">
+            <field name="listing_menu_id" ref="menu_rem_properties_unit"/>
+            <field name="listing_action_id" ref="action_rem_unit_sale"/>
+        </record>
+
 		<!-- Real Estate Asset Action Window -->
         <record id="action_rem_unit_rent" model="ir.actions.act_window">
             <field name="name">For Rent</field>
@@ -52,6 +57,11 @@
         </record>
 
         <menuitem id="menu_rem_properties_unit_rent" parent="menu_rem_properties" action="action_rem_unit_rent" sequence="15"/>
+        
+        <record id="offer_type_rent" model="offer.type">
+            <field name="listing_menu_id" ref="menu_rem_properties_unit_rent"/>
+            <field name="listing_action_id" ref="action_rem_unit_rent"/>
+        </record>
         
 		<!-- All menu -->
         <record id="action_partner_remall_form" model="ir.actions.act_window">
