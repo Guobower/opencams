@@ -158,8 +158,8 @@
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
                     	<filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
-                    	<filter name="forsale" string="For Sale" domain="[('is_rent','=',0)]" help = "Units to sell"/>
-                    	<filter name="forrent" string="For Rent" domain="[('is_rent','=', 1)]" help = "Rentable units"/>
+                        <filter name="forsale" string="For Sale" domain="[('offer_type_id','=', 1)]" help="Units to sell"/>
+                        <filter name="forrent" string="For Rent" domain="[('offer_type_id','=', 2)]" help="Rentable units"/>
                     	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>
                     	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
                         <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
@@ -601,7 +601,6 @@
                             <label for="name" class="oe_edit_only"/>
                             <h1><field name="name" placeholder="Offer Type Description"/></h1>
                         </div>
-
 	                	<group>
 	                	    <group>
 		                        <field name="create_date" string="Date"/>
@@ -609,6 +608,11 @@
 		                        <field name="website_published" string="Feed Syndication"/>
 		                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
 		                        <field name="hidefields_ids" widget="many2many_tags" options="{'no_open': True}"/>
+                                <field name="listing_menu_id" invisible="1"/>
+                                <button name="create_offer_type_menu" string="Create Menu" type="object" class="oe_highlight" icon="gtk-add"
+                                    attrs="{'invisible': [('listing_menu_id', '!=', 0)]}"/>
+                                <button name="remove_offer_type_menu" string="Remove Menu" type="object" class="oe_highlight" icon="gtk-remove"
+                                    attrs="{'invisible': [('listing_menu_id', '=', 0)]}"/>
 	                        </group>
 	                    </group>
 	                </sheet>

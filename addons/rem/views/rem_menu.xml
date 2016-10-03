@@ -7,7 +7,7 @@
             id="menu_rem"
             groups="base.group_user"
             sequence="7"/>
-		<menuitem id="menu_rem_obj" parent="menu_rem" name="Properties" sequence="10"/>
+		<menuitem id="menu_rem_properties" parent="menu_rem" name="Properties" sequence="10"/>
 		<menuitem id="menu_rem_contact" parent="menu_rem" name="Contacts" sequence="20"/>
 		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration" sequence="30"/>
 
@@ -32,7 +32,7 @@
 	        </field>
         </record>
 		
-		<menuitem id="menu_rem_obj_unit" parent="menu_rem_obj" action="action_rem_unit_sale" sequence="10"/>
+		<menuitem id="menu_rem_properties_unit" parent="menu_rem_properties" action="action_rem_unit_sale" sequence="10"/>
 		
 		<!-- Real Estate Asset Action Window -->
         <record id="action_rem_unit_rent" model="ir.actions.act_window">
@@ -51,7 +51,7 @@
 	        </field>
         </record>
 
-        <menuitem id="menu_rem_obj_unit_rent" parent="menu_rem_obj" action="action_rem_unit_rent" sequence="15"/>
+        <menuitem id="menu_rem_properties_unit_rent" parent="menu_rem_properties" action="action_rem_unit_rent" sequence="15"/>
         
 		<!-- All menu -->
         <record id="action_partner_remall_form" model="ir.actions.act_window">
@@ -72,7 +72,7 @@
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_buyer" parent="menu_rem_contact" action="action_partner_remall_form" sequence="10"/>
+        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_remall_form" sequence="10"/>
         
 		<!-- Buyers menu -->
         <record id="action_partner_buyer_form" model="ir.actions.act_window">
@@ -94,7 +94,7 @@
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_buyer" parent="menu_rem_contact" action="action_partner_buyer_form" sequence="20"/> 
+        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_buyer_form" sequence="20"/>
                
 		<!-- Tenant menu -->
         <record id="action_partner_tenant_form" model="ir.actions.act_window">
@@ -116,7 +116,7 @@
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_tenant" parent="menu_rem_contact" action="action_partner_tenant_form" sequence="30"/>
+        <menuitem id="menu_rem_properties_tenant" parent="menu_rem_contact" action="action_partner_tenant_form" sequence="30"/>
         
 		<!-- Seller menu -->
         <record id="action_partner_seller_form" model="ir.actions.act_window">
@@ -138,7 +138,7 @@
             </field>
         </record>
         
-        <menuitem id="menu_rem_obj_seller" parent="menu_rem_contact" action="action_partner_seller_form" sequence="40"/>
+        <menuitem id="menu_rem_properties_seller" parent="menu_rem_contact" action="action_partner_seller_form" sequence="40"/>
 
 		<!-- Configuration menus -->
 		
