@@ -11,10 +11,6 @@
                             <div class="oe_structure">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                    	<!--
-										TODO:
-										check if all submited data is being shown on crm
-                                    	-->
                                         <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_rem.seller_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
                                             <h1 class="rem-title text-center">How much is my home worth?</h1>
                                             <div class="form-group form-field o_website_form_required_custom">

@@ -108,6 +108,8 @@ class RemUnitOfferType(models.Model):
     hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offe_type_id', 'field_id', string="Hide Fields")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
+    unit_name_format = fields.Char(string='Unit General Name Format', required=True)
+    unit_websitename_format = fields.Char(string='Unit Website Name Format', required=True)
 
     @api.multi
     def create_offer_type_menu(self):
@@ -520,9 +522,8 @@ class RemUnit(models.Model):
                  'bathrooms', 'living_area', 'land_area')
     def name_get(self):
         units = []
-        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
         for rec in self:
-            name = self.get_formated_name(rec, unit_name_format)
+            name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
             units.append((rec.id, name))
         return units
 
@@ -531,9 +532,8 @@ class RemUnit(models.Model):
                  'city_id.name', 'zip', 'bedrooms',
                  'bathrooms', 'living_area', 'land_area')
     def _compute_name(self):
-        unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_name_format')
         for rec in self:
-            name = self.get_formated_name(rec, unit_name_format)
+            name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
             rec.name = name
 
     @api.multi
@@ -542,9 +542,8 @@ class RemUnit(models.Model):
                  'bathrooms', 'living_area', 'land_area')
     def _get_website_name(self):
         units = []
-        unit_websitename_format = self.env['ir.config_parameter'].sudo().get_param('rem.unit_websitename_format')
         for rec in self:
-            name = self.get_formated_name(rec, unit_websitename_format)
+            name = self.get_formated_name(rec, rec.offer_type_id.unit_websitename_format)
             units.append((rec.id, name))
         return units
 

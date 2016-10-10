@@ -143,11 +143,15 @@ regardless of whether it's the agent or the seller.]]></field>
         
         <record id="offer_type_buy" model="offer.type">
             <field name="name">Buy</field>
+            <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
+            <field name="unit_websitename_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
             <field name="is_rent" eval="0"/>
         </record>
         
         <record id="offer_type_rent" model="offer.type">
             <field name="name">Rent</field>
+            <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
+            <field name="unit_websitename_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
             <field name="is_rent" eval="1"/>
         </record>
         

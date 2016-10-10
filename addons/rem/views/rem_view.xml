@@ -615,6 +615,36 @@
                                     attrs="{'invisible': [('listing_menu_id', '=', False)]}"/>
 	                        </group>
 	                    </group>
+                        <group>
+                            <group>
+                                <label for="unit_name_format"/>
+                                <div name="unit_name_format">
+                                    <div name="unit_name_format" class="oe_inline">
+                                        <field name="unit_name_format">
+                                        <help>This setting allows you to define
+                                            the naming format for your units
+                                            on the back-end system.
+                                            You can use {street}, {street2},
+                                            {city}, {state}, {zip}, {bedrooms},
+                                            {bathrooms}, {living_area} and  {land_area}.</help>
+                                        </field>
+                                    </div>
+                                </div>
+                                <label for="unit_websitename_format"/>
+                                <div name="unit_websitename_format">
+                                    <div name="unit_websitename_format" class="oe_inline">
+                                        <field name="unit_websitename_format">
+                                        <help>This setting allows you to define
+                                            the naming format for your units
+                                            on the website pages.
+                                            You can use {street}, {street2},
+                                            {city}, {state}, {zip}, {bedrooms},
+                                            {bathrooms}, {living_area} and  {land_area}.</help>
+                                        </field>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
 	                </sheet>
                 </form>
             </field>
