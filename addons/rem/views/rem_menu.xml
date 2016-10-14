@@ -11,15 +11,27 @@
 		<menuitem id="menu_rem_contact" parent="menu_rem" name="Contacts" sequence="20"/>
 		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration" sequence="30"/>
 
-		<!--
-        	Unit
-        -->
+        <!-- Seasonal Rates Action Window -->
+        <record id="action_rent_table" model="ir.actions.act_window">
+            <field name="name">Seasonal Rates</field>
+            <field name="res_model">season.rates</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Seasonal Rates.
+                </p><p>
+                    The Seasonal Rates allow you to
+                    define the Seasons:
+                    e.g. Highest, High, Low, Lowest Season
+                </p>
+            </field>
+        </record>
 
 		<!-- Real Estate Asset Action Window -->
         <record id="action_rem_unit_sale" model="ir.actions.act_window">
             <field name="name">For Sale</field>
             <field name="res_model">rem.unit</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="target">current</field>
             <field name="context" eval="{'search_default_offer_type_id': ref('offer_type_buy'), 'default_offer_type': ref('offer_type_buy')}"/>
 	        <field name="help" type="html">
@@ -43,7 +55,7 @@
         <record id="action_rem_unit_rent" model="ir.actions.act_window">
             <field name="name">For Rent</field>
             <field name="res_model">rem.unit</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="target">current</field>
             <field name="context" eval="{'search_default_offer_type_id': ref('offer_type_rent'), 'default_offer_type': ref('offer_type_rent')}"/>
 	        <field name="help" type="html">
