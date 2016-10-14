@@ -361,7 +361,6 @@
             <field name="arch" type="xml">
                 <kanban>
                     <field name="display_name"/>
-                    <field name="image_ids"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click rem_oe_kanban_global_click">

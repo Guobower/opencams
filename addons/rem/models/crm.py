@@ -136,6 +136,23 @@ class CrmLead(models.Model):
         return super(CrmLead, self).write(vals)
 
 
+class CrmStage(models.Model):
+    _inherit = 'crm.stage'
+
+    @api.model
+    def rename_crm_stages(self):
+        stages = self.env['crm.stage'].search([('id', '<', 5)])
+        for stage in stages:
+            if stage.id == 1:
+                stage.update({'name': 'Showing', 'sequence': 1})
+            elif stage.id == 2:
+                stage.update({'name': 'Offer submitted', 'sequence': 2})
+            elif stage.id == 3:
+                stage.update({'name': 'Pending', 'sequence': 3})
+            elif stage.id == 4:
+                stage.update({'name': 'Closed', 'sequence': 4})
+
+
 class StageHistory(models.Model):
     _name = 'stage.history'
     _rec_name = 'create_date'
