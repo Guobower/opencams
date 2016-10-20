@@ -834,12 +834,15 @@ class RemUnit(models.Model):
         DELETE FROM offer_type_fields where name ilike 'x_%';
         DELETE FROM ir_model_data where name ilike 'offer_type_cfield_%';
         """)
+        self._cr.commit()
         for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                               ('model', '=', 'rem.unit')]):
             rec = self.env['offer.type.fields'].sudo().create({
                 'name': fld.name,
                 'description': fld.field_description,
             })
+            print "_______", 'offer_type_cfield_' + fld.name
+
             self.env['ir.model.data'].sudo().create({
                 'name': 'offer_type_cfield_' + fld.name,
                 'model': 'offer.type.fields',

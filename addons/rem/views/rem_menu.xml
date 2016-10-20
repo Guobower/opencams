@@ -173,7 +173,7 @@
         </record>
 
         <menuitem id="menu_rem_config_settings" name="Settings" parent="rem.menu_rem_conf"
-            sequence="0" action="action_rem_config" groups="base.group_configuration"/>
+            sequence="0" action="action_rem_config" groups="base.group_system"/>
 
 	</data>
 </openerp>
