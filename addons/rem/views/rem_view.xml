@@ -276,10 +276,6 @@
                                         <field name='points_interest' widget="many2many_tags"/>
                                     </group>
                                 </group>
-		                        <div>
-		                            <label for="website_description"/>
-		                            <field name='website_description' widget="html" placeholder="Add some important details about your unit ..."/>
-		                        </div>
                             </page>
                             <page string="Indoor Features">
                                 <group name="indoor_features">
@@ -308,6 +304,9 @@
                                         <field name="dog_friendly"/>
                                     </group>
                                 </group>
+                            </page>
+                            <page string="Description">
+                                <field name="website_description" placeholder="Add some important details about your unit ..."/>
                             </page>
 							<page string="Photos">
 								<group>
