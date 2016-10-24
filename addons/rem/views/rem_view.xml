@@ -94,10 +94,10 @@
                     <field name="bathrooms"/>
                     <field name="is_new"/>
                     <field name="stage_id"/>
-                    <button name="action_select_unit" string="Select Unit" type="object" icon="gtk-apply"
+                    <button name="action_select_unit" string="Select Unit" type="object" icon="fa-check"
                     		invisible="not context.get('from_lead_id', False)"
                     		attrs="{'invisible': [('has_lead_id','=', True)]}"/>
-                    <button name="action_remove_unit" string="Remove Unit" type="object" icon="gtk-remove"
+                    <button name="action_remove_unit" string="Remove Unit" type="object" icon="fa-times"
                     		invisible="not context.get('from_lead_id', False)"
                     		attrs="{'invisible': [('has_lead_id','!=', True)]}"/>
                 </tree>
@@ -204,7 +204,6 @@
                             </button>
                         </div>
 						<div class="oe_title">
-							<label for="display_name" class="oe_edit_only"/>
 							<h1>
 								<field name="display_name" />
 							</h1>
@@ -241,7 +240,7 @@
                                 <field name='latitude'/>
                                 <field name='longitude'/>
                                 <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" 
-                                	string="Get Coordinates" colspan="2" icon="gtk-apply"/>
+                                    string="Get Coordinates" colspan="2" icon="fa-check"/>
 								<!-- Listings -->
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
@@ -276,7 +275,6 @@
                                     <group class="rem_right">
                                         <field name='points_interest' widget="many2many_tags"/>
                                     </group>
-                                    
                                 </group>
 		                        <div>
 		                            <label for="website_description"/>
@@ -613,48 +611,30 @@
                             <h1><field name="name" placeholder="Offer Type Description"/></h1>
                         </div>
 	                	<group>
-	                	    <group>
-		                        <field name="create_date" string="Date"/>
-		                        <field name="is_rent"/>  
-		                        <field name="website_published" string="Feed Syndication"/>
-		                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
-		                        <field name="hidefields_ids" widget="many2many_tags" options="{'no_open': True}"/>
-                                <field name="listing_menu_id" invisible="1"/>
-                                <button name="create_offer_type_menu" string="Create Menu" type="object" class="oe_highlight" icon="gtk-add"
-                                    attrs="{'invisible': [('listing_menu_id', '!=', False)]}"/>
-                                <button name="remove_offer_type_menu" string="Remove Menu" type="object" class="oe_highlight" icon="gtk-remove"
-                                    attrs="{'invisible': [('listing_menu_id', '=', False)]}"/>
-	                        </group>
+	                        <field name="create_date" string="Date"/>
+	                        <field name="is_rent"/>
+	                        <field name="website_published" string="Feed Syndication"/>
+	                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
+	                        <field name="hidefields_ids" widget="many2many_tags" options="{'no_open': True}"/>
+                            <field name="listing_menu_id" invisible="1"/>
 	                    </group>
                         <group>
-                            <group>
-                                <label for="unit_name_format"/>
-                                <div name="unit_name_format">
-                                    <div name="unit_name_format" class="oe_inline">
-                                        <field name="unit_name_format">
-                                        <help>This setting allows you to define
-                                            the naming format for your units
-                                            on the back-end system.
-                                            You can use {street}, {street2},
-                                            {city}, {state}, {zip}, {bedrooms},
-                                            {bathrooms}, {living_area} and  {land_area}.</help>
-                                        </field>
-                                    </div>
+                            <label for="unit_name_format"/>
+                            <div name="unit_name_format">
+                                <div name="unit_name_format" class="oe_inline">
+                                    <field name="unit_name_format"></field>
                                 </div>
-                                <label for="unit_websitename_format"/>
-                                <div name="unit_websitename_format">
-                                    <div name="unit_websitename_format" class="oe_inline">
-                                        <field name="unit_websitename_format">
-                                        <help>This setting allows you to define
-                                            the naming format for your units
-                                            on the website pages.
-                                            You can use {street}, {street2},
-                                            {city}, {state}, {zip}, {bedrooms},
-                                            {bathrooms}, {living_area} and  {land_area}.</help>
-                                        </field>
-                                    </div>
+                            </div>
+                            <label for="unit_websitename_format"/>
+                            <div name="unit_websitename_format">
+                                <div name="unit_websitename_format" class="oe_inline">
+                                    <field name="unit_websitename_format"></field>
                                 </div>
-                            </group>
+                            </div>
+                        </group>
+                        <group>
+                            <button name="create_offer_type_menu" string="Create Menu" type="object" class="oe_highlight" icon="fa-plus"
+                                attrs="{'invisible': [('listing_menu_id', '!=', False)]}"/>
                         </group>
 	                </sheet>
                 </form>

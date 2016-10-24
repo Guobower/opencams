@@ -308,7 +308,7 @@ class WebsiteRem(http.Controller):
             'pager': pager,
         }
 
-        return request.website.render('website_rem.my_favorites_units_page', values)
+        return request.render('website_rem.my_favorites_units_page', values)
 
     @http.route('/rem/favorite/set/<int:rem_unit_id>', type='http', auth="public", methods=['GET'], website=True)
     def set_rem_favorite(self, rem_unit_id, **kwargs):
@@ -431,7 +431,7 @@ class WebsiteRem(http.Controller):
             'keep': keep,
         }
 
-        return request.website.render('website_rem.homepage_rem', values)
+        return request.render('website_rem.homepage_rem', values)
 
     @http.route(['/rem/unit/image/<int:image_id>'], type='http', auth="public", website=True)
     def unit_image(self, image_id=0, **post):
@@ -603,7 +603,7 @@ class WebsiteRem(http.Controller):
             'keep': keep,
         }
 
-        return request.website.render('website_rem.rem_units_list_page', values)
+        return request.render('website_rem.rem_units_list_page', values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit):
@@ -612,7 +612,7 @@ class WebsiteRem(http.Controller):
         values = {
             'unit': env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
         }
-        return request.website.render('website_rem.rem_unit_page', values)
+        return request.render('website_rem.rem_unit_page', values)
 
     @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)
     def user_signup(self, email, **kwargs):
@@ -661,14 +661,14 @@ class WebsiteRem(http.Controller):
         values = {
             'unit_types': env['rem.unit.type'].sudo().search([]),
         }
-        return request.website.render('website_rem.sell', values)
+        return request.render('website_rem.sell', values)
 
 
 class WebsiteContact(openerp.addons.web.controllers.main.Home):
 
     @http.route(['/contact-us'], type='http', auth='public', website=True)
     def website_rem_contact(self):
-        return request.website.render('website_rem.contact_us_page')
+        return request.render('website_rem.contact_us_page')
 
     @http.route(['/page/contactus'], type='http', auth='none')
     def website_contact(self):

@@ -40,7 +40,7 @@
 	                        	</field>
 	                        	
                                 <button string="Test Connection"
-                                    icon="gtk-go-forward"
+                                    icon="fa-chevron-right"
                                     name="check_simple_rets"
                                     type="object"
                                     class="oe_link"/>

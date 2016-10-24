@@ -11,13 +11,6 @@
             </xpath>
         </template>
 
-        <!-- Favicon -->
-        <template id="favicon_frontend" inherit_id="website.layout">
-            <xpath expr="//head" position="inside">
-                <link rel="shortcut icon" type="image/ico" href="/website_rem/static/img/logos/favicon.ico"/>
-            </xpath>
-        </template>
-
         <!-- Snippets -->
         <template id="rem_snippets" inherit_id="website.snippets">
             <xpath expr="//div[@id='snippet_feature']/div[@class='o_panel_body']" position="inside">
@@ -737,7 +730,7 @@
                 <t t-call="website_rem.allow_snippets">
                     <div class="rem-publish-button">
                         <div id="website_published_button" class="margin-10">
-                            <t t-call="website.publish_management" groups="base.group_sale_manager">
+                            <t t-call="website.publish_management" groups="sales_team.group_sale_manager">
                               <t t-set="object" t-value="unit"/>
                               <t t-set="publish_edit" t-value="True"/>
                             </t>

@@ -8,18 +8,18 @@ class RemUnit(models.Model):
     _name = 'rem.unit'
     _description = 'Real Estate Unit'
 
-    def _website_url(self, cr, uid, ids, field_name, arg, context=None):
-        res = super(RemUnit, self)._website_url(cr, uid, ids, field_name, arg, context=context)
-        for unit in self.browse(cr, uid, ids, context=context):
-            res[unit.id] = "/rem/unit/%s" % (unit.id,)
-        return res
+    @api.multi
+    def _compute_website_url(self):
+        super(RemUnit, self)._compute_website_url()
+        for unit in self:
+            unit.website_url = "/rem/unit/%s" % (unit.id,)
 
 
 class RemUnitOfferType(models.Model):
     _inherit = 'offer.type'
 
-    def _website_url(self, cr, uid, ids, field_name, arg, context=None):
-        res = super(RemUnitOfferType, self)._website_url(cr, uid, ids, field_name, arg, context=context)
-        for unit in self.browse(cr, uid, ids, context=context):
-            res[unit.id] = "/rem?offer_type=%s" % (unit.id,)
-        return res
+    @api.multi
+    def _compute_website_url(self):
+        super(RemUnitOfferType, self)._compute_website_url()
+        for unit in self:
+            unit.website_url = "/rem?offer_type=%s" % (unit.id,)

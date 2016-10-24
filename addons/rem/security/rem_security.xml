@@ -10,7 +10,7 @@
     </record>
 
 	<!-- Redefinition of the Salesman for including our group_rem_user -->
-    <record id="base.group_sale_salesman" model="res.groups">
+    <record id="group_sale_salesman" model="res.groups">
         <field name="name">User: Own Leads Only</field>
         <field name="category_id" ref="base.module_category_sales_management"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user')),(4, ref('rem.group_rem_user'))]"/>

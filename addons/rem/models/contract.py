@@ -240,7 +240,7 @@ class RemTenantContract(models.Model):
     _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
 
     @api.multi
-    @api.depends('order_ids_count', 'order_ids')
+    @api.depends('order_ids')
     def _sale_order_count(self):
         for ctr in self:
             ctr.order_ids_count = len(ctr.order_ids)

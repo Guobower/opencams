@@ -430,7 +430,7 @@ class RemUnit(models.Model):
         else:
             self.currency_id = self.env.user.company_id.currency_id
 
-    @api.depends('current_listing_contract_id', 'listing_contract_ids')
+    @api.depends('listing_contract_ids')
     def _get_current_listing_contract(self):
         for unit in self:
             contracts = self.env['rem.listing.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)], limit=1)
@@ -439,7 +439,7 @@ class RemUnit(models.Model):
                     'current_listing_contract_id': ct.id,
                 })
 
-    @api.depends('current_tenant_contract_id', 'tenant_contract_ids')
+    @api.depends('tenant_contract_ids')
     def _get_current_tenant_contract(self):
         for unit in self:
             contracts = self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)], limit=1)
@@ -449,19 +449,19 @@ class RemUnit(models.Model):
                 })
 
     @api.multi
-    @api.depends('listing_contract_count', 'listing_contract_ids')
+    @api.depends('listing_contract_ids')
     def _listing_contract_count(self):
         for unit in self:
             unit.listing_contract_count = len(unit.listing_contract_ids)
 
     @api.multi
-    @api.depends('tenant_contract_count', 'tenant_contract_ids')
+    @api.depends('tenant_contract_ids')
     def _tenant_contract_count(self):
         for unit in self:
             unit.tenant_contract_count = len(unit.tenant_contract_ids)
 
     @api.multi
-    @api.depends('event_ids_count', 'event_ids')
+    @api.depends('event_ids')
     def _event_count(self):
         for unit in self:
             unit.event_ids_count = len(unit.event_ids)
@@ -577,14 +577,13 @@ class RemUnit(models.Model):
         uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
         return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1)
 
-    @api.depends('order_ids')
     def _compute_orders(self):
         for unit in self:
             orders = self.env['sale.order'].search([('tenant_contract_ids', 'in', unit.tenant_contract_ids.ids)])
             unit.order_ids = orders.ids
 
     @api.multi
-    @api.depends('order_ids_count', 'order_ids')
+    @api.depends('order_ids')
     def _sale_order_count(self):
         for unit in self:
             unit.order_ids_count = len(unit.order_ids)
