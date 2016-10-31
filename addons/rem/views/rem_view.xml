@@ -253,7 +253,7 @@
 								<field name="is_rent" invisible="1"/>
 								<label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<div name="rent_price_div" class="o_row" attrs="{'invisible': [('is_rent', '=', False)]}">
-                                    <field name="rent_price"/>
+                                    <field name="rent_price"/>€
                                     <field name="rent_uom_id" options="{'no_create': True, 'no_open': True}"/>
                                 </div>
                                 <field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>

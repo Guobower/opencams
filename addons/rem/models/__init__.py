@@ -8,3 +8,4 @@ import res_partner
 import calendar
 import sale
 import connector
+import product

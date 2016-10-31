@@ -663,7 +663,12 @@
 
 #rem-container .rem-unit-photo-card-price
 {
-    font-size: 28px;
+    font-size: 22px;
+}
+
+#rem-container .rem-unit-photo-card-price .price_uom
+{
+    font-size: 16px !important;
 }
 
 #rem-container .rem-unit-photo-card-title
@@ -854,6 +859,11 @@
     font-size: 20px;
     font-family: "Open Sans SemiBold", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
     margin-bottom: 20px;
+}
+
+#rem-container .rem-unit-card-price .price_uom
+{
+    font-size: 14px;
 }
 
 #rem-container .rem-unit-card-title
@@ -1049,6 +1059,11 @@
     margin-top: 20px;
     font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
     font-size: 26px;
+}
+
+#rem-container .rem-unit-price .price_uom
+{
+    font-size: 18px;
 }
 
 #rem-container .rem-unit-table-price

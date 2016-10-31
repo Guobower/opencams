@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
+    <data noupdate="1">
+        <!-- Delete All Unit of Measure Categories -->
+        <function model="product.uom.categ" name="delete_all_uom_categories"/>
+    </data>
     <data noupdate="0">
-		
+
         <!-- For Demo Server -->
-    	
+
         <record model="ir.actions.act_url" id="action_pos_pos">
             <field name="name">Start Listings</field>
             <field name="url">/web#menu_id=211</field>
@@ -25,26 +29,32 @@
         </record>
 
 		<!-- Default Category and Product for invoicing rent/ leasing -->
-        
+
         <record id="uom_categ_rentime" model="product.uom.categ">
             <field name="name">Rental Units</field>
         </record>
 
+        <record id="product_rent_hour" model="product.uom">
+            <field name="name">per Hour</field>
+            <field eval="uom_categ_rentime" name="category_id"/>
+            <field name="factor" eval="0.041"/>
+        </record>
+
         <record id="product_rent_day" model="product.uom">
-            <field name="name">Day(s)</field>
+            <field name="name">per Day</field>
             <field eval="uom_categ_rentime" name="category_id"/>
             <field name="factor" eval="1.0"/>
         </record>
 
         <record id="product_rent_week" model="product.uom">
-            <field name="name">Week(s)</field>
+            <field name="name">per Week</field>
             <field eval="uom_categ_rentime" name="category_id"/>
             <field name="factor_inv" eval="7"/>
             <field name="uom_type">bigger</field>
         </record>
 
         <record id="product_rent_month" model="product.uom">
-            <field name="name">Month(s)</field>
+            <field name="name">per Month</field>
             <field eval="uom_categ_rentime" name="category_id"/>
             <field name="factor_inv" eval="30"/>
             <field name="uom_type">bigger</field>
@@ -77,8 +87,8 @@
             <field name="standard_price">1</field>
             <field name="list_price">1</field>
             <field name="type">service</field>
-            <field name="uom_id" ref="product.product_uom_hour"/>
-            <field name="uom_po_id" ref="product.product_uom_hour"/>
+            <field name="uom_id" ref="product_rent_hour"/>
+            <field name="uom_po_id" ref="product_rent_hour"/>
             <field name="description">Brokerage Service</field>
         </record>
         
