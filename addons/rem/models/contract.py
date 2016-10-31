@@ -270,6 +270,7 @@ class RemTenantContract(models.Model):
     def _search_current(self, operator, value):
         self._do_search_current('rem_tenant_contract', operator, value)
 
+    name = fields.Char('Contract Name')
     allday = fields.Boolean('All Day', default=True)
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.tenant.contract.type', string='Type', required=True)
