@@ -445,7 +445,7 @@
                                          '<strong><t t-esc="unit.display_name"/></strong>' +
                                      '</div>' +
                                      <t t-if="unit.price > 0">
-                                         '<div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}' class="margin-top-10"/>' +
+                                         '<div t-field="unit.price" t-options='{"widget": "monetary", "display_currency": unit.currency_id}' class="margin-top-10"/>' +
                                      </t>
                                      '<div class="margin-top-10">' +
                                          <t t-if="unit.bedrooms > 0">
@@ -535,8 +535,16 @@
                                         <div class="row margin-0 height-0">
                                             <div class="col-xs-12 margin-0">
                                                 <div class="rem-unit-photo-card-info">
-                                                    <div class="rem-unit-photo-card-price"><div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "rem_unit.currency_id"}' class="margin-top-10"></div></div>
-                                                    <div class="rem-unit-photo-card-title"><t t-esc="rem_unit.display_name"/></div>
+                                                    <div class="rem-unit-photo-card-price">
+                                                        <div t-field="rem_unit.price"
+                                                            t-options='{
+                                                               "widget": "monetary",
+                                                               "display_currency": rem_unit.currency_id,
+                                                            }' class="margin-top-10"/>
+                                                    </div>
+                                                    <div class="rem-unit-photo-card-title">
+                                                        <t t-esc="rem_unit.display_name"/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -651,7 +659,11 @@
                                             <div class="row">
                                                 <div class="rem-unit-card-price">
                                                     <t t-if="rem_unit.price > 0">
-                                                        <div t-field="rem_unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "rem_unit.currency_id"}'/>
+                                                        <div t-field="rem_unit.price"
+                                                            t-options='{
+                                                               "widget": "monetary",
+                                                               "display_currency": rem_unit.currency_id,
+                                                            }'/>
                                                     </t>
                                                 </div>
                                                 <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
@@ -817,7 +829,11 @@
                                                     <t t-if="not unit.table_id">
                                                         <div class="rem-unit-price">
                                                             <t t-if="unit.price > 0">
-                                                                <div t-field="unit.price" style="white-space: nowrap;"  t-field-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
+                                                                <div t-field="unit.price"
+                                                                    t-options='{
+                                                                       "widget": "monetary",
+                                                                       "display_currency": unit.currency_id,
+                                                                    }'/>
                                                             </t>
                                                         </div>
                                                     </t>
@@ -920,7 +936,11 @@
                                                                             <t t-esc="unit.table_id.format_season_dates(line.date_start)"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
                                                                         </td>
                                                                         <td class="text-right">
-                                                                            <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)" t-esc-options='{"widget": "monetary", "display_currency": "unit.currency_id"}'/>
+                                                                            <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)"
+                                                                                t-options='{
+                                                                                   "widget": "monetary",
+                                                                                   "display_currency": unit.currency_id,
+                                                                                }'/>
                                                                         </td>
                                                                     </tr>
                                                                 </t>
