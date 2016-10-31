@@ -236,17 +236,12 @@
 							<group>
                                 <field name="feature_id" invisible="1"/>
                                 <field name="is_featured" placeholder="Is Featured"/>
-                                
-                                <field name='latitude'/>
-                                <field name='longitude'/>
-                                <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" 
-                                    string="Get Coordinates" colspan="2" icon="fa-check"/>
 								<!-- Listings -->
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
 								<field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
-								<!-- Rentals -->
+                                <!-- Rentals -->
 								<field name="is_rent" invisible="1"/>
 								<label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 								<div name="rent_price_div" class="o_row" attrs="{'invisible': [('is_rent', '=', False)]}">
@@ -260,6 +255,10 @@
                                     <field name="rent_current_price"/>
                                     <field name="rent_current_uom_id" options="{'no_open': True}"/>
                                 </div>
+                                <!-- Geo -->
+                                <field name='latitude'/>
+                                <field name='longitude'/>
+                                <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" string="Get Coordinates" colspan="2" icon="fa-check"/>
 							</group>
 						</group>
 						<notebook>
@@ -306,7 +305,7 @@
                                 </group>
                             </page>
                             <page string="Description">
-                                <field name="website_description" placeholder="Add some important details about your unit ..."/>
+                                <field name="website_description" widget="html" placeholder="Add some important details about your unit ..."/>
                             </page>
 							<page string="Photos">
 								<group>
