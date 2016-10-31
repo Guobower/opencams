@@ -859,7 +859,7 @@
                                                                 </t>
                                                             </div>
                                                             <div class="col-md-6 col-sm-12">
-                                                                <t t-if="unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher or unit.livingArea > 0">
+                                                                <t t-if="unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher">
                                                                     <div class="feature-title margin-bottom-10">Indoor Features</div>
                                                                 </t>
                                                                 <t t-if="unit.airConditioning">
@@ -873,9 +873,6 @@
                                                                 </t>
                                                                 <t t-if="unit.dishwasher">
                                                                     <div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>
-                                                                </t>
-                                                                <t t-if="unit.livingArea > 0">
-                                                                    <div><label>Living Areas:</label><t t-esc="unit.livingArea"/></div>
                                                                 </t>
                                                             </div>
                                                         </div>

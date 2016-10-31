@@ -19,7 +19,7 @@ MATCH_RE = {
     'self.re_ducted_cooling': {'search_default_ducted_cooling': 'self.re_ducted_cooling'},
     'self.re_wardrobes': {'search_default_wardrobes': 'self.re_wardrobes'},
     'self.re_dishwasher': {'search_default_dishwasher': 'self.re_dishwasher'},
-    'self.re_living_areas > 0': {'min_living_areas': 'self.re_living_areas'},
+    'self.re_living_area > 0': {'min_living_area': 'self.re_living_area'},
     # Outdoor Features
     'self.re_backyard': {'search_default_backyard': 'self.re_backyard'},
     'self.re_alarm': {'search_default_alarm': 'self.re_alarm'},
@@ -65,7 +65,7 @@ class CrmLead(models.Model):
         string='Built-in Wardrobes', help='Active if you want to search for units with built-in wardrobes.')
     re_dishwasher = fields.Boolean(
         string='Dishwasher', help='Active if you want to search for units with dishwasher.')
-    re_living_areas = fields.Integer(
+    re_living_area = fields.Integer(
         'Min living Areas', help='Min number of living areas')
 
     # Outdoor Features

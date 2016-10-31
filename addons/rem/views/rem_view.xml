@@ -112,7 +112,6 @@
                 <search string="Search Real Estate Unit">
                     <field name="name"/>
                     <field name="website_name"/>
-                    <!-- General Features -->
                     <field name="offer_type_id"/>
                     <field name="partner_id"/>
                     <field name="type_id"/>
@@ -121,28 +120,37 @@
                     <field name="city_id"/>
                     <field name="state_id"/>
                     <field name="zip"/>
-                    <field name="country_id"/> 
+                    <field name="country_id"/>
+                    <field name="is_new"/>
+                    <separator/>
+                    <!-- General Features -->
                     <field name="bedrooms"/>
                     <field name="bathrooms"/>
                     <field name="toilets"/>
+                    <field name="living_area"/>
+                    <field name="land_area"/>
                     <field name="points_interest"/>
-                    <field name="is_new"/>
-                    <field name="latitude"/>
-                    <field name="longitude"/>
+                    <separator/>
                     <!-- Indoor Features -->
+                    <field name="area"/>
                     <field name="airConditioning"/>
                     <field name="ducted_cooling"/>
                     <field name="builtInRobes"/>
                     <field name="dishwasher"/>
-                    <field name="livingArea"/>
+                    <separator/>
                     <!-- Outdoor Features -->
-                    <field name="backyard"/>
-                    <field name="alarmSystem"/>
-                    <field name="entertaining"/>
-                    <field name="swpool"/>
                     <field name="garages"/>
-                    <field name="secure_parking"/>
+                    <field name="backyard"/>
                     <field name="dog_friendly"/>
+                    <field name="secure_parking"/>
+                    <field name="alarmSystem"/>
+                    <field name="swpool"/>
+                    <field name="entertaining"/>
+                    <field name="balconies"/>
+                    <separator/>
+                    <!-- Geo -->
+                    <field name="latitude"/>
+                    <field name="longitude"/>
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
@@ -279,28 +287,28 @@
                             <page string="Indoor Features">
                                 <group name="indoor_features">
                                     <group class="rem_left">
+                                        <field name="area"/>
                                         <field name="airConditioning"/>
                                         <field name="ducted_cooling"/>
                                         <field name="builtInRobes"/>
                                         <field name="dishwasher"/>
-                                    </group>
-                                    <group class="rem_right">
-                                        <field name="livingArea"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Outdoor Features">
                                 <group name="outdoor_features">
                                     <group class="rem_left">
+                                        <field name="garages"/>
                                         <field name="backyard"/>
+                                        <field name="dog_friendly"/>
+                                        <field name="secure_parking"/>
+                                        <field name="garages"/>
+                                    </group>
+                                    <group class="rem_right">
                                         <field name="alarmSystem"/>
                                         <field name="swpool"/>
                                         <field name="entertaining"/>
-                                    </group>
-                                    <group class="rem_right">
-                                        <field name="garages"/>
-                                        <field name="secure_parking"/>
-                                        <field name="dog_friendly"/>
+                                        <field name="balconies"/>
                                     </group>
                                 </group>
                             </page>

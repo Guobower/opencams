@@ -251,13 +251,14 @@ regardless of whether it's the agent or the seller.]]></field>
         <record id="offer_type_field9" model="offer.type.fields"><field name="name">ducted_cooling</field></record>
         <record id="offer_type_field10" model="offer.type.fields"><field name="name">builtInRobes</field></record>
         <record id="offer_type_field11" model="offer.type.fields"><field name="name">dishwasher</field></record>
-        <record id="offer_type_field12" model="offer.type.fields"><field name="name">livingArea</field></record>
-        <record id="offer_type_field13" model="offer.type.fields"><field name="name">garages</field></record>
-        <record id="offer_type_field14" model="offer.type.fields"><field name="name">backyard</field></record>
-        <record id="offer_type_field15" model="offer.type.fields"><field name="name">dog_friendly</field></record>
-        <record id="offer_type_field16" model="offer.type.fields"><field name="name">secure_parking</field></record>
-        <record id="offer_type_field17" model="offer.type.fields"><field name="name">alarmSystem</field></record>
-        <record id="offer_type_field18" model="offer.type.fields"><field name="name">swpool</field></record>
+        <record id="offer_type_field12" model="offer.type.fields"><field name="name">garages</field></record>
+        <record id="offer_type_field13" model="offer.type.fields"><field name="name">backyard</field></record>
+        <record id="offer_type_field14" model="offer.type.fields"><field name="name">dog_friendly</field></record>
+        <record id="offer_type_field15" model="offer.type.fields"><field name="name">secure_parking</field></record>
+        <record id="offer_type_field16" model="offer.type.fields"><field name="name">alarmSystem</field></record>
+        <record id="offer_type_field17" model="offer.type.fields"><field name="name">swpool</field></record>
+        <record id="offer_type_field18" model="offer.type.fields"><field name="name">entertaining</field></record>
+        <record id="offer_type_field19" model="offer.type.fields"><field name="name">balconies</field></record>
         
     </data>
 </openerp>

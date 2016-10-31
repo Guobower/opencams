@@ -175,7 +175,7 @@ class WebsiteRem(http.Controller):
 
             unit_html += '</div>'
 
-            if unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher or unit.livingArea > 0:
+            if unit.airConditioning or unit.ducted_cooling or unit.builtInRobes or unit.dishwasher:
 
                 unit_html += '<div class="rem-unit-card"><div class="feature-title margin-bottom-10">Indoor Features</div>'
 
@@ -190,9 +190,6 @@ class WebsiteRem(http.Controller):
 
                 if unit.dishwasher:
                     unit_html += '<div><label>Dishwasher:</label><i class="zmdi zmdi-check"></i></div>'
-
-                if unit.livingArea > 0:
-                    unit_html += '<div><label>Living Areas:</label>' + str(unit.livingArea) + '</div>'
 
                 unit_html += '</div>'
 

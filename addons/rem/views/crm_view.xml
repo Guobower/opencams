@@ -52,7 +52,7 @@
                                <field name="re_dishwasher"/>
                            </group>
                             <group>
-                                <field name="re_living_areas"/>
+                                <field name="re_living_area"/>
                             </group>
                         </group>
                         <group string="Outdoor Features">

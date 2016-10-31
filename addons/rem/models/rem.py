@@ -419,8 +419,8 @@ class RemUnit(models.Model):
             args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
         if context.get('min_bathrooms'):
             args += [('bathrooms', '>=', context.get('min_bathrooms'))]
-        if context.get('min_living_areas'):
-            args += [('livingArea', '>=', context.get('min_living_areas'))]
+        if context.get('min_living_area'):
+            args += [('living_area', '>=', context.get('min_living_area'))]
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
     @api.one
@@ -684,13 +684,11 @@ class RemUnit(models.Model):
         'location.preferences', string='Points of Interest')
 
     # Indoor Features
-    # TODO: check if area is being used, it's not being used on backend (unit -> indoor features)
     area = fields.Float(string='Area', default=0, required=True)
     airConditioning = fields.Boolean(string='Air Conditioned', default=False)
     ducted_cooling = fields.Boolean(string='Ducted Cooling', default=False)
     builtInRobes = fields.Boolean(string='Built-in Wardrobes', default=False)
     dishwasher = fields.Boolean(string='Dishwasher', default=False)
-    livingArea = fields.Float('Living Areas', default=0)
 
     # Outdoor Features
     garages = fields.Integer(
@@ -701,42 +699,41 @@ class RemUnit(models.Model):
     alarmSystem = fields.Boolean(string='Alarm System', default=False)
     swpool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
+    balconies = fields.Integer(string='Balconies')
 
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
 
-    balconies = fields.Integer(string='Balconies')
-
-#     councilRates = fields.Float(string='Annual council rates')
-#     secureParking = fields.Boolean(string='Secure parking')
-#     broadband = fields.Boolean(string='Broadband Internet')
-#     recreationRoom = fields.Boolean(string='Recreation Room')
-#     gym = fields.Boolean(string='Gym')
-#     payTV = fields.Boolean(string='Pay TV')
-#     ductedHeating = fields.Boolean(string='Ducted Heating')
-#     ductedCooling = fields.Boolean(string='Ducted Cooling')
-#     splitsystemHeating = fields.Boolean(string='Split-System Heating')
-#     hydronicHeating = fields.Boolean(string='Hydronic Heating')
-#     splitsystemAircon = fields.Boolean(string='Split-System Air Conditioning')
-#     gasHeating = fields.Boolean(string='Gas Heating')
-#     reverseCycleAircon = fields.Boolean(string='Reverse Cycle Air Conditioning')
-#     evaporativeCooling = fields.Boolean(string='Evaporative Cooling')
-#     vacuumSystem = fields.Boolean(string='Built-in ducted vacuum system')
-#     intercom = fields.Boolean(string='Intercom')
-#     poolInGround = fields.Boolean(string='Inground swimming pool')
-#     poolAboveGround = fields.Boolean(string='Above ground swimming pool')
-#     spa = fields.Boolean(string='Spa')
-#     tennisCourt = fields.Boolean(string='Tennis court')
-#     deck = fields.Boolean(string='Deck')
-#     courtyard = fields.Boolean(string='Courtyard')
-#     outdoorEnt = fields.Boolean(string='Outdoor entertaining area')
-#     shed = fields.Boolean(string='Shed')
-#     fullyFenced = fields.Boolean(string='Fence around the full perimeter')
-#     openFirePlace = fields.Boolean(string='')
-#     insideSpa = fields.Boolean(string='Open fire place')
-#     outsideSpa = fields.Boolean(string='Spa outside the house')
-#     waterTank = fields.Boolean(string='Water tank')
+    # councilRates = fields.Float(string='Annual council rates')
+    # secureParking = fields.Boolean(string='Secure parking')
+    # broadband = fields.Boolean(string='Broadband Internet')
+    # recreationRoom = fields.Boolean(string='Recreation Room')
+    # gym = fields.Boolean(string='Gym')
+    # payTV = fields.Boolean(string='Pay TV')
+    # ductedHeating = fields.Boolean(string='Ducted Heating')
+    # ductedCooling = fields.Boolean(string='Ducted Cooling')
+    # splitsystemHeating = fields.Boolean(string='Split-System Heating')
+    # hydronicHeating = fields.Boolean(string='Hydronic Heating')
+    # splitsystemAircon = fields.Boolean(string='Split-System Air Conditioning')
+    # gasHeating = fields.Boolean(string='Gas Heating')
+    # reverseCycleAircon = fields.Boolean(string='Reverse Cycle Air Conditioning')
+    # evaporativeCooling = fields.Boolean(string='Evaporative Cooling')
+    # vacuumSystem = fields.Boolean(string='Built-in ducted vacuum system')
+    # intercom = fields.Boolean(string='Intercom')
+    # poolInGround = fields.Boolean(string='Inground swimming pool')
+    # poolAboveGround = fields.Boolean(string='Above ground swimming pool')
+    # spa = fields.Boolean(string='Spa')
+    # tennisCourt = fields.Boolean(string='Tennis court')
+    # deck = fields.Boolean(string='Deck')
+    # courtyard = fields.Boolean(string='Courtyard')
+    # outdoorEnt = fields.Boolean(string='Outdoor entertaining area')
+    # shed = fields.Boolean(string='Shed')
+    # fullyFenced = fields.Boolean(string='Fence around the full perimeter')
+    # openFirePlace = fields.Boolean(string='')
+    # insideSpa = fields.Boolean(string='Open fire place')
+    # outsideSpa = fields.Boolean(string='Spa outside the house')
+    # waterTank = fields.Boolean(string='Water tank')
 
     # anualReturn = fields.Char(string='Annual rate of return in percentage')
     # rentPerSquareMetre = fields.Char(string='Rent per square metre per annum')
@@ -868,15 +865,11 @@ class RemUnit(models.Model):
                         grpl.append(nd)
             for node in doc.xpath("//group[@name='indoor_features']"):
                 grpl = node.xpath(".//group[@class='rem_left']")[0]
-                grpr = node.xpath(".//group[@class='rem_right']")[0]
                 for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                       ('model', '=', 'rem.unit'),
                                                                       ('rem_category', '=', 'indoor')]):
                     nd = etree.Element("field", name=fld.name, invisible="1")
-                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
-                        grpr.append(nd)
-                    else:
-                        grpl.append(nd)
+                    grpl.append(nd)
             for node in doc.xpath("//group[@name='outdoor_features']"):
                 grpl = node.xpath(".//group[@class='rem_left']")[0]
                 grpr = node.xpath(".//group[@class='rem_right']")[0]
