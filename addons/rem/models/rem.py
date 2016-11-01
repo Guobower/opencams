@@ -91,7 +91,6 @@ class OfferTypeFields(models.Model):
 
 class RemUnitOfferType(models.Model):
     _name = 'offer.type'
-    _inherit = ['website.seo.metadata', 'website.published.mixin']
     _description = 'Offer Type'
 
     name = fields.Char(string='Offer Name', size=32, required=True,
@@ -837,7 +836,6 @@ class RemUnit(models.Model):
                 'name': fld.name,
                 'description': fld.field_description,
             })
-            print "_______", 'offer_type_cfield_' + fld.name
 
             self.env['ir.model.data'].sudo().create({
                 'name': 'offer_type_cfield_' + fld.name,
