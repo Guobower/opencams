@@ -6,6 +6,7 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
+                <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/website_rem.css"/>
                 <script type="text/javascript" src="/website_rem/static/src/js/bootbox.min.js"/>
                 <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"/>
             </xpath>
