@@ -273,25 +273,25 @@
                             <page string="General Features">
                                 <group name="general_features">
                                     <group class="rem_left">
-                                        <field name="bedrooms"/>
-                                        <field name="bathrooms"/>
-                                        <field name="toilets"/>
-                                        <field name="living_area"/>
-                                        <field name="land_area"/>
+                                        <field name="bedrooms" invisible="1"/>
+                                        <field name="bathrooms" invisible="1"/>
+                                        <field name="toilets" invisible="1"/>
+                                        <field name="living_area" invisible="1"/>
+                                        <field name="land_area" invisible="1"/>
                                     </group>
                                     <group class="rem_right">
-                                        <field name='points_interest' widget="many2many_tags"/>
+                                        <field name='points_interest' invisible="1" widget="many2many_tags"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Indoor Features">
                                 <group name="indoor_features">
                                     <group class="rem_left">
-                                        <field name="area"/>
-                                        <field name="airConditioning"/>
-                                        <field name="ducted_cooling"/>
-                                        <field name="builtInRobes"/>
-                                        <field name="dishwasher"/>
+                                        <field name="area" invisible="1"/>
+                                        <field name="airConditioning" invisible="1"/>
+                                        <field name="ducted_cooling" invisible="1"/>
+                                        <field name="builtInRobes" invisible="1"/>
+                                        <field name="dishwasher" invisible="1"/>
                                     </group>
                                     <group class="rem_right"></group>
                                 </group>
@@ -299,17 +299,17 @@
                             <page string="Outdoor Features">
                                 <group name="outdoor_features">
                                     <group class="rem_left">
-                                        <field name="garages"/>
-                                        <field name="backyard"/>
-                                        <field name="dog_friendly"/>
-                                        <field name="secure_parking"/>
-                                        <field name="garages"/>
+                                        <field name="garages" invisible="1"/>
+                                        <field name="backyard" invisible="1"/>
+                                        <field name="dog_friendly" invisible="1"/>
+                                        <field name="secure_parking" invisible="1"/>
+                                        <field name="garages" invisible="1"/>
                                     </group>
                                     <group class="rem_right">
-                                        <field name="alarmSystem"/>
-                                        <field name="swpool"/>
-                                        <field name="entertaining"/>
-                                        <field name="balconies"/>
+                                        <field name="alarmSystem" invisible="1"/>
+                                        <field name="swpool" invisible="1"/>
+                                        <field name="entertaining" invisible="1"/>
+                                        <field name="balconies" invisible="1"/>
                                     </group>
                                 </group>
                             </page>
@@ -381,7 +381,7 @@
             </field>
         </record>
 
-		<function model="rem.unit" name="add_custom_fields_while_updating_module"/>
+		<function model="rem.unit" name="add_custom_fields_to_rem_unit_form_view"/>
         <!--
         	Unit City
         -->

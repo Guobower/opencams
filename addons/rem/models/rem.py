@@ -824,7 +824,7 @@ class RemUnit(models.Model):
     #     string="Principal agricultural focus")
 
     @api.model
-    def add_custom_offer_type_fields_while_updating_module(self):
+    def add_custom_fields_to_offer_type_fields(self):
         self._cr.execute("""
         DELETE FROM offer_type_fields where name ilike 'x_%';
         DELETE FROM ir_model_data where name ilike 'offer_type_cfield_%';
@@ -846,7 +846,7 @@ class RemUnit(models.Model):
             })
 
     @api.model
-    def add_custom_fields_while_updating_module(self):
+    def add_custom_fields_to_rem_unit_form_view(self):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
         for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
             doc = etree.XML(rem_form.arch_base)
@@ -857,7 +857,7 @@ class RemUnit(models.Model):
                     for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                           ('model', '=', 'rem.unit'),
                                                                           ('rem_category', '=', rem_category)]):
-                        nd = etree.Element("field", name=fld.name)
+                        nd = etree.Element("field", name=fld.name, invisible="1")
                         if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
                             grpr.append(nd)
                         else:
@@ -870,8 +870,8 @@ class RemUnit(models.Model):
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
         doc = etree.XML(res['arch'])
         if view_type == 'form':
-            if self._context.get('offer_type'):
-                offer = self.env['offer.type'].sudo().search([('id', '=', self._context.get('offer_type'))])
+            if self._context.get('default_offer_type'):
+                offer = self.env['offer.type'].sudo().search([('id', '=', self._context.get('default_offer_type'))])
                 for fld in offer.showfields_ids:
                     for node in doc.xpath("//field[@name='%s']" % fld.name):
                         node.set('invisible', '0')
