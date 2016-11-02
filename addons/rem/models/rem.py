@@ -107,8 +107,8 @@ class RemUnitOfferType(models.Model):
     hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offe_type_id', 'field_id', string="Hide Fields")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
-    unit_name_format = fields.Char(string='Unit General Name Format', required=True)
-    unit_websitename_format = fields.Char(string='Unit Website Name Format', required=True)
+    unit_name_format = fields.Char(string='Unit General Name', required=True)
+    unit_websitename_format = fields.Char(string='Unit Website Name', required=True)
 
     @api.multi
     def create_offer_type_menu(self):
