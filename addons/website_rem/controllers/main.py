@@ -606,9 +606,70 @@ class WebsiteRem(http.Controller):
     def unit(self, unit):
         env = request.env
 
+        unit = env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
+
+        left_general_features_html = ''
+        right_general_features_html = ''
+        left_indoor_features_html = ''
+        right_indoor_features_html = ''
+        left_outdoor_features_html = ''
+        right_outdoor_features_html = ''
+
+        left_general_index = 0
+        right_general_index = 0
+        left_indoor_index = 0
+        right_indoor_index = 0
+        left_outdoor_index = 0
+        right_outdoor_index = 0
+
+        for fields in unit.offer_type_id.showfields_ids:
+            if hasattr(unit, fields.name):
+
+                feature = ''
+                if fields.ttype == 'integer' or fields.ttype == 'float':
+                    if getattr(unit, fields.name) > 0:
+                        feature = '<div><label>' + fields.name + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+                elif fields.ttype == 'boolean':
+                    if getattr(unit, fields.name):
+                        feature = '<div><label>' + fields.name + ':</label><i class="zmdi zmdi-check"></i></div>'
+                elif getattr(unit, fields.name) != '':
+                    feature = '<div><label>' + fields.name + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+
+                if feature != '':
+                    if fields.rem_category == 'general':
+                        if left_general_features_html == '' or left_general_index <= right_general_index:
+                            left_general_features_html += feature
+                            left_general_index += 1
+                        else:
+                            right_general_features_html += feature
+                            right_general_index += 1
+
+                    elif fields.rem_category == 'indoor':
+                        if left_indoor_features_html == '' or left_indoor_index <= right_indoor_index:
+                            left_indoor_features_html += feature
+                            left_indoor_index += 1
+                        else:
+                            right_indoor_features_html += feature
+                            right_indoor_index += 1
+
+                    elif fields.rem_category == 'outdoor':
+                        if left_outdoor_features_html == '' or left_outdoor_index <= right_outdoor_index:
+                            left_outdoor_features_html += feature
+                            left_outdoor_index += 1
+                        else:
+                            right_outdoor_features_html += feature
+                            right_outdoor_index += 1
+
         values = {
-            'unit': env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
+            'unit': unit,
+            'left_general_features_html': left_general_features_html,
+            'right_general_features_html': right_general_features_html,
+            'left_indoor_features_html': left_indoor_features_html,
+            'right_indoor_features_html': right_indoor_features_html,
+            'left_outdoor_features_html': left_outdoor_features_html,
+            'right_outdoor_features_html': right_outdoor_features_html
         }
+
         return request.render('website_rem.rem_unit_page', values)
 
     @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)

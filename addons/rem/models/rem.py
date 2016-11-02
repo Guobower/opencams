@@ -14,6 +14,7 @@ from openerp.osv import expression
 from openerp.tools.translate import html_translate
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning
+from openerp.addons.rem.models.ir_model import _rem_categories
 
 
 class RemUnitFavorite(models.Model):
@@ -87,6 +88,13 @@ class OfferTypeFields(models.Model):
 
     name = fields.Char(string='Key', required=True)
     description = fields.Char(string='Field Name', size=32)
+    rem_category = fields.Selection(_rem_categories, string="REM Category")
+    ttype = fields.Selection(selection='_get_field_types', string='Field Type', required=True)
+
+    @api.model
+    def _get_field_types(self):
+        # retrieve the possible field types from the field classes' metaclass
+        return sorted((key, key) for key in fields.MetaField.by_type)
 
 
 class RemUnitOfferType(models.Model):
@@ -105,8 +113,8 @@ class RemUnitOfferType(models.Model):
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
-    showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offe_type_id', 'field_id', string="Show Fields")
-    hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offe_type_id', 'field_id', string="Hide Fields")
+    showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offer_type_id', 'field_id', string="Show Fields")
+    hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offer_type_id', 'field_id', string="Hide Fields")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
     unit_name_format = fields.Char(string='Unit General Name', required=True)
@@ -837,6 +845,8 @@ class RemUnit(models.Model):
             rec = self.env['offer.type.fields'].sudo().create({
                 'name': fld.name,
                 'description': fld.field_description,
+                'rem_category': fld.rem_category,
+                'ttype': fld.ttype,
             })
 
             self.env['ir.model.data'].sudo().create({
