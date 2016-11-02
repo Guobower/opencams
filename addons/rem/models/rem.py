@@ -95,6 +95,8 @@ class RemUnitOfferType(models.Model):
 
     name = fields.Char(string='Offer Name', size=32, required=True,
                        help='Type of offer : renting, buying, selling ..')
+    menu_name = fields.Char(string='Menu Name', size=32, required=True,
+                            help='Menu name when listing units.')
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
                              help='Set if the offer type is rent based. This will make the Unit of Rent '
@@ -120,7 +122,7 @@ class RemUnitOfferType(models.Model):
             )
 
             vals = {
-                'name': offer.name,
+                'name': offer.menu_name,
                 'res_model': 'rem.unit',
                 'view_mode': 'tree,form',
                 'target': 'current',
@@ -138,7 +140,7 @@ class RemUnitOfferType(models.Model):
             new_action = self.env['ir.actions.act_window'].create(vals)
 
             vals = {
-                'name': offer.name,
+                'name': offer.menu_name,
                 'parent_id': self.env.ref('rem.menu_rem_properties').id,
                 'sequence': int(higher_sequence.sequence) + 1,
                 'action': 'ir.actions.act_window,%s' % (new_action.id,)

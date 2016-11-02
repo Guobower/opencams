@@ -625,6 +625,7 @@
                             <field name="listing_menu_id" invisible="1"/>
 	                    </group>
                         <group>
+                            <field name="menu_name"/>
                             <label for="unit_name_format"/>
                             <div name="unit_name_format">
                                 <div name="unit_name_format" class="oe_inline">
