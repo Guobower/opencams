@@ -45,8 +45,7 @@
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
-        <function model="rem.unit" name="add_custom_offer_type_fields_while_updating_module"/>
-<!--         <record id="offer_type_cfield_x_tax" model="offer.type.fields"><field name="name">x_tax</field></record> -->
+        <function model="rem.unit" name="add_custom_fields_to_offer_type_fields"/>
 
         <!-- Hook into Existing Offer Types -->
         <!-- ... this is more like an example for future use ... -->
