@@ -856,25 +856,29 @@ class RemUnit(models.Model):
                 for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                       ('model', '=', 'rem.unit'),
                                                                       ('rem_category', '=', 'general')]):
-                    nd = etree.Element("field", name=fld.name, invisible="1")
+                    nd = etree.Element("field", name=fld.name)
                     if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
                         grpr.append(nd)
                     else:
                         grpl.append(nd)
             for node in doc.xpath("//group[@name='indoor_features']"):
                 grpl = node.xpath(".//group[@class='rem_left']")[0]
+                grpr = node.xpath(".//group[@class='rem_right']")[0]
                 for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                       ('model', '=', 'rem.unit'),
                                                                       ('rem_category', '=', 'indoor')]):
-                    nd = etree.Element("field", name=fld.name, invisible="1")
-                    grpl.append(nd)
+                    nd = etree.Element("field", name=fld.name)
+                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
+                        grpr.append(nd)
+                    else:
+                        grpl.append(nd)
             for node in doc.xpath("//group[@name='outdoor_features']"):
                 grpl = node.xpath(".//group[@class='rem_left']")[0]
                 grpr = node.xpath(".//group[@class='rem_right']")[0]
                 for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                       ('model', '=', 'rem.unit'),
                                                                       ('rem_category', '=', 'outdoor')]):
-                    nd = etree.Element("field", name=fld.name, invisible="1")
+                    nd = etree.Element("field", name=fld.name)
                     if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
                         grpr.append(nd)
                     else:

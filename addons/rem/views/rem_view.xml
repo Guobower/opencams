@@ -293,6 +293,7 @@
                                         <field name="builtInRobes"/>
                                         <field name="dishwasher"/>
                                     </group>
+                                    <group class="rem_right"></group>
                                 </group>
                             </page>
                             <page string="Outdoor Features">
