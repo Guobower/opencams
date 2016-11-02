@@ -4,6 +4,7 @@
 
         <!-- Top menu item -->
         <menuitem name="Listings"
+            web_icon="rem,static/description/icon.png"
             id="menu_rem"
             groups="base.group_user"
             sequence="7"/>
