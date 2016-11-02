@@ -850,40 +850,19 @@ class RemUnit(models.Model):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
         for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
             doc = etree.XML(rem_form.arch_base)
-            for node in doc.xpath("//group[@name='general_features']"):
-                grpl = node.xpath(".//group[@class='rem_left']")[0]
-                grpr = node.xpath(".//group[@class='rem_right']")[0]
-                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
-                                                                      ('model', '=', 'rem.unit'),
-                                                                      ('rem_category', '=', 'general')]):
-                    nd = etree.Element("field", name=fld.name)
-                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
-                        grpr.append(nd)
-                    else:
-                        grpl.append(nd)
-            for node in doc.xpath("//group[@name='indoor_features']"):
-                grpl = node.xpath(".//group[@class='rem_left']")[0]
-                grpr = node.xpath(".//group[@class='rem_right']")[0]
-                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
-                                                                      ('model', '=', 'rem.unit'),
-                                                                      ('rem_category', '=', 'indoor')]):
-                    nd = etree.Element("field", name=fld.name)
-                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
-                        grpr.append(nd)
-                    else:
-                        grpl.append(nd)
-            for node in doc.xpath("//group[@name='outdoor_features']"):
-                grpl = node.xpath(".//group[@class='rem_left']")[0]
-                grpr = node.xpath(".//group[@class='rem_right']")[0]
-                for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
-                                                                      ('model', '=', 'rem.unit'),
-                                                                      ('rem_category', '=', 'outdoor')]):
-                    nd = etree.Element("field", name=fld.name)
-                    if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
-                        grpr.append(nd)
-                    else:
-                        grpl.append(nd)
-            rem_form.arch_base = etree.tostring(doc)
+            for rem_category in ['general', 'indoor', 'outdoor']:
+                for node in doc.xpath("//group[@name='" + rem_category + "_features']"):
+                    grpl = node.xpath(".//group[@class='rem_left']")[0]
+                    grpr = node.xpath(".//group[@class='rem_right']")[0]
+                    for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
+                                                                          ('model', '=', 'rem.unit'),
+                                                                          ('rem_category', '=', rem_category)]):
+                        nd = etree.Element("field", name=fld.name)
+                        if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
+                            grpr.append(nd)
+                        else:
+                            grpl.append(nd)
+        rem_form.arch_base = etree.tostring(doc)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type=None, toolbar=False, submenu=False):
