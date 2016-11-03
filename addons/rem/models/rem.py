@@ -87,7 +87,7 @@ class OfferTypeFields(models.Model):
     _description = 'Offer Type Fields'
 
     name = fields.Char(string='Key', required=True)
-    description = fields.Char(string='Field Name', size=32)
+    label = fields.Char(string='Field Label', size=32)
     rem_category = fields.Selection(_rem_categories, string="REM Category")
     ttype = fields.Selection(selection='_get_field_types', string='Field Type', required=True)
 
@@ -844,7 +844,7 @@ class RemUnit(models.Model):
                                                               ('model', '=', 'rem.unit')]):
             rec = self.env['offer.type.fields'].sudo().create({
                 'name': fld.name,
-                'description': fld.field_description,
+                'label': fld.field_description,
                 'rem_category': fld.rem_category,
                 'ttype': fld.ttype,
             })

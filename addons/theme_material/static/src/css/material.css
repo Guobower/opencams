@@ -55,6 +55,24 @@
     font-family: "Open Sans Light", "Helvetica Neue", Helvetica,Arial, "Lucida Grande", sans-serif;
 }
 
+.rem-tag
+{
+    background: #B8BDC1;
+    color: #FFF;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    margin-right: 2px;
+}
+
+.rem-inline-block
+{
+    display: inline-block;
+}
+
 ::selection
 {
 	color: #FFF;

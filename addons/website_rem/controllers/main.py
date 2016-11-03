@@ -625,15 +625,7 @@ class WebsiteRem(http.Controller):
         for fields in unit.offer_type_id.showfields_ids:
             if hasattr(unit, fields.name):
 
-                feature = ''
-                if fields.ttype == 'integer' or fields.ttype == 'float':
-                    if getattr(unit, fields.name) > 0:
-                        feature = '<div><label>' + fields.name + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
-                elif fields.ttype == 'boolean':
-                    if getattr(unit, fields.name):
-                        feature = '<div><label>' + fields.name + ':</label><i class="zmdi zmdi-check"></i></div>'
-                elif getattr(unit, fields.name) != '':
-                    feature = '<div><label>' + fields.name + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+                feature = self.get_custom_field_value(unit, fields)
 
                 if feature != '':
                     if fields.rem_category == 'general':
@@ -671,6 +663,23 @@ class WebsiteRem(http.Controller):
         }
 
         return request.render('website_rem.rem_unit_page', values)
+
+    def get_custom_field_value(self, unit, fields):
+        feature = ''
+        if fields.ttype == 'integer' or fields.ttype == 'float':
+            if getattr(unit, fields.name) > 0:
+                feature = '<div><label>' + fields.label + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+        elif fields.ttype == 'boolean':
+            if getattr(unit, fields.name):
+                feature = '<div><label>' + fields.label + ':</label><i class="zmdi zmdi-check"></i></div>'
+        elif fields.ttype == 'many2many':
+            for values in getattr(unit, fields.name):
+                if feature == '':
+                    feature = '<div class="rem-inline-block"><label>' + fields.label + ':</label></div>'
+                feature += '<div class="rem-tag rem-inline-block">' + values.name + '</div>'
+        elif getattr(unit, fields.name) != '' and getattr(unit, fields.name) != False:
+            feature = '<div><label>' + fields.label + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+        return feature
 
     @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)
     def user_signup(self, email, **kwargs):
