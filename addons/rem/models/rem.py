@@ -134,7 +134,7 @@ class RemUnitOfferType(models.Model):
                 'res_model': 'rem.unit',
                 'view_mode': 'tree,form',
                 'target': 'current',
-                'context': "{'search_default_offer_type_id': " + str(offer.id) + ", 'default_offer_type': " + str(offer.id) + "}",
+                'context': "{'search_default_offer_type_id': " + str(offer.id) + ", 'default_offer_type': " + str(offer.id) + ", 'is_rent': is_rent}",
                 'help': '''
                 <p class="oe_view_nocontent_create">
                     Click to list a new unit.

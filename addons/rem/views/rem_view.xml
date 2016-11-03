@@ -89,6 +89,9 @@
                     <field name="user_id"/>
                     <field name="type_id"/>
                     <field name="offer_type_id"/>
+                    <field name="price" invisible="context.get('is_rent', False)"/>
+                    <field name="rent_price" invisible="not context.get('is_rent', False)"/>
+                    <field name="rent_uom_id" invisible="not context.get('is_rent', False)"/>
                     <field name="living_area"/>
                     <field name="bedrooms"/>
                     <field name="bathrooms"/>
@@ -373,7 +376,15 @@
                                     <img t-att-src="kanban_image('rem.image', 'image', record.id.value)" class="rem_kanban_image"/>
                                 </div>
                                 <div class="rem_kanban_transparent_box"></div>
-                                <div class="rem_kanban_display_name"><field name="display_name"/></div>
+                                <div class="rem_kanban_display_name">
+                                    <div class="rem_kanban_price">
+                                        <field name="price" invisible="context.get('is_rent', False)"/>
+                                        <field name="rent_price" invisible="not context.get('is_rent', False)"/>
+                                        €
+                                        <field name="rent_uom_id" invisible="not context.get('is_rent', False)"/>
+                                    </div>
+                                    <field name="display_name"/>
+                                </div>
                             </div>
                         </t>
                     </templates>
