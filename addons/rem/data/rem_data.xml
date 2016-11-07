@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Delete All Unit of Measure Categories -->
         <function model="product.uom.categ" name="delete_all_uom_categories"/>
@@ -12,23 +12,23 @@
             <field name="name">Start Listings</field>
             <field name="url">/web#menu_id=211</field>
             <field name="target">self</field>
-        </record>   	
+        </record>
  
- 		<!-- Configuration Parameters -->
+        <!-- Configuration Parameters -->
  
         <record model="ir.config_parameter" id="unit_websitename_format_key">
             <field name="key">rem.unit_websitename_format</field>
             <field name="value">{street} {street2}, {city}, {state} {zip}</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
-        
+
         <record model="ir.config_parameter" id="unit_name_format_key">
             <field name="key">rem.unit_name_format</field>
             <field name="value">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
 
-		<!-- Default Category and Product for invoicing rent/ leasing -->
+        <!-- Default Category and Product for invoicing rent/ leasing -->
 
         <record id="uom_categ_rentime" model="product.uom.categ">
             <field name="name">Rental Units</field>
@@ -59,7 +59,7 @@
             <field name="factor_inv" eval="30"/>
             <field name="uom_type">bigger</field>
         </record>
-		
+
         <record id="product_houserental_category" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">House Rental</field>
@@ -75,7 +75,7 @@
             <field name="uom_po_id" ref="product_rent_day"/>
             <field name="description">Daily Rent Service</field>
         </record>
-		
+
         <record id="product_brokerage_category" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Brokerage</field>
@@ -99,8 +99,8 @@
             <field name="name">Monthly rent contract - 2 Advance payments</field>
             <field name="sale_product_id" ref="product_rem_rentservice"/>
             <field name="notes">
-            	With this type of contract the
-            	tenant gets no laundry access
+                With this type of contract the
+                tenant gets no laundry access
             </field>
         </record>
         
@@ -109,8 +109,8 @@
             <field name="name">Weekly rent contract</field>
             <field name="sale_product_id" ref="product_rem_rentservice"/>
             <field name="notes">
-            	With this type of contract the
-            	tenant needs to provide credit card
+                With this type of contract the
+                tenant needs to provide credit card
             </field>
         </record>
 
@@ -125,7 +125,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <record id="listing_contract_type_1" model="rem.listing.contract.type">
-        	<field name="code">AGENCY</field>
+            <field name="code">AGENCY</field>
             <field name="name">Exclusive Agency Listing</field>
             <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[Agents get paid in this type of agreement only if they sell the property. 
@@ -133,7 +133,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <record id="listing_contract_type_2" model="rem.listing.contract.type">
-        	<field name="code">OPEN</field>
+            <field name="code">OPEN</field>
             <field name="name">Open Listing</field>
             <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[In this type of agreement, sellers have the right to use
@@ -142,7 +142,7 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
         <record id="listing_contract_type_3" model="rem.listing.contract.type">
-        	<field name="code">NET</field>
+            <field name="code">NET</field>
             <field name="name">Net Listing</field>
             <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[This type of agreement may be illegal in your state. 
@@ -250,123 +250,5 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="value">8</field>
         </record>
 
-        <!-- Offer-type fields -->
-
-        <record id="offer_type_field1" model="offer.type.fields">
-            <field name="name">bedrooms</field>
-            <field name="label">Bedrooms</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">integer</field>
-        </record>
-        <record id="offer_type_field2" model="offer.type.fields">
-            <field name="name">bathrooms</field>
-            <field name="label">Bathrooms</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">integer</field>
-        </record>
-        <record id="offer_type_field3" model="offer.type.fields">
-            <field name="name">toilets</field>
-            <field name="label">Toilets</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">integer</field>
-        </record>
-        <record id="offer_type_field4" model="offer.type.fields">
-            <field name="name">living_area</field>
-            <field name="label">Living Area</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">float</field>
-        </record>
-        <record id="offer_type_field5" model="offer.type.fields">
-            <field name="name">land_area</field>
-            <field name="label">Land Area</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">float</field>
-        </record>
-        <record id="offer_type_field6" model="offer.type.fields">
-            <field name="name">points_interest</field>
-            <field name="label">Points of Interest</field>
-            <field name="rem_category">general</field>
-            <field name="ttype">many2many</field>
-        </record>
-        <record id="offer_type_field7" model="offer.type.fields">
-            <field name="name">area</field>
-            <field name="label">Area</field>
-            <field name="rem_category">indoor</field>
-            <field name="ttype">float</field>
-        </record>
-        <record id="offer_type_field8" model="offer.type.fields">
-            <field name="name">airConditioning</field>
-            <field name="label">Air Conditioned</field>
-            <field name="rem_category">indoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field9" model="offer.type.fields">
-            <field name="name">ducted_cooling</field>
-            <field name="label">Ducted Cooling</field>
-            <field name="rem_category">indoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field10" model="offer.type.fields">
-            <field name="name">builtInRobes</field>
-            <field name="label">Built-in Wardrobes</field>
-            <field name="rem_category">indoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field11" model="offer.type.fields">
-            <field name="name">dishwasher</field>
-            <field name="label">Dishwasher</field>
-            <field name="rem_category">indoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field12" model="offer.type.fields">
-            <field name="name">garages</field>
-            <field name="label">Garage Spaces</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">integer</field>
-        </record>
-        <record id="offer_type_field13" model="offer.type.fields">
-            <field name="name">backyard</field>
-            <field name="label">Backyard</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field14" model="offer.type.fields">
-            <field name="name">dog_friendly</field>
-            <field name="label">Dog Friendly</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field15" model="offer.type.fields">
-            <field name="name">secure_parking</field>
-            <field name="label">Secure Parking</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field16" model="offer.type.fields">
-            <field name="name">alarmSystem</field>
-            <field name="label">Alarm System</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field17" model="offer.type.fields">
-            <field name="name">swpool</field>
-            <field name="label">Swimming Pool</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field18" model="offer.type.fields">
-            <field name="name">entertaining</field>
-            <field name="label">Outdoor Entertaining Area</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">boolean</field>
-        </record>
-        <record id="offer_type_field19" model="offer.type.fields">
-            <field name="name">balconies</field>
-            <field name="label">Balconies</field>
-            <field name="rem_category">outdoor</field>
-            <field name="ttype">integer</field>
-        </record>
-
     </data>
-</openerp>
-        
+</odoo>

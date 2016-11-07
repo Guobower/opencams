@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
+    <data noupdate="1">
 
-        <!-- Custom Offer-type fields -->
-        
+        <!-- Update Categories (General, Indoor or Outdoor) on (base) Features -->
+        <function model="rem.unit" name="init_rem_categories_in_rem_fields"/>
+
+        <!-- Add Ir Model (manual) Fields-->
+
         <record id="rem_fld_irrigation" model="ir.model.fields">
              <field name="name">x_irrigation</field>
              <field name="field_description">Irrigation</field>
@@ -45,169 +48,8 @@
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
-        <function model="rem.unit" name="add_custom_fields_to_offer_type_fields"/>
-
-        <!-- Hook into Existing Offer Types -->
-
-        <!-- Sale Tax -->
-        <record id="rem.offer_type_buy" model="offer.type">
-            <field name="showfields_ids" eval="[(6,0,[ref('offer_type_cfield_x_tax')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(6,0,[ref('offer_type_cfield_x_tax')])]"/>
-        </record>
-
-        <!-- Bedrooms -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field1')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field1')])]"/>
-        </record>
-
-        <!-- Bathrooms -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field2')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field2')])]"/>
-        </record>
-
-        <!-- Toilets -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field3')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field3')])]"/>
-        </record>
-
-        <!-- Living Area -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field4')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field4')])]"/>
-        </record>
-
-        <!-- Land Area -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field5')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field5')])]"/>
-        </record>
-
-        <!-- Points Interest -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field6')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field6')])]"/>
-        </record>
-
-        <!-- Area -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field7')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field7')])]"/>
-        </record>
-
-        <!-- Air Conditioning -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field8')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field8')])]"/>
-        </record>
-
-        <!-- Ducted Cooling -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field9')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field9')])]"/>
-        </record>
-
-        <!-- Built In Robes -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field10')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field10')])]"/>
-        </record>
-
-        <!-- Dishwasher -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field11')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field11')])]"/>
-        </record>
-
-        <!-- Garages -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field12')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field12')])]"/>
-        </record>
-
-        <!-- Backyard -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field13')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field13')])]"/>
-        </record>
-
-        <!-- Dog Friendly -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field14')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field14')])]"/>
-        </record>
-
-        <!-- Secure Parking -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field15')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field15')])]"/>
-        </record>
-
-        <!-- Alarm System -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field16')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field16')])]"/>
-        </record>
-
-        <!-- Sw Pool -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field17')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field17')])]"/>
-        </record>
-
-        <!-- Entertaining -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field18')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field18')])]"/>
-        </record>
-
-        <!-- Balconies -->
-        <record id="rem.offer_type_buy" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field19')])]"/>
-        </record>
-        <record id="rem.offer_type_rent" model="offer.type">
-             <field name="showfields_ids" eval="[(4,[ref('offer_type_field19')])]"/>
-        </record>
+        <!-- Link (base and manual) Fields Features FROM Ir Model Fields to Offer Type -->
+        <function model="rem.unit" name="add_features_to_offer_type"/>
 
     </data>
-</openerp>
+</odoo>

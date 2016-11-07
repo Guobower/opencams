@@ -82,21 +82,6 @@ class RemUnitZone(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class OfferTypeFields(models.Model):
-    _name = 'offer.type.fields'
-    _description = 'Offer Type Fields'
-
-    name = fields.Char(string='Key', required=True)
-    label = fields.Char(string='Field Label', size=32)
-    rem_category = fields.Selection(_rem_categories, string="REM Category")
-    ttype = fields.Selection(selection='_get_field_types', string='Field Type', required=True)
-
-    @api.model
-    def _get_field_types(self):
-        # retrieve the possible field types from the field classes' metaclass
-        return sorted((key, key) for key in fields.MetaField.by_type)
-
-
 class RemUnitOfferType(models.Model):
     _name = 'offer.type'
     _description = 'Offer Type'
@@ -113,8 +98,8 @@ class RemUnitOfferType(models.Model):
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
-    showfields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_rel', 'offer_type_id', 'field_id', string="Show Fields")
-    hidefields_ids = fields.Many2many('offer.type.fields', 'offer_type_rem_unit_fields_hide_rel', 'offer_type_id', 'field_id', string="Hide Fields")
+    showfields_ids = fields.Many2many('ir.model.fields', 'offer_type_ir_model_fields_rel', 'offer_type_id', 'ir_model_field_id', string="Show Fields",
+        domain="[('model', '=', 'rem.unit'), ('rem_category', 'in', ['general', 'indoor', 'outdoor'])]")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
     unit_name_format = fields.Char(string='Unit General Name', required=True)
@@ -834,28 +819,62 @@ class RemUnit(models.Model):
     #     string="Principal agricultural focus")
 
     @api.model
-    def add_custom_fields_to_offer_type_fields(self):
+    def init_rem_categories_in_rem_fields(self):
         self._cr.execute("""
-        DELETE FROM offer_type_fields where name ilike 'x_%';
-        DELETE FROM ir_model_data where name ilike 'offer_type_cfield_%';
+        UPDATE ir_model_fields
+        SET rem_category='general'
+        WHERE model='rem.unit' AND
+              (name='bedrooms' OR
+               name='bathrooms' OR
+               name='toilets' OR
+               name='living_area' OR
+               name='land_area' OR
+               name='points_interest');
+        UPDATE ir_model_fields
+        SET rem_category='indoor'
+        WHERE model='rem.unit' AND
+              (name='area' OR
+               name='airConditioning' OR
+               name='ducted_cooling' OR
+               name='builtInRobes' OR
+               name='dishwasher');
+        UPDATE ir_model_fields
+        SET rem_category='outdoor'
+        WHERE model='rem.unit' AND
+              (name='garages' OR
+               name='backyard' OR
+               name='dog_friendly' OR
+               name='secure_parking' OR
+               name='alarmSystem' OR
+               name='swpool' OR
+               name='entertaining' OR
+               name='balconies');
         """)
         self._cr.commit()
-        for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
-                                                              ('model', '=', 'rem.unit')]):
-            rec = self.env['offer.type.fields'].sudo().create({
-                'name': fld.name,
-                'label': fld.field_description,
-                'rem_category': fld.rem_category,
-                'ttype': fld.ttype,
-            })
 
-            self.env['ir.model.data'].sudo().create({
-                'name': 'offer_type_cfield_' + fld.name,
-                'model': 'offer.type.fields',
-                'module': 'rem',
-                'res_id': rec.id,
-                'noupdate': True
-            })
+    @api.model
+    def add_features_to_offer_type(self):
+        self._cr.execute("""
+        SELECT id, name
+        FROM ir_model_fields
+        WHERE model='rem.unit' AND
+              (rem_category='general' OR
+               rem_category='indoor' OR
+               rem_category='outdoor') AND
+              id NOT IN
+                (SELECT ir_model_field_id
+                 FROM offer_type_ir_model_fields_rel)
+        """)
+        for id in self._cr.fetchall():
+            self._cr.execute(
+            """
+            INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
+            VALUES(""" + str(self.env.ref('rem.offer_type_buy').id) + """, """ + str(id[0]) + """);
+            INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
+            VALUES(""" + str(self.env.ref('rem.offer_type_rent').id) + """, """ + str(id[0]) + """);
+            """
+            )
+            self._cr.commit()
 
     @api.model
     def add_custom_fields_to_rem_unit_form_view(self):
@@ -888,9 +907,6 @@ class RemUnit(models.Model):
                     for node in doc.xpath("//field[@name='%s']" % fld.name):
                         node.set('invisible', '0')
                         node.set('modifiers', '')
-                for fld in offer.hidefields_ids:
-                    for node in doc.xpath("//field[@name='%s']" % fld.name):
-                        node.set('invisible', '1')
             res['arch'] = etree.tostring(doc)
         return res
 

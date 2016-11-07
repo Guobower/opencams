@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
 	<data>
 	
         <!--
@@ -21,6 +21,17 @@
                 </tree>
             </field>
         </record>
+
+        <record id="view_model_fields_form_rem" model="ir.ui.view">
+            <field name="name">ir.model.fields.inherit</field>
+            <field name="model">ir.model.fields</field>
+            <field name="inherit_id" ref="base.view_model_fields_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="(//sheet/group/group)[2]" position="inside">
+                    <field name="rem_category"/>
+                </xpath>
+            </field>
+        </record>
 	    
     </data>
-</openerp>
+</odoo>

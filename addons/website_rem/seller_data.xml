@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <function model="ir.model.fields" name="formbuilder_whitelist">
             <value>crm.lead</value>
@@ -15,4 +15,4 @@
             ]"/>
         </function>
     </data>
-</openerp>
+</odoo>
