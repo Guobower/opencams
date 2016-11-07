@@ -623,6 +623,7 @@ class WebsiteRem(http.Controller):
         right_outdoor_index = 0
 
         for fields in unit.offer_type_id.showfields_ids:
+
             if hasattr(unit, fields.name):
 
                 feature = self.get_custom_field_value(unit, fields)
@@ -668,17 +669,17 @@ class WebsiteRem(http.Controller):
         feature = ''
         if fields.ttype == 'integer' or fields.ttype == 'float':
             if getattr(unit, fields.name) > 0:
-                feature = '<div><label>' + fields.label + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+                feature = '<div><label>' + fields.field_description + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
         elif fields.ttype == 'boolean':
-            if getattr(unit, fields.name):
-                feature = '<div><label>' + fields.label + ':</label><i class="zmdi zmdi-check"></i></div>'
+            if getattr(unit, fields.name) is True:
+                feature = '<div><label>' + fields.field_description + ':</label><i class="zmdi zmdi-check"></i></div>'
         elif fields.ttype == 'many2many':
             for values in getattr(unit, fields.name):
                 if feature == '':
-                    feature = '<div class="rem-inline-block"><label>' + fields.label + ':</label></div>'
+                    feature = '<div class="rem-inline-block"><label>' + fields.field_description + ':</label></div>'
                 feature += '<div class="rem-tag rem-inline-block">' + values.name + '</div>'
         elif getattr(unit, fields.name) != '' and getattr(unit, fields.name) != False:
-            feature = '<div><label>' + fields.label + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+            feature = '<div><label>' + fields.field_description + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
         return feature
 
     @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)
