@@ -821,60 +821,59 @@ class RemUnit(models.Model):
     @api.model
     def init_rem_categories_in_rem_fields(self):
         self._cr.execute("""
-        UPDATE ir_model_fields
-        SET rem_category='general'
-        WHERE model='rem.unit' AND
-              (name='bedrooms' OR
-               name='bathrooms' OR
-               name='toilets' OR
-               name='living_area' OR
-               name='land_area' OR
-               name='points_interest');
-        UPDATE ir_model_fields
-        SET rem_category='indoor'
-        WHERE model='rem.unit' AND
-              (name='area' OR
-               name='airConditioning' OR
-               name='ducted_cooling' OR
-               name='builtInRobes' OR
-               name='dishwasher');
-        UPDATE ir_model_fields
-        SET rem_category='outdoor'
-        WHERE model='rem.unit' AND
-              (name='garages' OR
-               name='backyard' OR
-               name='dog_friendly' OR
-               name='secure_parking' OR
-               name='alarmSystem' OR
-               name='swpool' OR
-               name='entertaining' OR
-               name='balconies');
+            UPDATE ir_model_fields
+            SET rem_category='general'
+            WHERE model='rem.unit' AND
+                  (name='bedrooms' OR
+                   name='bathrooms' OR
+                   name='toilets' OR
+                   name='living_area' OR
+                   name='land_area' OR
+                   name='points_interest');
+            UPDATE ir_model_fields
+            SET rem_category='indoor'
+            WHERE model='rem.unit' AND
+                  (name='area' OR
+                   name='airConditioning' OR
+                   name='ducted_cooling' OR
+                   name='builtInRobes' OR
+                   name='dishwasher');
+            UPDATE ir_model_fields
+            SET rem_category='outdoor'
+            WHERE model='rem.unit' AND
+                  (name='garages' OR
+                   name='backyard' OR
+                   name='dog_friendly' OR
+                   name='secure_parking' OR
+                   name='alarmSystem' OR
+                   name='swpool' OR
+                   name='entertaining' OR
+                   name='balconies');
         """)
         self._cr.commit()
 
     @api.model
     def add_features_to_offer_type(self):
         self._cr.execute("""
-        SELECT id, name
-        FROM ir_model_fields
-        WHERE model='rem.unit' AND
-              (rem_category='general' OR
-               rem_category='indoor' OR
-               rem_category='outdoor') AND
-              id NOT IN
-                (SELECT ir_model_field_id
-                 FROM offer_type_ir_model_fields_rel)
+            SELECT id
+            FROM ir_model_fields
+            WHERE model='rem.unit' AND
+                  (rem_category='general' OR
+                   rem_category='indoor' OR
+                   rem_category='outdoor') AND
+                  id NOT IN
+                    (SELECT ir_model_field_id
+                     FROM offer_type_ir_model_fields_rel)
         """)
-        for id in self._cr.fetchall():
-            self._cr.execute(
-            """
-            INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
-            VALUES(""" + str(self.env.ref('rem.offer_type_buy').id) + """, """ + str(id[0]) + """);
-            INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
-            VALUES(""" + str(self.env.ref('rem.offer_type_rent').id) + """, """ + str(id[0]) + """);
-            """
-            )
-            self._cr.commit()
+        for field in self._cr.fetchall():
+            for offer_type in self.env['offer.type'].search([]):
+                self._cr.execute(
+                    """
+                    INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
+                    VALUES(""" + str(offer_type.id) + """, """ + str(field[0]) + """)
+                    """
+                )
+                self._cr.commit()
 
     @api.model
     def add_custom_fields_to_rem_unit_form_view(self):
