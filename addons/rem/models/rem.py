@@ -648,13 +648,13 @@ class RemUnit(models.Model):
     listing_contract_count = fields.Integer(compute='_listing_contract_count')
     listing_contract_ids = fields.One2many('rem.listing.contract', 'unit_id', string='Listing Contracts')
     current_listing_contract_id = fields.Many2one('rem.listing.contract', string='Current Contract',
-                                                  compute='_get_current_listing_contract',)
+                                                  compute='_get_current_listing_contract', store=True)
 
     # Tenant contracts
     tenant_contract_count = fields.Integer(compute='_tenant_contract_count')
     tenant_contract_ids = fields.One2many('rem.tenant.contract', 'unit_id', string='Rent Contracts')
     current_tenant_contract_id = fields.Many2one('rem.tenant.contract', string='Current Contract',
-                                                 compute='_get_current_tenant_contract',)
+                                                 compute='_get_current_tenant_contract', store=True)
 
     # Location
     street = fields.Char(string='Street', required=True)
