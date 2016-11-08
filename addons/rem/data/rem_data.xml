@@ -168,23 +168,22 @@ regardless of whether it's the agent or the seller.]]></field>
         </record>
         
 ​        <!-- Unit Stages -->
+​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
+            <field name="name">Available</field>
+            <field name="offer_type_id" ref="offer_type_buy"/>
+            <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="10"/>
+        </record>
 
         <record id="rem_unit_stage_buy_staging" model="rem.unit.stage">
             <field name="name">Staging</field>
             <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="1"/>
             <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="10"/>
-        </record>
-        
-​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
-            <field name="name">Available</field>
-            <field name="offer_type_id" ref="offer_type_buy"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
         </record>
-​        
+​
 ​        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
             <field name="name">Sold</field>
             <field name="offer_type_id" ref="offer_type_buy"/>
@@ -192,19 +191,19 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="force_hide" eval="1"/>
             <field name="sequence" eval="30"/>
         </record>
-​        
-​        <record id="rem_unit_stage_rent_refurbish" model="rem.unit.stage">
-            <field name="name">Refurbish</field>
-            <field name="offer_type_id" ref="offer_type_rent"/>
-            <field name="force_show" eval="1"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="10"/>
-        </record>
-​        
+
 ​        <record id="rem_unit_stage_rent_available" model="rem.unit.stage">
             <field name="name">Available</field>
             <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
+            <field name="force_hide" eval="0"/>
+            <field name="sequence" eval="10"/>
+        </record>
+
+        <record id="rem_unit_stage_rent_refurbish" model="rem.unit.stage">
+            <field name="name">Refurbish</field>
+            <field name="offer_type_id" ref="offer_type_rent"/>
+            <field name="force_show" eval="1"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
         </record>
@@ -216,7 +215,7 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="30"/>
         </record>
-​​        
+​​
 ​        <record id="rem_unit_stage_rent_out" model="rem.unit.stage">
             <field name="name">Out of market</field>
             <field name="offer_type_id" ref="offer_type_rent"/>

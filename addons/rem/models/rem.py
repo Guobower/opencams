@@ -365,7 +365,7 @@ class RemUnit(models.Model):
 
     @api.model
     def _get_stage(self):
-        return self.env['rem.unit.stage'].search([('offer_type_id', '=', False)], limit=1, order='sequence')
+        return self.env['rem.unit.stage'].search([('offer_type_id', '=', self.offer_type_id.id)], limit=1, order='sequence')
 
     @api.model
     def _get_default_offer_type(self):
