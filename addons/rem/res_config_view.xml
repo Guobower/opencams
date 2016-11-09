@@ -258,7 +258,9 @@
 	                        </div>
                         </div>
                     </group>
-                   
+                    <group string="Update Module" name="update_module">
+                        <button name="button_immediate_upgrade" string="Update" type="object" confirm="Do you want to update the module?" class="btn btn-primary"/>
+                    </group>
                 </form>
             </field>
         </record>

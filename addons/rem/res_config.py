@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import logging
-
 from openerp import api, fields, models, _
-_logger = logging.getLogger(__name__)
+from openerp.exceptions import Warning
 
 
 class RemConfigSettings(models.TransientModel):
@@ -14,3 +12,11 @@ class RemConfigSettings(models.TransientModel):
     group_use_buyer_contracts = fields.Boolean('Use Buyer Representations Agreements', implied_group='rem.group_use_buyer_contracts',
                                                help="By checking this option you will make visible buyer representation"
                                                " agreements / contracts in the system ")
+
+    @api.multi
+    def button_immediate_upgrade(self):
+    	module = self.env['ir.module.module'].search([('name', '=', 'rem')], limit=1)
+    	if module:
+    		module.button_immediate_upgrade()
+    		self.env.cr.commit()
+    		raise Warning("Update complete.")
