@@ -538,7 +538,7 @@ class RemTenantContract(models.Model):
                             date_start = self._sum_date_with_qty_uom(date_start, line.product_uom_qty, line.product_uom.name)
 
     @api.model
-    def create_invoices_for_auto_renew_contracts(self):
+    def create_auto_renew_contracts(self):
         # Get current date
         date_today = datetime.now().strftime("%Y-%m-%d")
         # Get units with rentable offer type
@@ -565,7 +565,7 @@ class RemTenantContract(models.Model):
 
                     # The new contract may already need a renewal (routine wasn't executed as intended for some reason for a while)
                     self._cr.commit()
-                    self.create_invoices_for_auto_renew_contracts()
+                    self.create_auto_renew_contracts()
 
     def _get_date_diff(self, d1, d2, uom):
         # TODO: 'per Hour' and 'per Week'
