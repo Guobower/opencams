@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- Create invoices for auto invoice contracts -->
+        <record forcecreate="True" id="ir_cron_create_invoices_for_auto_invoice_contracts_routine" model="ir.cron">
+            <field name="name">Create invoices for auto invoice contracts</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">0</field>
+            <field name="model" eval="'rem.tenant.contract'"/>
+            <field name="function" eval="'create_invoices_for_auto_invoice_contracts'"/>
+        </record>
+
+        <!-- Create invoices for auto renew contracts -->
+        <record forcecreate="True" id="ir_cron_create_invoices_for_auto_renew_contracts_routine" model="ir.cron">
+            <field name="name">Create invoices for auto renew contracts</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">0</field>
+            <field name="model" eval="'rem.tenant.contract'"/>
+            <field name="function" eval="'create_invoices_for_auto_renew_contracts'"/>
+        </record>
+
+    </data>
+</openerp>

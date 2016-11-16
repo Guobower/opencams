@@ -276,16 +276,16 @@ class PriceTableLine(models.Model):
                 raise ValidationError(_('Discount ratio must be between 0-100.'))
             if line.fixed_price < 0:
                 raise ValidationError(_('Product Price must be positive.'))
-        self.check_if_season_rates_table_has_overlaping_dates(self.table_id.id)
+        self.check_if_season_rates_table_has_overlapping_dates(self.table_id.id)
 
-    def dates_are_overlaping(self, i_date_start, i_date_end, j_date_start, j_date_end):
+    def dates_are_overlapping(self, i_date_start, i_date_end, j_date_start, j_date_end):
         latest_start = max(datetime.strptime(i_date_start, '%Y-%m-%d'), datetime.strptime(j_date_start, '%Y-%m-%d'))
         earliest_end = min(datetime.strptime(i_date_end, '%Y-%m-%d'), datetime.strptime(j_date_end, '%Y-%m-%d'))
         if ((earliest_end - latest_start).days + 1) > 0:
             return True
         return False
 
-    def check_if_season_rates_table_has_overlaping_dates(self, table_id):
+    def check_if_season_rates_table_has_overlapping_dates(self, table_id):
         lines = self.env['season.rates.line'].search([('table_id', '=', table_id)])
         dates = []
         for line in lines:
@@ -294,8 +294,8 @@ class PriceTableLine(models.Model):
             for j in range(len(dates)):
                 if dates[i][0] == dates[j][0]:
                     continue;
-                if self.dates_are_overlaping(dates[i][1], dates[i][2], dates[j][1], dates[j][2]):
-                    raise ValidationError(_('The following dates are overlaping: %s until %s and %s until %s') % (dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
+                if self.dates_are_overlapping(dates[i][1], dates[i][2], dates[j][1], dates[j][2]):
+                    raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
 
 
 class RemImage(models.Model):
@@ -569,7 +569,7 @@ class RemUnit(models.Model):
 
     def _default_uom(self):
         uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
-        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1)
+        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1, order="factor")
 
     def _compute_orders(self):
         for unit in self:

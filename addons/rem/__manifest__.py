@@ -17,6 +17,7 @@ This module allows to sell/rent real estate units
     'data': [
         'data/rem_data.xml',
         'data/fields_data.xml',
+        'data/rent_cron.xml',
         'security/rem_security.xml',
         'security/ir.model.access.csv',
         'views/crm_view.xml',
@@ -28,6 +29,7 @@ This module allows to sell/rent real estate units
         'views/rem_view.xml',
         'views/stage_history_form.xml',
         'views/rem_menu.xml',
+        'views/account_invoice_view.xml',
         'wizard/event_unit_multi.xml',
         'views/rem_cron.xml',
         'res_config_view.xml',

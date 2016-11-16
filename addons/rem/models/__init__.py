@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import account
 import crm
 import rem
 import ir_model

@@ -21,7 +21,7 @@ class IrModelFields(models.Model):
         return super(IrModelFields, self).unlink()
 
     # TODO:
-    # Check for duplicated fields
+    # Check for duplicated fields on create and write
     @api.model
     def create(self, vals):
         post = super(IrModelFields, self).create(vals)
@@ -30,7 +30,7 @@ class IrModelFields(models.Model):
             # Link base/manual field to offer.type
             self.env['rem.unit'].add_features_to_offer_type()
             # Add base/manual field to rem.unit form
-            self.add_field_from_rem_unit_form(vals['name'], vals['rem_category'])
+            self.add_field_to_rem_unit_form(vals['name'], vals['rem_category'])
         return post
 
     @api.multi
@@ -62,7 +62,7 @@ class IrModelFields(models.Model):
             # If field is a feature
             if vals['rem_category'] in ['general', 'indoor', 'outdoor']:
                 # Add base/manual field to rem.unit form
-                self.add_field_from_rem_unit_form(vals['name'], vals['rem_category'])
+                self.add_field_to_rem_unit_form(vals['name'], vals['rem_category'])
 
         return post
 
@@ -74,7 +74,7 @@ class IrModelFields(models.Model):
                 node.getparent().remove(node)
         rem_form.arch_base = etree.tostring(doc)
 
-    def add_field_from_rem_unit_form(self, name, rem_category):
+    def add_field_to_rem_unit_form(self, name, rem_category):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
         for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
             doc = etree.XML(rem_form.arch_base)
