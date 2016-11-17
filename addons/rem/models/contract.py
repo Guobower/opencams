@@ -546,7 +546,7 @@ class RemTenantContract(models.Model):
             # Get unit contracts with auto renew
             for ctr in self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id), ('auto_renew', '=', True), ('child_id', '=', False)]):
                 # If we reached or passed the notice date
-                if datetime.strptime(date_today, "%Y-%m-%d").date() >= datetime.strptime(ctr.notice_date, "%Y-%m-%d").date():
+                if datetime.strptime(date_today, "%Y-%m-%d").date() > datetime.strptime(ctr.notice_date, "%Y-%m-%d").date():
                     # Create a new contract based on the current one
                     child = self.env['rem.tenant.contract'].create({
                         'type_id': ctr.type_id.id,
