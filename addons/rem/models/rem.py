@@ -333,6 +333,53 @@ class RemImage(models.Model):
             rec.image = tools.image_resize_image_big(rec.image_small)
 
 
+class RemStructure(models.Model):
+    _name = 'rem.structure'
+    _description = 'Unit Group Structure'
+
+    @api.multi
+    @api.depends('unit_ids')
+    def _unit_count(self):
+        for build in self:
+            build.unit_ids_count = len(build.unit_ids)
+
+    name = fields.Char(string='Name', size=32, required=True,
+                       help='Unit group (condo, building ...) name')
+    parent_id = fields.Many2one('rem.structure', string='Parent')
+    unit_ids = fields.One2many('rem.unit', 'structure_id', string='Units')
+    is_view = fields.Boolean('Is View?', help='View type will not allow units in')
+    unit_ids_count = fields.Integer(compute='_unit_count')
+
+    @api.multi
+    def get_units(self):
+        for build in self:
+            return {
+                'name': _('Structure - %s') % build.display_name,
+                'type': 'ir.actions.act_window',
+                'view_mode': 'tree,form',
+                'res_model': 'rem.unit',
+                'clear_breadcrumbs': True,
+                'domain': [('structure_id', '=', build.id)],
+                'context': {'default_structure_id': build.id}
+            }
+
+    @api.constrains('parent_id')
+    def _check_structure_recursion(self):
+        if not self._check_recursion():
+            raise ValidationError(_('Error ! You cannot create recursive structures.'))
+        return True
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            if record.parent_id:
+                name = "%s - %s" % (record.parent_id.name_get()[0][1], name)
+            result.append((record.id, name))
+        return result
+
+
 class RemUnit(models.Model):
     _inherit = ['website.seo.metadata', 'website.published.mixin']
     _name = 'rem.unit'
@@ -664,6 +711,8 @@ class RemUnit(models.Model):
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
     zip = fields.Char(string='Zip', change_default=True, size=24, required=True)
+    structure_id = fields.Many2one('rem.structure', string='Structure', domain="[('is_view', '=', False)]",
+                                   help='Structure that contains the unit (building, condo, floor, zone ...)')
 
     # General Features
     bedrooms = fields.Integer(

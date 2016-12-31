@@ -2,6 +2,57 @@
 <odoo>
 	<data>
 
+        <!--
+        	Real Estate Structures (buildings and condos)
+		-->
+        <!-- Real Estate Structures Tree View -->
+        <record id="rem_structure_tree" model="ir.ui.view">
+            <field name="name">Building / Condo</field>
+            <field name="model">rem.structure</field>
+            <field name="arch" type="xml">
+                <tree string="Building / Condo">
+                    <field name="display_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Real Estate Structures Search View -->
+        <record id="rem_structure_search" model="ir.ui.view">
+            <field name="name">Building / Condo</field>
+            <field name="model">rem.structure</field>
+            <field name="arch" type="xml">
+                <search string="Building / Condo">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Real Estate Structures Form View -->
+        <record id="rem_structure_form" model="ir.ui.view">
+            <field name="name">Building / Condo</field>
+            <field name="model">rem.structure</field>
+            <field name="arch" type="xml">
+                <form string="Building / Condo">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+	                        <button class="oe_stat_button" type="object"
+	                            name="get_units"
+	                            attrs="{'invisible': [('unit_ids_count', '=', 0)]}"
+	                            icon="fa-home" help="Units contained by this structure (for sell or for rent)">
+	                            <field string="Unit(s)" name="unit_ids_count" widget="statinfo"/>
+	                        </button>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="is_view"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Kanban View Adjustment -->
         <template id="rem_assets_backend" name="web_kanban assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href="/rem/static/src/css/kanban.css"/>
@@ -269,6 +320,7 @@
                                 <field name='latitude'/>
                                 <field name='longitude'/>
                                 <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" string="Get Coordinates" colspan="2" icon="fa-check"/>
+                                <field name='structure_id'/>
 							</group>
 						</group>
 						<notebook>

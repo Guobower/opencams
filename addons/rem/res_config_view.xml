@@ -142,7 +142,28 @@
                 </p>
             </field>
         </record>
-    
+
+		<!--
+            Real Estate Structures (Buildings and Condos)
+        -->
+
+		<record id="action_rem_structure" model="ir.actions.act_window">
+			<field name="name">Building / Condo</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rem.structure</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+			  <p class="oe_view_nocontent_create">
+				Real Estate Structures (Buildings and Condos)
+			  </p><p>
+                    Real Estate Structures (Buildings and Condos)
+					will allow grouping units in their respective
+					buildings or condos. This will also establish
+                    a base for creating reports on these groupings.
+			  </p>
+			</field>
+		</record>
+
         <!--
             REM Settings
         -->
@@ -216,6 +237,14 @@
 	                                <button type="action" name="%(action_location_preferences)d" 
 	                                		string="Location preferences used in the CRM Leads/Opportunities" 
 	                                		help="Location preferences selected by the buyers/tenants in the CRM Leads/Opportunities"
+	                                		class="oe_link btn-link"/>
+	                            </div>
+	                        </div>
+							<div>
+	                            <div>
+	                                <button type="action" name="%(action_rem_structure)d"
+	                                		string="Structures for buildings and condos"
+	                                		help="Structures will allow to define tree structures for buildings and condos"
 	                                		class="oe_link btn-link"/>
 	                            </div>
 	                        </div>
