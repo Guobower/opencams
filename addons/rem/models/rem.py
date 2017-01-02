@@ -94,6 +94,8 @@ class RemUnitOfferType(models.Model):
     is_rent = fields.Boolean(string='Is Rentable', default=False,
                              help='Set if the offer type is rent based. This will make the Unit of Rent '
                              'appear in the unit (e.g.: per month, per week..).')
+    is_computed = fields.Boolean(string='Name is Computed', default=True,
+                                 help='Set if the name of the units is to be computed')
     notes = fields.Text(string='Notes', help='Notes for the offer type.')
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
                             'allow you to hide without removing it.')
@@ -102,8 +104,8 @@ class RemUnitOfferType(models.Model):
         domain="[('model', '=', 'rem.unit'), ('rem_category', 'in', ['general', 'indoor', 'outdoor'])]")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
-    unit_name_format = fields.Char(string='Unit General Name', required=True)
-    unit_websitename_format = fields.Char(string='Unit Website Name', required=True)
+    unit_name_format = fields.Char(string='Unit General Name')
+    unit_websitename_format = fields.Char(string='Unit Website Name')
 
     @api.multi
     def create_offer_type_menu(self):
@@ -119,7 +121,8 @@ class RemUnitOfferType(models.Model):
                 'res_model': 'rem.unit',
                 'view_mode': 'tree,form',
                 'target': 'current',
-                'context': "{'search_default_offer_type_id': " + str(offer.id) + ", 'default_offer_type': " + str(offer.id) + ", 'is_rent': is_rent}",
+                'context': "{'search_default_offer_type_id': %s, 'default_offer_type': %s, 'is_rent': %s}" %
+                           (str(offer.id), str(offer.id), offer.is_rent),
                 'help': '''
                 <p class="oe_view_nocontent_create">
                     Click to list a new unit.
@@ -358,7 +361,7 @@ class RemStructure(models.Model):
                 'type': 'ir.actions.act_window',
                 'view_mode': 'tree,form',
                 'res_model': 'rem.unit',
-                'clear_breadcrumbs': True,
+                'target': 'main',
                 'domain': [('structure_id', '=', build.id)],
                 'context': {'default_structure_id': build.id}
             }
@@ -564,7 +567,10 @@ class RemUnit(models.Model):
     def name_get(self):
         units = []
         for rec in self:
-            name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
+            if rec.offer_type_id.is_computed:
+                name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
+            else:
+                name = rec.name2
             units.append((rec.id, name))
         return units
 
@@ -574,7 +580,10 @@ class RemUnit(models.Model):
                  'bathrooms', 'living_area', 'land_area')
     def _compute_name(self):
         for rec in self:
-            name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
+            if rec.offer_type_id.is_computed:
+                name = self.get_formated_name(rec, rec.offer_type_id.unit_name_format)
+            else:
+                name = rec.name2
             rec.name = name
 
     @api.multi
@@ -633,6 +642,7 @@ class RemUnit(models.Model):
                                     default=_get_default_offer_type)
     type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
+    name2 = fields.Char(string='Name')
     reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
                             copy=False, readonly=True, index=True)
     website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
@@ -648,6 +658,7 @@ class RemUnit(models.Model):
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
     is_rent = fields.Boolean(related='offer_type_id.is_rent', string='Is Rentable', store=True)
+    is_computed = fields.Boolean(related='offer_type_id.is_computed', string='Name is Computed', store=True)
     price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
 
     # Rental
