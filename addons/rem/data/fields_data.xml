@@ -2,45 +2,69 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Update Categories (General, Indoor and Outdoor) on (base) Features -->
-        <function model="rem.unit" name="init_rem_categories_in_rem_fields"/>
+        <!-- Add custom fields (ir.model.fields) features (general, indoor or outdoor)-->
 
-        <!-- Add Ir Model (manual) Fields-->
-
-        <record id="rem_fld_irrigation" model="ir.model.fields">
-             <field name="name">x_irrigation</field>
-             <field name="field_description">Irrigation</field>
-             <field name="help">Developed irrigation</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">outdoor</field>
+        <!-- General Features -->
+        <record id="rem_fld_bedrooms" model="ir.model.fields">
+             <field name="name">x_bedrooms</field>
+             <field name="field_description">Bedrooms</field>
+             <field name="ttype">integer</field>
+             <field name="default">1</field>
+             <field name="required">True</field>
+             <field name="rem_category">general</field>
              <field name="model">rem.unit</field>
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
-        
-        <record id="rem_fld_fencing" model="ir.model.fields">
-             <field name="name">x_fencing</field>
-             <field name="field_description">State of the fencing</field>
-             <field name="help">State of the fencing</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">outdoor</field>
+        <record id="rem_fld_bathrooms" model="ir.model.fields">
+             <field name="name">x_bathrooms</field>
+             <field name="field_description">Bathrooms</field>
+             <field name="ttype">integer</field>
+             <field name="default">1</field>
+             <field name="required">True</field>
+             <field name="rem_category">general</field>
              <field name="model">rem.unit</field>
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
-
-        <record id="rem_fld_energy_rating" model="ir.model.fields">
-             <field name="name">x_energy_rating</field>
-             <field name="field_description">Energy efficiency rating</field>
-             <field name="help">Energy efficiency rating</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">indoor</field>
+        <record id="rem_fld_toilets" model="ir.model.fields">
+             <field name="name">x_toilets</field>
+             <field name="field_description">Toilets</field>
+             <field name="ttype">integer</field>
+             <field name="default">1</field>
+             <field name="required">True</field>
+             <field name="rem_category">general</field>
              <field name="model">rem.unit</field>
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
-        
+        <record id="rem_fld_living_area" model="ir.model.fields">
+             <field name="name">x_living_area</field>
+             <field name="field_description">Living Area</field>
+             <field name="ttype">float</field>
+             <field name="default">0</field>
+             <field name="rem_category">general</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_land_area" model="ir.model.fields">
+             <field name="name">x_land_area</field>
+             <field name="field_description">Land Area</field>
+             <field name="ttype">float</field>
+             <field name="default">0</field>
+             <field name="rem_category">general</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_points_interest" model="ir.model.fields">
+             <field name="name">x_points_interest</field>
+             <field name="field_description">Points of Interest</field>
+             <field name="ttype">many2many</field>
+             <field name="relation">location.preferences</field>
+             <field name="rem_category">general</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
         <record id="rem_fld_tax" model="ir.model.fields">
              <field name="name">x_tax</field>
              <field name="field_description">Sale Tax</field>
-             <field name="help">Sale Tax</field>
              <field name="ttype">selection</field>
              <field name="rem_category">general</field>
              <field name="selection">[('Unknown', 'Unknown'),('Exempt', 'Exempt'),('Inclusive', 'Inclusive'),('Exclusive', 'Exclusive')]</field>
@@ -48,10 +72,157 @@
              <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
+        <!-- Indoor Features -->
+        <record id="rem_fld_area" model="ir.model.fields">
+             <field name="name">x_area</field>
+             <field name="field_description">Area</field>
+             <field name="ttype">float</field>
+             <field name="default">0</field>
+             <field name="required">True</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_airConditioning" model="ir.model.fields">
+             <field name="name">x_airConditioning</field>
+             <field name="field_description">Air Conditioned</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_ducted_cooling" model="ir.model.fields">
+             <field name="name">x_ducted_cooling</field>
+             <field name="field_description">Ducted Cooling</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_builtInRobes" model="ir.model.fields">
+             <field name="name">x_builtInRobes</field>
+             <field name="field_description">Built-in Wardrobes</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_dishwasher" model="ir.model.fields">
+             <field name="name">x_dishwasher</field>
+             <field name="field_description">Dishwasher</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_energy_rating" model="ir.model.fields">
+             <field name="name">x_energy_rating</field>
+             <field name="field_description">Energy efficiency rating</field>
+             <field name="ttype">char</field>
+             <field name="rem_category">indoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+
+        <!-- Outdoor Features -->
+        <record id="rem_fld_garages" model="ir.model.fields">
+             <field name="name">x_garages</field>
+             <field name="field_description">Garage Spaces</field>
+             <field name="ttype">integer</field>
+             <field name="default">0</field>
+             <field name="required">True</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_backyard" model="ir.model.fields">
+             <field name="name">x_backyard</field>
+             <field name="field_description">Backyard</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_dog_friendly" model="ir.model.fields">
+             <field name="name">x_dog_friendly</field>
+             <field name="field_description">Dog Friendly</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_secure_parking" model="ir.model.fields">
+             <field name="name">x_secure_parking</field>
+             <field name="field_description">Secure Parking</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_alarmSystem" model="ir.model.fields">
+             <field name="name">x_alarmSystem</field>
+             <field name="field_description">Alarm System</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_swpool" model="ir.model.fields">
+             <field name="name">x_swpool</field>
+             <field name="field_description">Swimming Pool</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_entertaining" model="ir.model.fields">
+             <field name="name">x_entertaining</field>
+             <field name="field_description">Entertaining Area</field>
+             <field name="ttype">boolean</field>
+             <field name="default">False</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_balconies" model="ir.model.fields">
+             <field name="name">x_balconies</field>
+             <field name="field_description">Balconies</field>
+             <field name="ttype">integer</field>
+             <field name="default">0</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_irrigation" model="ir.model.fields">
+             <field name="name">x_irrigation</field>
+             <field name="field_description">Developed irrigation</field>
+             <field name="ttype">char</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+        <record id="rem_fld_fencing" model="ir.model.fields">
+             <field name="name">x_fencing</field>
+             <field name="field_description">State of the fencing</field>
+             <field name="ttype">char</field>
+             <field name="rem_category">outdoor</field>
+             <field name="model">rem.unit</field>
+             <field name="model_id" ref="rem.model_rem_unit"/>
+        </record>
+
     </data>
     <data>
 
-        <!-- Link (base and manual) Fields Features from Ir Model Fields to Offer Type -->
+        <!-- Link custom fields (ir.model.fields) features (general, indoor or outdoor) to offer.type -->
         <function model="rem.unit" name="add_features_to_offer_type"/>
 
     </data>

@@ -725,39 +725,35 @@ class RemUnit(models.Model):
     structure_id = fields.Many2one('rem.structure', string='Structure', domain="[('is_view', '=', False)]",
                                    help='Structure that contains the unit (building, condo, floor, zone ...)')
 
-    # General Features
-    bedrooms = fields.Integer(
-        string='Bedrooms', default=1, required=True)
-    bathrooms = fields.Integer(
-        string='Bathrooms', default=1, required=True)
-    toilets = fields.Integer(
-        string='Toilets', default=1, required=True)
-    living_area = fields.Float('Living Area', default=0)
-    land_area = fields.Float('Land Area', default=0)
-    points_interest = fields.Many2many(
-        'location.preferences', string='Points of Interest')
-
-    # Indoor Features
-    area = fields.Float(string='Area', default=0, required=True)
-    airConditioning = fields.Boolean(string='Air Conditioned', default=False)
-    ducted_cooling = fields.Boolean(string='Ducted Cooling', default=False)
-    builtInRobes = fields.Boolean(string='Built-in Wardrobes', default=False)
-    dishwasher = fields.Boolean(string='Dishwasher', default=False)
-
-    # Outdoor Features
-    garages = fields.Integer(
-        string='Garage Spaces', default=0, required=True)
-    backyard = fields.Boolean(string='Backyard', default=False)
-    dog_friendly = fields.Boolean(string='Dog Friendly', default=False)
-    secure_parking = fields.Boolean(string='Secure Parking', default=False)
-    alarmSystem = fields.Boolean(string='Alarm System', default=False)
-    swpool = fields.Boolean(string='Swimming Pool', default=False)
-    entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
-    balconies = fields.Integer(string='Balconies')
-
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
+
+    # # General Features
+    # bedrooms        = fields.Integer(string='Bedrooms', default=1, required=True)
+    # bathrooms       = fields.Integer(string='Bathrooms', default=1, required=True)
+    # toilets         = fields.Integer(string='Toilets', default=1, required=True)
+    # living_area     = fields.Float('Living Area', default=0)
+    # land_area       = fields.Float('Land Area', default=0)
+    # points_interest = fields.Many2many('location.preferences', string='Points of Interest')
+
+    # # Indoor Features
+    # area            = fields.Float(string='Area', default=0, required=True)
+    # airConditioning = fields.Boolean(string='Air Conditioned', default=False)
+    # ducted_cooling  = fields.Boolean(string='Ducted Cooling', default=False)
+    # builtInRobes    = fields.Boolean(string='Built-in Wardrobes', default=False)
+    # dishwasher      = fields.Boolean(string='Dishwasher', default=False)
+
+    # # Outdoor Features
+    # garages         = fields.Integer(string='Garage Spaces', default=0, required=True)
+    # backyard        = fields.Boolean(string='Backyard', default=False)
+    # dog_friendly    = fields.Boolean(string='Dog Friendly', default=False)
+    # secure_parking  = fields.Boolean(string='Secure Parking', default=False)
+    # alarmSystem     = fields.Boolean(string='Alarm System', default=False)
+    # swpool          = fields.Boolean(string='Swimming Pool', default=False)
+    # entertaining    = fields.Boolean(string='Outdoor Entertaining Area', default=False)
+    # balconies       = fields.Integer(string='Balconies')
+
 
     # councilRates = fields.Float(string='Annual council rates')
     # secureParking = fields.Boolean(string='Secure parking')
@@ -820,7 +816,6 @@ class RemUnit(models.Model):
     #
     # floorboards = fields.Boolean(string='Floorboards')
 
-
     # solarHotWater = fields.Boolean(string='Solar hot water')
     # solarPanels = fields.Boolean(string='Solar panels')
     # petFriendly = fields.Boolean(string='Allow pets')
@@ -878,40 +873,7 @@ class RemUnit(models.Model):
     #     ('Other', _('Other'))],
     #     string="Principal agricultural focus")
 
-    @api.model
-    def init_rem_categories_in_rem_fields(self):
-        self._cr.execute("""
-            UPDATE ir_model_fields
-            SET rem_category='general'
-            WHERE model='rem.unit' AND
-                  (name='bedrooms' OR
-                   name='bathrooms' OR
-                   name='toilets' OR
-                   name='living_area' OR
-                   name='land_area' OR
-                   name='points_interest');
-            UPDATE ir_model_fields
-            SET rem_category='indoor'
-            WHERE model='rem.unit' AND
-                  (name='area' OR
-                   name='airConditioning' OR
-                   name='ducted_cooling' OR
-                   name='builtInRobes' OR
-                   name='dishwasher');
-            UPDATE ir_model_fields
-            SET rem_category='outdoor'
-            WHERE model='rem.unit' AND
-                  (name='garages' OR
-                   name='backyard' OR
-                   name='dog_friendly' OR
-                   name='secure_parking' OR
-                   name='alarmSystem' OR
-                   name='swpool' OR
-                   name='entertaining' OR
-                   name='balconies');
-        """)
-        self._cr.commit()
-
+    # Link custom fields (ir.model.fields) features (general, indoor or outdoor) to offer.type
     @api.model
     def add_features_to_offer_type(self):
         self._cr.execute("""
@@ -930,18 +892,21 @@ class RemUnit(models.Model):
                 self._cr.execute(
                     """
                     INSERT INTO offer_type_ir_model_fields_rel(offer_type_id, ir_model_field_id)
-                    VALUES(""" + str(offer_type.id) + """, """ + str(field[0]) + """)
-                    """
+                    VALUES(%s, %s)
+                    """ % (offer_type.id, field[0])
                 )
                 self._cr.commit()
 
+    # Add custom fields (ir.model.fields) features (general, indoor or outdoor) to rem.unit form view
+    # Fields are distributed to the left and right group, according to the number of fields in each group
+    # All custom fields are added with invisible = 1
     @api.model
     def add_custom_fields_to_rem_unit_form_view(self):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
         for rem_form in self.env['ir.ui.view'].sudo().browse(rem_form_id):
             doc = etree.XML(rem_form.arch_base)
             for rem_category in ['general', 'indoor', 'outdoor']:
-                for node in doc.xpath("//group[@name='" + rem_category + "_features']"):
+                for node in doc.xpath("//group[@name='%s_features']" % rem_category):
                     grpl = node.xpath(".//group[@class='rem_left']")[0]
                     grpr = node.xpath(".//group[@class='rem_right']")[0]
                     for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
@@ -954,6 +919,7 @@ class RemUnit(models.Model):
                             grpl.append(nd)
         rem_form.arch_base = etree.tostring(doc)
 
+    # Get all custom fields linked to the offer.type and make them visible with invisible = 0
     @api.model
     def fields_view_get(self, view_id=None, view_type=None, toolbar=False, submenu=False):
         res = super(RemUnit, self).fields_view_get(
