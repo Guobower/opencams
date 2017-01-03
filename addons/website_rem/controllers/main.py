@@ -364,7 +364,7 @@ class WebsiteRem(http.Controller):
         return json.dumps(results)
 
     @http.route(['/page/homepage'], type='http', auth='public', website=True)
-    def homepage(self):
+    def homepage(self, **kwargs):
         env = request.env
         featured_units = env['rem.unit'].sudo().search([('is_featured', '=', True)])
 
@@ -603,7 +603,7 @@ class WebsiteRem(http.Controller):
         return request.render('website_rem.rem_units_list_page', values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
-    def unit(self, unit):
+    def unit(self, unit, **kwargs):
         env = request.env
 
         unit = env['rem.unit'].sudo().search([('id', '=', unit[0].id)])
@@ -715,7 +715,7 @@ class WebsiteRem(http.Controller):
         return response
 
     @http.route(['/atom/sellers/<model("offer.type"):otype>/feed'], type='http', auth="public")
-    def re_atom_feed(self, otype, limit='15'):
+    def re_atom_feed(self, otype, limit='15', **kwargs):
         v = {}
         v['otype'] = otype
         v['base_url'] = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -724,7 +724,7 @@ class WebsiteRem(http.Controller):
         return request.render("website_rem.sell_feed", v, headers=[('Content-Type', 'application/atom+xml')])
 
     @http.route(['/rem/sell'], type='http', auth='public', website=True)
-    def website_rem_sell(self):
+    def website_rem_sell(self, **kwargs):
         env = request.env
         values = {
             'unit_types': env['rem.unit.type'].sudo().search([]),
@@ -735,9 +735,9 @@ class WebsiteRem(http.Controller):
 class WebsiteContact(openerp.addons.web.controllers.main.Home):
 
     @http.route(['/contact-us'], type='http', auth='public', website=True)
-    def website_rem_contact(self):
+    def website_rem_contact(self, **kwargs):
         return request.render('website_rem.contact_us_page')
 
     @http.route(['/page/contactus'], type='http', auth='none')
-    def website_contact(self):
+    def website_contact(self, **kwargs):
         return werkzeug.utils.redirect('/contact-us', 303)
