@@ -24,7 +24,8 @@
 
         <record model="ir.config_parameter" id="unit_name_format_key">
             <field name="key">rem.unit_name_format</field>
-            <field name="value">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
+            <!-- TODO: remove deprecated code -->
+            <field name="value">{street:.10}, {CITY:.5}<!-- , {bedrooms} bd • {bathrooms} ba • {land_area} sqft -->.</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
         </record>
 
@@ -153,16 +154,18 @@ regardless of whether it's the agent or the seller.]]></field>
         
         <record id="offer_type_buy" model="offer.type">
             <field name="name">Buy</field>
-            <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
-            <field name="unit_websitename_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
+            <!-- TODO: remove deprecated code -->
+            <field name="unit_name_format">{street:.10}, {CITY:.5}<!-- , {bedrooms} bd • {bathrooms} ba -->.</field>
+            <field name="unit_websitename_format">{street:.10}, {CITY:.5}<!-- , {bedrooms} bd • {bathrooms} ba -->.</field>
             <field name="is_rent" eval="0"/>
             <field name="menu_name">For Sale</field>
         </record>
         
         <record id="offer_type_rent" model="offer.type">
             <field name="name">Rent</field>
-            <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
-            <field name="unit_websitename_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
+            <!-- TODO: remove deprecated code -->
+            <field name="unit_name_format">{street:.10}, {CITY:.5}<!-- , {bedrooms} bd • {bathrooms} ba -->.</field>
+            <field name="unit_websitename_format">{street:.10}, {CITY:.5}<!-- , {bedrooms} bd • {bathrooms} ba -->.</field>
             <field name="is_rent" eval="1"/>
             <field name="menu_name">For Rent</field>
         </record>

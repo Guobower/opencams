@@ -26,7 +26,10 @@
 			                    name="action_find_matching_units" icon="fa-search" string="Find Units">
 			                </button>
 		                </div>
-	                	<group string="General Features">
+                        
+                        <!-- TODO: remove deprecated code -->
+
+	                	<!-- <group string="General Features">
                             <group>
     	                		<field name="re_offer_type_id"/>
     	                		<field name="re_type" widget="many2many_tags"/>
@@ -67,7 +70,7 @@
                                 <field name="re_secure_parking"/>
                                 <field name="re_dog_friendly"/>
                             </group>
-                        </group>
+                        </group> -->
                 	</page>
                 	<page string="Unit Selection">
                             <field name="unit_ids" widget="many2many_kanban">
