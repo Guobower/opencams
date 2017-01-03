@@ -404,10 +404,13 @@ class RemUnit(models.Model):
                 state=rec.state_id.code or '',
                 STATE=STATE,
                 zip=rec.zip or '',
-                bedrooms=rec.bedrooms or 0,
-                bathrooms=rec.bathrooms or 0,
-                living_area=rec.living_area or 0,
-                land_area=rec.land_area or 0,
+
+                # TODO: remove deprecated code
+
+                # bedrooms=rec.bedrooms or 0,
+                # bathrooms=rec.bathrooms or 0,
+                # living_area=rec.living_area or 0,
+                # land_area=rec.land_area or 0,
             )
         except:
             res = _("Parsing ERROR - Check your name format in Listing >> Settings")
@@ -457,14 +460,17 @@ class RemUnit(models.Model):
         context = self._context or {}
         if context.get('max_planned_revenue'):
             args += [('price', '<=', context.get('max_planned_revenue'))]
-        if context.get('min_garages'):
-            args += [('garages', '>=', context.get('min_garages'))]
-        if context.get('max_bedrooms') and context.get('min_bedrooms'):
-            args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
-        if context.get('min_bathrooms'):
-            args += [('bathrooms', '>=', context.get('min_bathrooms'))]
-        if context.get('min_living_area'):
-            args += [('living_area', '>=', context.get('min_living_area'))]
+
+        # TODO: remove deprecated code
+
+        # if context.get('min_garages'):
+        #     args += [('garages', '>=', context.get('min_garages'))]
+        # if context.get('max_bedrooms') and context.get('min_bedrooms'):
+        #     args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
+        # if context.get('min_bathrooms'):
+        #     args += [('bathrooms', '>=', context.get('min_bathrooms'))]
+        # if context.get('min_living_area'):
+        #     args += [('living_area', '>=', context.get('min_living_area'))]
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
     @api.one
@@ -562,8 +568,9 @@ class RemUnit(models.Model):
 
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
-                 'city_id.name', 'zip', 'bedrooms',
-                 'bathrooms', 'living_area', 'land_area')
+                 'city_id.name', 'zip')
+                 # TODO: remove deprecated code
+                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def name_get(self):
         units = []
         for rec in self:
@@ -576,8 +583,9 @@ class RemUnit(models.Model):
 
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
-                 'city_id.name', 'zip', 'bedrooms',
-                 'bathrooms', 'living_area', 'land_area')
+                 'city_id.name', 'zip')
+                 # TODO: remove deprecated code
+                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def _compute_name(self):
         for rec in self:
             if rec.offer_type_id.is_computed:
@@ -588,8 +596,9 @@ class RemUnit(models.Model):
 
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
-                 'city_id.name', 'zip', 'bedrooms',
-                 'bathrooms', 'living_area', 'land_area')
+                 'city_id.name', 'zip')
+                 # TODO: remove deprecated code
+                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def _get_website_name(self):
         units = []
         for rec in self:
@@ -900,6 +909,7 @@ class RemUnit(models.Model):
     # Add custom fields (ir.model.fields) features (general, indoor or outdoor) to rem.unit form view
     # Fields are distributed to the left and right group, according to the number of fields in each group
     # All custom fields are added with invisible = 1
+    # General, indoor and outdoor feature tabs are set with invisible = 1 as well
     @api.model
     def add_custom_fields_to_rem_unit_form_view(self):
         rem_form_id = self.env.ref('rem.view_rem_unit_form').id
@@ -912,14 +922,22 @@ class RemUnit(models.Model):
                     for fld in self.env['ir.model.fields'].sudo().search([('state', '=', 'manual'),
                                                                           ('model', '=', 'rem.unit'),
                                                                           ('rem_category', '=', rem_category)]):
+                        # Add custom fields (ir.model.fields) features (general, indoor or outdoor) to rem.unit form view
                         nd = etree.Element("field", name=fld.name, invisible="1")
+                        # Fields are distributed to the left and right group, according to the number of fields in each group
                         if grpl.xpath('count(.//field)') >= grpr.xpath('count(.//field)'):
                             grpr.append(nd)
                         else:
                             grpl.append(nd)
+            # General, indoor and outdoor feature tabs are set with invisible = 1 as well
+            doc.xpath("//page[@string='General Features']")[0].set('invisible', '1')
+            doc.xpath("//page[@string='Indoor Features']")[0].set('invisible', '1')
+            doc.xpath("//page[@string='Outdoor Features']")[0].set('invisible', '1')
         rem_form.arch_base = etree.tostring(doc)
 
     # Get all custom fields linked to the offer.type and make them visible with invisible = 0
+    # Make general, indoor and outdoor feature tabs visible with invisible = 0 if there's at
+    # least 1 custom field linked to the offer.type that belongs to the feature
     @api.model
     def fields_view_get(self, view_id=None, view_type=None, toolbar=False, submenu=False):
         res = super(RemUnit, self).fields_view_get(
@@ -927,11 +945,30 @@ class RemUnit(models.Model):
         doc = etree.XML(res['arch'])
         if view_type == 'form':
             if self._context.get('default_offer_type'):
+                # Get all custom fields linked to the offer.type
                 offer = self.env['offer.type'].sudo().search([('id', '=', self._context.get('default_offer_type'))])
+                general_features = 0
+                indoor_features = 0
+                outdoor_features = 0
                 for fld in offer.showfields_ids:
                     for node in doc.xpath("//field[@name='%s']" % fld.name):
+                        # Set custom field visible
                         node.set('invisible', '0')
                         node.set('modifiers', '')
+                        # Increment counters
+                        general_features = (general_features+1) if (fld.rem_category == 'general') else general_features
+                        indoor_features = (indoor_features+1) if (fld.rem_category == 'indoor') else indoor_features
+                        outdoor_features = (outdoor_features+1) if (fld.rem_category == 'outdoor') else outdoor_features
+                # Make general, indoor and outdoor feature tabs visible
+                if general_features > 0:
+                    doc.xpath("//page[@string='General Features']")[0].set('invisible', '0')
+                    doc.xpath("//page[@string='General Features']")[0].set('modifiers', '')
+                if indoor_features > 0:
+                    doc.xpath("//page[@string='Indoor Features']")[0].set('invisible', '0')
+                    doc.xpath("//page[@string='Indoor Features']")[0].set('modifiers', '')
+                if outdoor_features > 0:
+                    doc.xpath("//page[@string='Outdoor Features']")[0].set('invisible', '0')
+                    doc.xpath("//page[@string='Outdoor Features']")[0].set('modifiers', '')
             res['arch'] = etree.tostring(doc)
         return res
 
