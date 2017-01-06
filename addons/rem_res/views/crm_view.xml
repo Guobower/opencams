@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- CRM Opportunities Form View -->
+        <record id="view_crm_opportunity_rem_res_unit_form" model="ir.ui.view">
+            <field name="name">crm.lead.rem.res.unit.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="rem.view_crm_opportunity_rem_unit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Searches for']/div[@name='button_box2']" position="after">
+                    <group string="General Features">
+                        <group>
+                            <field name="re_offer_type_id"/>
+                            <field name="re_type" widget="many2many_tags"/>
+                            <label for="re_min_bedrooms" string="Bedroms min/max"/>
+                            <div name="re_bedrooms" class="o_row">
+                                <field name="re_min_bedrooms" nolabel="1"/>
+                                <span> to </span>
+                                <field name="re_max_bedrooms" nolabel="1"/>
+                            </div>
+                            <field name="re_bathrooms"/>
+                        </group>
+                        <group>
+                            <field name="re_city"/>
+                            <field name="re_points_interest" widget="many2many_tags"/>
+                            <field name="re_is_new"/>
+                        </group>
+                    </group>
+                    <group string="Indoor Features">
+                        <group>
+                            <field name="re_air_conditioned"/>
+                            <field name="re_ducted_cooling"/>
+                            <field name="re_wardrobes"/>
+                           <field name="re_dishwasher"/>
+                       </group>
+                        <group>
+                            <field name="re_living_area"/>
+                        </group>
+                    </group>
+                    <group string="Outdoor Features">
+                        <group>
+                            <field name="re_backyard"/>
+                            <field name="re_alarm"/>
+                            <field name="re_entertaining"/>
+                            <field name="re_pool"/>
+                        </group>
+                        <group>
+                            <field name="re_garage_spaces"/>
+                            <field name="re_secure_parking"/>
+                            <field name="re_dog_friendly"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+	    
+    </data>
+</odoo>

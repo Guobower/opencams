@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from openerp import tools, api, fields, models, _
+from odoo import tools, api, fields, models, _
 
 
 class RemUnit(models.Model):

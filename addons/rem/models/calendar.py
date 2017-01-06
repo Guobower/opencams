@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openerp import tools, api, fields, models, _
-from openerp import exceptions
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import tools, api, fields, models, _
+from odoo import exceptions
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from openerp.exceptions import ValidationError
+from odoo.exceptions import ValidationError
 
 
 class CalendarEvent(models.Model):

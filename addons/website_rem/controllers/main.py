@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-import openerp
+import odoo
 import werkzeug
 import json
 import base64
 import random
 import string
-from openerp import http, api
-from openerp.http import request
-from openerp.addons.web.controllers.main import binary_content, ensure_db
-from openerp import SUPERUSER_ID
-from openerp.addons.website.models.website import slug
+from odoo import http, api
+from odoo.http import request
+from odoo.addons.web.controllers.main import binary_content, ensure_db
+from odoo import SUPERUSER_ID
+from odoo.addons.website.models.website import slug
 
 PPG = 8  # Units Per Page
 UPR = 4 # Units Per Row
@@ -432,10 +432,10 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/rem/unit/image/<int:image_id>'], type='http', auth="public", website=True)
     def unit_image(self, image_id=0, **post):
-        status, headers, content = binary_content(model='rem.image', id=image_id, field='image', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
+        status, headers, content = binary_content(model='rem.image', id=image_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
-            img_path = openerp.modules.get_module_resource('website_rem', 'static/img/units', 'default_unit.jpg')
+            img_path = odoo.modules.get_module_resource('website_rem', 'static/img/units', 'default_unit.jpg')
             with open(img_path, 'rb') as f:
                 image = f.read()
             content = image.encode('base64')
@@ -699,10 +699,10 @@ class WebsiteRem(http.Controller):
 
     @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
     def user_agent(self, user_id=0, **post):
-        status, headers, content = binary_content(model='res.users', id=user_id, field='image', default_mimetype='image/jpg', env=request.env(user=openerp.SUPERUSER_ID))
+        status, headers, content = binary_content(model='res.users', id=user_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
-            img_path = openerp.modules.get_module_resource('website_rem', 'static/img/agents', 'default_agent.jpg')
+            img_path = odoo.modules.get_module_resource('website_rem', 'static/img/agents', 'default_agent.jpg')
             with open(img_path, 'rb') as f:
                 image = f.read()
             content = image.encode('base64')
@@ -732,7 +732,7 @@ class WebsiteRem(http.Controller):
         return request.render('website_rem.sell', values)
 
 
-class WebsiteContact(openerp.addons.web.controllers.main.Home):
+class WebsiteContact(odoo.addons.web.controllers.main.Home):
 
     @http.route(['/contact-us'], type='http', auth='public', website=True)
     def website_rem_contact(self, **kwargs):

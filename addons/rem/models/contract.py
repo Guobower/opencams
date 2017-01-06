@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openerp import tools, api, fields, models, _
-from openerp import exceptions
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
+from odoo import tools, api, fields, models, _
+from odoo import exceptions
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
-from openerp.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError, UserError
 from docutils.parsers.rst.directives import flag
 from utils import RentDate
 import pytz

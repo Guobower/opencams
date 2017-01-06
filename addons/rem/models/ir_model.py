@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import tools, api, fields, models, _
+from odoo import tools, api, fields, models, _
 from lxml import etree
 
 _rem_categories = [

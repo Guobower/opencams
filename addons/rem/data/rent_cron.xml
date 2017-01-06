@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
     <data noupdate="0">
 
         <!-- Create invoices for auto invoice contracts -->
@@ -27,4 +27,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

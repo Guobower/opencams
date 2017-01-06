@@ -1,4 +1,4 @@
-from openerp import models, SUPERUSER_ID
+from odoo import models, SUPERUSER_ID
 
 
 class Lead(models.Model):

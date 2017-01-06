@@ -184,7 +184,7 @@
                         <filter name="forrent" string="For Rent" domain="[('offer_type_id','=', 2)]" help="Rentable units"/>
                     	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>
                     	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
-                        <filter string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
+                        <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
                         <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
                     </group>

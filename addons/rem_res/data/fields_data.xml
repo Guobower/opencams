@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Update Features (general, indoor and outdoor) on base fields -->
+        <function model="rem.unit" name="init_rem_features_in_rem_fields"/>
+
+    </data>
+    <data>
+
+        <!-- Link custom fields (ir.model.fields) features (general, indoor or outdoor) to offer.type -->
+        <function model="rem.unit" name="add_features_to_offer_type"/>
+
+    </data>
+</odoo>

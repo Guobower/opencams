@@ -2,19 +2,19 @@
 import json
 import urllib
 from lxml import etree
-from openerp import tools, api, fields, models, _
-from openerp import exceptions
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import tools, api, fields, models, _
+from odoo import exceptions
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from openerp.exceptions import ValidationError
-from openerp.exceptions import UserError
-from openerp.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
-from openerp.osv import expression
-from openerp.tools.translate import html_translate
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import Warning
-from openerp.addons.rem.models.ir_model import _rem_categories
+from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
+from odoo.addons.base_geolocalize.models.res_partner import geo_find, geo_query_address
+from odoo.osv import expression
+from odoo.tools.translate import html_translate
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import Warning
+from odoo.addons.rem.models.ir_model import _rem_categories
 
 
 class RemUnitFavorite(models.Model):
@@ -404,13 +404,6 @@ class RemUnit(models.Model):
                 state=rec.state_id.code or '',
                 STATE=STATE,
                 zip=rec.zip or '',
-
-                # TODO: remove deprecated code
-
-                # bedrooms=rec.bedrooms or 0,
-                # bathrooms=rec.bathrooms or 0,
-                # living_area=rec.living_area or 0,
-                # land_area=rec.land_area or 0,
             )
         except:
             res = _("Parsing ERROR - Check your name format in Listing >> Settings")
@@ -461,16 +454,6 @@ class RemUnit(models.Model):
         if context.get('max_planned_revenue'):
             args += [('price', '<=', context.get('max_planned_revenue'))]
 
-        # TODO: remove deprecated code
-
-        # if context.get('min_garages'):
-        #     args += [('garages', '>=', context.get('min_garages'))]
-        # if context.get('max_bedrooms') and context.get('min_bedrooms'):
-        #     args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
-        # if context.get('min_bathrooms'):
-        #     args += [('bathrooms', '>=', context.get('min_bathrooms'))]
-        # if context.get('min_living_area'):
-        #     args += [('living_area', '>=', context.get('min_living_area'))]
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 
     @api.one
@@ -569,8 +552,6 @@ class RemUnit(models.Model):
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
                  'city_id.name', 'zip')
-                 # TODO: remove deprecated code
-                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def name_get(self):
         units = []
         for rec in self:
@@ -584,8 +565,6 @@ class RemUnit(models.Model):
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
                  'city_id.name', 'zip')
-                 # TODO: remove deprecated code
-                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def _compute_name(self):
         for rec in self:
             if rec.offer_type_id.is_computed:
@@ -597,8 +576,6 @@ class RemUnit(models.Model):
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
                  'city_id.name', 'zip')
-                 # TODO: remove deprecated code
-                 # 'bedrooms', 'bathrooms', 'living_area', 'land_area')
     def _get_website_name(self):
         units = []
         for rec in self:
@@ -737,32 +714,6 @@ class RemUnit(models.Model):
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
-
-    # # General Features
-    # bedrooms        = fields.Integer(string='Bedrooms', default=1, required=True)
-    # bathrooms       = fields.Integer(string='Bathrooms', default=1, required=True)
-    # toilets         = fields.Integer(string='Toilets', default=1, required=True)
-    # living_area     = fields.Float('Living Area', default=0)
-    # land_area       = fields.Float('Land Area', default=0)
-    # points_interest = fields.Many2many('location.preferences', string='Points of Interest')
-
-    # # Indoor Features
-    # area            = fields.Float(string='Area', default=0, required=True)
-    # airConditioning = fields.Boolean(string='Air Conditioned', default=False)
-    # ducted_cooling  = fields.Boolean(string='Ducted Cooling', default=False)
-    # builtInRobes    = fields.Boolean(string='Built-in Wardrobes', default=False)
-    # dishwasher      = fields.Boolean(string='Dishwasher', default=False)
-
-    # # Outdoor Features
-    # garages         = fields.Integer(string='Garage Spaces', default=0, required=True)
-    # backyard        = fields.Boolean(string='Backyard', default=False)
-    # dog_friendly    = fields.Boolean(string='Dog Friendly', default=False)
-    # secure_parking  = fields.Boolean(string='Secure Parking', default=False)
-    # alarmSystem     = fields.Boolean(string='Alarm System', default=False)
-    # swpool          = fields.Boolean(string='Swimming Pool', default=False)
-    # entertaining    = fields.Boolean(string='Outdoor Entertaining Area', default=False)
-    # balconies       = fields.Integer(string='Balconies')
-
 
     # councilRates = fields.Float(string='Annual council rates')
     # secureParking = fields.Boolean(string='Secure parking')
