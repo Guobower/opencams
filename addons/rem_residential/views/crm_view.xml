@@ -3,7 +3,7 @@
     <data>
 
         <!-- CRM Opportunities Form View -->
-        <record id="view_crm_opportunity_rem_res_unit_form" model="ir.ui.view">
+        <record id="view_crm_opportunity_rem_residential_unit_form" model="ir.ui.view">
             <field name="name">crm.lead.rem.res.unit.inherit</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="rem.view_crm_opportunity_rem_unit_form"/>

@@ -7,7 +7,7 @@
         -->
         
         <!-- Real Estate Asset Tree View -->
-        <record id="view_rem_res_unit_tree" model="ir.ui.view">
+        <record id="view_rem_residential_unit_tree" model="ir.ui.view">
             <field name="name">rem.res.unit.tree</field>
             <field name="model">rem.unit</field>
             <field name="inherit_id" ref="rem.view_rem_unit_tree"/>
@@ -21,7 +21,7 @@
         </record>
 
         <!-- Real Estate Asset Search View -->
-        <record id="view_rem_res_unit_filter" model="ir.ui.view">
+        <record id="view_rem_residential_unit_filter" model="ir.ui.view">
             <field name="name">rem.res.unit.filter</field>
             <field name="model">rem.unit</field>
             <field name="inherit_id" ref="rem.view_rem_unit_filter"/>
@@ -60,7 +60,7 @@
         </record>
 
         <!-- Real Estate Asset Search Form -->
-        <record id="view_rem_res_unit_form" model="ir.ui.view">
+        <record id="view_rem_residential_unit_form" model="ir.ui.view">
             <field name="name">rem.res.unit.form</field>
             <field name="model">rem.unit</field>
             <field name="inherit_id" ref="rem.view_rem_unit_form"/>

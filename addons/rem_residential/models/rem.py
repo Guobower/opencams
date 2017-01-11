@@ -28,7 +28,7 @@ class RemUnit(models.Model):
     alarmSystem = fields.Boolean(string='Alarm System', default=False)
     swpool = fields.Boolean(string='Swimming Pool', default=False)
     entertaining = fields.Boolean(string='Outdoor Entertaining Area', default=False)
-    balconies = fields.Integer(string='Balconies')
+    balconies = fields.Integer(string='Balconies', default=0)
 
     @api.model
     def init_rem_features_in_rem_fields(self):

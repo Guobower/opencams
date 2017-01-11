@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Residential Asset Management',
+    'name': 'Real Estate Management Residential',
     'version': '1.0',
     'author': 'Odoo GAP',
-    'summary': 'Real Estate Residential Asset Management',
+    'summary': 'Real Estate Management Residential',
     'description': """
 Manage real estate residential assets for sale and rent management purposes
-===============================================================
+===========================================================================
 This module allows to sell/rent real estate residential units
 
 
@@ -15,7 +15,7 @@ This module allows to sell/rent real estate residential units
     'depends': ['rem'],
     'category': 'Real Estate',
     'data': [
-        'data/rem_data.xml',
+        'data/rem_residential_data.xml',
         'data/fields_data.xml',
         'views/rem_view.xml',
     ],

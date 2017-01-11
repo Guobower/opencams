@@ -281,8 +281,8 @@
                         <div>
 	                        <div>
 	                            <div>
-	                                <field name="module_website_rem" class="oe_inline"/>
-	                                <label for="module_website_rem" />
+	                                <field name="module_website_residential" class="oe_inline"/>
+	                                <label for="module_website_residential" />
 	                            </div>
 	                        </div>
                         </div>

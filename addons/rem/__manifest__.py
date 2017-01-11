@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Asset Management',
+    'name': 'Real Estate Management',
     'version': '1.0',
     'author': 'Odoo GAP',
-    'summary': 'Real Estate Asset Management',
+    'summary': 'Real Estate Management',
     'description': """
 Manage real estate assets for sale and rent management purposes
 ===============================================================
