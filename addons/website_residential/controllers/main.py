@@ -37,7 +37,7 @@ class QueryURL(object):
         return path
 
 
-class WebsiteRem(http.Controller):
+class WebsiteResidential(http.Controller):
 
     # @http.route(['/mobile/units',
     #              '/mobile/units/page/<int:page>',
@@ -305,7 +305,7 @@ class WebsiteRem(http.Controller):
             'pager': pager,
         }
 
-        return request.render('website_rem.my_favorites_units_page', values)
+        return request.render('website_residential.my_favorites_units_page', values)
 
     @http.route('/rem/favorite/set/<int:rem_unit_id>', type='http', auth="public", methods=['GET'], website=True)
     def set_rem_favorite(self, rem_unit_id, **kwargs):
@@ -428,14 +428,14 @@ class WebsiteRem(http.Controller):
             'keep': keep,
         }
 
-        return request.render('website_rem.homepage_rem', values)
+        return request.render('website_residential.homepage_rem', values)
 
     @http.route(['/rem/unit/image/<int:image_id>'], type='http', auth="public", website=True)
     def unit_image(self, image_id=0, **post):
         status, headers, content = binary_content(model='rem.image', id=image_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
-            img_path = odoo.modules.get_module_resource('website_rem', 'static/img/units', 'default_unit.jpg')
+            img_path = odoo.modules.get_module_resource('website_residential', 'static/img/units', 'default_unit.jpg')
             with open(img_path, 'rb') as f:
                 image = f.read()
             content = image.encode('base64')
@@ -600,7 +600,7 @@ class WebsiteRem(http.Controller):
             'keep': keep,
         }
 
-        return request.render('website_rem.rem_units_list_page', values)
+        return request.render('website_residential.rem_units_list_page', values)
 
     @http.route(['/rem/unit/<model("rem.unit"):unit>'], type='http', auth='public', website=True)
     def unit(self, unit, **kwargs):
@@ -663,7 +663,7 @@ class WebsiteRem(http.Controller):
             'right_outdoor_features_html': right_outdoor_features_html
         }
 
-        return request.render('website_rem.rem_unit_page', values)
+        return request.render('website_residential.rem_unit_page', values)
 
     def get_custom_field_value(self, unit, fields):
         feature = ''
@@ -702,7 +702,7 @@ class WebsiteRem(http.Controller):
         status, headers, content = binary_content(model='res.users', id=user_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
-            img_path = odoo.modules.get_module_resource('website_rem', 'static/img/agents', 'default_agent.jpg')
+            img_path = odoo.modules.get_module_resource('website_residential', 'static/img/agents', 'default_agent.jpg')
             with open(img_path, 'rb') as f:
                 image = f.read()
             content = image.encode('base64')
@@ -721,22 +721,22 @@ class WebsiteRem(http.Controller):
         v['base_url'] = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         v['posts'] = request.env['rem.unit'].sudo().search(
             [('offer_type_id', '=', otype.id), ('website_published', '=', True)], limit=min(int(limit), 50))
-        return request.render("website_rem.sell_feed", v, headers=[('Content-Type', 'application/atom+xml')])
+        return request.render("website_residential.sell_feed", v, headers=[('Content-Type', 'application/atom+xml')])
 
     @http.route(['/rem/sell'], type='http', auth='public', website=True)
-    def website_rem_sell(self, **kwargs):
+    def website_residential_sell(self, **kwargs):
         env = request.env
         values = {
             'unit_types': env['rem.unit.type'].sudo().search([]),
         }
-        return request.render('website_rem.sell', values)
+        return request.render('website_residential.sell', values)
 
 
 class WebsiteContact(odoo.addons.web.controllers.main.Home):
 
     @http.route(['/contact-us'], type='http', auth='public', website=True)
-    def website_rem_contact(self, **kwargs):
-        return request.render('website_rem.contact_us_page')
+    def website_residential_contact(self, **kwargs):
+        return request.render('website_residential.contact_us_page')
 
     @http.route(['/page/contactus'], type='http', auth='none')
     def website_contact(self, **kwargs):

@@ -6,9 +6,9 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
-                <link type="text/css" rel="stylesheet" href="/website_rem/static/src/css/website_rem.css"/>
-                <script type="text/javascript" src="/website_rem/static/src/js/bootbox.min.js"/>
-                <script type="text/javascript" src="/website_rem/static/src/js/website_rem.js"/>
+                <link type="text/css" rel="stylesheet" href="/website_residential/static/src/css/website_residential.css"/>
+                <script type="text/javascript" src="/website_residential/static/src/js/bootbox.min.js"/>
+                <script type="text/javascript" src="/website_residential/static/src/js/website_residential.js"/>
             </xpath>
         </template>
 
@@ -29,12 +29,12 @@
         <template id="homepage_rem" name="Homepage" inherit_id="website.homepage">
             <xpath expr="//div[@id='wrap']" position="after">
                 <div id="rem-container">
-                    <t t-call="website_rem.homepage_carousel"/>
+                    <t t-call="website_residential.homepage_carousel"/>
                     <div id="search-homepage">
-                        <t t-call="website_rem.search_form"/>
+                        <t t-call="website_residential.search_form"/>
                     </div>
-                    <t t-call="website_rem.rem_highlights"/>
-                    <t t-call="website_rem.rem_feature_units"/>
+                    <t t-call="website_residential.rem_highlights"/>
+                    <t t-call="website_residential.rem_feature_units"/>
                 </div>
             </xpath>
         </template>
@@ -45,16 +45,16 @@
                 <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow" data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
-                            <img src="/website_rem/static/img/carousel/bg_1.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_residential/static/img/carousel/bg_1.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/carousel/bg_2.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_residential/static/img/carousel/bg_2.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/carousel/bg_3.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_residential/static/img/carousel/bg_3.jpg" alt="" class="max-height-600"/>
                         </div>
                         <div class="item">
-                            <img src="/website_rem/static/img/carousel/bg_4.jpg" alt="" class="max-height-600"/>
+                            <img src="/website_residential/static/img/carousel/bg_4.jpg" alt="" class="max-height-600"/>
                         </div>
                     </div>
                 </div>
@@ -239,7 +239,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_1.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -260,7 +260,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_2.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -281,7 +281,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_3.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -310,7 +310,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_4.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_4.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -331,7 +331,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_5.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_5.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -352,7 +352,7 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_rem/static/img/highlights/highlight_6.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_6.jpg" alt="" class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -410,20 +410,20 @@
         <!-- REM Units List Page -->
         <template id="rem_units_list_page" name="Units">
             <t t-call="website.layout">
-                <t t-call="website_rem.allow_snippets">
+                <t t-call="website_residential.allow_snippets">
                     <div id="rem-container">
                         <t t-set="additional_title">Real Estate</t>
-                        <t t-call="website_rem.search_form"/>
+                        <t t-call="website_residential.search_form"/>
                         <t t-if="selected_type_listing==0">
-                            <t t-call="website_rem.rem_units_cards"/>
+                            <t t-call="website_residential.rem_units_cards"/>
                         </t>
                         <t t-if="selected_type_listing==1">
-                            <t t-call="website_rem.rem_units_gmap"/>
+                            <t t-call="website_residential.rem_units_gmap"/>
                             <div id="units-list-photo-cards">
-                                <t t-call="website_rem.rem_units_photo_cards"/>
+                                <t t-call="website_residential.rem_units_photo_cards"/>
                             </div>
                         </t>
-                        <t t-call="website_rem.rem_pager"/>
+                        <t t-call="website_residential.rem_pager"/>
                     </div>
                 </t>
             </t>
@@ -641,7 +641,7 @@
                                                 <div class="carousel" data-ride="carousel">
                                                     <div class="carousel-inner" role="listbox">
                                                         <div class="item active">
-                                                            <img src="/website_rem/static/img/units/default_unit.jpg" alt=""/>
+                                                            <img src="/website_residential/static/img/units/default_unit.jpg" alt=""/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -763,7 +763,7 @@
         <template id="rem_unit_page">
             <t t-call="website.layout">
                 <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
-                <t t-call="website_rem.allow_snippets">
+                <t t-call="website_residential.allow_snippets">
                     <div class="rem-publish-button">
                         <div id="website_published_button" class="margin-10">
                             <t t-call="website.publish_management" groups="sales_team.group_sale_manager">
@@ -773,7 +773,7 @@
                         </div>
                     </div>
                     <div id="rem-container">
-                        <t t-call="website_rem.rem_unit_content"/>
+                        <t t-call="website_residential.rem_unit_content"/>
                     </div>
                 </t>
             </t>
@@ -1064,7 +1064,7 @@
         <!-- Conatct Us Form -->
         <template id="contact_us_page" name="Contact us">
             <t t-call="website.layout">
-                <t t-call="website_rem.allow_snippets">
+                <t t-call="website_residential.allow_snippets">
                     <div id="rem-container">
                         <section>
                             <div class="oe_structure">
@@ -1152,14 +1152,14 @@
         <!-- My Favorites Units Page -->
         <template id="my_favorites_units_page" name="My Favorites">
             <t t-call="website.layout">
-                <t t-call="website_rem.allow_snippets">
+                <t t-call="website_residential.allow_snippets">
                     <div id="rem-container">
                         <t t-set="additional_title">My Favorites</t>
                         <div class="text-center padding-30 my-favorite-title"><i class="zmdi zmdi-star"></i> <![CDATA[&nbsp;]]>My Favorites</div>
                         <div id="my-favorites-photo-cards">
-                            <t t-call="website_rem.rem_units_photo_cards"/>
+                            <t t-call="website_residential.rem_units_photo_cards"/>
                         </div>
-                        <t t-call="website_rem.rem_pager"/>
+                        <t t-call="website_residential.rem_pager"/>
                     </div>
                 </t>
             </t>
