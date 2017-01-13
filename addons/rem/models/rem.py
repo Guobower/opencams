@@ -634,7 +634,7 @@ class RemUnit(models.Model):
     website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     company_id = fields.Many2one('res.company', string='Company', required=True,
-                                 default=lambda self: self.env.user.company_id)
+                                 default=lambda self: self.env['res.company']._company_default_get('rem.unit'))
     active = fields.Boolean(compute='_check_active',
                             store=True, default=True,
                             help='An inactive unit will not be listed in the'
@@ -685,8 +685,6 @@ class RemUnit(models.Model):
         'rem.unit.stage', string='Stage', default=_get_stage)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')], string='Attachments')
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
-    company_id = fields.Many2one('res.company', string='Company', required=True,
-                                 default=lambda self: self.env['res.company']._company_default_get('rem.unit'))
 
     # Listing contracts
     listing_contract_count = fields.Integer(compute='_listing_contract_count')
