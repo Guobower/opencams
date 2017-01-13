@@ -26,6 +26,18 @@
 			                    name="action_find_matching_units" icon="fa-search" string="Find Units">
 			                </button>
 		                </div>
+		                <div name="unit_base_fields">
+		                	<group>
+			                	<group>
+		                            <field name="re_offer_type_id"/>
+	                            	<field name="re_type" widget="many2many_tags"/>
+		                        </group>
+		                        <group>
+		                            <field name="re_city"/>
+		                            <field name="re_is_new"/>
+		                        </group>
+	                        </group>
+		                </div>
                 	</page>
                 	<page string="Unit Selection">
                         <field name="unit_ids" widget="many2many_kanban">

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+
         <!-- Delete All Unit of Measure Categories -->
         <function model="product.uom.categ" name="delete_all_uom_categories"/>
+
     </data>
     <data noupdate="0">
 
@@ -147,81 +149,6 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="sale_product_id" ref="product_rem_brokerservice"/>
             <field name="notes"><![CDATA[This type of agreement may be illegal in your state. 
  The agent gets to keep everything he can get that's more than the sale price the owner wants.]]></field>
-        </record>
-        
-        <!-- Offer Types -->
-        
-        <record id="offer_type_buy" model="offer.type">
-            <field name="name">Buy</field>
-            <field name="unit_name_format">{street:.10}, {CITY:.5}.</field>
-            <field name="unit_websitename_format">{street:.10}, {CITY:.5}.</field>
-            <field name="is_rent" eval="0"/>
-            <field name="menu_name">For Sale</field>
-        </record>
-        
-        <record id="offer_type_rent" model="offer.type">
-            <field name="name">Rent</field>
-            <field name="unit_name_format">{street:.10}, {CITY:.5}.</field>
-            <field name="unit_websitename_format">{street:.10}, {CITY:.5}.</field>
-            <field name="is_rent" eval="1"/>
-            <field name="menu_name">For Rent</field>
-        </record>
-        
-​        <!-- Unit Stages -->
-​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
-            <field name="name">Available</field>
-            <field name="offer_type_id" ref="offer_type_buy"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="10"/>
-        </record>
-
-        <record id="rem_unit_stage_buy_staging" model="rem.unit.stage">
-            <field name="name">Staging</field>
-            <field name="offer_type_id" ref="offer_type_buy"/>
-            <field name="force_show" eval="1"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="20"/>
-        </record>
-​
-​        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
-            <field name="name">Sold</field>
-            <field name="offer_type_id" ref="offer_type_buy"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="1"/>
-            <field name="sequence" eval="30"/>
-        </record>
-
-​        <record id="rem_unit_stage_rent_available" model="rem.unit.stage">
-            <field name="name">Available</field>
-            <field name="offer_type_id" ref="offer_type_rent"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="10"/>
-        </record>
-
-        <record id="rem_unit_stage_rent_refurbish" model="rem.unit.stage">
-            <field name="name">Refurbish</field>
-            <field name="offer_type_id" ref="offer_type_rent"/>
-            <field name="force_show" eval="1"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="20"/>
-        </record>
-​
-​        <record id="rem_unit_stage_rent_occupied" model="rem.unit.stage">
-            <field name="name">Occupied</field>
-            <field name="offer_type_id" ref="offer_type_rent"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="0"/>
-            <field name="sequence" eval="30"/>
-        </record>
-​​
-​        <record id="rem_unit_stage_rent_out" model="rem.unit.stage">
-            <field name="name">Out of market</field>
-            <field name="offer_type_id" ref="offer_type_rent"/>
-            <field name="force_show" eval="0"/>
-            <field name="force_hide" eval="1"/>
-            <field name="sequence" eval="40"/>
         </record>
 
         <!-- Sequences for rem.unit -->

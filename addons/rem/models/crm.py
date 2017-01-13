@@ -2,11 +2,26 @@
 from odoo import fields, models, api, _
 import datetime
 
-MATCH_RE = {}
+MATCH_RE = {
+    'self.planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
+    'self.re_offer_type_id': {'search_default_offer_type_id': 'self.re_offer_type_id.id'},
+    'self.re_type': {'search_default_type_id': 'self.re_type.ids[0]'},
+    'self.re_city': {'search_default_city_id': 'self.re_city.id'},
+    'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
+}
 
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
+
+    planned_revenue = fields.Float('Client Budget', track_visibility='always')
+
+    re_offer_type_id = fields.Many2one(
+        'offer.type', string='Offer Type')
+    re_type = fields.Many2many('rem.unit.type', string='Property Type')
+    re_city = fields.Many2one(
+        'rem.unit.city', string='City', help='place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills')
+    re_is_new = fields.Boolean(string='Is New', help='Active if you want to search for units new.')
 
     unit_ids = fields.Many2many('rem.unit', 'crm_lead_rem_unit_rel1', 'unit_id', 'lead_id', string='Units')
     re_reason = fields.Many2one('reason.for.buy', string='Reason for Buy')

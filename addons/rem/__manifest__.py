@@ -5,9 +5,9 @@
     'author': 'Odoo GAP',
     'summary': 'Real Estate Management',
     'description': """
-Manage real estate assets for sale and rent management purposes
+Manage real estate assets
 ===============================================================
-This module allows to sell/rent real estate units
+This module allows to manage real estate units
 
 
     """,
@@ -28,7 +28,6 @@ This module allows to sell/rent real estate units
         'views/rem_menu.xml',
         'views/rem_view.xml',
         'views/stage_history_form.xml',
-        'views/rem_menu.xml',
         'views/account_invoice_view.xml',
         'wizard/event_unit_multi.xml',
         'views/rem_cron.xml',
@@ -37,6 +36,6 @@ This module allows to sell/rent real estate units
     'test': [
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False,
 }

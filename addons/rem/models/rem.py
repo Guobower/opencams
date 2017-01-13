@@ -104,8 +104,8 @@ class RemUnitOfferType(models.Model):
         domain="[('model', '=', 'rem.unit'), ('rem_category', 'in', ['general', 'indoor', 'outdoor'])]")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
-    unit_name_format = fields.Char(string='Unit General Name')
-    unit_websitename_format = fields.Char(string='Unit Website Name')
+    unit_name_format = fields.Char(string='Unit General Name', default="{street:.10}, {CITY:.5}")
+    unit_websitename_format = fields.Char(string='Unit Website Name', default="{street:.10}, {CITY:.5}")
 
     @api.multi
     def create_offer_type_menu(self):

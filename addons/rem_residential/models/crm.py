@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api, _
+from odoo.addons.rem.models.crm import MATCH_RE
 
-
-MATCH_RE = {
-    'self.planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
+MATCH_RE.update({
     # General Features
-    'self.re_offer_type_id': {'search_default_offer_type_id': 'self.re_offer_type_id.id'},
-    'self.re_city': {'search_default_city_id': 'self.re_city.id'},
-    'self.re_type': {'search_default_type_id': 'self.re_type.ids[0]'},
     'self.re_min_bedrooms': {'min_bedrooms': 'self.re_min_bedrooms'},
     'self.re_max_bedrooms': {'max_bedrooms': 'self.re_max_bedrooms'},
     'self.re_bathrooms > 0': {'min_bathrooms': 'self.re_bathrooms'},
-    'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
     'self.re_points_interest': {'search_default_points_interest': 'self.re_points_interest.ids'},
     # Indoor Features
     'self.re_air_conditioned': {'search_default_air_condicioned': 'self.re_air_conditioned'},
@@ -27,31 +22,21 @@ MATCH_RE = {
     'self.re_garage_spaces > 0': {'min_garages': 'self.re_garage_spaces'},
     'self.re_secure_parking': {'search_default_secure_parking': 'self.re_secure_parking'},
     'self.re_dog_friendly': {'search_default_air_dog_friendly': 'self.re_dog_friendly'},
-}
+})
 
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
-    planned_revenue = fields.Float('Client Budget', track_visibility='always')
-
     # General Features
-    re_offer_type_id = fields.Many2one(
-        'offer.type', string='Offer Type')
-    re_type = fields.Many2many('rem.unit.type', string='Property Type')
     re_min_bedrooms = fields.Integer(
         'Min Bedrooms', help="Min number of bedrooms")
     re_max_bedrooms = fields.Integer(
         'Max Bedrooms', help="Max number of bedrooms")
-    re_bedrooms = fields.Integer(string='Bedrooms', help="Bedrooms")
     re_bathrooms = fields.Integer(
         'Min Bathrooms', help="Min Number of bathrooms", re_field='bathrooms')
-    re_street = fields.Char('Street')
-    re_city = fields.Many2one(
-        'rem.unit.city', string='City', help='place in order of gratest zone e.g. US, CA, Los Angeles, Beverly Hills')
     re_points_interest = fields.Many2many(
         'location.preferences', string='Points of Interest')
-    re_is_new = fields.Boolean(string='Is New', help='Active if you want to search for units new.')
 
     # Indoor Features
     re_air_conditioned = fields.Boolean(
