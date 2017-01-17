@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- CRM Opportunities Form View -->
+        <record id="view_crm_opportunity_rem_office_unit_form" model="ir.ui.view">
+            <field name="name">crm.lead.rem.res.unit.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="rem.view_crm_opportunity_rem_unit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='unit_base_fields']" position="after">
+                    <group>
+                        <group>
+                            <label for="re_min_people" string="People min/max"/>
+                            <div class="o_row">
+                                <field name="re_min_people" nolabel="1"/>
+                                <span> to </span>
+                                <field name="re_max_people" nolabel="1"/>
+                            </div>
+                            <field name="re_min_area"/>
+                            <field name="re_min_desk_phones"/>
+                        </group>
+                        <group>
+                            <label for="re_min_seats" string="Seats min/max"/>
+                            <div class="o_row">
+                                <field name="re_min_seats" nolabel="1"/>
+                                <span> to </span>
+                                <field name="re_max_seats" nolabel="1"/>
+                            </div>
+                            <field name="re_min_windows"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
