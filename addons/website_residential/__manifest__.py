@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Real Estate Agency Website',
-    'version': '1.0',
+    'version': '10.0.1.0',
     'author': 'Odoo GAP',
     'summary': 'Real Estate Agency Website',
     'description': """

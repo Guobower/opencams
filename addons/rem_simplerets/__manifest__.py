@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'REM SimplyRETS Connector',
-    'version': '1.0',
+    'version': '10.0.1.0',
     'author': 'OdooGap',
     'summary': 'REM SimplyRETS Connector',
     'description': """

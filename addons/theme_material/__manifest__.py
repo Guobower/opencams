@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Material Theme',
-    'version': '1.0',
+    'version': '10.0.1.0',
     'author': 'Odoo GAP',
     'summary': 'Material Theme',
     'description': """
