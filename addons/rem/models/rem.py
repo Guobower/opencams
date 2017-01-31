@@ -109,6 +109,7 @@ class RemUnitOfferType(models.Model):
 
     @api.multi
     def create_offer_type_menu(self):
+        # TODO: fix page refresh issue after creating the menu
         for offer in self:
             higher_sequence = self.env['ir.ui.menu'].search(
                 [('parent_id', '=', self.env.ref('rem.menu_rem_properties').id)],
@@ -417,26 +418,6 @@ class RemUnit(models.Model):
     def _get_default_offer_type(self):
         return self.env['offer.type'].search([], limit=1, order='id')
 
-    @api.one
-    def add_feature(self):
-        max_feature_units = self.pool.get('ir.config_parameter').get_param(self.env.cr, self.env.uid, 'max_feature_units')
-
-        self.env.cr.execute('SELECT COUNT(rem_unit_id) AS total FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1',
-                            [self.env.uid])
-        for feature_units in self.env.cr.dictfetchall():
-            if int(max_feature_units) == 0 or int(feature_units['total']) < int(max_feature_units):
-                self.feature_id = [(4, self.env.uid)]
-                self.is_featured = True
-            else:
-                raise exceptions.ValidationError(
-                    'You can only have %s Feature Units.' % max_feature_units)
-        return True
-
-    @api.one
-    def remove_feature(self):
-        self.feature_id = [(3, self.env.uid)]
-        return True
-
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
@@ -673,11 +654,9 @@ class RemUnit(models.Model):
 
     image_ids = fields.One2many(
         'rem.image', 'unit_id', string='Photos', ondelete='cascade')
+    # TODO: set a default image for unit if it doesn't have any to show in kanban view
     main_img = fields.Binary('Main Image', compute='_get_main_image', attachment=True, store=True)
     main_img_id = fields.Integer('Main Image ID', compute='_get_main_image')
-    feature_id = fields.Many2many(
-        'res.users', 'rem_unit_res_users_rel', 'rem_unit_id', 'res_user_id')
-    is_featured = fields.Boolean(string='Is Featured', default=False)
     is_new = fields.Boolean(string='Is New', default=True,
                             help='If the field is new is set to False, the unit is considered used.')
     website_description = fields.Html(string='Description', sanitize=False, translate=html_translate)

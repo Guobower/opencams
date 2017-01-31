@@ -55,11 +55,12 @@
                 </xpath>
                 <xpath expr="//filter[@name='offertype']" position="after">
                     <filter string="Bedrooms" icon="terp-partner" domain="[]" context="{'group_by':'bedrooms'}"/>
+                    <filter string="Bathrooms" icon="terp-partner" domain="[]" context="{'group_by':'bathrooms'}"/>
                 </xpath>
             </field>
         </record>
 
-        <!-- Real Estate Asset Search Form -->
+        <!-- Real Estate Asset Form -->
         <record id="view_rem_residential_unit_form" model="ir.ui.view">
             <field name="name">rem.res.unit.form</field>
             <field name="model">rem.unit</field>
