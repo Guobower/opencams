@@ -17,10 +17,12 @@ This Module allows to sell/rent real estate units
     'demo': [
     ],
     'data': [
+        'data/rem_data.xml',
         'data/website_residential_data.xml',
         'security/website_residential.xml',
         'security/ir.model.access.csv',
         'views/menu.xml',
+        'views/rem_view.xml',
         'views/templates.xml',
         'views/templates_seller.xml',
         'views/templates_atom.xml',

@@ -7,6 +7,8 @@
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
                 <link type="text/css" rel="stylesheet" href="/website_residential/static/src/css/website_residential.css"/>
+            </xpath>
+            <xpath expr="script[last()]" position="after">
                 <script type="text/javascript" src="/website_residential/static/src/js/bootbox.min.js"/>
                 <script type="text/javascript" src="/website_residential/static/src/js/website_residential.js"/>
             </xpath>

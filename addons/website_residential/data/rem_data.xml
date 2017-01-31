@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Max Feature Units -->
+        <record id="max_feature_units" model="ir.config_parameter">
+            <field name="key">max_feature_units</field>
+            <field name="value">8</field>
+        </record>
+
+    </data>
+</odoo>
