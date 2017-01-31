@@ -180,9 +180,9 @@
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
                     	<filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
-                        <filter name="forsale" string="For Sale" domain="[('offer_type_id','=', 1)]" help="Units to sell"/>
-                        <filter name="forrent" string="For Rent" domain="[('offer_type_id','=', 2)]" help="Rentable units"/>
-                    	<filter name="inactives" string="Inactives" domain="[('active','=',0)]" help = "Inactive units"/>
+                        <filter name="forsale" string="For Sale" domain="[('is_rent', '=', False)]" help="Units to sell"/>
+                        <filter name="forrent" string="For Rent" domain="[('is_rent', '=', True)]" help="Rentable units"/>
+                    	<filter name="inactives" string="Inactives" domain="[('active','=', False)]" help = "Inactive units"/>
                     	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
                         <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
                         <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
@@ -199,8 +199,6 @@
 			<field name="arch" type="xml">
 				<form string="Real Estate Unit">
 					<header>
-                        <button	name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight"/>
-                        <button	name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
                         <field name="stage_id" widget="statusbar" clickable="True" domain="[('offer_type_id', '=', offer_type_id)]"/>
 					</header>
 					<sheet>
@@ -268,8 +266,6 @@
 			                    </div>
 							</group>
 							<group>
-                                <field name="feature_id" invisible="1"/>
-                                <field name="is_featured" placeholder="Is Featured"/>
 								<!-- Listings -->
 								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
 								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
