@@ -20,12 +20,7 @@
 	                </button>
 	            </xpath>
                 <xpath expr="//notebook/page[1]" position="before">
-                	<page string="Searches for">
-                		<div class="oe_button_box" name="button_box2">
-		                	<button class="oe_stat_button" type="object"
-			                    name="action_find_matching_units" icon="fa-search" string="Find Units">
-			                </button>
-		                </div>
+                	<page name="search_for_units" string="Searches for Units">
 		                <div name="unit_base_fields">
 		                	<group>
 			                	<group>
@@ -37,6 +32,14 @@
 		                            <field name="re_is_new"/>
 		                        </group>
 	                        </group>
+	                        <group>
+                                <group/>
+                                <group>
+                                    <button class="btn btn-sm oe_highlight" type="object"
+                                        name="action_find_matching_units" icon="fa-search" string="Find Units">
+                                    </button>
+                                </group>
+                            </group>
 		                </div>
                 	</page>
                 	<page string="Unit Selection">
