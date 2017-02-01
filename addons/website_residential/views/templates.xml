@@ -6,7 +6,8 @@
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
                 <link type="text/css" rel="stylesheet" href="/web/static/lib/bootstrap/less/glyphicons.less"/>
-                <link type="text/css" rel="stylesheet" href="/website_residential/static/src/css/website_residential.css"/>
+                <link type="text/css" rel="stylesheet"
+                      href="/website_residential/static/src/css/website_residential.css"/>
             </xpath>
             <xpath expr="script[last()]" position="after">
                 <script type="text/javascript" src="/website_residential/static/src/js/bootbox.min.js"/>
@@ -44,7 +45,8 @@
         <!-- Homepage Carousel -->
         <template id="homepage_carousel">
             <div class="oe_structure">
-                <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow" data-ride="carousel">
+                <div id="carousel-homepage" class="carousel slide carousel-fade max-height-600 rem-box-shadow"
+                     data-ride="carousel">
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
                             <img src="/website_residential/static/img/carousel/bg_1.jpg" alt="" class="max-height-600"/>
@@ -70,49 +72,60 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                                <form method="get" t-att-action="keep('/rem', offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='')">
+                                <form method="get"
+                                      t-att-action="keep('/rem', offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='')">
                                     <div class="rem-form-search rem-box-shadow padding-0-30">
                                         <t t-if="selected_offer_type>0">
                                             <ul class="nav nav-tabs">
                                                 <t t-foreach="offers_type" t-as="offer_type">
                                                     <t t-if="selected_offer_type==offer_type.id">
-                                                        <li t-att-id="'ct-' + str(offer_type.id)" class="active"><a href="#"><t t-esc="offer_type.name"/></a></li>
+                                                        <li t-att-id="'ct-' + str(offer_type.id)" class="active">
+                                                            <a href="#">
+                                                                <t t-esc="offer_type.name"/>
+                                                            </a>
+                                                        </li>
                                                     </t>
                                                     <t t-if="selected_offer_type!=offer_type.id">
-                                                        <li t-att-id="'ct-' + str(offer_type.id)"><a href="#"><t t-esc="offer_type.name"/></a></li>
+                                                        <li t-att-id="'ct-' + str(offer_type.id)">
+                                                            <a href="#">
+                                                                <t t-esc="offer_type.name"/>
+                                                            </a>
+                                                        </li>
                                                     </t>
                                                 </t>
                                             </ul>
                                         </t>
-                                        <input type="hidden" id="offer_type" name="offer_type" t-att-value="selected_offer_type"/>
+                                        <input type="hidden" id="offer_type" name="offer_type"
+                                               t-att-value="selected_offer_type"/>
                                         <div class="row">
                                             <div class="col-sm-8 col-xs-12">
                                                 <div class="form-group">
                                                     <t t-if="result_multi_search!=''">
                                                         <input
-                                                            type="text"
-                                                            id="multi_search"
-                                                            name="multi_search"
-                                                            maxlength="128"
-                                                            class="form-control"
-                                                            title="Search for state, city or zone"
-                                                            placeholder="Search for state, city or zone"
-                                                            t-att-value="result_multi_search"
-                                                            autocomplete="off"/>
+                                                                type="text"
+                                                                id="multi_search"
+                                                                name="multi_search"
+                                                                maxlength="128"
+                                                                class="form-control"
+                                                                title="Search for state, city or zone"
+                                                                placeholder="Search for state, city or zone"
+                                                                t-att-value="result_multi_search"
+                                                                autocomplete="off"/>
                                                     </t>
                                                     <t t-if="result_multi_search==''">
                                                         <input
-                                                            type="text"
-                                                            id="multi_search"
-                                                            name="multi_search"
-                                                            maxlength="128"
-                                                            class="form-control"
-                                                            title="Search for state, city or zone"
-                                                            placeholder="Search for state, city or zone"
-                                                            autocomplete="off"/>
+                                                                type="text"
+                                                                id="multi_search"
+                                                                name="multi_search"
+                                                                maxlength="128"
+                                                                class="form-control"
+                                                                title="Search for state, city or zone"
+                                                                placeholder="Search for state, city or zone"
+                                                                autocomplete="off"/>
                                                     </t>
                                                     <div class="rem-autocomplete-container">
-                                                        <ul id="multi_search_autocomplete" class="rem-autocomplete rem-box-shadow display-none"></ul>
+                                                        <ul id="multi_search_autocomplete"
+                                                            class="rem-autocomplete rem-box-shadow display-none"></ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,10 +136,14 @@
                                                             <option value="">All Property Types</option>
                                                             <t t-foreach="units_types" t-as="units_type">
                                                                 <t t-if="result_unit_type==units_type.id">
-                                                                    <option t-att-value="units_type.id" selected=""><t t-esc="units_type.name"/></option>
+                                                                    <option t-att-value="units_type.id" selected="">
+                                                                        <t t-esc="units_type.name"/>
+                                                                    </option>
                                                                 </t>
                                                                 <t t-if="result_unit_type!=units_type.id">
-                                                                    <option t-att-value="units_type.id"><t t-esc="units_type.name"/></option>
+                                                                    <option t-att-value="units_type.id">
+                                                                        <t t-esc="units_type.name"/>
+                                                                    </option>
                                                                 </t>
                                                             </t>
                                                         </select>
@@ -137,7 +154,11 @@
                                         <div class="row margin-top-20">
                                             <div class="col-sm-push-8 col-sm-4 col-xs-12 hidden-xs">
                                                 <div class="form-group">
-                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
+                                                    <a href="/rem"
+                                                       class="btn btn-default btn-block ladda-button waves-effect waves-light">
+                                                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                                                        <![CDATA[&nbsp;&nbsp;]]>Reset
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="col-sm-pull-4 col-sm-4 col-xs-12">
@@ -146,10 +167,14 @@
                                                         <option value="">Min beds</option>
                                                         <t t-foreach="[1, 2, 3, 4, 5]" t-as="i">
                                                             <t t-if="result_min_beds==i">
-                                                                <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                                                <option selected="" t-att-value="i">
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                             <t t-if="result_min_beds!=i">
-                                                                <option t-att-value="i"><t t-esc="i"/></option>
+                                                                <option t-att-value="i">
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                         </t>
                                                     </select>
@@ -161,10 +186,14 @@
                                                         <option value="">Max beds</option>
                                                         <t t-foreach="[1, 2, 3, 4, 5]" t-as="i">
                                                             <t t-if="result_max_beds==i">
-                                                                <option selected="" t-att-value="i"><t t-esc="i"/></option>
+                                                                <option selected="" t-att-value="i">
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                             <t t-if="result_max_beds!=i">
-                                                                <option t-att-value="i"><t t-esc="i"/></option>
+                                                                <option t-att-value="i">
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                         </t>
                                                     </select>
@@ -176,12 +205,17 @@
                                                 <div class="form-group">
                                                     <select name="min_price" class="form-control">
                                                         <option value="">Min price</option>
-                                                        <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']" t-as="i">
+                                                        <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']"
+                                                           t-as="i">
                                                             <t t-if="result_min_price==i.replace(',', '')">
-                                                                <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                                                <option selected="" t-att-value="i">$
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                             <t t-if="result_min_price!=i.replace(',', '')">
-                                                                <option t-att-value="i">$<t t-esc="i"/></option>
+                                                                <option t-att-value="i">$
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                         </t>
                                                     </select>
@@ -191,12 +225,17 @@
                                                 <div class="form-group">
                                                     <select name="max_price" class="form-control">
                                                         <option value="">Max price</option>
-                                                        <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']" t-as="i">
+                                                        <t t-foreach="['50,000', '100,000', '150,000', '200,000', '250,000', '300,000', '350,000', '400,000', '450,000', '500,000', '550,000', '600,000', '650,000', '700,000', '750,000', '800,000', '850,000', '900,000', '950,000', '1,000,000', '1,250,000', '1,500,000', '1,750,000', '2,000,000', '3,000,000', '4,000,000', '5,000,000', '10,000,000']"
+                                                           t-as="i">
                                                             <t t-if="result_max_price==i.replace(',', '')">
-                                                                <option selected="" t-att-value="i">$<t t-esc="i"/></option>
+                                                                <option selected="" t-att-value="i">$
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                             <t t-if="result_max_price!=i.replace(',', '')">
-                                                                <option t-att-value="i">$<t t-esc="i"/></option>
+                                                                <option t-att-value="i">$
+                                                                    <t t-esc="i"/>
+                                                                </option>
                                                             </t>
                                                         </t>
                                                     </select>
@@ -204,23 +243,45 @@
                                             </div>
                                             <div class="col-sm-4 col-xs-12">
                                                 <div class="form-group margin-top-20 hidden-lg hidden-md hidden-sm">
-                                                    <a href="/rem" class="btn btn-default btn-block ladda-button waves-effect waves-light"><i class="fa fa-eraser" aria-hidden="true"></i> <![CDATA[&nbsp;&nbsp;]]>Reset</a>
+                                                    <a href="/rem"
+                                                       class="btn btn-default btn-block ladda-button waves-effect waves-light">
+                                                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                                                        <![CDATA[&nbsp;&nbsp;]]>Reset
+                                                    </a>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id="rem-search-button" type="submit" class="btn btn-primary btn-block ladda-button waves-effect waves-light" data-style="zoom-out"><i class="zmdi zmdi-search"></i> <![CDATA[&nbsp;&nbsp;]]>Search</button>
+                                                    <button id="rem-search-button" type="submit"
+                                                            class="btn btn-primary btn-block ladda-button waves-effect waves-light"
+                                                            data-style="zoom-out">
+                                                        <i class="zmdi zmdi-search"></i>
+                                                        <![CDATA[&nbsp;&nbsp;]]>Search
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="rem-listing margin-top-20">
                                             <t t-if="selected_type_listing==0">
-                                                <span id="type-list" class="type-listing selected"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
-                                                <span id="type-map" class="type-listing"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                                <span id="type-list" class="type-listing selected">
+                                                    <i class="zmdi zmdi-format-list-bulleted"></i>
+                                                    <![CDATA[&nbsp;]]>List
+                                                </span>
+                                                <span id="type-map" class="type-listing">
+                                                    <i class="zmdi zmdi-map"></i>
+                                                    <![CDATA[&nbsp;]]>Map
+                                                </span>
                                             </t>
                                             <t t-if="selected_type_listing==1">
-                                                <span id="type-list" class="type-listing"><i class="zmdi zmdi-format-list-bulleted"></i> <![CDATA[&nbsp;]]>List</span>
-                                                <span id="type-map" class="type-listing selected"><i class="zmdi zmdi-map"></i> <![CDATA[&nbsp;]]>Map</span>
+                                                <span id="type-list" class="type-listing">
+                                                    <i class="zmdi zmdi-format-list-bulleted"></i>
+                                                    <![CDATA[&nbsp;]]>List
+                                                </span>
+                                                <span id="type-map" class="type-listing selected">
+                                                    <i class="zmdi zmdi-map"></i>
+                                                    <![CDATA[&nbsp;]]>Map
+                                                </span>
                                             </t>
-                                            <input type="hidden" id="type_listing" name="type_listing" t-att-value="selected_type_listing"/>
+                                            <input type="hidden" id="type_listing" name="type_listing"
+                                                   t-att-value="selected_type_listing"/>
                                         </div>
                                     </div>
                                 </form>
@@ -241,7 +302,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_1.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_1.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -253,7 +315,8 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            You want to start a new life and rent a new home? We have properties you won't find anywhere else.
+                                            You want to start a new life and rent a new home? We have properties you
+                                            won't find anywhere else.
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +325,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_2.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_2.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -274,7 +338,8 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Let us help you to find the right property, at right place with the right price.
+                                            Let us help you to find the right property, at right place with the right
+                                            price.
                                         </div>
                                     </div>
                                 </div>
@@ -283,7 +348,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_3.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_3.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -312,7 +378,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_4.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_4.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -324,7 +391,8 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-text">
-                                            Look at our latest listed properties and check out the facilities on them. You will find something match-able to your needs.
+                                            Look at our latest listed properties and check out the facilities on them.
+                                            You will find something match-able to your needs.
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +401,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_5.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_5.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -354,7 +423,8 @@
                                 <div class="rem-promote-item">
                                     <div class="col-sm-12 col-xs-6 padding-0">
                                         <div class="rem-promote-item-img">
-                                            <img src="/website_residential/static/img/highlights/highlight_6.jpg" alt="" class="img-responsive"/>
+                                            <img src="/website_residential/static/img/highlights/highlight_6.jpg" alt=""
+                                                 class="img-responsive"/>
                                         </div>
                                         <div class="row margin-0">
                                             <div class="col-xs-12 margin-0">
@@ -391,8 +461,10 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="rem-feature-units-controls controls pull-right">
-                                                <a class="left fa fa-chevron-left waves-effect waves-light" href="#carousel-feature-units" data-slide="prev"></a>
-                                                <a class="right fa fa-chevron-right waves-effect waves-light" href="#carousel-feature-units"  data-slide="next"></a>
+                                                <a class="left fa fa-chevron-left waves-effect waves-light"
+                                                   href="#carousel-feature-units" data-slide="prev"></a>
+                                                <a class="right fa fa-chevron-right waves-effect waves-light"
+                                                   href="#carousel-feature-units" data-slide="next"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -438,84 +510,123 @@
                     <div id="map"></div>
                     <script type="text/javascript">
                         function initMap() {
-                            var locations = [
-                            <t t-foreach="gmaps_units" t-as="unit">
-                                ['<div class="maps_marker_container clearfix">' +
-                                     '<div>' +
-                                         <t t-if="len(unit.image_ids) > 0">
-                                             '<div itemprop="image" t-field="unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>' +
-                                         </t>
-                                         '<strong><t t-esc="unit.display_name"/></strong>' +
-                                     '</div>' +
-                                    <t t-if="unit.offer_type_id.is_rent == 0 and unit.price > 0">
-                                        '<div t-field="unit.price" t-options='{"widget": "monetary", "display_currency": unit.currency_id}' class="margin-top-10"/>' +
+                        var locations = [
+                        <t t-foreach="gmaps_units" t-as="unit">
+                            ['
+                            <div class="maps_marker_container clearfix">' +
+                                '
+                                <div>' +
+                                    <t t-if="len(unit.image_ids) > 0">
+                                        '<div itemprop="image" t-field="unit.image_ids[0].image"
+                                              t-field-options='{"widget": "image"}'/>' +
                                     </t>
-                                    <t t-if="unit.offer_type_id.is_rent == 1 and unit.rent_price > 0">
-                                        '<span t-field="unit.rent_price" t-options='{"widget": "monetary", "display_currency": unit.currency_id}' class="margin-top-10"/> <span class="price_uom"><t t-esc="unit.rent_uom_id.name"/></span>' +
+                                    '
+                                    <strong>
+                                        <t t-esc="unit.display_name"/>
+                                    </strong>
+                                    ' +
+                                    '
+                                </div>
+                                ' +
+                                <t t-if="unit.offer_type_id.is_rent == 0 and unit.price > 0">
+                                    '<div t-field="unit.price"
+                                          t-options='{"widget": "monetary", "display_currency": unit.currency_id}'
+                                          class="margin-top-10"/>' +
+                                </t>
+                                <t t-if="unit.offer_type_id.is_rent == 1 and unit.rent_price > 0">
+                                    '
+                                    <span t-field="unit.rent_price"
+                                          t-options='{"widget": "monetary", "display_currency": unit.currency_id}'
+                                          class="margin-top-10"/>
+                                    <span class="price_uom">
+                                        <t t-esc="unit.rent_uom_id.name"/>
+                                    </span>
+                                    ' +
+                                </t>
+                                '
+                                <div class="margin-top-10">' +
+                                    <t t-if="unit.bedrooms > 0">
+                                        '
+                                        <span title="Bedrooms">' +
+                                            '<i class="zmdi zmdi-hotel"></i>
+                                            <t t-esc="unit.bedrooms"/>' +
+                                            '
+                                        </span>
+                                        ' +
                                     </t>
-                                     '<div class="margin-top-10">' +
-                                         <t t-if="unit.bedrooms > 0">
-                                             '<span title="Bedrooms">' +
-                                                 '<i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>' +
-                                             '</span>' +
-                                         </t>
-                                         <t t-if="unit.bathrooms > 0">
-                                             '<span title="Bathrooms">' +
-                                                 '<i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>' +
-                                             '</span>' +
-                                         </t>
-                                         <t t-if="unit.garages > 0">
-                                             '<span title="Garages">' +
-                                                 '<i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>' +
-                                             '</span>' +
-                                         </t>
-                                     '</div>' +
-                                     '<a itemprop="url" t-att-href="'/rem/unit/%s' % slug(unit)">Details <i class="fa fa-angle-right" aria-hidden="true"></i></a>' +
-                                 '</div>',
-                                 <t t-esc="unit.latitude"/>,
-                                 <t t-esc="unit.longitude"/>,
-                                 <t t-esc="unit_index"/>],
-                            </t>
-                            ];
+                                    <t t-if="unit.bathrooms > 0">
+                                        '
+                                        <span title="Bathrooms">' +
+                                            '<i class="fa fa-shower" aria-hidden="true"></i>
+                                            <t t-esc="unit.bathrooms"/>' +
+                                            '
+                                        </span>
+                                        ' +
+                                    </t>
+                                    <t t-if="unit.garages > 0">
+                                        '
+                                        <span title="Garages">' +
+                                            '<i class="zmdi zmdi-car"></i>
+                                            <t t-esc="unit.garages"/>' +
+                                            '
+                                        </span>
+                                        ' +
+                                    </t>
+                                    '
+                                </div>
+                                ' +
+                                '
+                                <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(unit)">Details
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </a>
+                                ' +
+                                '
+                            </div>
+                            ',
+                            <t t-esc="unit.latitude"/>,
+                            <t t-esc="unit.longitude"/>,
+                            <t t-esc="unit_index"/>],
+                        </t>
+                        ];
 
-                            window.map = new google.maps.Map(document.getElementById('map'), {
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
-                            });
+                        window.map = new google.maps.Map(document.getElementById('map'), {
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                        });
 
-                            var infowindow = new google.maps.InfoWindow();
+                        var infowindow = new google.maps.InfoWindow();
 
-                            var bounds = new google.maps.LatLngBounds();
+                        var bounds = new google.maps.LatLngBounds();
 
-                            var marker, i;
+                        var marker, i;
 
-                            for (i = 0; i <![CDATA[<]]> locations.length; i++) {
-                                marker = new google.maps.Marker({
-                                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                    map: map
-                                });
+                        for (i = 0; i <![CDATA[<]]> locations.length; i++) {
+                        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map
+                        });
 
-                                bounds.extend(marker.position);
+                        bounds.extend(marker.position);
 
-                                google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                                    return function () {
-                                        infowindow.setContent(locations[i][0]);
-                                        infowindow.open(map, marker);
-                                    }
-                                })(marker, i));
-                            }
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                        }
+                        })(marker, i));
+                        }
 
-                            map.fitBounds(bounds);
+                        map.fitBounds(bounds);
 
-                            var listener = google.maps.event.addListener(map, "idle", function () {
-                                google.maps.event.removeListener(listener);
-                            });
+                        var listener = google.maps.event.addListener(map, "idle", function () {
+                        google.maps.event.removeListener(listener);
+                        });
                         }
 
                         function loadScript() {
-                            var script = document.createElement('script');
-                            script.type = 'text/javascript';
-                            script.src = '<t t-raw="gmaps_url"/>';
-                            document.body.appendChild(script);
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = '<t t-raw="gmaps_url"/>';
+                        document.body.appendChild(script);
                         }
 
                         window.onload = loadScript;
@@ -535,7 +646,8 @@
                                     <div class="rem-unit-photo-card">
                                         <div class="rem-unit-photo-card-img">
                                             <t t-if="len(rem_unit.image_ids) > 0">
-                                                <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                <div itemprop="image" t-field="rem_unit.image_ids[0].image"
+                                                     t-field-options='{"widget": "image"}'/>
                                             </t>
                                         </div>
                                         <div class="row margin-0 height-0">
@@ -544,17 +656,20 @@
                                                     <div class="rem-unit-photo-card-price">
                                                         <t t-if="rem_unit.offer_type_id.is_rent == 0 and rem_unit.price > 0">
                                                             <div t-field="rem_unit.price"
-                                                                t-options='{
+                                                                 t-options='{
                                                                    "widget": "monetary",
                                                                    "display_currency": rem_unit.currency_id,
                                                                 }' class="margin-top-10"/>
                                                         </t>
                                                         <t t-if="rem_unit.offer_type_id.is_rent == 1 and rem_unit.rent_price > 0">
                                                             <span t-field="rem_unit.rent_price"
-                                                                t-options='{
+                                                                  t-options='{
                                                                    "widget": "monetary",
                                                                    "display_currency": rem_unit.currency_id,
-                                                                }'/> <span class="price_uom"><t t-esc="rem_unit.rent_uom_id.name"/></span>
+                                                                }'/>
+                                                            <span class="price_uom">
+                                                                <t t-esc="rem_unit.rent_uom_id.name"/>
+                                                            </span>
                                                         </t>
                                                     </div>
                                                     <div class="rem-unit-photo-card-title">
@@ -564,10 +679,16 @@
                                             </div>
                                         </div>
                                         <t t-if="len(rem_unit.image_ids) == 1">
-                                            <div class="rem-unit-photo-card-photos"><t t-esc="len(rem_unit.image_ids)"/> photo</div>
+                                            <div class="rem-unit-photo-card-photos">
+                                                <t t-esc="len(rem_unit.image_ids)"/>
+                                                photo
+                                            </div>
                                         </t>
                                         <t t-if="len(rem_unit.image_ids) > 1">
-                                            <div class="rem-unit-photo-card-photos"><t t-esc="len(rem_unit.image_ids)"/> photos</div>
+                                            <div class="rem-unit-photo-card-photos">
+                                                <t t-esc="len(rem_unit.image_ids)"/>
+                                                photos
+                                            </div>
                                         </t>
                                         <t t-set="found" t-value="0"/>
                                         <t t-foreach="favorites_units" t-as="favorite_unit">
@@ -576,12 +697,14 @@
                                             </t>
                                         </t>
                                         <t t-if="found == 1">
-                                            <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-photo-card-favorite saved">
+                                            <span t-att-id="'fv-' + str(rem_unit.id)"
+                                                  class="rem-unit-photo-card-favorite saved">
                                                 <i class="zmdi zmdi-star"></i>
                                             </span>
                                         </t>
                                         <t t-if="found == 0">
-                                            <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-photo-card-favorite">
+                                            <span t-att-id="'fv-' + str(rem_unit.id)"
+                                                  class="rem-unit-photo-card-favorite">
                                                 <i class="zmdi zmdi-star-outline"></i>
                                             </span>
                                         </t>
@@ -605,27 +728,36 @@
                                     <div class="rem-unit-card">
                                         <div class="rem-unit-card-img-container">
                                             <t t-if="len(rem_unit.image_ids) > 1">
-                                                <div t-att-id="'carousel' + str(rem_unit_index)" class="carousel slide carousel-fade" data-ride="carousel">
+                                                <div t-att-id="'carousel' + str(rem_unit_index)"
+                                                     class="carousel slide carousel-fade" data-ride="carousel">
                                                     <div class="carousel-inner" role="listbox">
                                                         <t t-foreach="rem_unit.image_ids" t-as="rem_image">
                                                             <t t-if="rem_image_index == 0">
                                                                 <div class="item active">
-                                                                    <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                                    <div itemprop="image" t-field="rem_image.image"
+                                                                         t-field-options='{"widget": "image"}'/>
                                                                 </div>
                                                             </t>
                                                             <t t-if="rem_image_index > 0">
                                                                 <div class="item">
-                                                                    <div itemprop="image" t-field="rem_image.image" t-field-options='{"widget": "image"}'/>
+                                                                    <div itemprop="image" t-field="rem_image.image"
+                                                                         t-field-options='{"widget": "image"}'/>
                                                                 </div>
                                                             </t>
                                                         </t>
                                                     </div>
-                                                    <a class="left carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="prev">
-                                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                    <a class="left carousel-control"
+                                                       t-att-href="'#carousel' + str(rem_unit_index)" role="button"
+                                                       data-slide="prev">
+                                                        <span class="glyphicon glyphicon-chevron-left"
+                                                              aria-hidden="true"></span>
                                                         <span class="sr-only">Previous</span>
                                                     </a>
-                                                    <a class="right carousel-control" t-att-href="'#carousel' + str(rem_unit_index)" role="button" data-slide="next">
-                                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                    <a class="right carousel-control"
+                                                       t-att-href="'#carousel' + str(rem_unit_index)" role="button"
+                                                       data-slide="next">
+                                                        <span class="glyphicon glyphicon-chevron-right"
+                                                              aria-hidden="true"></span>
                                                         <span class="sr-only">Next</span>
                                                     </a>
                                                 </div>
@@ -634,7 +766,8 @@
                                                 <div class="carousel" data-ride="carousel">
                                                     <div class="carousel-inner" role="listbox">
                                                         <div class="item active">
-                                                            <div itemprop="image" t-field="rem_unit.image_ids[0].image" t-field-options='{"widget": "image"}'/>
+                                                            <div itemprop="image" t-field="rem_unit.image_ids[0].image"
+                                                                 t-field-options='{"widget": "image"}'/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -643,7 +776,8 @@
                                                 <div class="carousel" data-ride="carousel">
                                                     <div class="carousel-inner" role="listbox">
                                                         <div class="item active">
-                                                            <img src="/website_residential/static/img/units/default_unit.jpg" alt=""/>
+                                                            <img src="/website_residential/static/img/units/default_unit.jpg"
+                                                                 alt=""/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -654,9 +788,14 @@
                                                         <meta itemprop="name" t-att-content="rem_unit.user_id.name"/>
                                                     </div>
                                                     <div class="rem-unit-card-agent-wrapper">
-                                                        <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{rem_unit.user_id.id}" t-att-alt="rem_unit.user_id.name" t-att-title="rem_unit.user_id.name"/>
+                                                        <img class="rem-unit-card-agent-photo"
+                                                             t-attf-src="/rem/user/#{rem_unit.user_id.id}"
+                                                             t-att-alt="rem_unit.user_id.name"
+                                                             t-att-title="rem_unit.user_id.name"/>
                                                     </div>
-                                                    <figcaption><t t-esc="rem_unit.user_id.name"/></figcaption>
+                                                    <figcaption>
+                                                        <t t-esc="rem_unit.user_id.name"/>
+                                                    </figcaption>
                                                 </figure>
                                             </div>
                                         </div>
@@ -664,13 +803,16 @@
                                             <div itemtype="http://schema.org/Product" itemscope="">
                                                 <meta itemprop="name" t-att-content="rem_unit.display_name"/>
                                                 <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
-                                                    <meta itemprop="description" t-att-content="rem_unit.website_description"/>
+                                                    <meta itemprop="description"
+                                                          t-att-content="rem_unit.website_description"/>
                                                     <t t-if="rem_unit.offer_type_id.is_rent == 0 and rem_unit.price > 0">
-                                                        <meta itemprop="priceCurrency" t-att-content="rem_unit.currency_id.name"/>
+                                                        <meta itemprop="priceCurrency"
+                                                              t-att-content="rem_unit.currency_id.name"/>
                                                         <meta itemprop="price" t-att-content="rem_unit.price"/>
                                                     </t>
                                                     <t t-if="rem_unit.offer_type_id.is_rent == 1 and rem_unit.rent_price > 0">
-                                                        <meta itemprop="priceCurrency" t-att-content="rem_unit.currency_id.name"/>
+                                                        <meta itemprop="priceCurrency"
+                                                              t-att-content="rem_unit.currency_id.name"/>
                                                         <meta itemprop="price" t-att-content="rem_unit.rent_price"/>
                                                     </t>
                                                 </div>
@@ -679,17 +821,20 @@
                                                 <div class="rem-unit-card-price">
                                                     <t t-if="rem_unit.offer_type_id.is_rent == 0 and rem_unit.price > 0">
                                                         <div t-field="rem_unit.price"
-                                                            t-options='{
+                                                             t-options='{
                                                                "widget": "monetary",
                                                                "display_currency": rem_unit.currency_id,
                                                             }'/>
                                                     </t>
                                                     <t t-if="rem_unit.offer_type_id.is_rent == 1 and rem_unit.rent_price > 0">
                                                         <span t-field="rem_unit.rent_price"
-                                                            t-options='{
+                                                              t-options='{
                                                                "widget": "monetary",
                                                                "display_currency": rem_unit.currency_id,
-                                                            }'/> <span class="price_uom"><t t-esc="rem_unit.rent_uom_id.name"/></span>
+                                                            }'/>
+                                                        <span class="price_uom">
+                                                            <t t-esc="rem_unit.rent_uom_id.name"/>
+                                                        </span>
                                                     </t>
                                                 </div>
                                                 <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
@@ -700,22 +845,26 @@
                                                 <div class="rem-unit-card-details">
                                                     <t t-if="rem_unit.bedrooms > 0">
                                                         <span title="Bedrooms">
-                                                            <i class="zmdi zmdi-hotel"></i> <t t-esc="rem_unit.bedrooms"/>
+                                                            <i class="zmdi zmdi-hotel"></i>
+                                                            <t t-esc="rem_unit.bedrooms"/>
                                                         </span>
                                                     </t>
                                                     <t t-if="rem_unit.bathrooms > 0">
                                                         <span title="Bathrooms">
-                                                            <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="rem_unit.bathrooms"/>
+                                                            <i class="fa fa-shower" aria-hidden="true"></i>
+                                                            <t t-esc="rem_unit.bathrooms"/>
                                                         </span>
                                                     </t>
                                                     <t t-if="rem_unit.garages > 0">
                                                         <span title="Garages">
-                                                            <i class="zmdi zmdi-car"></i> <t t-esc="rem_unit.garages"/>
+                                                            <i class="zmdi zmdi-car"></i>
+                                                            <t t-esc="rem_unit.garages"/>
                                                         </span>
                                                     </t>
                                                     <a itemprop="url" t-att-href="'/rem/unit/%s' % slug(rem_unit)">
                                                         <span class="rem-unit-card-actions-details">
-                                                            Details <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                            Details
+                                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                         </span>
                                                     </a>
                                                     <t t-set="found" t-value="0"/>
@@ -725,13 +874,17 @@
                                                         </t>
                                                     </t>
                                                     <t t-if="found == 1">
-                                                        <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-card-actions-favorite saved">
-                                                            <i class="zmdi zmdi-star"></i> Saved
+                                                        <span t-att-id="'fv-' + str(rem_unit.id)"
+                                                              class="rem-unit-card-actions-favorite saved">
+                                                            <i class="zmdi zmdi-star"></i>
+                                                            Saved
                                                         </span>
                                                     </t>
                                                     <t t-if="found == 0">
-                                                        <span t-att-id="'fv-' + str(rem_unit.id)" class="rem-unit-card-actions-favorite">
-                                                            <i class="zmdi zmdi-star-outline"></i> Save
+                                                        <span t-att-id="'fv-' + str(rem_unit.id)"
+                                                              class="rem-unit-card-actions-favorite">
+                                                            <i class="zmdi zmdi-star-outline"></i>
+                                                            Save
                                                         </span>
                                                     </t>
                                                 </div>
@@ -764,13 +917,15 @@
         <!--  Unit List -->
         <template id="rem_unit_page">
             <t t-call="website.layout">
-                <t t-set="additional_title"><t t-esc="unit.display_name"/></t>
+                <t t-set="additional_title">
+                    <t t-esc="unit.display_name"/>
+                </t>
                 <t t-call="website_residential.allow_snippets">
                     <div class="rem-publish-button">
                         <div id="website_published_button" class="margin-10">
                             <t t-call="website.publish_management" groups="sales_team.group_sale_manager">
-                              <t t-set="object" t-value="unit"/>
-                              <t t-set="publish_edit" t-value="True"/>
+                                <t t-set="object" t-value="unit"/>
+                                <t t-set="publish_edit" t-value="True"/>
                             </t>
                         </div>
                     </div>
@@ -798,7 +953,8 @@
                                                     <!--  Wrapper for slides -->
                                                     <div class="carousel-inner" role="listbox">
                                                         <t t-foreach="unit.image_ids" t-as="rem_unit_image">
-                                                            <span itemprop="image" t-field="i.image" t-field-options='{"widget": "image"}'/>
+                                                            <span itemprop="image" t-field="i.image"
+                                                                  t-field-options='{"widget": "image"}'/>
                                                         </t>
                                                     </div>
                                                 </t>
@@ -809,23 +965,31 @@
                                                         <t t-foreach="unit.image_ids" t-as="rem_unit_image">
                                                             <t t-if="rem_unit_image_first">
                                                                 <div class="item active">
-                                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                                    <span itemprop="image"
+                                                                          t-field="rem_unit_image.image"
+                                                                          t-field-options='{"widget": "image"}'/>
                                                                 </div>
                                                             </t>
                                                             <t t-if="rem_unit_image_index>0">
                                                                 <div class="item">
-                                                                    <span itemprop="image" t-field="rem_unit_image.image" t-field-options='{"widget": "image"}'/>
+                                                                    <span itemprop="image"
+                                                                          t-field="rem_unit_image.image"
+                                                                          t-field-options='{"widget": "image"}'/>
                                                                 </div>
                                                             </t>
                                                         </t>
                                                     </div>
                                                     <!--  Controls -->
-                                                    <a class="left carousel-control" href="#carousel-unit" role="button" data-slide="prev">
-                                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                    <a class="left carousel-control" href="#carousel-unit" role="button"
+                                                       data-slide="prev">
+                                                        <span class="glyphicon glyphicon-chevron-left"
+                                                              aria-hidden="true"></span>
                                                         <span class="sr-only">Previous</span>
                                                     </a>
-                                                    <a class="right carousel-control" href="#carousel-unit" role="button" data-slide="next">
-                                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                    <a class="right carousel-control" href="#carousel-unit"
+                                                       role="button" data-slide="next">
+                                                        <span class="glyphicon glyphicon-chevron-right"
+                                                              aria-hidden="true"></span>
                                                         <span class="sr-only">Next</span>
                                                     </a>
                                                 </t>
@@ -841,14 +1005,18 @@
                                                 <div class="rem-unit-info">
                                                     <div itemtype="http://schema.org/Product" itemscope="">
                                                         <meta itemprop="name" t-att-content="unit.display_name"/>
-                                                        <div itemtype="http://schema.org/Offer" itemprop="offers" itemscope="">
-                                                            <meta itemprop="description" t-att-content="unit.website_description"/>
+                                                        <div itemtype="http://schema.org/Offer" itemprop="offers"
+                                                             itemscope="">
+                                                            <meta itemprop="description"
+                                                                  t-att-content="unit.website_description"/>
                                                             <t t-if="unit.offer_type_id.is_rent == 0 and unit.price > 0">
-                                                                <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
+                                                                <meta itemprop="priceCurrency"
+                                                                      t-att-content="unit.currency_id.name"/>
                                                                 <meta itemprop="price" t-att-content="unit.price"/>
                                                             </t>
                                                             <t t-if="unit.offer_type_id.is_rent == 1 and unit.rent_price > 0">
-                                                                <meta itemprop="priceCurrency" t-att-content="unit.currency_id.name"/>
+                                                                <meta itemprop="priceCurrency"
+                                                                      t-att-content="unit.currency_id.name"/>
                                                                 <meta itemprop="price" t-att-content="unit.rent_price"/>
                                                             </t>
                                                         </div>
@@ -860,43 +1028,52 @@
                                                         <div class="rem-unit-price">
                                                             <t t-if="unit.offer_type_id.is_rent == 0 and unit.price > 0">
                                                                 <div t-field="unit.price"
-                                                                    t-options='{
+                                                                     t-options='{
                                                                        "widget": "monetary",
                                                                        "display_currency": unit.currency_id,
                                                                     }'/>
                                                             </t>
                                                             <t t-if="unit.offer_type_id.is_rent == 1 and unit.rent_price > 0">
                                                                 <span t-field="unit.rent_price"
-                                                                    t-options='{
+                                                                      t-options='{
                                                                        "widget": "monetary",
                                                                        "display_currency": unit.currency_id,
-                                                                    }'/> <span class="price_uom"><t t-esc="unit.rent_uom_id.name"/></span>
+                                                                    }'/>
+                                                                <span class="price_uom">
+                                                                    <t t-esc="unit.rent_uom_id.name"/>
+                                                                </span>
                                                             </t>
                                                         </div>
                                                     </t>
                                                     <div class="rem-unit-sub-title">
                                                         <t t-if="unit.bedrooms > 0">
                                                             <span title="Bedrooms" class="margin-right-30">
-                                                                <i class="zmdi zmdi-hotel"></i> <t t-esc="unit.bedrooms"/>
+                                                                <i class="zmdi zmdi-hotel"></i>
+                                                                <t t-esc="unit.bedrooms"/>
                                                             </span>
                                                         </t>
                                                         <t t-if="unit.bathrooms > 0">
                                                             <span title="Bathrooms" class="margin-right-30">
-                                                                <i class="fa fa-shower" aria-hidden="true"></i> <t t-esc="unit.bathrooms"/>
+                                                                <i class="fa fa-shower" aria-hidden="true"></i>
+                                                                <t t-esc="unit.bathrooms"/>
                                                             </span>
                                                         </t>
                                                         <t t-if="unit.garages > 0">
                                                             <span title="Garages">
-                                                                <i class="zmdi zmdi-car"></i> <t t-esc="unit.garages"/>
+                                                                <i class="zmdi zmdi-car"></i>
+                                                                <t t-esc="unit.garages"/>
                                                             </span>
                                                         </t>
                                                     </div>
                                                     <div class="rem-unit-description">
-                                                        <div itemprop="description" t-field="unit.website_description" class="oe_structure"/>
+                                                        <div itemprop="description" t-field="unit.website_description"
+                                                             class="oe_structure"/>
                                                     </div>
                                                     <div class="features">
                                                         <t t-if="left_general_features_html != '' or right_general_features_html != ''">
-                                                            <div class="feature-title margin-bottom-10">General Features</div>
+                                                            <div class="feature-title margin-bottom-10">General
+                                                                Features
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col-md-6 col-sm-12">
                                                                     <t t-raw="left_general_features_html"/>
@@ -907,7 +1084,9 @@
                                                             </div>
                                                         </t>
                                                         <t t-if="left_indoor_features_html != '' or right_indoor_features_html != ''">
-                                                            <div class="feature-title margin-bottom-10">Indoor Features</div>
+                                                            <div class="feature-title margin-bottom-10">Indoor
+                                                                Features
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col-md-6 col-sm-12">
                                                                     <t t-raw="left_indoor_features_html"/>
@@ -918,7 +1097,9 @@
                                                             </div>
                                                         </t>
                                                         <t t-if="left_outdoor_features_html != '' or right_outdoor_features_html != ''">
-                                                            <div class="feature-title margin-bottom-10">Outdoor Features</div>
+                                                            <div class="feature-title margin-bottom-10">Outdoor
+                                                                Features
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col-md-6 col-sm-12">
                                                                     <t t-raw="left_outdoor_features_html"/>
@@ -941,22 +1122,27 @@
                                                                 <t t-foreach="unit.table_id.line_ids" t-as="line">
                                                                     <tr>
                                                                         <td>
-                                                                            <t t-esc="unit.table_id.format_season_dates(line.date_start)"/> <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]> <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
+                                                                            <t t-esc="unit.table_id.format_season_dates(line.date_start)"/>
+                                                                            <![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]>
+                                                                            <t t-esc="unit.table_id.format_season_dates(line.date_end)"/>
                                                                         </td>
                                                                         <td class="text-right">
                                                                             <t t-if="unit.offer_type_id.is_rent == 0">
                                                                                 <div t-esc="unit.table_id.calculate_unit_price(unit.price, line.discount, line.fixed_price)"
-                                                                                    t-options='{
+                                                                                     t-options='{
                                                                                        "widget": "monetary",
                                                                                        "display_currency": unit.currency_id,
                                                                                     }'/>
                                                                             </t>
                                                                             <t t-if="unit.offer_type_id.is_rent == 1">
                                                                                 <div t-esc="unit.table_id.calculate_unit_price(unit.rent_price, line.discount, line.fixed_price)"
-                                                                                    t-options='{
+                                                                                     t-options='{
                                                                                        "widget": "monetary",
                                                                                        "display_currency": unit.currency_id,
-                                                                                    }'/> <span class="price_uom"><t t-esc="unit.rent_uom_id.name"/></span>
+                                                                                    }'/>
+                                                                                <span class="price_uom">
+                                                                                    <t t-esc="unit.rent_uom_id.name"/>
+                                                                                </span>
                                                                             </t>
                                                                         </td>
                                                                     </tr>
@@ -967,71 +1153,90 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-xs-12 rem-unit-contact-container">
-                                                <form id="unit-contact-form" action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                                <form id="unit-contact-form" action="/website_form/" method="post"
+                                                      data-model_name="crm.lead"
+                                                      data-success_page="/page/website_crm.contactus_thanks"
+                                                      enctype="multipart/form-data"
+                                                      class="rem-form rem-box-shadow s_website_form">
                                                     <div class="text-center rem-unit-contact-title">
                                                         Want me to call you?
                                                     </div>
                                                     <div class="rem-unit-contact-agent-container">
                                                         <figure class="rem-unit-contact-agent">
-                                                            <div itemtype="http://schema.org/RealEstateAgent" itemscope="">
-                                                                <meta itemprop="name" t-att-content="unit.user_id.name"/>
+                                                            <div itemtype="http://schema.org/RealEstateAgent"
+                                                                 itemscope="">
+                                                                <meta itemprop="name"
+                                                                      t-att-content="unit.user_id.name"/>
                                                             </div>
                                                             <div class="rem-unit-contact-agent-wrapper">
-                                                                <img class="rem-unit-card-agent-photo" t-attf-src="/rem/user/#{unit.user_id.id}" t-att-alt="unit.user_id.name" t-att-title="unit.user_id.name"/>
+                                                                <img class="rem-unit-card-agent-photo"
+                                                                     t-attf-src="/rem/user/#{unit.user_id.id}"
+                                                                     t-att-alt="unit.user_id.name"
+                                                                     t-att-title="unit.user_id.name"/>
                                                             </div>
-                                                            <figcaption><t t-esc="unit.user_id.name"/></figcaption>
+                                                            <figcaption>
+                                                                <t t-esc="unit.user_id.name"/>
+                                                            </figcaption>
                                                         </figure>
                                                     </div>
                                                     <div class="form-group form-field o_website_form_required_custom">
-                                                    <input
-                                                        type="text"
-                                                        id="name"
-                                                        name="name"
-                                                        maxlength="128"
-                                                        class="form-control o_website_form_input"
-                                                        title="Name"
-                                                        placeholder="Name"
-                                                        required="required"/>
+                                                        <input
+                                                                type="text"
+                                                                id="name"
+                                                                name="name"
+                                                                maxlength="128"
+                                                                class="form-control o_website_form_input"
+                                                                title="Name"
+                                                                placeholder="Name"
+                                                                required="required"/>
                                                     </div>
                                                     <div class="form-group form-field o_website_form_required_custom">
                                                         <input
-                                                            type="text"
-                                                            id="phone"
-                                                            name="phone"
-                                                            maxlength="128"
-                                                            class="form-control o_website_form_input"
-                                                            title="Phone Number"
-                                                            placeholder="Phone Number"/>
+                                                                type="text"
+                                                                id="phone"
+                                                                name="phone"
+                                                                maxlength="128"
+                                                                class="form-control o_website_form_input"
+                                                                title="Phone Number"
+                                                                placeholder="Phone Number"/>
                                                     </div>
                                                     <div class="form-group form-field o_website_form_required_custom">
                                                         <input
-                                                            type="email"
-                                                            id="email_from"
-                                                            name="email_from"
-                                                            maxlength="128"
-                                                            class="form-control o_website_form_input"
-                                                            title="Email"
-                                                            placeholder="Email"
-                                                            required="required"/>
+                                                                type="email"
+                                                                id="email_from"
+                                                                name="email_from"
+                                                                maxlength="128"
+                                                                class="form-control o_website_form_input"
+                                                                title="Email"
+                                                                placeholder="Email"
+                                                                required="required"/>
                                                     </div>
                                                     <div class="form-group form-field o_website_form_required_custom">
                                                         <textarea
-                                                            type="text"
-                                                            id="description"
-                                                            name="description"
-                                                            maxlength="1024"
-                                                            class="form-control o_website_form_input"
-                                                            title="Your Question"
-                                                            placeholder="Your Question"
-                                                            rows="6"
-                                                            required="required">I am interested in <t t-esc='unit.display_name'/>.</textarea>
+                                                                type="text"
+                                                                id="description"
+                                                                name="description"
+                                                                maxlength="1024"
+                                                                class="form-control o_website_form_input"
+                                                                title="Your Question"
+                                                                placeholder="Your Question"
+                                                                rows="6"
+                                                                required="required">I am interested in<t
+                                                                t-esc='unit.display_name'/>.
+                                                        </textarea>
                                                     </div>
                                                     <input type="hidden" name="type" value="opportunity"/>
-                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <input type="hidden" name="csrf_token"
+                                                           t-att-value="request.csrf_token()"/>
                                                     <input type="hidden" name="unit_id" t-att-value="unit.id"/>
                                                     <input type="hidden" name="type_buyer" value="1"/>
                                                     <div class="form-group">
-                                                        <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Contact Agent</button>
+                                                        <button type="submit" id="rem-submit-button"
+                                                                class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send"
+                                                                data-style="zoom-out">
+                                                            <i class="zmdi zmdi-mail-send"></i>
+                                                            <![CDATA[&nbsp;&nbsp;]]>Contact Agent
+                                                        </button>
                                                     </div>
                                                     <span id="o_website_form_result" class="text-center"></span>
                                                 </form>
@@ -1055,7 +1260,9 @@
                             <div class="container">
                                 <h1 class="mt32">Unit not found!</h1>
                                 <p>Sorry, this unit is not available anymore.</p>
-                                <p><a href="/rem">Return to the unit list.</a></p>
+                                <p>
+                                    <a href="/rem">Return to the unit list.</a>
+                                </p>
                             </div>
                         </div>
                     </section>
@@ -1072,67 +1279,75 @@
                             <div class="oe_structure">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" enctype="multipart/form-data" class="rem-form rem-box-shadow s_website_form">
+                                        <form action="/website_form/" method="post" data-model_name="crm.lead"
+                                              data-success_page="/page/website_crm.contactus_thanks"
+                                              enctype="multipart/form-data"
+                                              class="rem-form rem-box-shadow s_website_form">
                                             <h1 class="rem-title text-center">Contact us</h1>
                                             <div class="form-group form-field o_website_form_required_custom">
                                                 <input
-                                                    type="text"
-                                                    id="contact_name"
-                                                    name="contact_name"
-                                                    maxlength="128"
-                                                    class="form-control o_website_form_input"
-                                                    title="Name"
-                                                    placeholder="Name"
-                                                    required="required"/>
+                                                        type="text"
+                                                        id="contact_name"
+                                                        name="contact_name"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Name"
+                                                        placeholder="Name"
+                                                        required="required"/>
                                             </div>
                                             <div class="form-group form-field o_website_form_required_custom">
                                                 <input
-                                                    type="text"
-                                                    id="phone"
-                                                    name="phone"
-                                                    maxlength="128"
-                                                    class="form-control o_website_form_input"
-                                                    title="Phone Number"
-                                                    placeholder="Phone Number"/>
+                                                        type="text"
+                                                        id="phone"
+                                                        name="phone"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Phone Number"
+                                                        placeholder="Phone Number"/>
                                             </div>
                                             <div class="form-group form-field o_website_form_required_custom">
                                                 <input
-                                                    type="email"
-                                                    id="email_from"
-                                                    name="email_from"
-                                                    maxlength="128"
-                                                    class="form-control o_website_form_input"
-                                                    title="Email"
-                                                    placeholder="Email"
-                                                    required="required"/>
+                                                        type="email"
+                                                        id="email_from"
+                                                        name="email_from"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Email"
+                                                        placeholder="Email"
+                                                        required="required"/>
                                             </div>
                                             <div class="form-group form-field o_website_form_required_custom">
                                                 <input
-                                                    type="text"
-                                                    id="name"
-                                                    name="name"
-                                                    maxlength="128"
-                                                    class="form-control o_website_form_input"
-                                                    title="Subject"
-                                                    placeholder="Subject"
-                                                    required="required"/>
+                                                        type="text"
+                                                        id="name"
+                                                        name="name"
+                                                        maxlength="128"
+                                                        class="form-control o_website_form_input"
+                                                        title="Subject"
+                                                        placeholder="Subject"
+                                                        required="required"/>
                                             </div>
                                             <div class="form-group form-field o_website_form_required_custom">
                                                 <textarea
-                                                    type="text"
-                                                    id="description"
-                                                    name="description"
-                                                    maxlength="1024"
-                                                    class="form-control o_website_form_input"
-                                                    title="Your Question"
-                                                    placeholder="Your Question"
-                                                    rows="6"
-                                                    required="required"></textarea>
+                                                        type="text"
+                                                        id="description"
+                                                        name="description"
+                                                        maxlength="1024"
+                                                        class="form-control o_website_form_input"
+                                                        title="Your Question"
+                                                        placeholder="Your Question"
+                                                        rows="6"
+                                                        required="required"></textarea>
                                             </div>
                                             <input type="hidden" name="type" value="opportunity"/>
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                             <div class="form-group">
-                                                <button type="submit" id="rem-submit-button" class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send" data-style="zoom-out"><i class="zmdi zmdi-mail-send"></i> <![CDATA[&nbsp;&nbsp;]]>Send</button>
+                                                <button type="submit" id="rem-submit-button"
+                                                        class="btn btn-primary btn-block ladda-button waves-effect waves-light margin-top-30 o_website_form_send"
+                                                        data-style="zoom-out">
+                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                    <![CDATA[&nbsp;&nbsp;]]>Send
+                                                </button>
                                             </div>
                                             <span id="o_website_form_result" class="text-center"></span>
                                         </form>
@@ -1147,7 +1362,9 @@
 
         <template id="my_favorites_link" name="Link to frontend portal" inherit_id="website.layout">
             <xpath expr="//li[@id='o_logout']" position="before">
-                <li><a href="/my/favorites" role="menuitem">Favorites</a></li>
+                <li>
+                    <a href="/my/favorites" role="menuitem">Favorites</a>
+                </li>
             </xpath>
         </template>
 
@@ -1157,7 +1374,10 @@
                 <t t-call="website_residential.allow_snippets">
                     <div id="rem-container">
                         <t t-set="additional_title">My Favorites</t>
-                        <div class="text-center padding-30 my-favorite-title"><i class="zmdi zmdi-star"></i> <![CDATA[&nbsp;]]>My Favorites</div>
+                        <div class="text-center padding-30 my-favorite-title">
+                            <i class="zmdi zmdi-star"></i>
+                            <![CDATA[&nbsp;]]>My Favorites
+                        </div>
                         <div id="my-favorites-photo-cards">
                             <t t-call="website_residential.rem_units_photo_cards"/>
                         </div>
@@ -1166,6 +1386,6 @@
                 </t>
             </t>
         </template>
-        
+
     </data>
 </odoo>

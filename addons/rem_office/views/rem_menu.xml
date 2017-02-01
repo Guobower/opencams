@@ -8,18 +8,21 @@
             <field name="res_model">rem.unit</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="target">current</field>
-            <field name="context" eval="{'search_default_offer_type_id': ref('offer_type_office_rental'), 'default_offer_type': ref('offer_type_office_rental'), 'is_rent': True}"/>
+            <field name="context"
+                   eval="{'search_default_offer_type_id': ref('offer_type_office_rental'), 'default_offer_type': ref('offer_type_office_rental'), 'is_rent': True}"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to list a new unit.
-                </p><p>
+                </p>
+                <p>
                     The real estate units / listing can be rentable or sellable
                     being owned or just commissioned by your company.
                 </p>
             </field>
         </record>
 
-        <menuitem id="menu_rem_properties_unit_rent" parent="rem.menu_rem_properties" action="action_rem_unit_rent" sequence="15"/>
+        <menuitem id="menu_rem_properties_unit_rent" parent="rem.menu_rem_properties" action="action_rem_unit_rent"
+                  sequence="15"/>
 
         <record id="offer_type_office_rental" model="offer.type">
             <field name="listing_menu_id" ref="menu_rem_properties_unit_rent"/>

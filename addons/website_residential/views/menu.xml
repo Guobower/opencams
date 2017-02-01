@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <function model="website.menu" name="update_menu" />
+        <function model="website.menu" name="update_menu"/>
 
         <record id="websitemenu_seller" model="website.menu">
             <field name="name">Sell</field>

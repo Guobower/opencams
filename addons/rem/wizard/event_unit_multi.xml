@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
-	
+    <data>
+
         <!-- CRM Opportunities Form View -->
         <record id="view_calendar_event_calendar_rem" model="ir.ui.view">
-        	<field name="name">Meeting</field>
-        	<field name="model">calendar.event</field>
+            <field name="name">Meeting</field>
+            <field name="model">calendar.event</field>
             <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
             <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_ids']" position="after">
-                <field name="unit_ids"/>
-            </xpath>
-        	</field>
-    	</record>
-    
-	    <record id="action_calendar_event_rem_unit" model="ir.actions.act_window">
-	        <field name="name">Create Meetings/Showings</field>
-	        <field name="res_model">calendar.event</field>
-	        <field name="view_mode">calendar,tree,form</field>
-	        <field name="view_id" ref="calendar.view_calendar_event_calendar"/>
-	        <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
-	        <field name="context">{'default_unit_ids': active_ids}</field>
-	        <field name="help" type="html">
-	          <p class="oe_view_nocontent_create">
-	            Click to schedule a new meeting.
-	          </p><p>
-	            The calendar is shared between employees and fully integrated with
-	            other applications such as the employee holidays or the business
-	            opportunities.
-	          </p>
-	        </field>
-	    </record>
+                <xpath expr="//field[@name='partner_ids']" position="after">
+                    <field name="unit_ids"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_calendar_event_rem_unit" model="ir.actions.act_window">
+            <field name="name">Create Meetings/Showings</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_id" ref="calendar.view_calendar_event_calendar"/>
+            <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+            <field name="context">{'default_unit_ids': active_ids}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to schedule a new meeting.
+                </p>
+                <p>
+                    The calendar is shared between employees and fully integrated with
+                    other applications such as the employee holidays or the business
+                    opportunities.
+                </p>
+            </field>
+        </record>
 
         <!-- Real Estate Asset Action Window   -->
         <record model="ir.values" id="action_rem_unit_event_multi">
-            <field name="model_id" ref="rem.model_rem_unit" />
+            <field name="model_id" ref="rem.model_rem_unit"/>
             <field name="name">Appointment(s)</field>
             <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.act_window,' + str(ref('rem.action_calendar_event_rem_unit'))" />
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('rem.action_calendar_event_rem_unit'))"/>
             <field name="key">action</field>
             <field name="model">rem.unit</field>
         </record>
-        
-	</data>
+
+    </data>
 </odoo>

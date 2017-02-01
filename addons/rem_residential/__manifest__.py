@@ -9,7 +9,6 @@ Manage real estate residential assets for sale and rent management purposes
 ===========================================================================
 This module allows to sell/rent real estate residential units
 
-
     """,
     'website': 'http://www.odoogap.com',
     'depends': ['rem'],

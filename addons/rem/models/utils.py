@@ -2,7 +2,6 @@
 
 
 class RentDate(object):
-
     def __init__(self, env, years=0.0, months=0.0, weeks=0.0, days=0.0, hours=0.0):
         # Quantities
         self.years = years
@@ -28,7 +27,8 @@ class RentDate(object):
 
     def __str__(self):
         str = ("Years=%s Months=%s Weeks=%s Days=%s" % (self.years, self.months, self.weeks, self.days, self.hours))
-        str += ("Year Rate=%s Month Rate=%s Week Rate=%s Day Rate=%s" % (self.r_years, self.r_months, self.r_weeks, self.r_days, self.r_hours))
+        str += ("Year Rate=%s Month Rate=%s Week Rate=%s Day Rate=%s" % (
+        self.r_years, self.r_months, self.r_weeks, self.r_days, self.r_hours))
         return str
 
     def get_lines(self, product_id):

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import account
-import calendar
-import connector
-import contract
-import crm
-import ir_model
-import product
-import project
-import rem
-import res_partner
-import sale
-import search
+from . import account
+from . import calendar
+from . import connector
+from . import contract
+from . import crm
+from . import ir_model
+from . import product
+from . import project
+from . import rem
+from . import res_partner
+from . import sale
+from . import search

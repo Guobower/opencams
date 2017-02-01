@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models, api, _
+from odoo import fields, models, _
 from odoo.addons.rem.models.crm import MATCH_RE
 
 MATCH_RE.update({
@@ -64,4 +64,5 @@ class CrmLead(models.Model):
     re_pool = fields.Boolean(
         string='Swimming Pool', help='Active if you want to search for units with swimming pool.')
     re_entertaining = fields.Boolean(
-        string='Outdoor Entertaining Area', help='Active if you want to search for units with outdoor entertaining area.')
+        string='Outdoor Entertaining Area',
+        help='Active if you want to search for units with outdoor entertaining area.')

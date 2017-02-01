@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-    
-	    <record id="view_res_partner_realestate_filter_inherit" model="ir.ui.view">
-	        <field name="name">res.partner.realestate.inherit.search</field>
-	        <field name="model">res.partner</field>
-	        <field name="inherit_id" ref="base.view_res_partner_filter"/>
-	        <field name="arch" type="xml">
-	            <filter name="supplier" position="after">
-	                <filter string="Buyers" name="buyer" domain="[('buyer','=',1), ('parent_id', '=', False)]"/>
-	                <filter string="Tenants" name="tenant" domain="[('tenant','=',1), ('parent_id', '=', False)]"/>
-	                <filter string="Sellers" name="seller" domain="[('seller','=',1), ('parent_id', '=', False)]"/>
-	                <filter string="Agent" name="Agent" domain="[('agent','=',1), ('parent_id', '=', False)]" help="Real Estate Agents"/>
-	                <filter string="Neighbors" name="is_neighbor" domain="[('is_neighbor','=',1), ('parent_id', '=', False)]"/>
-	            </filter>
-	        </field>
-	    </record>
-	    
-		<!-- Action window for the units button-->
+
+        <record id="view_res_partner_realestate_filter_inherit" model="ir.ui.view">
+            <field name="name">res.partner.realestate.inherit.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <filter name="supplier" position="after">
+                    <filter string="Buyers" name="buyer" domain="[('buyer','=',1), ('parent_id', '=', False)]"/>
+                    <filter string="Tenants" name="tenant" domain="[('tenant','=',1), ('parent_id', '=', False)]"/>
+                    <filter string="Sellers" name="seller" domain="[('seller','=',1), ('parent_id', '=', False)]"/>
+                    <filter string="Agent" name="Agent" domain="[('agent','=',1), ('parent_id', '=', False)]"
+                            help="Real Estate Agents"/>
+                    <filter string="Neighbors" name="is_neighbor"
+                            domain="[('is_neighbor','=',1), ('parent_id', '=', False)]"/>
+                </filter>
+            </field>
+        </record>
+
+        <!-- Action window for the units button-->
         <record id="action_rem_unit" model="ir.actions.act_window">
             <field name="name">For Sale</field>
             <field name="res_model">rem.unit</field>
             <field name="view_mode">tree,form</field>
             <field name="target">current</field>
-	        <field name="help" type="html">
-	            <p class="oe_view_nocontent_create">
-	                Click to list a new unit.
-	            </p><p>
-	                The real estate units / listing can be rentable or sellable
-	                being owned or just commissioned by your company.
-	            </p>
-	        </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to list a new unit.
+                </p>
+                <p>
+                    The real estate units / listing can be rentable or sellable
+                    being owned or just commissioned by your company.
+                </p>
+            </field>
         </record>
-        
+
         <!-- Action window for the agreements button-->
-	    <record model="ir.actions.act_window" id="action_rem_buyer_contract">
-	        <field name="name">Buyer Contracts</field>
-	        <field name="res_model">rem.buyer.contract</field>
-	        <field name="view_mode">tree,form</field>
-	        <field name="help" type="html">
-	            <p>
-	                Unit Buyer Contracts will help you to manage your renewals.
-	            </p><p>
-	                You will be able to plan meetings and phone calls according 
-	                and create notification appointments
-	            </p>
-	        </field>
-	    </record>
-	    
+        <record model="ir.actions.act_window" id="action_rem_buyer_contract">
+            <field name="name">Buyer Contracts</field>
+            <field name="res_model">rem.buyer.contract</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Unit Buyer Contracts will help you to manage your renewals.
+                </p>
+                <p>
+                    You will be able to plan meetings and phone calls according
+                    and create notification appointments
+                </p>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="partner_view_realestate_inherit">
             <field name="name">partner.view.realestate.inherit</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='purchase']" position="after">
-	                <group string="Real estate" name="realestate">
-	                    <field name="buyer"/>
-	                    <field name="tenant"/>
-	                    <field name="seller"/>
-	                    <field name="is_neighbor"/>
-	                </group>
+                    <group string="Real estate" name="realestate">
+                        <field name="buyer"/>
+                        <field name="tenant"/>
+                        <field name="seller"/>
+                        <field name="is_neighbor"/>
+                    </group>
                 </xpath>
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button class="oe_stat_button" type="action" name="%(action_rem_unit)d" 
-                        context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
-                        icon="fa-home" help="Units owned by this contact. (for sell or for rent)">
-                        <field  string="Unit(s)" name="unit_count" widget="statinfo"/>
+                    <button class="oe_stat_button" type="action" name="%(action_rem_unit)d"
+                            context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                            icon="fa-home" help="Units owned by this contact. (for sell or for rent)">
+                        <field string="Unit(s)" name="unit_count" widget="statinfo"/>
                     </button>
-                    <button class="oe_stat_button" type="action" name="%(action_rem_buyer_contract)d" 
-                    	groups="rem.group_use_buyer_contracts" attrs="{'invisible': [('buyer', '=', False)]}"
-                        context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
-                        icon="fa-file-text" help="Buyer representation agreements / contracts">
-                        <field  string="R.Agreements" name="buyer_contract_count" widget="statinfo"/>
+                    <button class="oe_stat_button" type="action" name="%(action_rem_buyer_contract)d"
+                            groups="rem.group_use_buyer_contracts" attrs="{'invisible': [('buyer', '=', False)]}"
+                            context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                            icon="fa-file-text" help="Buyer representation agreements / contracts">
+                        <field string="R.Agreements" name="buyer_contract_count" widget="statinfo"/>
                     </button>
                 </xpath>
             </field>
         </record>
-        
+
     </data>
 </odoo>

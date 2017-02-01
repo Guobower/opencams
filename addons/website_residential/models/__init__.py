@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-import crm
-import rem
-import website
+from . import crm
+from . import rem
+from . import website

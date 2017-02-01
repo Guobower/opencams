@@ -3,9 +3,9 @@ from odoo import tools, api, fields, models, _
 from lxml import etree
 
 _rem_categories = [
-	('general', _('General Features')),
-	('indoor', _('Indoor Features')),
-	('outdoor', _('Outdoor Features'))]
+    ('general', _('General Features')),
+    ('indoor', _('Indoor Features')),
+    ('outdoor', _('Outdoor Features'))]
 
 
 class IrModelFields(models.Model):
@@ -26,7 +26,8 @@ class IrModelFields(models.Model):
     def create(self, vals):
         post = super(IrModelFields, self).create(vals)
         # If view_rem_unit_form exists and field is a feature
-        if self.env['ir.model.data'].search([('name', '=', 'view_rem_unit_form')], limit=1) and vals['rem_category'] in ['general', 'indoor', 'outdoor']:
+        if self.env['ir.model.data'].search([('name', '=', 'view_rem_unit_form')], limit=1) and vals[
+            'rem_category'] in ['general', 'indoor', 'outdoor']:
             # Link base/manual field to offer.type
             self.env['rem.unit'].add_features_to_offer_type()
             # Add base/manual field to rem.unit form
@@ -43,11 +44,15 @@ class IrModelFields(models.Model):
 
         if 'rem_category' in vals:
             # If field is a feature now but it wasn't
-            if vals['rem_category'] in ['general', 'indoor', 'outdoor'] and old_rem_category not in ['general', 'indoor', 'outdoor']:
+            if vals['rem_category'] in ['general', 'indoor', 'outdoor'] and old_rem_category not in ['general',
+                                                                                                     'indoor',
+                                                                                                     'outdoor']:
                 # Link base/manual field to offer.type
                 self.env['rem.unit'].add_features_to_offer_type()
             # If field is not a feature now but it was
-            elif vals['rem_category'] not in ['general', 'indoor', 'outdoor'] and old_rem_category in ['general', 'indoor', 'outdoor']:
+            elif vals['rem_category'] not in ['general', 'indoor', 'outdoor'] and old_rem_category in ['general',
+                                                                                                       'indoor',
+                                                                                                       'outdoor']:
                 # Remove base/manual field from offer.type
                 self.env.cr.execute("DELETE FROM offer_type_ir_model_fields_rel WHERE ir_model_field_id=%i" % self.id)
                 self.env.cr.commit()

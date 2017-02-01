@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
 
         <!-- Top menu item -->
         <menuitem name="Listings"
-            web_icon="rem,static/description/icon.png"
-            id="menu_rem"
-            groups="base.group_user"
-            sequence="7"/>
-		<menuitem id="menu_rem_properties" parent="menu_rem" name="Properties" sequence="10"/>
-		<menuitem id="menu_rem_contact" parent="menu_rem" name="Contacts" sequence="20"/>
-		<menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration" sequence="30"/>
+                  web_icon="rem,static/description/icon.png"
+                  id="menu_rem"
+                  groups="base.group_user"
+                  sequence="7"/>
+        <menuitem id="menu_rem_properties" parent="menu_rem" name="Properties" sequence="10"/>
+        <menuitem id="menu_rem_contact" parent="menu_rem" name="Contacts" sequence="20"/>
+        <menuitem id="menu_rem_conf" parent="menu_rem" name="Configuration" sequence="30"/>
 
         <!-- Seasonal Rates Action Window -->
         <record id="action_rent_table" model="ir.actions.act_window">
@@ -20,7 +20,8 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to add a Seasonal Rates.
-                </p><p>
+                </p>
+                <p>
                     The Seasonal Rates allow you to
                     define the Seasons:
                     e.g. Highest, High, Low, Lowest Season
@@ -28,7 +29,7 @@
             </field>
         </record>
 
-		<!-- All menu -->
+        <!-- All menu -->
         <record id="action_partner_remall_form" model="ir.actions.act_window">
             <field name="name">All</field>
             <field name="type">ir.actions.act_window</field>
@@ -37,20 +38,22 @@
             <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="view_res_partner_realestate_filter_inherit"/>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a contact in your address book.
-              </p><p>
-                Helps you easily track all activities related to
-                a buyer; discussions, history of business opportunities,
-                documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your address book.
+                </p>
+                <p>
+                    Helps you easily track all activities related to
+                    a buyer; discussions, history of business opportunities,
+                    documents, etc.
+                </p>
             </field>
         </record>
 
-        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_remall_form" sequence="10"/>
+        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_remall_form"
+                  sequence="10"/>
 
-		<!-- Buyers menu -->
-        
+        <!-- Buyers menu -->
+
         <record id="action_partner_buyer_form" model="ir.actions.act_window">
             <field name="name">Buyers</field>
             <field name="type">ir.actions.act_window</field>
@@ -60,19 +63,21 @@
             <field name="context">{"search_default_buyer":1,"default_buyer":1}</field>
             <field name="search_view_id" ref="view_res_partner_realestate_filter_inherit"/>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a contact in your address book.
-              </p><p>
-                Helps you easily track all activities related to
-                a buyer; discussions, history of business opportunities,
-                documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your address book.
+                </p>
+                <p>
+                    Helps you easily track all activities related to
+                    a buyer; discussions, history of business opportunities,
+                    documents, etc.
+                </p>
             </field>
         </record>
 
-        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_buyer_form" sequence="20"/>
+        <menuitem id="menu_rem_properties_buyer" parent="menu_rem_contact" action="action_partner_buyer_form"
+                  sequence="20"/>
 
-		<!-- Tenant menu -->
+        <!-- Tenant menu -->
 
         <record id="action_partner_tenant_form" model="ir.actions.act_window">
             <field name="name">Tenants</field>
@@ -83,19 +88,21 @@
             <field name="context">{"search_default_tenant":1,"default_tenant":1}</field>
             <field name="search_view_id" ref="view_res_partner_realestate_filter_inherit"/>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a contact in your address book.
-              </p><p>
-                Helps you easily track all activities related to
-                a tenant; discussions, history of business opportunities,
-                documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your address book.
+                </p>
+                <p>
+                    Helps you easily track all activities related to
+                    a tenant; discussions, history of business opportunities,
+                    documents, etc.
+                </p>
             </field>
         </record>
 
-        <menuitem id="menu_rem_properties_tenant" parent="menu_rem_contact" action="action_partner_tenant_form" sequence="30"/>
+        <menuitem id="menu_rem_properties_tenant" parent="menu_rem_contact" action="action_partner_tenant_form"
+                  sequence="30"/>
 
-		<!-- Seller menu -->
+        <!-- Seller menu -->
 
         <record id="action_partner_seller_form" model="ir.actions.act_window">
             <field name="name">Sellers / Owners</field>
@@ -106,19 +113,21 @@
             <field name="context">{"search_default_seller":1,"default_seler":1}</field>
             <field name="search_view_id" ref="view_res_partner_realestate_filter_inherit"/>
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a contact in your address book.
-              </p><p>
-                Helps you easily track all activities related to
-                a seller; discussions, history of business opportunities,
-                documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your address book.
+                </p>
+                <p>
+                    Helps you easily track all activities related to
+                    a seller; discussions, history of business opportunities,
+                    documents, etc.
+                </p>
             </field>
         </record>
 
-        <menuitem id="menu_rem_properties_seller" parent="menu_rem_contact" action="action_partner_seller_form" sequence="40"/>
+        <menuitem id="menu_rem_properties_seller" parent="menu_rem_contact" action="action_partner_seller_form"
+                  sequence="40"/>
 
-		<!-- Configuration menus -->
+        <!-- Configuration menus -->
 
         <record id="action_rem_config" model="ir.actions.act_window">
             <field name="name">Configure Real Estate Management</field>
@@ -129,7 +138,7 @@
         </record>
 
         <menuitem id="menu_rem_config_settings" name="Settings" parent="rem.menu_rem_conf"
-            sequence="0" action="action_rem_config" groups="base.group_system"/>
+                  sequence="0" action="action_rem_config" groups="base.group_system"/>
 
-	</data>
+    </data>
 </odoo>

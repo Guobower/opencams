@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import models
-import res_config
+from . import models
+from . import res_config

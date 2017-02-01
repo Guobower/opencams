@@ -9,7 +9,6 @@ Manage real estate office assets for rent management purposes
 ===========================================================================
 This module allows to rent real estate office units
 
-
     """,
     'website': 'http://www.odoogap.com',
     'depends': ['rem'],

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
 
         <!--
             Real Estate Asset
         -->
-        
+
         <!-- Real Estate Asset Tree View -->
         <record id="view_rem_residential_unit_tree" model="ir.ui.view">
             <field name="name">rem.res.unit.tree</field>
@@ -99,5 +99,5 @@
             </field>
         </record>
 
-	</data>
+    </data>
 </odoo>

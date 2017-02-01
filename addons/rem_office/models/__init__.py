@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import crm
-import rem
+from . import crm
+from . import rem

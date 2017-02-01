@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        
+
         <!-- This group is an abstract for all permissions -->
         <record id="group_rem_user" model="res.groups">
             <field name="name">User</field>
@@ -9,7 +9,7 @@
             <field name="category_id" ref="base.module_category_hidden"/>
         </record>
 
-    	<!-- Redefinition of the Salesman for including our group_rem_user -->
+        <!-- Redefinition of the Salesman for including our group_rem_user -->
         <record id="group_sale_salesman" model="res.groups">
             <field name="name">User: Own Leads Only</field>
             <field name="category_id" ref="base.module_category_sales_management"/>

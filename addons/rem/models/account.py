@@ -13,5 +13,6 @@ class SaleOrder(models.Model):
             unit_ids = [ctr.unit_id.id for ctr in contracts]
             invoice.unit_ids = unit_ids
 
-    tenant_contract_ids = fields.Many2many('rem.tenant.contract', 'account_invoice_tenant_ctr_rel', 'ctr_id', 'invoice_id', string='Tenant Contracts')
+    tenant_contract_ids = fields.Many2many('rem.tenant.contract', 'account_invoice_tenant_ctr_rel', 'ctr_id',
+                                           'invoice_id', string='Tenant Contracts')
     unit_ids = fields.Many2many('rem.unit', compute='_compute_units', string='Units', readonly=True)

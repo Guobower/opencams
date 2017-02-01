@@ -12,7 +12,7 @@ class ReConnectorAbstractModel(models.AbstractModel):
     field_description = fields.Char('Description')
     source_field = fields.Char('Source Field')
     compute_transform = fields.Text("Compute", help="Code to transform the value of the field.\n"
-                            "Iterate on the recordset 'self' and assign the field's value:\n\n"
-                            "    for record in self:\n"
-                            "        record['size'] = len(record.name)\n\n"
-                            "Modules time, datetime, dateutil are available.")
+                                                    "Iterate on the recordset 'self' and assign the field's value:\n\n"
+                                                    "    for record in self:\n"
+                                                    "        record['size'] = len(record.name)\n\n"
+                                                    "Modules time, datetime, dateutil are available.")

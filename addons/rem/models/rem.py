@@ -93,15 +93,16 @@ class RemUnitOfferType(models.Model):
     sequence = fields.Integer(string='Sequence')
     is_rent = fields.Boolean(string='Is Rentable', default=False,
                              help='Set if the offer type is rent based. This will make the Unit of Rent '
-                             'appear in the unit (e.g.: per month, per week..).')
+                                  'appear in the unit (e.g.: per month, per week..).')
     is_computed = fields.Boolean(string='Name is Computed', default=True,
                                  help='Set if the name of the units is to be computed')
     notes = fields.Text(string='Notes', help='Notes for the offer type.')
     active = fields.Boolean(string='Active', default=True, help='If the active field is set to False, it will '
-                            'allow you to hide without removing it.')
+                                                                'allow you to hide without removing it.')
     stage_id = fields.One2many('rem.unit.stage', 'offer_type_id', string='Stage Name', ondelete='restrict')
-    showfields_ids = fields.Many2many('ir.model.fields', 'offer_type_ir_model_fields_rel', 'offer_type_id', 'ir_model_field_id', string="Show Fields",
-        domain="[('model', '=', 'rem.unit'), ('rem_category', 'in', ['general', 'indoor', 'outdoor'])]")
+    showfields_ids = fields.Many2many('ir.model.fields', 'offer_type_ir_model_fields_rel', 'offer_type_id',
+                                      'ir_model_field_id', string="Show Fields",
+                                      domain="[('model', '=', 'rem.unit'), ('rem_category', 'in', ['general', 'indoor', 'outdoor'])]")
     listing_menu_id = fields.Many2one('ir.ui.menu', string='Listing Menu Id')
     listing_action_id = fields.Many2one('ir.actions.act_window', string='Listing Menu Id')
     unit_name_format = fields.Char(string='Unit General Name', default="{street:.10}, {CITY:.5}")
@@ -299,7 +300,8 @@ class PriceTableLine(models.Model):
                 if dates[i][0] == dates[j][0]:
                     continue;
                 if self.dates_are_overlapping(dates[i][1], dates[i][2], dates[j][1], dates[j][2]):
-                    raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
+                    raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (
+                    dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
 
 
 class RemImage(models.Model):
@@ -469,7 +471,8 @@ class RemUnit(models.Model):
 
     @api.model
     def _get_stage(self):
-        return self.env['rem.unit.stage'].search([('offer_type_id', '=', self.offer_type_id.id)], limit=1, order='sequence')
+        return self.env['rem.unit.stage'].search([('offer_type_id', '=', self.offer_type_id.id)], limit=1,
+                                                 order='sequence')
 
     @api.model
     def _get_default_offer_type(self):
@@ -504,7 +507,8 @@ class RemUnit(models.Model):
     @api.depends('listing_contract_ids')
     def _get_current_listing_contract(self):
         for unit in self:
-            contracts = self.env['rem.listing.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)], limit=1)
+            contracts = self.env['rem.listing.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)],
+                                                                limit=1)
             for ct in contracts:
                 unit.update({
                     'current_listing_contract_id': ct.id,
@@ -513,7 +517,8 @@ class RemUnit(models.Model):
     @api.depends('tenant_contract_ids')
     def _get_current_tenant_contract(self):
         for unit in self:
-            contracts = self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)], limit=1)
+            contracts = self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id), ('current', '=', True)],
+                                                               limit=1)
             for ct in contracts:
                 unit.update({
                     'current_tenant_contract_id': ct.id,
@@ -557,17 +562,17 @@ class RemUnit(models.Model):
     @api.depends('stage_id', 'current_listing_contract_id.date_start',
                  'current_listing_contract_id.period', 'current_listing_contract_id.period_unit',
                  'current_tenant_contract_id.date_start', 'current_tenant_contract_id.period',
-                 'current_tenant_contract_id.period_unit',)
+                 'current_tenant_contract_id.period_unit', )
     def _check_active(self):
         for unit in self:
             flag = False
             date_now = fields.Date.today()
             if (unit.current_listing_contract_id.date_start <= date_now and
-                    unit.current_listing_contract_id.date_end >= date_now):
+                        unit.current_listing_contract_id.date_end >= date_now):
                 flag = True
 
             if (unit.current_tenant_contract_id.date_start <= date_now and
-                    unit.current_tenant_contract_id.date_end >= date_now):
+                        unit.current_tenant_contract_id.date_end >= date_now):
                 flag = True
 
             if unit.stage_id.force_show:
@@ -649,7 +654,8 @@ class RemUnit(models.Model):
 
     def _default_uom(self):
         uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
-        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1, order="factor")
+        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1,
+                                              order="factor")
 
     def _compute_orders(self):
         for unit in self:
@@ -667,7 +673,8 @@ class RemUnit(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
     name2 = fields.Char(string='Name')
-    reference = fields.Char(string='Reference', default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
+    reference = fields.Char(string='Reference',
+                            default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
                             copy=False, readonly=True, index=True)
     website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
@@ -676,8 +683,8 @@ class RemUnit(models.Model):
     active = fields.Boolean(compute='_check_active',
                             store=True, default=True,
                             help='An inactive unit will not be listed in the'
-                            ' back-end nor in the Website. Active field depends'
-                            ' on the stage and on the current contract start and end date')
+                                 ' back-end nor in the Website. Active field depends'
+                                 ' on the stage and on the current contract start and end date')
     currency_id = fields.Many2one('res.currency', string='Currency', compute='_get_company_currency', readonly=True)
     # TODO: make user_id not required, but change contact form for having a default agent defined in res_config
     user_id = fields.Many2one('res.users', string='Salesperson', required=True, default=lambda self: self.env.user)
@@ -687,13 +694,14 @@ class RemUnit(models.Model):
 
     # Rental
     table_id = fields.Many2one('season.rates', string='Discount Table', help="Season price table that sets"
-                               " discounts on the base rent price or fixed values for unit types or"
-                               " with the same category")
+                                                                             " discounts on the base rent price or fixed values for unit types or"
+                                                                             " with the same category")
     rent_price = fields.Float(string='Rent Rate', digits=dp.get_precision('Product Price'))
     rent_uom_id = fields.Many2one('product.uom', string='Rent Unit', default=_default_uom)
     rent_current_price = fields.Float(string='Current Rent Rate', compute='_get_current_rent',
                                       help="Current rent rate, based on the Season price table defined for this unit"
-                                      " or unit type and the current date", digits=dp.get_precision('Product Price'))
+                                           " or unit type and the current date",
+                                      digits=dp.get_precision('Product Price'))
     rent_current_uom_id = fields.Many2one('product.uom', related="rent_uom_id", string='Rent Unit', readonly=True)
     rent_min = fields.Float(string='Minimal Period', digits=dp.get_precision('Product Price'))
     rent_min_uom_id = fields.Many2one('product.uom', string='Period Unit', default=_default_uom)
@@ -719,7 +727,8 @@ class RemUnit(models.Model):
     website_description = fields.Html(string='Description', sanitize=False, translate=html_translate)
     stage_id = fields.Many2one(
         'rem.unit.stage', string='Stage', default=_get_stage)
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')], string='Attachments')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')],
+                                     string='Attachments')
     neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
 
     # Listing contracts
@@ -944,9 +953,11 @@ class RemUnit(models.Model):
                         node.set('invisible', '0')
                         node.set('modifiers', '')
                         # Increment counters
-                        general_features = (general_features+1) if (fld.rem_category == 'general') else general_features
-                        indoor_features = (indoor_features+1) if (fld.rem_category == 'indoor') else indoor_features
-                        outdoor_features = (outdoor_features+1) if (fld.rem_category == 'outdoor') else outdoor_features
+                        general_features = (general_features + 1) if (
+                        fld.rem_category == 'general') else general_features
+                        indoor_features = (indoor_features + 1) if (fld.rem_category == 'indoor') else indoor_features
+                        outdoor_features = (outdoor_features + 1) if (
+                        fld.rem_category == 'outdoor') else outdoor_features
                 # Make general, indoor and outdoor feature tabs visible
                 if general_features > 0:
                     doc.xpath("//page[@string='General Features']")[0].set('invisible', '0')

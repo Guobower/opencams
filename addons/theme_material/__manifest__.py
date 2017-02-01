@@ -9,7 +9,6 @@ Material Theme
 ==========================================
 Material design inspired theme for real estate agency website
 
-
     """,
     'website': 'http://www.odoogap.com',
     'depends': ['website'],

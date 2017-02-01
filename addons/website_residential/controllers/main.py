@@ -12,7 +12,7 @@ from odoo import SUPERUSER_ID
 from odoo.addons.website.models.website import slug
 
 PPG = 8  # Units Per Page
-UPR = 4 # Units Per Row
+UPR = 4  # Units Per Row
 
 
 class QueryURL(object):
@@ -23,22 +23,21 @@ class QueryURL(object):
     def __call__(self, path=None, **kw):
         if not path:
             path = self.path
-        for k,v in self.args.items():
-            kw.setdefault(k,v)
+        for k, v in self.args.items():
+            kw.setdefault(k, v)
         l = []
-        for k,v in kw.items():
+        for k, v in kw.items():
             if v:
                 if isinstance(v, list) or isinstance(v, set):
-                    l.append(werkzeug.url_encode([(k,i) for i in v]))
+                    l.append(werkzeug.url_encode([(k, i) for i in v]))
                 else:
-                    l.append(werkzeug.url_encode([(k,v)]))
+                    l.append(werkzeug.url_encode([(k, v)]))
         if l:
             path += '?' + '&'.join(l)
         return path
 
 
 class WebsiteResidential(http.Controller):
-
     # @http.route(['/mobile/units',
     #              '/mobile/units/page/<int:page>',
     #              ], type='http', auth="public", methods=['GET'], website=True)
@@ -319,7 +318,7 @@ class WebsiteResidential(http.Controller):
                 env['rem.unit.favorite'].sudo().create({
                     'user_id': [(4, request.session.uid)],
                     'unit_id': [(4, rem_unit_id)],
-                    })
+                })
             results['result'].append({'result': 1})
         else:
             results['result'].append({'result': 0})
@@ -342,7 +341,8 @@ class WebsiteResidential(http.Controller):
 
         return json.dumps(results)
 
-    @http.route('/rem/search/<string:multi_search>/<int:offer_type_id>', type='http', auth="public", methods=['GET'], website=True)
+    @http.route('/rem/search/<string:multi_search>/<int:offer_type_id>', type='http', auth="public", methods=['GET'],
+                website=True)
     def get_offer_type_products(self, multi_search, offer_type_id, **kwargs):
         results = {
             'result': []
@@ -387,7 +387,8 @@ class WebsiteResidential(http.Controller):
                         <div class="col-sm-3">
                             <div class="rem-feature-unit">
                                 <div class="rem-feature-unit-img">
-                                    <img class="img img-responsive" alt="" src="/rem/unit/image/''' + str(featured_unit.image_ids[0].id) + '''">
+                                    <img class="img img-responsive" alt="" src="/rem/unit/image/''' + str(
+                    featured_unit.image_ids[0].id) + '''">
                                 </div>
                                 <div class="rem-feature-unit-text">
                                 ''' + featured_unit.display_name + '''
@@ -432,7 +433,8 @@ class WebsiteResidential(http.Controller):
 
     @http.route(['/rem/unit/image/<int:image_id>'], type='http', auth="public", website=True)
     def unit_image(self, image_id=0, **post):
-        status, headers, content = binary_content(model='rem.image', id=image_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
+        status, headers, content = binary_content(model='rem.image', id=image_id, field='image',
+                                                  default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
             img_path = odoo.modules.get_module_resource('website_residential', 'static/img/units', 'default_unit.jpg')
@@ -450,7 +452,8 @@ class WebsiteResidential(http.Controller):
     @http.route(['/rem',
                  '/rem/page/<int:page>',
                  ], type='http', auth='public', website=True)
-    def rem(self, page=0, type_listing=0, offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='', min_price='', max_price='', ppg=False, **post):
+    def rem(self, page=0, type_listing=0, offer_type=0, unit_type='', multi_search='', min_beds='', max_beds='',
+            min_price='', max_price='', ppg=False, **post):
         env = request.env
 
         if ppg:
@@ -596,7 +599,8 @@ class WebsiteResidential(http.Controller):
             'selected_type_listing': selected_type_listing,
             'favorites_units': favorites_units,
             'gmaps_units': gmaps_units,
-            'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + env['ir.config_parameter'].get_param('gmaps_key') + '&callback=initMap',
+            'gmaps_url': 'http://maps.googleapis.com/maps/api/js?key=' + env['ir.config_parameter'].get_param(
+                'gmaps_key') + '&callback=initMap',
             'keep': keep,
         }
 
@@ -669,7 +673,8 @@ class WebsiteResidential(http.Controller):
         feature = ''
         if fields.ttype == 'integer' or fields.ttype == 'float':
             if getattr(unit, fields.name) > 0:
-                feature = '<div><label>' + fields.field_description + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+                feature = '<div><label>' + fields.field_description + ':</label>' + str(
+                    getattr(unit, fields.name)) + '</div>'
         elif fields.ttype == 'boolean':
             if getattr(unit, fields.name) is True:
                 feature = '<div><label>' + fields.field_description + ':</label><i class="zmdi zmdi-check"></i></div>'
@@ -679,7 +684,8 @@ class WebsiteResidential(http.Controller):
                     feature = '<div class="rem-inline-block"><label>' + fields.field_description + ':</label></div>'
                 feature += '<div class="rem-tag rem-inline-block">' + values.name + '</div>'
         elif getattr(unit, fields.name) != '' and getattr(unit, fields.name) != False:
-            feature = '<div><label>' + fields.field_description + ':</label>' + str(getattr(unit, fields.name)) + '</div>'
+            feature = '<div><label>' + fields.field_description + ':</label>' + str(
+                getattr(unit, fields.name)) + '</div>'
         return feature
 
     @http.route('/rem/user/signup/<string:email>', type='http', auth="public", methods=['GET'], website=True)
@@ -699,7 +705,8 @@ class WebsiteResidential(http.Controller):
 
     @http.route(['/rem/user/<int:user_id>'], type='http', auth="public", website=True)
     def user_agent(self, user_id=0, **post):
-        status, headers, content = binary_content(model='res.users', id=user_id, field='image', default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
+        status, headers, content = binary_content(model='res.users', id=user_id, field='image',
+                                                  default_mimetype='image/jpg', env=request.env(user=odoo.SUPERUSER_ID))
 
         if not content:
             img_path = odoo.modules.get_module_resource('website_residential', 'static/img/agents', 'default_agent.jpg')
@@ -733,7 +740,6 @@ class WebsiteResidential(http.Controller):
 
 
 class WebsiteContact(odoo.addons.web.controllers.main.Home):
-
     @http.route(['/contact-us'], type='http', auth='public', website=True)
     def website_residential_contact(self, **kwargs):
         return request.render('website_residential.contact_us_page')

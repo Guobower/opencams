@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-​
+        ​
         <!-- Google Maps Key -->
         <record id="gmaps_key" model="ir.config_parameter">
             <field name="key">gmaps_key</field>
@@ -16,4 +16,3 @@
 
     </data>
 </odoo>
-        

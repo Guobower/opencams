@@ -2,20 +2,21 @@
 <odoo>
     <data>
 
-		<!-- Frontend assets -->
+        <!-- Frontend assets -->
         <template id="assets_frontend" inherit_id="website.assets_frontend">
             <xpath expr="link[last()]" position="after">
-				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material-design-iconic-font.min.css"/>
-				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/custom-font-icons.css"/>
-				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/waves.css"/>
-				<script type="text/javascript" src="/theme_material/static/src/js/waves.js"/>
-				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/ladda-themeless.min.css"/>
-				<script type="text/javascript" src="/theme_material/static/src/js/spin.js"/>
+                <link type="text/css" rel="stylesheet"
+                      href="/theme_material/static/src/css/material-design-iconic-font.min.css"/>
+                <link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/custom-font-icons.css"/>
+                <link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/waves.css"/>
+                <script type="text/javascript" src="/theme_material/static/src/js/waves.js"/>
+                <link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/ladda-themeless.min.css"/>
+                <script type="text/javascript" src="/theme_material/static/src/js/spin.js"/>
                 <script type="text/javascript" src="/theme_material/static/src/js/ladda.js"/>
-				<link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material.css"/>
-				<script type="text/javascript" src="/theme_material/static/src/js/material.js"/>
+                <link type="text/css" rel="stylesheet" href="/theme_material/static/src/css/material.css"/>
+                <script type="text/javascript" src="/theme_material/static/src/js/material.js"/>
             </xpath>
         </template>
 
-	</data>
+    </data>
 </odoo>

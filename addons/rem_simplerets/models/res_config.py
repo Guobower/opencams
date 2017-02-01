@@ -3,6 +3,7 @@ import logging
 import requests
 
 from odoo import api, fields, models, _
+
 _logger = logging.getLogger(__name__)
 
 
@@ -15,16 +16,16 @@ class RemConfigSettings(models.TransientModel):
         # These are our demo API keys, you can use them!
         api_key = 'simplyrets'
         api_secret = 'simplyrets'
-        api_url = 'https://api.simplyrets.com/properties' 
+        api_url = 'https://api.simplyrets.com/properties'
 
-        response = requests.get(api_url, auth=(api_key, api_secret)) 
+        response = requests.get(api_url, auth=(api_key, api_secret))
         for r in response.json():
             print "___V_", r
             field_list = []
             for k, v in r.iteritems():
                 print "_K_", k, v
                 field_list.append(k)
-            print field_list 
+            print field_list
 
     simplyrets_api = fields.Char(string='simplyRETS API Key')
     simplyrets_secret = fields.Char(string='simplyRETS API Secret')

@@ -16,7 +16,7 @@
                                     <label for="re_min_bedrooms" string="Bedroms min/max"/>
                                     <div class="o_row">
                                         <field name="re_min_bedrooms" nolabel="1"/>
-                                        <span> to </span>
+                                        <span>to</span>
                                         <field name="re_max_bedrooms" nolabel="1"/>
                                     </div>
                                     <field name="re_bathrooms"/>
@@ -30,8 +30,8 @@
                                     <field name="re_air_conditioned"/>
                                     <field name="re_ducted_cooling"/>
                                     <field name="re_wardrobes"/>
-                                   <field name="re_dishwasher"/>
-                               </group>
+                                    <field name="re_dishwasher"/>
+                                </group>
                                 <group>
                                     <field name="re_living_area"/>
                                 </group>
@@ -53,7 +53,8 @@
                                 <group/>
                                 <group>
                                     <button class="btn btn-sm oe_highlight" type="object"
-                                        name="action_find_matching_units" icon="fa-search" string="Find Residential Units">
+                                            name="action_find_matching_units" icon="fa-search"
+                                            string="Find Residential Units">
                                     </button>
                                 </group>
                             </group>
@@ -62,6 +63,6 @@
                 </xpath>
             </field>
         </record>
-	    
+
     </data>
 </odoo>

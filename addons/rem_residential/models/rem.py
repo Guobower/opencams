@@ -98,13 +98,14 @@ class RemUnit(models.Model):
         if context.get('min_garages'):
             args += [('garages', '>=', context.get('min_garages'))]
         if context.get('max_bedrooms') and context.get('min_bedrooms'):
-            args += [('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
+            args += [
+                ('bedrooms', '<=', context.get('max_bedrooms')) and ('bedrooms', '>=', context.get('min_bedrooms'))]
         if context.get('min_bathrooms'):
             args += [('bathrooms', '>=', context.get('min_bathrooms'))]
         if context.get('min_living_area'):
             args += [('living_area', '>=', context.get('min_living_area'))]
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
-    
+
     @api.multi
     @api.depends('street', 'street2', 'zone_id.name',
                  'city_id.name', 'zip', 'bedrooms',

@@ -16,7 +16,8 @@ class RemAbstractContractType(models.AbstractModel):
 
     name = fields.Char(string='Type Name', size=32,
                        required=True, help='Type Name.')
-    code = fields.Char(string='Short Code', size=5, required=True, help="The contracts will be named using this prefix.")
+    code = fields.Char(string='Short Code', size=5, required=True,
+                       help="The contracts will be named using this prefix.")
     notes = fields.Text(string='Description', help='Brief description.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
@@ -35,13 +36,15 @@ class RemAbstractContract(models.AbstractModel):
         for rec in self:
             name = rec.type_id.code or _("Agreement")
             if rec.date_start and rec.period and rec.period_unit.name:
-                name += " %s - %s %s" % (rec.date_start, rec.period, rec.period_unit.name[4:] + 's' if rec.period > 1 else rec.period_unit.name[4:])
+                name += " %s - %s %s" % (rec.date_start, rec.period,
+                                         rec.period_unit.name[4:] + 's' if rec.period > 1 else rec.period_unit.name[4:])
             units.append((rec.id, name))
         return units
 
     def _default_uom(self):
         uom_categ_id = self.env.ref('rem.uom_categ_rentime').id
-        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1, order="factor")
+        return self.env['product.uom'].search([('category_id', '=', uom_categ_id), ('factor', '=', 1)], limit=1,
+                                              order="factor")
 
     type_id = fields.Many2one('rem.abstract.contract.type', string='Type', required=True)
     date_start = fields.Date('Start Date', required=True)
@@ -50,7 +53,7 @@ class RemAbstractContract(models.AbstractModel):
                                   help='Check for automatic invoice')
     auto_renew = fields.Boolean(string='Auto Renew?', default=False,
                                 help='Check for automatic renew for same period and log in the chatter')
-    notice_date = fields.Date('Notice Date', compute='_compute_date_notice',)
+    notice_date = fields.Date('Notice Date', compute='_compute_date_notice', )
     period = fields.Integer('Period', default=1, required=True)
     period_unit = fields.Many2one('product.uom', string='Period Unit', default=_default_uom, required=True)
     notice_period = fields.Integer('Notice Period', default=15)
@@ -71,8 +74,10 @@ class RemAbstractContract(models.AbstractModel):
                 FROM """ + str(table_name) + """
                 WHERE date_start <= now() AND
                       (
-                        (date_start + interval '1 day' * period >= now() AND period_unit = '""" + str(tools.uom_month.id) + """') OR
-                        (date_start + interval '1 month' * period >= now() AND period_unit = '""" + str(tools.uom_month.id) + """')
+                        (date_start + interval '1 day' * period >= now() AND period_unit = '""" + str(
+                tools.uom_month.id) + """') OR
+                        (date_start + interval '1 month' * period >= now() AND period_unit = '""" + str(
+                tools.uom_month.id) + """')
                       )
                 """
         else:
@@ -81,7 +86,8 @@ class RemAbstractContract(models.AbstractModel):
                 FROM """ + str(table_name) + """
                 WHERE date_start > now() OR
                       (date_start + interval '1 day' * period < now() AND period_unit = '""" + str(tools.uom_day.id) + """') OR
-                      (date_start + interval '1 month' * period < now() AND period_unit = '""" + str(tools.uom_month.id) + """')
+                      (date_start + interval '1 month' * period < now() AND period_unit = '""" + str(
+                tools.uom_month.id) + """')
                 """
         self.env.cr.execute(query)
         for ct in self.env.cr.dictfetchall():
@@ -126,7 +132,8 @@ class RemTenantContractType(models.Model):
     _inherit = ['rem.abstract.contract.type']
 
     sale_product_id = fields.Many2one(default=lambda self: self.env.ref('rem.product_rem_rentservice'),
-                                      domain=lambda self: [('uom_id.category_id.id', '=', self.env.ref('rem.uom_categ_rentime').id)])
+                                      domain=lambda self: [
+                                          ('uom_id.category_id.id', '=', self.env.ref('rem.uom_categ_rentime').id)])
 
 
 class RemBuyerContractType(models.Model):
@@ -157,10 +164,12 @@ class RemListingContract(models.Model):
     fee = fields.Float(string='Fee', help="For percent enter a ratio between 0-100.", default=5)
     fee_amount = fields.Monetary(string='Fee Amount', default=0.0, currency_field='company_currency_id')
     ordering = fields.Integer('Ordering Field', default=1)
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.listing.contract')], string='Attachments')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.listing.contract')],
+                                     string='Attachments')
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', readonly=True,
                                           help='Utility field to express amount currency', store=True)
     company_id = fields.Many2one('res.company', related='unit_id.company_id', string='Company', store=True)
+
     # TODO: scheduled action for auto renewal
 
     @api.onchange('listing_price', 'fee')
@@ -196,7 +205,8 @@ class RemListingContract(models.Model):
             if ct1.date_start < maxdate and ct1.date_end > mindate:
                 raise ValidationError(_('The first contract start date for this unit is %s.\n'
                                         'The last contract end date for this unit is %s.\n'
-                                        'Please chose a prior or next start-end period for this contract.') % (mindate, maxdate))
+                                        'Please chose a prior or next start-end period for this contract.') % (
+                                      mindate, maxdate))
 
     @api.model
     def default_get(self, flds):
@@ -219,7 +229,8 @@ class RemBuyerContract(models.Model):
 
     type_id = fields.Many2one('rem.buyer.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Buyer', required=True)
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.buyer.contract')], string='Attachments')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.buyer.contract')],
+                                     string='Attachments')
 
 
 class RemTenantContract(models.Model):
@@ -235,7 +246,8 @@ class RemTenantContract(models.Model):
     reservation = fields.Boolean(string='Reservation', default=False,
                                  help='Check if this is a reservation')
     deposit = fields.Float(string='Deposit', help="For percentage for deposit.", default=30)
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.tenant.contract')], string='Attachments')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.tenant.contract')],
+                                     string='Attachments')
     order_ids_count = fields.Integer(compute='_sale_order_count')
     order_ids = fields.Many2many('sale.order', 'sale_order_tenant_ctr_rel', 'order_id', 'ctr_id', string='Sale Orders')
     invoice_ids = fields.Many2many('account.invoice', compute='_get_invoice_ids', string='Invoices', readonly=True)
@@ -254,13 +266,14 @@ class RemTenantContract(models.Model):
         # Check if dates are overlapping
         # (date_start_x <= date_end_y) and (date_end_x >= date_start_y)
         contract = self.env['rem.tenant.contract'].search([
-                    ('unit_id', '=', vals['date_start']),
-                    ('date_start', '<=', vals['date_end']),
-                    ('date_end', '>=', vals['date_start'])
-                ], limit=1)
+            ('unit_id', '=', vals['date_start']),
+            ('date_start', '<=', vals['date_end']),
+            ('date_end', '>=', vals['date_start'])
+        ], limit=1)
 
         if contract:
-            raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (vals['date_start'], vals['date_end'], contract[0].date_start, contract[0].date_end))
+            raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (
+            vals['date_start'], vals['date_end'], contract[0].date_start, contract[0].date_end))
 
         return super(RemTenantContract, self).create(vals)
 
@@ -281,14 +294,15 @@ class RemTenantContract(models.Model):
                 vals['date_end'] = str(self._get_date(vals['date_start'], vals['period'], vals['period_unit']))[:-9]
 
                 contract = self.env['rem.tenant.contract'].search([
-                                ('id', '!=', tenant_contract.id),
-                                ('unit_id', '=', tenant_contract.unit_id.id),
-                                ('date_start', '<=', vals['date_end']),
-                                ('date_end', '>=', vals['date_start'])
-                            ], limit=1)
+                    ('id', '!=', tenant_contract.id),
+                    ('unit_id', '=', tenant_contract.unit_id.id),
+                    ('date_start', '<=', vals['date_end']),
+                    ('date_end', '>=', vals['date_start'])
+                ], limit=1)
 
                 if contract:
-                    raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (vals['date_start'], vals['date_end'], contract[0].date_start, contract[0].date_end))
+                    raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (
+                    vals['date_start'], vals['date_end'], contract[0].date_start, contract[0].date_end))
 
         ct = super(RemTenantContract, self).write(vals)
         for ct1 in self:
@@ -321,7 +335,9 @@ class RemTenantContract(models.Model):
         for rec in self:
             if rec.partner_id.name and rec.date_start and rec.period and rec.period_unit.name:
                 name = "%s %s - %s %s" % (rec.partner_id.name,
-                                          rec.date_start, rec.period, rec.period_unit.name[4:] + 's' if rec.period > 1 else rec.period_unit.name[4:])
+                                          rec.date_start, rec.period,
+                                          rec.period_unit.name[4:] + 's' if rec.period > 1 else rec.period_unit.name[
+                                                                                                4:])
                 units.append((rec.id, name))
         return units
 
@@ -338,16 +354,15 @@ class RemTenantContract(models.Model):
         action = self.env.ref('sale.action_quotations')
         edit_form_action = action.read()[0]
         for ctr in self:
-
             # lines = []
             # for ln in self.get_rates_and_qtts(ctr):
-                # lines.append((0, 0, {
-                #     'name': ln['name'],
-                #     'product_id': ln['product_id'],
-                #     'product_uom_qty': ln['qtt'],
-                #     'product_uom': ln['uom'],
-                #     'price_unit': ln['price'],
-                # }))
+            # lines.append((0, 0, {
+            #     'name': ln['name'],
+            #     'product_id': ln['product_id'],
+            #     'product_uom_qty': ln['qtt'],
+            #     'product_uom': ln['uom'],
+            #     'price_unit': ln['price'],
+            # }))
 
             so = self.env['sale.order'].create(
                 self._create_sale_order_dict(ctr)
@@ -404,7 +419,7 @@ class RemTenantContract(models.Model):
             qtt.months = dlt.months + (dlt.years * 12)
             qtt.t_months = "From {:%Y-%d-%m} to {:%Y-%d-%m}".format(
                 pytz.utc.localize(date_start).astimezone(tz),
-                pytz.utc.localize(date_start + relativedelta(months=qtt.months)).astimezone(tz),)
+                pytz.utc.localize(date_start + relativedelta(months=qtt.months)).astimezone(tz), )
             qtt.r_months = rent_price
             qtt.days = dlt.days
             qtt.r_days = rent_price / qtt.uom_month.factor_inv
@@ -535,7 +550,8 @@ class RemTenantContract(models.Model):
                             # The date_start on the next line will be equal to the contract date_start plus
                             # the amount of hour(s)/day(s)/week(s)/month(s) on the current line
                             # example: 2016-01-01 + 6 months
-                            date_start = self._sum_date_with_qty_uom(date_start, line.product_uom_qty, line.product_uom.name)
+                            date_start = self._sum_date_with_qty_uom(date_start, line.product_uom_qty,
+                                                                     line.product_uom.name)
 
     @api.model
     def create_auto_renew_contracts(self):
@@ -544,15 +560,18 @@ class RemTenantContract(models.Model):
         # Get units with rentable offer type
         for unit in self.env['rem.unit'].search([('offer_type_id.is_rent', '=', True)]):
             # Get unit contracts with auto renew
-            for ctr in self.env['rem.tenant.contract'].search([('unit_id', '=', unit.id), ('auto_renew', '=', True), ('child_id', '=', False)]):
+            for ctr in self.env['rem.tenant.contract'].search(
+                    [('unit_id', '=', unit.id), ('auto_renew', '=', True), ('child_id', '=', False)]):
                 # If we reached or passed the notice date
-                if datetime.strptime(date_today, "%Y-%m-%d").date() > datetime.strptime(ctr.notice_date, "%Y-%m-%d").date():
+                if datetime.strptime(date_today, "%Y-%m-%d").date() > datetime.strptime(ctr.notice_date,
+                                                                                        "%Y-%m-%d").date():
                     # Create a new contract based on the current one
                     child = self.env['rem.tenant.contract'].create({
                         'type_id': ctr.type_id.id,
                         'unit_id': ctr.unit_id.id,
                         'partner_id': ctr.partner_id.id,
-                        'date_start': str(self._sum_date_with_qty_uom(ctr.date_start, ctr.period, ctr.period_unit.name)),
+                        'date_start': str(
+                            self._sum_date_with_qty_uom(ctr.date_start, ctr.period, ctr.period_unit.name)),
                         'period': ctr.period,
                         'period_unit': ctr.period_unit.id,
                         'auto_invoice': ctr.auto_invoice,
@@ -583,7 +602,7 @@ class RemTenantContract(models.Model):
     def _date_diff_in_months(self, d1, d2):
         d1 = datetime.strptime(d1, "%Y-%m-%d")
         d2 = datetime.strptime(d2, "%Y-%m-%d")
-        return (d2.year - d1.year)*12 + d2.month - d1.month
+        return (d2.year - d1.year) * 12 + d2.month - d1.month
 
     def _sum_date_with_qty_uom(self, date, qty, uom):
         # TODO: 'per Hour' and 'per Week'

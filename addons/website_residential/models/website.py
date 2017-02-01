@@ -7,4 +7,4 @@ class Website(models.Model):
 
     @api.model
     def update_menu(self):
-        self.env.ref('website.menu_contactus').write({'url':'/contact-us'})
+        self.env.ref('website.menu_contactus').write({'url': '/contact-us'})

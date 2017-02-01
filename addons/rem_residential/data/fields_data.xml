@@ -5,41 +5,43 @@
         <!-- Add custom fields (ir.model.fields) features (general, indoor or outdoor)-->
 
         <record id="rem_fld_tax" model="ir.model.fields">
-             <field name="name">x_tax</field>
-             <field name="field_description">Sale Tax</field>
-             <field name="ttype">selection</field>
-             <field name="rem_category">general</field>
-             <field name="selection">[('Unknown', 'Unknown'),('Exempt', 'Exempt'),('Inclusive', 'Inclusive'),('Exclusive', 'Exclusive')]</field>
-             <field name="model">rem.unit</field>
-             <field name="model_id" ref="rem.model_rem_unit"/>
+            <field name="name">x_tax</field>
+            <field name="field_description">Sale Tax</field>
+            <field name="ttype">selection</field>
+            <field name="rem_category">general</field>
+            <field name="selection">[('Unknown', 'Unknown'),('Exempt', 'Exempt'),('Inclusive',
+                'Inclusive'),('Exclusive', 'Exclusive')]
+            </field>
+            <field name="model">rem.unit</field>
+            <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
         <!-- Indoor Features -->
         <record id="rem_fld_energy_rating" model="ir.model.fields">
-             <field name="name">x_energy_rating</field>
-             <field name="field_description">Energy efficiency rating</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">indoor</field>
-             <field name="model">rem.unit</field>
-             <field name="model_id" ref="rem.model_rem_unit"/>
+            <field name="name">x_energy_rating</field>
+            <field name="field_description">Energy efficiency rating</field>
+            <field name="ttype">char</field>
+            <field name="rem_category">indoor</field>
+            <field name="model">rem.unit</field>
+            <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
         <!-- Outdoor Features -->
         <record id="rem_fld_irrigation" model="ir.model.fields">
-             <field name="name">x_irrigation</field>
-             <field name="field_description">Developed irrigation</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">outdoor</field>
-             <field name="model">rem.unit</field>
-             <field name="model_id" ref="rem.model_rem_unit"/>
+            <field name="name">x_irrigation</field>
+            <field name="field_description">Developed irrigation</field>
+            <field name="ttype">char</field>
+            <field name="rem_category">outdoor</field>
+            <field name="model">rem.unit</field>
+            <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
         <record id="rem_fld_fencing" model="ir.model.fields">
-             <field name="name">x_fencing</field>
-             <field name="field_description">State of the fencing</field>
-             <field name="ttype">char</field>
-             <field name="rem_category">outdoor</field>
-             <field name="model">rem.unit</field>
-             <field name="model_id" ref="rem.model_rem_unit"/>
+            <field name="name">x_fencing</field>
+            <field name="field_description">State of the fencing</field>
+            <field name="ttype">char</field>
+            <field name="rem_category">outdoor</field>
+            <field name="model">rem.unit</field>
+            <field name="model_id" ref="rem.model_rem_unit"/>
         </record>
 
         <!-- Update Features (general, indoor and outdoor) on base fields -->

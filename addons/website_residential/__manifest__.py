@@ -9,7 +9,6 @@ Public real estate agency website showroom
 ==========================================
 This Module allows to sell/rent real estate units
 
-
     """,
     'website': 'http://www.odoogap.com',
     'depends': ['website', 'website_crm', 'website_form', 'website_portal', 'rem', 'rem_residential', 'theme_material'],

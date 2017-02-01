@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
 
         <!--
         	Real Estate Structures (buildings and condos)
@@ -35,12 +35,12 @@
                 <form string="Building / Condo">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-	                        <button class="oe_stat_button" type="object"
-	                            name="get_units"
-	                            attrs="{'invisible': [('unit_ids_count', '=', 0)]}"
-	                            icon="fa-home" help="Units contained by this structure (for sell or for rent)">
-	                            <field string="Unit(s)" name="unit_ids_count" widget="statinfo"/>
-	                        </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="get_units"
+                                    attrs="{'invisible': [('unit_ids_count', '=', 0)]}"
+                                    icon="fa-home" help="Units contained by this structure (for sell or for rent)">
+                                <field string="Unit(s)" name="unit_ids_count" widget="statinfo"/>
+                            </button>
                         </div>
                         <group>
                             <field name="name"/>
@@ -74,7 +74,7 @@
             </field>
         </record>
 
-		<!-- Seasonal Rates Search View -->
+        <!-- Seasonal Rates Search View -->
 
         <record id="view_rent_table_filter" model="ir.ui.view">
             <field name="name">season.rates.filter</field>
@@ -87,38 +87,40 @@
         </record>
 
         <!-- Seasonal Rates Form View -->
-        
+
         <record model="ir.ui.view" id="view_rent_table_form">
             <field name="name">season.rates.form</field>
             <field name="model">season.rates</field>
             <field name="arch" type="xml">
                 <form string="Seasonal Rates">
-	                <sheet>
+                    <sheet>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Describe the discount table"/></h1>
+                            <h1>
+                                <field name="name" placeholder="Describe the discount table"/>
+                            </h1>
                         </div>
-	                	<group>
-		                	<field name="line_ids" nolabel="1">
-		                	<tree editable="bottom">
-		                		<field name="name"/>
-		                		<field name="date_start"/>   	
-		                		<field name="date_end"/>
-		                		<field name="discount" attrs="{'invisible': [('fixed_price', '>', 0)]}"/>
-		                		<field name="fixed_price" attrs="{'invisible': [('discount', '>', 0)]}"/>
-		                	</tree>
-		                	<form>
-			                	<group>
-			                		<field name="name"/>
-			                		<field name="date_start"/>  	
-			                		<field name="date_end"/>
-			                		<field name="discount"/>
-			                		<field name="fixed_price"/>
-			                	</group>   	
-		                	</form>
-		                	</field>
-	                    </group>
-	                </sheet>
+                        <group>
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="discount" attrs="{'invisible': [('fixed_price', '>', 0)]}"/>
+                                    <field name="fixed_price" attrs="{'invisible': [('discount', '>', 0)]}"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="discount"/>
+                                        <field name="fixed_price"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -126,13 +128,13 @@
         <!--
         	Real Estate Asset
         -->
-        
+
         <!-- Real Estate Asset Tree View -->
         <record id="view_rem_unit_tree" model="ir.ui.view">
             <field name="name">rem.unit.tree</field>
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
-                <tree  decoration-info="is_rent == True" string="Real Estate Unit">
+                <tree decoration-info="is_rent == True" string="Real Estate Unit">
                     <field name="has_lead_id" invisible="1"/>
                     <field name="is_rent" invisible="1"/>
                     <field name="display_name"/>
@@ -145,16 +147,16 @@
                     <field name="is_new"/>
                     <field name="stage_id"/>
                     <button name="action_select_unit" string="Select Unit" type="object" icon="fa-check"
-                    		invisible="not context.get('from_lead_id', False)"
-                    		attrs="{'invisible': [('has_lead_id','=', True)]}"/>
+                            invisible="not context.get('from_lead_id', False)"
+                            attrs="{'invisible': [('has_lead_id','=', True)]}"/>
                     <button name="action_remove_unit" string="Remove Unit" type="object" icon="fa-times"
-                    		invisible="not context.get('from_lead_id', False)"
-                    		attrs="{'invisible': [('has_lead_id','!=', True)]}"/>
+                            invisible="not context.get('from_lead_id', False)"
+                            attrs="{'invisible': [('has_lead_id','!=', True)]}"/>
                 </tree>
             </field>
         </record>
 
-		<!-- Real Estate Asset Search View -->
+        <!-- Real Estate Asset Search View -->
         <record id="view_rem_unit_filter" model="ir.ui.view">
             <field name="name">rem.unit.filter</field>
             <field name="model">rem.unit</field>
@@ -179,122 +181,143 @@
                     <separator/>
                     <field name="user_id"/>
                     <group expand="0" string="Group By">
-                    	<filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
-                        <filter name="forsale" string="For Sale" domain="[('is_rent', '=', False)]" help="Units to sell"/>
-                        <filter name="forrent" string="For Rent" domain="[('is_rent', '=', True)]" help="Rentable units"/>
-                    	<filter name="inactives" string="Inactives" domain="[('active','=', False)]" help = "Inactive units"/>
-                    	<filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]" help = "Unpublished units"/>
-                        <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
+                        <filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
+                        <filter name="forsale" string="For Sale" domain="[('is_rent', '=', False)]"
+                                help="Units to sell"/>
+                        <filter name="forrent" string="For Rent" domain="[('is_rent', '=', True)]"
+                                help="Rentable units"/>
+                        <filter name="inactives" string="Inactives" domain="[('active','=', False)]"
+                                help="Inactive units"/>
+                        <filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]"
+                                help="Unpublished units"/>
+                        <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]"
+                                help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
                         <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
-                        <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
-                        <filter string="Needs Cleaning Services" icon="terp-partner" domain="[]" context="{'group_by':'cleaning'}"/>
+                        <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman"
+                                context="{'group_by':'user_id'}"/>
+                        <filter string="Needs Cleaning Services" icon="terp-partner" domain="[]"
+                                context="{'group_by':'cleaning'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
         <!-- Real Estate Asset Form View -->
-		<record id="view_rem_unit_form" model="ir.ui.view">
-			<field name="name">rem.unit.form</field>
-			<field name="model">rem.unit</field>
-			<field name="arch" type="xml">
-				<form string="Real Estate Unit">
-					<header>
-                        <field name="stage_id" widget="statusbar" clickable="True" domain="[('offer_type_id', '=', offer_type_id)]"/>
-					</header>
-					<sheet>
+        <record id="view_rem_unit_form" model="ir.ui.view">
+            <field name="name">rem.unit.form</field>
+            <field name="model">rem.unit</field>
+            <field name="arch" type="xml">
+                <form string="Real Estate Unit">
+                    <header>
+                        <field name="stage_id" widget="statusbar" clickable="True"
+                               domain="[('offer_type_id', '=', offer_type_id)]"/>
+                    </header>
+                    <sheet>
                         <div class="oe_button_box" name="button_box">
-	                        <button class="oe_stat_button" type="object"
-	                            name="get_sale_orders"
-	                            attrs="{'invisible': [('order_ids_count', '=', 0)]}"
-	                            icon="fa-usd">
-	                            <field string="Sale(s)" name="order_ids_count" widget="statinfo"/>
-	                        </button>
-	                        <button class="oe_stat_button" type="object"
-	                            name="get_unit_events"
-	                            icon="fa-calendar">
-	                            <field string="Event(s)" name="event_ids_count" widget="statinfo"/>
-	                        </button>
-	                        <button class="oe_stat_button" type="action"
-	                            name="%(rem.unit_listing_contract)d"
-	                            icon="fa-file-text"
-	                            attrs="{'invisible': [('listing_contract_count', '=', 0)]}"
-	                            context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
-	                            <field string="Contracts" name="listing_contract_count" widget="statinfo"/>
-	                        </button>
-	                        <button class="oe_stat_button" type="action"
-	                            name="%(rem.unit_tenant_contract)d"
-	                            icon="fa-file-text"
-	                            attrs="{'invisible': [('tenant_contract_count', '=', 0)]}"
-	                            context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
-	                            <field string="Rent Contract(s)" name="tenant_contract_count" widget="statinfo"/>
-	                        </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="get_sale_orders"
+                                    attrs="{'invisible': [('order_ids_count', '=', 0)]}"
+                                    icon="fa-usd">
+                                <field string="Sale(s)" name="order_ids_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="get_unit_events"
+                                    icon="fa-calendar">
+                                <field string="Event(s)" name="event_ids_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="action"
+                                    name="%(rem.unit_listing_contract)d"
+                                    icon="fa-file-text"
+                                    attrs="{'invisible': [('listing_contract_count', '=', 0)]}"
+                                    context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
+                                <field string="Contracts" name="listing_contract_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="action"
+                                    name="%(rem.unit_tenant_contract)d"
+                                    icon="fa-file-text"
+                                    attrs="{'invisible': [('tenant_contract_count', '=', 0)]}"
+                                    context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
+                                <field string="Rent Contract(s)" name="tenant_contract_count" widget="statinfo"/>
+                            </button>
                             <button class="oe_stat_button" name="website_publish_button"
-                                type="object" icon="fa-globe">
+                                    type="object" icon="fa-globe">
                                 <field name="website_published" widget="website_button"/>
                             </button>
                         </div>
-						<div class="oe_title">
-							<h1>
-								<field name="name2" attrs="{'invisible': [('is_computed', '=', True)]}"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name2" attrs="{'invisible': [('is_computed', '=', True)]}"/>
                                 <field name="display_name" attrs="{'invisible': [('is_computed', '=', False)]}"/>
-							</h1>
-						</div>
-						<group>
-							<group>
-								<button string="New listing agreement"
-									name="%(unit_listing_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', True),('listing_contract_count','!=',0)]}" class="btn-link"/>
-								<button string="New rent agreement"
-									name="%(unit_tenant_contract)d" type="action" attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}" class="btn-link"/>
-								<field name="reference" invisible="1"/>
-								<field name="offer_type_id" options="{'no_create': True}"/>
-								<field name="type_id"/>
-								<field name="is_new"/>is_computed
-								<field name="create_date"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <button string="New listing agreement"
+                                        name="%(unit_listing_contract)d" type="action"
+                                        attrs="{'invisible': ['|',('is_rent', '=', True),('listing_contract_count','!=',0)]}"
+                                        class="btn-link"/>
+                                <button string="New rent agreement"
+                                        name="%(unit_tenant_contract)d" type="action"
+                                        attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}"
+                                        class="btn-link"/>
+                                <field name="reference" invisible="1"/>
+                                <field name="offer_type_id" options="{'no_create': True}"/>
+                                <field name="type_id"/>
+                                <field name="is_new"/>is_computed
+                                <field name="create_date"/>
                                 <field name="user_id" placeholder="Salesperson"/>
-								<field name="active" readonly="1"/>
+                                <field name="active" readonly="1"/>
                                 <field name="is_computed" readonly="1"/>
-								<!-- Address -->
-			                    <label for="street" string="Address"/>
-			                    <div class="o_address_format">
-			                        <field name="street" placeholder="Street..." class="o_address_street"/>
-			                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-			                        <field name="city_id" placeholder="City" class="o_address_city"/>
+                                <!-- Address -->
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city_id" placeholder="City" class="o_address_city"/>
                                     <field name="zone_id" placeholder="Zone"/>
-			                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
-			                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-			                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
-			                    </div>
-							</group>
-							<group>
-								<!-- Listings -->
-								<field name="current_listing_contract_id" attrs="{'invisible': [('is_rent', '=', True)]}"/>
-								<field name="current_tenant_contract_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								<field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
-								<field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"
+                                           options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True, "no_create": True}'/>
+                                </div>
+                            </group>
+                            <group>
+                                <!-- Listings -->
+                                <field name="current_listing_contract_id"
+                                       attrs="{'invisible': [('is_rent', '=', True)]}"/>
+                                <field name="current_tenant_contract_id"
+                                       attrs="{'invisible': [('is_rent', '=', False)]}"/>
+                                <field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
+                                <field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
                                 <!-- Rentals -->
-								<field name="is_rent" invisible="1"/>
-								<label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-								<div name="rent_price_div" class="o_row" attrs="{'invisible': [('is_rent', '=', False)]}">
+                                <field name="is_rent" invisible="1"/>
+                                <label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
+                                <div name="rent_price_div" class="o_row"
+                                     attrs="{'invisible': [('is_rent', '=', False)]}">
                                     <field name="rent_price"/>€
                                     <field name="rent_uom_id" options="{'no_create': True, 'no_open': True}"/>
                                 </div>
                                 <field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
 
-								<label for="rent_current_price" attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}"/>
-								<div name="current_rent_price_div" class="o_row" attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}">
+                                <label for="rent_current_price"
+                                       attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}"/>
+                                <div name="current_rent_price_div" class="o_row"
+                                     attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}">
                                     <field name="rent_current_price"/>
                                     <field name="rent_current_uom_id" options="{'no_open': True}"/>
                                 </div>
                                 <!-- Geo -->
                                 <field name='latitude'/>
                                 <field name='longitude'/>
-                                <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" string="Get Coordinates" colspan="2" icon="fa-check"/>
+                                <button name="get_geo_coordinates" type="object"
+                                        attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
+                                        string="Get Coordinates" colspan="2" icon="fa-check"/>
                                 <field name="cleaning"/>
                                 <field name='structure_id'/>
-							</group>
-						</group>
-						<notebook>
+                            </group>
+                        </group>
+                        <notebook>
                             <page string="General Features" invisible="1">
                                 <group name="general_features">
                                     <group class="rem_left"></group>
@@ -314,50 +337,55 @@
                                 </group>
                             </page>
                             <page string="Description">
-                                <field name="website_description" widget="html" placeholder="Add some important details about your unit ..."/>
+                                <field name="website_description" widget="html"
+                                       placeholder="Add some important details about your unit ..."/>
                             </page>
-							<page string="Photos">
-								<group>
-									<field name="image_ids" mode="kanban" nolabel="1" context="{'default_unit_id': active_id}">
-										<kanban>
-											<field name="name"/>
-											<field name="image"/>
-											<field name="image_medium"/>
-											<field name="unit_id"/>
-											<templates>
-												<t t-name="kanban-box">
-													<div class="oe_kanban_global_click" style="position: relative">
-														<a t-if="! read_only_mode" type="delete"
-															style="position: absolute; right: 0; padding: 4px; display: inline-block">X</a>
-														<div class="oe_module_vignette">
-															<img
-																t-att-src="kanban_image('rem.image', 'image_medium', record.unit_id.raw_value)"
-																t-att-title="record.name.value"  
-																class="img-responsive"/>
-														</div>
-													</div>
-												</t>
-											</templates>
-										</kanban>
-									</field>
-								</group>
-							</page>
+                            <page string="Photos">
+                                <group>
+                                    <field name="image_ids" mode="kanban" nolabel="1"
+                                           context="{'default_unit_id': active_id}">
+                                        <kanban>
+                                            <field name="name"/>
+                                            <field name="image"/>
+                                            <field name="image_medium"/>
+                                            <field name="unit_id"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div class="oe_kanban_global_click" style="position: relative">
+                                                        <a t-if="! read_only_mode" type="delete"
+                                                           style="position: absolute; right: 0; padding: 4px; display: inline-block">
+                                                            X
+                                                        </a>
+                                                        <div class="oe_module_vignette">
+                                                            <img
+                                                                    t-att-src="kanban_image('rem.image', 'image_medium', record.unit_id.raw_value)"
+                                                                    t-att-title="record.name.value"
+                                                                    class="img-responsive"/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
+                                </group>
+                            </page>
                             <page string="Neighborhood Contact List">
                                 <field name="neighborhood_id" widget="one2many_list">
                                     <tree string="Neighborhood Contact" editable="bottom">
                                         <field name="sequence" widget="handle"/>
                                         <field name="comment"/>
-                                        <field name="partner_id" context='{"default_customer": "False", "default_is_neighbor": "True"}'/>
+                                        <field name="partner_id"
+                                               context='{"default_customer": "False", "default_is_neighbor": "True"}'/>
                                         <field name="email"/>
                                         <field name="phone"/>
                                     </tree>
                                 </field>
                             </page>
-						</notebook>
-					</sheet>
-				</form>
-			</field>
-		</record>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
         <!-- Real Estate Asset Kanban View -->
         <record id="view_rem_unit_kanban" model="ir.ui.view">
@@ -371,7 +399,8 @@
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click rem_oe_kanban_global_click">
                                 <div class="o_kanban_image rem_o_kanban_image">
-                                    <img t-att-src="kanban_image('rem.image', 'image', record.id.value)" class="rem_kanban_image"/>
+                                    <img t-att-src="kanban_image('rem.image', 'image', record.id.value)"
+                                         class="rem_kanban_image"/>
                                 </div>
                                 <div class="rem_kanban_transparent_box"></div>
                                 <div class="rem_kanban_display_name">
@@ -390,7 +419,7 @@
             </field>
         </record>
 
-		<function model="rem.unit" name="add_custom_fields_to_rem_unit_form_view"/>
+        <function model="rem.unit" name="add_custom_fields_to_rem_unit_form_view"/>
         <!--
         	Unit City
         -->
@@ -407,7 +436,7 @@
             </field>
         </record>
 
-		<!-- Unit City Search View -->
+        <!-- Unit City Search View -->
         <record id="view_rem_unit_city_filter" model="ir.ui.view">
             <field name="name">rem.unit.city.filter</field>
             <field name="model">rem.unit.city</field>
@@ -425,13 +454,13 @@
             <field name="model">rem.unit.city</field>
             <field name="arch" type="xml">
                 <form string="Unit City">
-	                <sheet>
-	                	<group>
-		                    <field name="name" string="Name"/>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
                             <field name="state_id" string="State"/>
-		                    <field name="active"/>
-	                    </group>
-	                </sheet>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -496,7 +525,7 @@
             </field>
         </record>
 
-		<!-- Unit Type Search View -->
+        <!-- Unit Type Search View -->
         <record id="view_rem_unit_type_filter" model="ir.ui.view">
             <field name="name">rem.unit.type.filter</field>
             <field name="model">rem.unit.type</field>
@@ -513,12 +542,12 @@
             <field name="model">rem.unit.type</field>
             <field name="arch" type="xml">
                 <form string="Unit Type">
-	                <sheet>
-	                	<group>
-		                    <field name="name" string="Name"/>
-		                    <field name="active"/>
-	                    </group>
-	                </sheet>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -533,7 +562,7 @@
             <field name="model">rem.unit.stage</field>
             <field name="arch" type="xml">
                 <tree string="Unit Stage">
-                	<field name="sequence" widget="handle" />
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="offer_type_id"/>
                     <field name="force_show"/>
@@ -542,7 +571,7 @@
             </field>
         </record>
 
-		<!-- Unit Stage Search View -->
+        <!-- Unit Stage Search View -->
         <record id="view_rem_unit_stage_filter" model="ir.ui.view">
             <field name="name">rem.unit.stage.filter</field>
             <field name="model">rem.unit.stage</field>
@@ -551,7 +580,8 @@
                     <field name="name"/>
                     <field name="offer_type_id"/>
                     <group string="Group By" expand="1">
-                        <filter string="Type" name="grouppertype" context="{'group_by':'offer_type_id'}" domain="[]" help="Contract Type"/>
+                        <filter string="Type" name="grouppertype" context="{'group_by':'offer_type_id'}" domain="[]"
+                                help="Contract Type"/>
                     </group>
                 </search>
             </field>
@@ -563,31 +593,33 @@
             <field name="model">rem.unit.stage</field>
             <field name="arch" type="xml">
                 <form string="Unit Stage">
-	                <sheet>
-                    	<div class="oe_button_box" name="button_box">
-	                        <button name="toggle_active" type="object" groups="base.group_no_one"
-	                                class="oe_stat_button" icon="fa-archive">
-	                            <field name="active" widget="boolean_button"
-	                                options='{"terminology": "archive"}'/>
-	                        </button>
-	                    </div>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" groups="base.group_no_one"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Stage name ..."/></h1>
+                            <h1>
+                                <field name="name" placeholder="Stage name ..."/>
+                            </h1>
                         </div>
-	                	<group>
-	                	    <group>
-	                	    	<field name="offer_type_id"/>
-	                	    	<field name="force_show"/>
-	                	    	<field name="force_hide"/>
-		                        <field name="create_date" string="Date"/>
-	                        </group>
-	                    </group>
-	                </sheet>
+                        <group>
+                            <group>
+                                <field name="offer_type_id"/>
+                                <field name="force_show"/>
+                                <field name="force_hide"/>
+                                <field name="create_date" string="Date"/>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
-        
+
         <!-- 
         	Real Estate Offer Type 
 		-->
@@ -599,12 +631,12 @@
             <field name="arch" type="xml">
                 <tree string="Offer Type">
                     <field name="name"/>
-                    
+
                 </tree>
             </field>
         </record>
 
-		<!-- Real Estate Contract Type Search View -->
+        <!-- Real Estate Contract Type Search View -->
         <record id="view_re_offer_type_filter" model="ir.ui.view">
             <field name="name">offer.type.filter</field>
             <field name="model">offer.type</field>
@@ -621,40 +653,45 @@
             <field name="model">offer.type</field>
             <field name="arch" type="xml">
                 <form string="Offer Type">
-	                <sheet>
+                    <sheet>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Offer Type Description"/></h1>
+                            <h1>
+                                <field name="name" placeholder="Offer Type Description"/>
+                            </h1>
                         </div>
-	                	<group>
-	                        <field name="create_date" string="Date"/>
-	                        <field name="is_rent"/>
+                        <group>
+                            <field name="create_date" string="Date"/>
+                            <field name="is_rent"/>
                             <field name="is_computed"/>
-	                        <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
+                            <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
                             <field name="listing_menu_id" invisible="1"/>
-	                    </group>
+                        </group>
                         <group>
                             <field name="menu_name"/>
                             <group attrs="{'invisible': [('is_computed', '=', False)]}">
                                 <label for="unit_name_format"/>
                                 <div name="unit_name_format">
                                     <div name="unit_name_format" class="oe_inline">
-                                        <field name="unit_name_format" attrs="{'required': [('is_computed', '=', True)]}"/>
+                                        <field name="unit_name_format"
+                                               attrs="{'required': [('is_computed', '=', True)]}"/>
                                     </div>
                                 </div>
                                 <label for="unit_websitename_format"/>
                                 <div name="unit_websitename_format">
                                     <div name="unit_websitename_format" class="oe_inline">
-                                        <field name="unit_websitename_format" attrs="{'required': [('is_computed', '=', True)]}"/>
+                                        <field name="unit_websitename_format"
+                                               attrs="{'required': [('is_computed', '=', True)]}"/>
                                     </div>
                                 </div>
                             </group>
                         </group>
                         <group>
-                            <button name="create_offer_type_menu" string="Create Menu" type="object" class="oe_highlight" icon="fa-plus"
-                                attrs="{'invisible': [('listing_menu_id', '!=', False)]}"/>
+                            <button name="create_offer_type_menu" string="Create Menu" type="object"
+                                    class="oe_highlight" icon="fa-plus"
+                                    attrs="{'invisible': [('listing_menu_id', '!=', False)]}"/>
                         </group>
-	                </sheet>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -664,7 +701,7 @@
         -->
 
         <!-- Reason for Buy Tree View -->
-         <record id="view_reason_for_buy_tree" model="ir.ui.view">
+        <record id="view_reason_for_buy_tree" model="ir.ui.view">
             <field name="name">reason.for.buy.tree</field>
             <field name="model">reason.for.buy</field>
             <field name="arch" type="xml">
@@ -706,7 +743,7 @@
         -->
 
         <!-- Location Preferences Tree View -->
-         <record id="view_location_preferences_tree" model="ir.ui.view">
+        <record id="view_location_preferences_tree" model="ir.ui.view">
             <field name="name">location.preferences.tree</field>
             <field name="model">location.preferences</field>
             <field name="arch" type="xml">
@@ -758,7 +795,7 @@
             </field>
         </record>
 
-		<!-- Unit Image Search View -->
+        <!-- Unit Image Search View -->
         <record id="view_rem_image_filter" model="ir.ui.view">
             <field name="name">rem.image.filter</field>
             <field name="model">rem.image</field>
@@ -775,18 +812,21 @@
             <field name="model">rem.image</field>
             <field name="arch" type="xml">
                 <form string="Unit Image">
-	                <sheet>
+                    <sheet>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
-                            <h1><field name="name" placeholder="Describe the photo ..."/></h1>
+                            <h1>
+                                <field name="name" placeholder="Describe the photo ..."/>
+                            </h1>
                         </div>
-	                	<group>
-	                	    <group>
-		                        <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image_medium"}'/>
+                        <group>
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar"
+                                       options='{"preview_image": "image_medium"}'/>
                                 <field name="sequence" placeholder="Sequence"/>
-	                        </group>
-	                    </group>
-	                </sheet>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -802,7 +842,8 @@
             <field name="arch" type="xml">
                 <form>
                     <footer>
-                        <button name="do_populate_rem_unit_search" string="Populate Rem Unit Search" type="object" class="oe_highlight"/>
+                        <button name="do_populate_rem_unit_search" string="Populate Rem Unit Search" type="object"
+                                class="oe_highlight"/>
                         or
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
@@ -812,17 +853,17 @@
 
         <!-- Rem Unit Search Wizard Action -->
         <act_window id="action_wizard_populate_rem_unit_search"
-            name="Populate Rem Unit Search"
-            res_model="wizard.rem.unit.search"
-            view_type="form"
-            view_mode="form"
-            view_id="wizard_populate_rem_unit_search_view"
-            target="new"
-            groups="base.group_system"/>
+                    name="Populate Rem Unit Search"
+                    res_model="wizard.rem.unit.search"
+                    view_type="form"
+                    view_mode="form"
+                    view_id="wizard_populate_rem_unit_search_view"
+                    target="new"
+                    groups="base.group_system"/>
 
         <!-- Rem Unit Search Wizard Menu -->
         <menuitem action="action_wizard_populate_rem_unit_search" id="menu_setting_wizard_populate_rem_unit_search"
-            parent="base.menu_users" groups="base.group_system"/>
+                  parent="base.menu_users" groups="base.group_system"/>
 
-	</data>
+    </data>
 </odoo>

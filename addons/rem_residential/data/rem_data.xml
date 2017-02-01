@@ -7,11 +7,11 @@
         <record id="rem.unit_name_format_key" model="ir.config_parameter">
             <field name="key">rem.unit_name_format</field>
             <field name="value">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba • {land_area} sqft.</field>
-            <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
         </record>
 
         <!-- Offer Types -->
-        
+
         <record id="offer_type_buy" model="offer.type">
             <field name="name">Buy</field>
             <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
@@ -19,7 +19,7 @@
             <field name="is_rent" eval="0"/>
             <field name="menu_name">For Sale</field>
         </record>
-        
+
         <record id="offer_type_rent" model="offer.type">
             <field name="name">Rent</field>
             <field name="unit_name_format">{street:.10}, {CITY:.5}, {bedrooms} bd • {bathrooms} ba.</field>
@@ -29,7 +29,8 @@
         </record>
 
         <!-- Unit Stages -->
-​        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
+        ​
+        <record id="rem_unit_stage_buy_available" model="rem.unit.stage">
             <field name="name">Available</field>
             <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="0"/>
@@ -44,8 +45,9 @@
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
         </record>
-​
-​        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
+        ​
+        ​
+        <record id="rem_unit_stage_buy_sold" model="rem.unit.stage">
             <field name="name">Sold</field>
             <field name="offer_type_id" ref="offer_type_buy"/>
             <field name="force_show" eval="0"/>
@@ -53,7 +55,8 @@
             <field name="sequence" eval="30"/>
         </record>
 
-​        <record id="rem_unit_stage_rent_available" model="rem.unit.stage">
+        ​
+        <record id="rem_unit_stage_rent_available" model="rem.unit.stage">
             <field name="name">Available</field>
             <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
@@ -68,16 +71,18 @@
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="20"/>
         </record>
-​
-​        <record id="rem_unit_stage_rent_occupied" model="rem.unit.stage">
+        ​
+        ​
+        <record id="rem_unit_stage_rent_occupied" model="rem.unit.stage">
             <field name="name">Occupied</field>
             <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>
             <field name="force_hide" eval="0"/>
             <field name="sequence" eval="30"/>
         </record>
-​​
-​        <record id="rem_unit_stage_rent_out" model="rem.unit.stage">
+        ​​
+        ​
+        <record id="rem_unit_stage_rent_out" model="rem.unit.stage">
             <field name="name">Out of market</field>
             <field name="offer_type_id" ref="offer_type_rent"/>
             <field name="force_show" eval="0"/>

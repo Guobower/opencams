@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
 
-	<record id="view_sales_order_filter_rem_inherit" model="ir.ui.view">
-	    <field name="name">view.sales.order.filter.rem.inherit</field>
-	    <field name="model">sale.order</field>
-	    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
-	    <field name="arch" type="xml">
-	        <data>
-	          <xpath expr="//field[@name='user_id']" position="after">
-	              <field name="tenant_contract_ids"/>
-	          </xpath>
-	        </data>
-	    </field>
-	</record>
-	
-	<record id="view_order_form_rem_inherit" model="ir.ui.view">
-	    <field name="name">view.order.form.rem.inherit</field>
-	    <field name="model">sale.order</field>
-	    <field name="inherit_id" ref="sale.view_order_form"/>
-	    <field name="arch" type="xml">
-	        <data>
-	          <xpath expr="//field[@name='partner_id']" position="after">
-	              <field name="tenant_contract_ids" widget="many2many_tags" options="{'no_create': True}"/>
-	              <field name="unit_ids" widget="many2many_tags"/>
-	          </xpath>
-	        </data>
-	    </field>
-	</record>
+        <record id="view_sales_order_filter_rem_inherit" model="ir.ui.view">
+            <field name="name">view.sales.order.filter.rem.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='user_id']" position="after">
+                        <field name="tenant_contract_ids"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
 
-	</data>
+        <record id="view_order_form_rem_inherit" model="ir.ui.view">
+            <field name="name">view.order.form.rem.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='partner_id']" position="after">
+                        <field name="tenant_contract_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="unit_ids" widget="many2many_tags"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
 </odoo>

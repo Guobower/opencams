@@ -15,19 +15,19 @@
             <field name="url">/web#menu_id=211</field>
             <field name="target">self</field>
         </record>
- 
+
         <!-- Configuration Parameters -->
- 
+
         <record model="ir.config_parameter" id="unit_websitename_format_key">
             <field name="key">rem.unit_websitename_format</field>
             <field name="value">{street} {street2}, {city}, {state} {zip}</field>
-            <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
         </record>
 
         <record model="ir.config_parameter" id="unit_name_format_key">
             <field name="key">rem.unit_name_format</field>
             <field name="value">{street:.10}, {CITY:.5}.</field>
-            <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
         </record>
 
         <!-- Default Category and Product for invoicing rent/ leasing -->
@@ -93,9 +93,9 @@
             <field name="uom_po_id" ref="product_rent_hour"/>
             <field name="description">Brokerage Service</field>
         </record>
-        
-        <!-- Tenant / Renting Contract Types -->      
-        
+
+        <!-- Tenant / Renting Contract Types -->
+
         <record id="tenant_contract_type_0" model="rem.tenant.contract.type">
             <field name="code">MON</field>
             <field name="name">Monthly rent contract - 2 Advance payments</field>
@@ -105,7 +105,7 @@
                 tenant gets no laundry access
             </field>
         </record>
-        
+
         <record id="tenant_contract_type_1" model="rem.tenant.contract.type">
             <field name="code">WEEK</field>
             <field name="name">Weekly rent contract</field>
@@ -116,8 +116,8 @@
             </field>
         </record>
 
-        <!-- Listing Contract Types -->      
-        
+        <!-- Listing Contract Types -->
+
         <record id="listing_contract_type_0" model="rem.listing.contract.type">
             <field name="code">XSELL</field>
             <field name="name">Exclusive Right to Sell Listing</field>
@@ -125,7 +125,7 @@
             <field name="notes"><![CDATA[In this agreement, the agent gets paid no matter who sells the property,
 regardless of whether it's the agent or the seller.]]></field>
         </record>
-        
+
         <record id="listing_contract_type_1" model="rem.listing.contract.type">
             <field name="code">AGENCY</field>
             <field name="name">Exclusive Agency Listing</field>
@@ -133,7 +133,7 @@ regardless of whether it's the agent or the seller.]]></field>
             <field name="notes"><![CDATA[Agents get paid in this type of agreement only if they sell the property. 
  No fee is earned if the owner alone sells the property.]]></field>
         </record>
-        
+
         <record id="listing_contract_type_2" model="rem.listing.contract.type">
             <field name="code">OPEN</field>
             <field name="name">Open Listing</field>
@@ -142,7 +142,7 @@ regardless of whether it's the agent or the seller.]]></field>
  as many brokers as they want. The seller is not, however, obligated to pay any
  of them if he or she sells the property without the broker's help.]]></field>
         </record>
-        
+
         <record id="listing_contract_type_3" model="rem.listing.contract.type">
             <field name="code">NET</field>
             <field name="name">Net Listing</field>
@@ -161,7 +161,7 @@ regardless of whether it's the agent or the seller.]]></field>
             <field eval="1" name="number_increment"/>
             <field name="company_id" eval="False"/>
         </record>
-        
+
         <!-- Unit-related subtypes for messaging / Chatter -->
         <record id="mt_listing_created" model="mail.message.subtype">
             <field name="name">Listing Expired</field>

@@ -18,10 +18,12 @@ class RemUnit(models.Model):
 
     @api.one
     def add_feature(self):
-        max_feature_units = self.pool.get('ir.config_parameter').get_param(self.env.cr, self.env.uid, 'max_feature_units')
+        max_feature_units = self.pool.get('ir.config_parameter').get_param(self.env.cr, self.env.uid,
+                                                                           'max_feature_units')
 
-        self.env.cr.execute('SELECT COUNT(rem_unit_id) AS total FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1',
-                            [self.env.uid])
+        self.env.cr.execute(
+            'SELECT COUNT(rem_unit_id) AS total FROM rem_unit_res_users_rel WHERE res_user_id=%s LIMIT 1',
+            [self.env.uid])
         for feature_units in self.env.cr.dictfetchall():
             if int(max_feature_units) == 0 or int(feature_units['total']) < int(max_feature_units):
                 self.feature_id = [(4, self.env.uid)]

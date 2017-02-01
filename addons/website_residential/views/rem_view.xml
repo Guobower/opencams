@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
 
         <!-- Real Estate Asset Form -->
         <record id="view_rem_website_unit_form" model="ir.ui.view">
@@ -13,11 +13,13 @@
                     <field name="is_featured" placeholder="Is Featured"/>
                 </xpath>
                 <xpath expr="//field[@name='stage_id']" position="before">
-                    <button name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}" string="Add to Featured" class="oe_highlight"/>
-                    <button name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}" string="Remove from Featured"  class="oe_highlight"/>
+                    <button name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}"
+                            string="Add to Featured" class="oe_highlight"/>
+                    <button name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}"
+                            string="Remove from Featured" class="oe_highlight"/>
                 </xpath>
             </field>
         </record>
 
-	</data>
+    </data>
 </odoo>

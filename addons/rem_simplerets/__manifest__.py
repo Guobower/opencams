@@ -9,7 +9,6 @@ REM SimplyRETS Connector
 ========================
 This Module allows to sync the listings from MLS through SimpleRETS Service API
 
-
     """,
     'website': 'http://www.odoogap.com',
     'depends': ['rem'],
