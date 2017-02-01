@@ -6,6 +6,7 @@ import contract
 import crm
 import ir_model
 import product
+import project
 import rem
 import res_partner
 import sale

@@ -411,6 +411,63 @@ class RemUnit(models.Model):
         return res
 
     @api.model
+    def create(self, vals):
+        unit = super(RemUnit, self).create(vals)
+
+        if vals['cleaning']:
+            # Create a new project for cleaning services
+            self.create_unit_project(unit)
+
+        return unit
+
+    @api.multi
+    def write(self, vals):
+        res = super(RemUnit, self).write(vals)
+
+        for unit in self:
+            if unit.cleaning:
+                # Check if a project with the unit name already exists
+                if not self.env['project.project'].search([('name', '=', unit.name)], limit=1):
+                    # Create a new project for cleaning services
+                    self.create_unit_project(unit)
+
+        return res
+
+    def create_unit_project(self, unit):
+        # Create a new project for cleaning services
+        project = self.env['project.project'].create({
+            'name': unit.name,
+            'unit_id': unit.id,
+        })
+
+        # Add stages to the new created project
+        # Use try/catch block since the user can delete stages
+
+        try:
+            project_stage = self.env['project.task.type'].search(
+                [('id', '=', self.env.ref('project.project_stage_data_0').id)], limit=1)
+            if project_stage:
+                project_stage.update({'project_ids': [(4, project.id)]})
+        except:
+            pass
+
+        try:
+            project_stage = self.env['project.task.type'].search(
+                [('id', '=', self.env.ref('project.project_stage_data_1').id)], limit=1)
+            if project_stage:
+                project_stage.update({'project_ids': [(4, project.id)]})
+        except:
+            pass
+
+        try:
+            project_stage = self.env['project.task.type'].search(
+                [('id', '=', self.env.ref('project.project_stage_data_2').id)], limit=1)
+            if project_stage:
+                project_stage.update({'project_ids': [(4, project.id)]})
+        except:
+            pass
+
+    @api.model
     def _get_stage(self):
         return self.env['rem.unit.stage'].search([('offer_type_id', '=', self.offer_type_id.id)], limit=1, order='sequence')
 
@@ -691,6 +748,9 @@ class RemUnit(models.Model):
     # Geo
     latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
     longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
+
+    # Cleaning
+    cleaning = fields.Boolean(string='Needs Cleaning Services')
 
     # councilRates = fields.Float(string='Annual council rates')
     # secureParking = fields.Boolean(string='Secure parking')

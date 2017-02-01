@@ -187,6 +187,7 @@
                         <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]" help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
                         <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
                         <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman" context="{'group_by':'user_id'}"/>
+                        <filter string="Needs Cleaning Services" icon="terp-partner" domain="[]" context="{'group_by':'cleaning'}"/>
                     </group>
                 </search>
             </field>
@@ -289,6 +290,7 @@
                                 <field name='latitude'/>
                                 <field name='longitude'/>
                                 <button name="get_geo_coordinates" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" string="Get Coordinates" colspan="2" icon="fa-check"/>
+                                <field name="cleaning"/>
                                 <field name='structure_id'/>
 							</group>
 						</group>

@@ -5,11 +5,11 @@ from odoo import api, fields, models, _
 class RemUnit(models.Model):
     _inherit = 'rem.unit'
 
-    people = fields.Integer(string="People", required=True)
+    people = fields.Integer(string='People', required=True)
     area = fields.Float(string='Area')
-    seats = fields.Integer(string="Seats")
-    windows = fields.Integer(string="Windows")
-    desk_phones = fields.Integer(string="Desk Phones")
+    seats = fields.Integer(string='Seats')
+    windows = fields.Integer(string='Windows')
+    desk_phones = fields.Integer(string='Desk Phones')
 
     def get_formated_name(self, rec, mask):
         STREET = (rec.street or '').upper()
