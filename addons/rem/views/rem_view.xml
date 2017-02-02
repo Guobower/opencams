@@ -263,10 +263,10 @@
                                 <field name="reference" invisible="1"/>
                                 <field name="offer_type_id" options="{'no_create': True}"/>
                                 <field name="type_id"/>
-                                <field name="is_new"/>is_computed
+                                <field name="is_new"/>
                                 <field name="user_id" placeholder="Salesperson"/>
                                 <field name="active" readonly="1"/>
-                                <field name="is_computed" readonly="1"/>
+                                <field name="is_computed" invisible="1"/>
                                 <!-- Address -->
                                 <label for="street" string="Address"/>
                                 <div class="o_address_format">
