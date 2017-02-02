@@ -261,7 +261,7 @@
                                         attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}"
                                         class="btn-link"/>
                                 <field name="reference" invisible="1"/>
-                                <field name="offer_type_id" options="{'no_create': True}"/>
+                                <field name="offer_type_id" options="{'no_create': True}" invisible="context.get('default_offer_type', False)"/>
                                 <field name="type_id"/>
                                 <field name="is_new"/>
                                 <field name="user_id" placeholder="Salesperson"/>
