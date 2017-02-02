@@ -10,4 +10,4 @@ class ProductUoMCategory(models.Model):
         uom_categories = self.env['product.uom.categ'].search([])
 
         for uom_category in uom_categories:
-            uom_categories.unlink()
+            uom_category.unlink()
