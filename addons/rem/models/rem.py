@@ -301,7 +301,7 @@ class PriceTableLine(models.Model):
                     continue;
                 if self.dates_are_overlapping(dates[i][1], dates[i][2], dates[j][1], dates[j][2]):
                     raise ValidationError(_('The following dates are overlapping: %s until %s and %s until %s') % (
-                    dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
+                        dates[i][1], dates[i][2], dates[j][1], dates[j][2]))
 
 
 class RemImage(models.Model):
@@ -349,12 +349,53 @@ class RemStructure(models.Model):
         for build in self:
             build.unit_ids_count = len(build.unit_ids)
 
+    @api.onchange('parent_id')
+    def _onchange_parent_id(self):
+        if self.parent_id:
+            self.street = self.parent_id.street
+            self.street2 = self.parent_id.street2
+            self.zone_id = self.parent_id.zone_id.id
+            self.city_id = self.parent_id.city_id.id
+            self.state_id = self.parent_id.state_id.id
+            self.country_id = self.parent_id.country_id.id
+            self.zip = self.parent_id.zip
+            self.latitude = self.parent_id.latitude
+            self.longitude = self.parent_id.longitude
+
     name = fields.Char(string='Name', size=32, required=True,
                        help='Unit group (condo, building ...) name')
     parent_id = fields.Many2one('rem.structure', string='Parent')
     unit_ids = fields.One2many('rem.unit', 'structure_id', string='Units')
     is_view = fields.Boolean('Is View?', help='View type will not allow units in')
     unit_ids_count = fields.Integer(compute='_unit_count')
+    # Location
+    street = fields.Char(string='Street')
+    street2 = fields.Char(string='Street2')
+    zone_id = fields.Many2one('rem.unit.zone', string='Zone')
+    city_id = fields.Many2one('rem.unit.city', string='City')
+    state_id = fields.Many2one('res.country.state', string='State')
+    country_id = fields.Many2one('res.country', string='Country')
+    zip = fields.Char(string='ZIP', change_default=True, size=24)
+    # Geo
+    latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
+    longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
+
+    @api.model
+    def create(self, vals):
+        if vals['parent_id']:
+            parents = self.env['rem.structure'].search([('id', '=', vals['parent_id'])], limit=1)
+            for parent in parents:
+                vals['street'] = parent.street
+                vals['street2'] = parent.street2
+                vals['zone_id'] = parent.zone_id.id
+                vals['city_id'] = parent.city_id.id
+                vals['state_id'] = parent.state_id.id
+                vals['country_id'] = parent.country_id.id
+                vals['zip'] = parent.zip
+                vals['latitude'] = parent.latitude
+                vals['longitude'] = parent.longitude
+
+        return super(RemStructure, self).create(vals)
 
     @api.multi
     def get_units(self):
@@ -384,6 +425,22 @@ class RemStructure(models.Model):
                 name = "%s - %s" % (record.parent_id.name_get()[0][1], name)
             result.append((record.id, name))
         return result
+
+    @api.one
+    def get_geo_coordinates(self):
+        coordinates = geo_find(
+            geo_query_address(
+                street=self.street,
+                zip=self.zip,
+                city=self.city_id.name,
+                state=self.state_id.name,
+                country=self.country_id.name,
+            )
+        )
+
+        if coordinates:
+            self.latitude = coordinates[0]
+            self.longitude = coordinates[1]
 
 
 class RemUnit(models.Model):
@@ -668,6 +725,19 @@ class RemUnit(models.Model):
         for unit in self:
             unit.order_ids_count = len(unit.order_ids)
 
+    @api.onchange('structure_id')
+    def _onchange_structure_id(self):
+        if self.structure_id:
+            self.street = self.structure_id.street
+            self.street2 = self.structure_id.street2
+            self.zone_id = self.structure_id.zone_id.id
+            self.city_id = self.structure_id.city_id.id
+            self.state_id = self.structure_id.state_id.id
+            self.country_id = self.structure_id.country_id.id
+            self.zip = self.structure_id.zip
+            self.latitude = self.structure_id.latitude
+            self.longitude = self.structure_id.longitude
+
     offer_type_id = fields.Many2one('offer.type', string='Offer Type', required=True,
                                     default=_get_default_offer_type)
     type_id = fields.Many2one('rem.unit.type', string='Type')
@@ -744,13 +814,13 @@ class RemUnit(models.Model):
                                                  compute='_get_current_tenant_contract', store=True)
 
     # Location
-    street = fields.Char(string='Street', required=True)
+    street = fields.Char(string='Street')
     street2 = fields.Char(string='Street2')
     zone_id = fields.Many2one('rem.unit.zone', string='Zone')
-    city_id = fields.Many2one('rem.unit.city', string='City', required=True)
+    city_id = fields.Many2one('rem.unit.city', string='City')
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
-    zip = fields.Char(string='Zip', change_default=True, size=24, required=True)
+    zip = fields.Char(string='ZIP', change_default=True, size=24)
     structure_id = fields.Many2one('rem.structure', string='Structure', domain="[('is_view', '=', False)]",
                                    help='Structure that contains the unit (building, condo, floor, zone ...)')
 
@@ -954,10 +1024,10 @@ class RemUnit(models.Model):
                         node.set('modifiers', '')
                         # Increment counters
                         general_features = (general_features + 1) if (
-                        fld.rem_category == 'general') else general_features
+                            fld.rem_category == 'general') else general_features
                         indoor_features = (indoor_features + 1) if (fld.rem_category == 'indoor') else indoor_features
                         outdoor_features = (outdoor_features + 1) if (
-                        fld.rem_category == 'outdoor') else outdoor_features
+                            fld.rem_category == 'outdoor') else outdoor_features
                 # Make general, indoor and outdoor feature tabs visible
                 if general_features > 0:
                     doc.xpath("//page[@string='General Features']")[0].set('invisible', '0')

@@ -47,6 +47,35 @@
                             <field name="parent_id"/>
                             <field name="is_view"/>
                         </group>
+                        <group>
+                            <group>
+                                <!-- Address -->
+                                <label for="street" string="Address"
+                                       attrs="{'invisible': [('parent_id', '!=', False)]}"/>
+                                <div class="o_address_format" attrs="{'invisible': [('parent_id', '!=', False)]}">
+                                    <field name="street" placeholder="Street..." class="o_address_street"
+                                           attrs="{'required': [('parent_id', '=', False)]}"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city_id" placeholder="City" class="o_address_city"
+                                           attrs="{'required': [('parent_id', '=', False)]}"/>
+                                    <field name="zone_id" placeholder="Zone"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"
+                                           options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"
+                                           attrs="{'required': [('parent_id', '=', False)]}"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True, "no_create": True}'/>
+                                </div>
+                            </group>
+                            <group>
+                                <!-- Geo -->
+                                <field name='latitude' attrs="{'invisible': [('parent_id', '!=', False)]}"/>
+                                <field name='longitude' attrs="{'invisible': [('parent_id', '!=', False)]}"/>
+                                <button name="get_geo_coordinates" type="object"
+                                        attrs="{'invisible': ['|', '|', '|', '|', '|', ('parent_id', '!=', False), ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
+                                        string="Get Coordinates" colspan="2" icon="fa-check"/>
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -261,22 +290,27 @@
                                         attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}"
                                         class="btn-link"/>
                                 <field name="reference" invisible="1"/>
-                                <field name="offer_type_id" options="{'no_create': True}" invisible="context.get('default_offer_type', False)"/>
+                                <field name="offer_type_id" options="{'no_create': True}"
+                                       invisible="context.get('default_offer_type', False)"/>
                                 <field name="type_id"/>
                                 <field name="is_new"/>
                                 <field name="user_id" placeholder="Salesperson"/>
                                 <field name="active" readonly="1"/>
                                 <field name="is_computed" invisible="1"/>
                                 <!-- Address -->
-                                <label for="street" string="Address"/>
-                                <div class="o_address_format">
-                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <label for="street" string="Address"
+                                       attrs="{'invisible': [('structure_id', '!=', False)]}"/>
+                                <div class="o_address_format" attrs="{'invisible': [('structure_id', '!=', False)]}">
+                                    <field name="street" placeholder="Street..." class="o_address_street"
+                                           attrs="{'required': [('structure_id', '=', False)]}"/>
                                     <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="city_id" placeholder="City" class="o_address_city"/>
+                                    <field name="city_id" placeholder="City" class="o_address_city"
+                                           attrs="{'required': [('structure_id', '=', False)]}"/>
                                     <field name="zone_id" placeholder="Zone"/>
                                     <field name="state_id" class="o_address_state" placeholder="State"
                                            options='{"no_open": True}'/>
-                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"
+                                           attrs="{'required': [('structure_id', '=', False)]}"/>
                                     <field name="country_id" placeholder="Country" class="o_address_country"
                                            options='{"no_open": True, "no_create": True}'/>
                                 </div>
@@ -307,13 +341,13 @@
                                     <field name="rent_current_uom_id" options="{'no_open': True}"/>
                                 </div>
                                 <!-- Geo -->
-                                <field name='latitude'/>
-                                <field name='longitude'/>
+                                <field name='latitude' attrs="{'invisible': [('structure_id', '!=', False)]}"/>
+                                <field name='longitude' attrs="{'invisible': [('structure_id', '!=', False)]}"/>
                                 <button name="get_geo_coordinates" type="object"
-                                        attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False),     ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
+                                        attrs="{'invisible': ['|', '|', '|', '|', '|', ('structure_id', '!=', False), ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
                                         string="Get Coordinates" colspan="2" icon="fa-check"/>
                                 <field name="cleaning"/>
-                                <field name='structure_id'/>
+                                <field name="structure_id"/>
                             </group>
                         </group>
                         <notebook>
