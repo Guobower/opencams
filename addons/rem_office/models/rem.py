@@ -7,9 +7,7 @@ class RemUnit(models.Model):
 
     people = fields.Integer(string='People', required=True)
     area = fields.Float(string='Area')
-    seats = fields.Integer(string='Seats')
     windows = fields.Integer(string='Windows')
-    desk_phones = fields.Integer(string='Desk Phones')
 
     def get_formated_name(self, rec, mask):
         STREET = (rec.street or '').upper()
@@ -44,13 +42,8 @@ class RemUnit(models.Model):
                 ('people', '<=', context.get('max_people')) and ('people', '>=', context.get('min_people'))]
         if context.get('min_area'):
             args += [('area', '>=', context.get('min_area'))]
-        if context.get('max_seats') and context.get('min_seats'):
-            args += [
-                ('seats', '<=', context.get('max_seats')) and ('seats', '>=', context.get('min_seats'))]
         if context.get('min_windows'):
             args += [('windows', '>=', context.get('min_windows'))]
-        if context.get('min_desk_phones'):
-            args += [('desk_phones', '>=', context.get('min_desk_phones'))]
 
         return super(RemUnit, self).search(args, offset, limit, order, count=count)
 

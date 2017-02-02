@@ -20,15 +20,8 @@
                                         <field name="re_max_people" nolabel="1"/>
                                     </div>
                                     <field name="re_min_area"/>
-                                    <field name="re_min_desk_phones"/>
                                 </group>
                                 <group>
-                                    <label for="re_min_seats" string="Seats min/max"/>
-                                    <div class="o_row">
-                                        <field name="re_min_seats" nolabel="1"/>
-                                        <span>to</span>
-                                        <field name="re_max_seats" nolabel="1"/>
-                                    </div>
                                     <field name="re_min_windows"/>
                                 </group>
                             </group>

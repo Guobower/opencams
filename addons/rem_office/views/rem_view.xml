@@ -15,7 +15,7 @@
                 <xpath expr="//field[@name='rent_uom_id']" position="after">
                     <field name="people"/>
                     <field name="area"/>
-                    <field name="seats"/>
+                    <field name="windows"/>
                 </xpath>
             </field>
         </record>
@@ -30,15 +30,11 @@
                     <separator/>
                     <field name="people"/>
                     <field name="area"/>
-                    <field name="seats"/>
                     <field name="windows"/>
-                    <field name="desk_phones"/>
                 </xpath>
                 <xpath expr="//filter[@name='offertype']" position="after">
                     <filter string="People" icon="terp-partner" domain="[]" context="{'group_by':'people'}"/>
-                    <filter string="Seats" icon="terp-partner" domain="[]" context="{'group_by':'seats'}"/>
                     <filter string="Windows" icon="terp-partner" domain="[]" context="{'group_by':'Windows'}"/>
-                    <filter string="Desk Phones" icon="terp-partner" domain="[]" context="{'group_by':'desk_phones'}"/>
                 </xpath>
             </field>
         </record>
@@ -52,9 +48,7 @@
                 <xpath expr="//button[@name='get_geo_coordinates']" position="after">
                     <field name="people"/>
                     <field name="area"/>
-                    <field name="seats"/>
                     <field name="windows"/>
-                    <field name="desk_phones"/>
                 </xpath>
             </field>
         </record>
