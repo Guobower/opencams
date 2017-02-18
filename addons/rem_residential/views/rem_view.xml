@@ -96,6 +96,20 @@
                     <field name="entertaining" invisible="1"/>
                     <field name="balconies" invisible="1"/>
                 </xpath>
+                <xpath expr="//page[@name='Photos']" position="after">
+                    <page string="Neighborhood Contact List">
+                        <field name="neighborhood_id" widget="one2many_list">
+                            <tree string="Neighborhood Contact" editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="comment"/>
+                                <field name="partner_id"
+                                       context='{"default_customer": "False", "default_is_neighbor": "True"}'/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
         </record>
 

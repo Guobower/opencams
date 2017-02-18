@@ -2,9 +2,26 @@
 from odoo import api, fields, models, _
 
 
+class NeighborhoodContacts(models.Model):
+    _name = 'rem.neighborhood'
+    _description = 'Neighborhood Contact List'
+
+    sequence = fields.Integer(required=True, default=1,
+                              help="The sequence field is used to define order in which the tax lines are applied.")
+    comment = fields.Char(string='Comment', size=32,
+                          required=True, help='Comment')
+    is_neighbor = fields.Boolean(default=True)
+    partner_id = fields.Many2one('res.partner', string='Neighbor')
+    email = fields.Char(string="Email", related='partner_id.email')
+    phone = fields.Char(string="Phone", related='partner_id.phone')
+    active = fields.Boolean(string='Active', default=True,
+                            help='If the active field is set to False, it will allow you to hide without removing it.')
+
+
 class RemUnit(models.Model):
     _inherit = 'rem.unit'
 
+    neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
     # General Features
     bedrooms = fields.Integer(string='Bedrooms', default=1, required=True)
     bathrooms = fields.Integer(string='Bathrooms', default=1, required=True)

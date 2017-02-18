@@ -12,7 +12,6 @@ access_rem_unit_zone,access_rem_unit_zone,model_rem_unit_zone,rem.group_rem_user
 access_stage_history,access_stage_history,model_stage_history,rem.group_rem_user,1,1,1,1
 access_reason_for_buy,access_reason_for_buy,model_reason_for_buy,rem.group_rem_user,1,1,1,1
 access_location_preferences,access_location_preferences,model_location_preferences,rem.group_rem_user,1,1,1,1
-access_rem_neighborhood,access_rem_neighborhood,model_rem_neighborhood,rem.group_rem_user,1,1,1,1
 access_rem_buyer_contract_type,access_rem_buyer_contract_type,model_rem_buyer_contract_type,rem.group_rem_user,1,1,1,1
 access_rem_listing_contract_type,access_rem_listing_contract_type,model_rem_listing_contract_type,rem.group_rem_user,1,1,1,1
 access_rem_tenant_contract_type,access_rem_tenant_contract_type,model_rem_tenant_contract_type,rem.group_rem_user,1,1,1,1

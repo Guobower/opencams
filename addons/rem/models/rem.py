@@ -212,22 +212,6 @@ class LocationPreferences(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class NeighborhoodContacts(models.Model):
-    _name = 'rem.neighborhood'
-    _description = 'Neighborhood Contact List'
-
-    sequence = fields.Integer(required=True, default=1,
-                              help="The sequence field is used to define order in which the tax lines are applied.")
-    comment = fields.Char(string='Comment', size=32,
-                          required=True, help='Comment')
-    is_neighbor = fields.Boolean(default=True)
-    partner_id = fields.Many2one('res.partner', string='Neighbor')
-    email = fields.Char(string="Email", related='partner_id.email')
-    phone = fields.Char(string="Phone", related='partner_id.phone')
-    active = fields.Boolean(string='Active', default=True,
-                            help='If the active field is set to False, it will allow you to hide without removing it.')
-
-
 class SeasonalRates(models.Model):
     _name = 'season.rates'
     _description = 'Seasonal Rates'
@@ -789,7 +773,6 @@ class RemUnit(models.Model):
         'rem.unit.stage', string='Stage', default=_get_stage)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')],
                                      string='Attachments')
-    neighborhood_id = fields.One2many('rem.neighborhood', 'comment', string='Neighborhood Contact List')
 
     # Listing contracts
     listing_contract_count = fields.Integer(compute='_listing_contract_count')

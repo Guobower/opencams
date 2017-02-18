@@ -366,7 +366,7 @@
                                 <field name="website_description" widget="html"
                                        placeholder="Add some important details about your unit ..."/>
                             </page>
-                            <page string="Photos">
+                            <page name="Photos" string="Photos">
                                 <group>
                                     <field name="image_ids" mode="kanban" nolabel="1"
                                            context="{'default_unit_id': active_id}">
@@ -394,18 +394,6 @@
                                         </kanban>
                                     </field>
                                 </group>
-                            </page>
-                            <page string="Neighborhood Contact List">
-                                <field name="neighborhood_id" widget="one2many_list">
-                                    <tree string="Neighborhood Contact" editable="bottom">
-                                        <field name="sequence" widget="handle"/>
-                                        <field name="comment"/>
-                                        <field name="partner_id"
-                                               context='{"default_customer": "False", "default_is_neighbor": "True"}'/>
-                                        <field name="email"/>
-                                        <field name="phone"/>
-                                    </tree>
-                                </field>
                             </page>
                         </notebook>
                     </sheet>
