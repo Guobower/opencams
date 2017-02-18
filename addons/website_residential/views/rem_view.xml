@@ -2,21 +2,67 @@
 <odoo>
     <data>
 
+        <!-- Real Estate Asset Search View -->
+        <record id="view_rem_unit_filter" model="ir.ui.view">
+            <field name="name">rem.unit.filter</field>
+            <field name="model">rem.unit</field>
+            <field name="inherit_id" ref="rem.view_rem_unit_filter"/>
+            <field name="arch" type="xml">
+                <!-- Add website name -->
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="website_name"/>
+                </xpath>
+                <!-- Add unpublished units filter -->
+                <xpath expr="//filter[@name='inactives']" position="after">
+                    <filter name="unpublished" string="Unpublished" domain="[('website_published','=',0)]"
+                                help="Unpublished units"/>
+                </xpath>
+            </field>
+        </record>
+
         <!-- Real Estate Asset Form -->
         <record id="view_rem_website_unit_form" model="ir.ui.view">
-            <field name="name">rem.res.unit.form</field>
+            <field name="name">rem.unit.form</field>
             <field name="model">rem.unit</field>
             <field name="inherit_id" ref="rem.view_rem_unit_form"/>
             <field name="arch" type="xml">
+                <!-- Add website published button -->
+                <xpath expr="//div[@name='button_box']/button[last()]" position="after">
+                    <button class="oe_stat_button" name="website_publish_button"
+                            type="object" icon="fa-globe">
+                        <field name="website_published" widget="website_button"/>
+                    </button>
+                </xpath>
+                <!-- Add is featured -->
                 <xpath expr="//field[@name='current_listing_contract_id']" position="before">
                     <field name="feature_id" invisible="1"/>
                     <field name="is_featured" placeholder="Is Featured"/>
                 </xpath>
+                <!-- Add add/remove featured button -->
                 <xpath expr="//field[@name='stage_id']" position="before">
                     <button name="add_feature" type="object" attrs="{'invisible': [('is_featured', '=', True)]}"
                             string="Add to Featured" class="oe_highlight"/>
                     <button name="remove_feature" type="object" attrs="{'invisible': [('is_featured', '=', False)]}"
                             string="Remove from Featured" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Real Estate Contract Type Form View -->
+        <record id="view_re_offer_type_form" model="ir.ui.view">
+            <field name="name">offer.type.form</field>
+            <field name="model">offer.type</field>
+            <field name="inherit_id" ref="rem.view_re_offer_type_form"/>
+            <field name="arch" type="xml">
+                <!-- Add unit website name format-->
+                <xpath expr="//div[@name='unit_name_format']" position="after">
+                    <label for="unit_websitename_format"/>
+                    <div name="unit_websitename_format">
+                        <div name="unit_websitename_format" class="oe_inline">
+                            <field name="unit_websitename_format"
+                                   attrs="{'required': [('is_computed', '=', True)]}"/>
+                        </div>
+                    </div>
                 </xpath>
             </field>
         </record>

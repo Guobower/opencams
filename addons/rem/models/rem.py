@@ -444,6 +444,7 @@ class RemStructure(models.Model):
 
 
 class RemUnit(models.Model):
+    # TODO: website.seo.metadata and website.published.mixin have website module dependency
     _inherit = ['website.seo.metadata', 'website.published.mixin']
     _name = 'rem.unit'
     _description = 'Real Estate Unit'
@@ -674,16 +675,6 @@ class RemUnit(models.Model):
             rec.name = name
 
     @api.multi
-    @api.depends('street', 'street2', 'zone_id.name',
-                 'city_id.name', 'zip')
-    def _get_website_name(self):
-        units = []
-        for rec in self:
-            name = self.get_formated_name(rec, rec.offer_type_id.unit_websitename_format)
-            units.append((rec.id, name))
-        return units
-
-    @api.multi
     @api.depends('table_id', 'rent_price', 'rent_uom_id')
     def _get_current_rent(self):
         today_date = fields.Date.today()
@@ -746,7 +737,6 @@ class RemUnit(models.Model):
     reference = fields.Char(string='Reference',
                             default=lambda self: self.env['ir.sequence'].next_by_code('rem.unit.sl'),
                             copy=False, readonly=True, index=True)
-    website_name = fields.Char(compute='_get_website_name', string='Reference', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Owner', help="Owner of the unit")
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env['res.company']._company_default_get('rem.unit'))

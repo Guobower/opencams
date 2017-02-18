@@ -11,7 +11,7 @@ This module allows to manage real estate units
 
     """,
     'website': 'http://www.odoogap.com',
-    'depends': ['account', 'crm', 'calendar', 'analytic', 'sale', 'website', 'project'],
+    'depends': ['account', 'crm', 'calendar', 'analytic', 'sale', 'project', 'website'],
     'category': 'Real Estate',
     'data': [
         'data/rem_data.xml',
