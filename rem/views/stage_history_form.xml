@@ -5,7 +5,7 @@
             <field name="name">stage.history.tree</field>
             <field name="model">stage.history</field>
             <field name="arch" type="xml">
-                <tree create="false" string="Stage History" default_order="date desc" readonly="1">
+                <tree string="Stage History" default_order="date desc" create="false">
                     <field name='create_date' string="Date"/>
                     <field name='stage_id' string="Old Stage"/>
                     <field name='new_stage' string="New Stage"/>

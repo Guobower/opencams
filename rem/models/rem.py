@@ -112,6 +112,7 @@ class RemUnitOfferType(models.Model):
     def create_offer_type_menu(self):
         # TODO: fix page refresh issue after creating the menu
         for offer in self:
+
             higher_sequence = self.env['ir.ui.menu'].search(
                 [('parent_id', '=', self.env.ref('rem.menu_rem_properties').id)],
                 order='sequence desc',
@@ -121,6 +122,7 @@ class RemUnitOfferType(models.Model):
             vals = {
                 'name': offer.menu_name,
                 'res_model': 'rem.unit',
+                'view_type': 'form',
                 'view_mode': 'tree,form',
                 'target': 'current',
                 'context': "{'search_default_offer_type_id': %s, 'default_offer_type': %s, 'is_rent': %s}" %
@@ -135,16 +137,25 @@ class RemUnitOfferType(models.Model):
                 '''
             }
 
-            new_action = self.env['ir.actions.act_window'].create(vals)
+            if len(offer.listing_action_id) == 0:
+                new_action = self.env['ir.actions.act_window'].create(vals)
+            else:
+                new_action = offer.listing_action_id
+                new_action.sudo().write(vals)
+
 
             vals = {
                 'name': offer.menu_name,
                 'parent_id': self.env.ref('rem.menu_rem_properties').id,
                 'sequence': int(higher_sequence.sequence) + 1,
-                'action': 'ir.actions.act_window,%s' % (new_action.id,)
+                'action': 'ir.actions.act_window,%d' % new_action.id
             }
 
-            new_menu = self.env['ir.ui.menu'].create(vals)
+            if len(offer.listing_menu_id) == 0:
+                new_menu = self.env['ir.ui.menu'].create(vals)
+            else:
+                new_menu = offer.listing_menu_id
+                new_menu.sudo().write(vals)
 
             offer.listing_menu_id = new_menu.id
             offer.listing_action_id = new_action.id
@@ -165,10 +176,10 @@ class RemUnitOfferType(models.Model):
                 self.env['ir.actions.act_window'].browse(offer.listing_action_id.id).unlink()
                 offer.listing_action_id = False
 
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
-        }
+    @api.multi
+    def unlink(self):
+        self.remove_offer_type_menu()
+        return super(RemUnitOfferType, self).unlink()
 
 
 class RemUnitStage(models.Model):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Real Estate Management',
-    'version': '10.0.1.0',
-    'author': 'Odoo GAP',
+    'version': '11.0.1.0',
+    'author': 'OdooGAP',
     'summary': 'Real Estate Management',
     'description': """
 Manage real estate assets

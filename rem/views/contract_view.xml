@@ -144,9 +144,10 @@
             <field name="name">rem.tenant.contract.calendar</field>
             <field name="model">rem.tenant.contract</field>
             <field name="arch" type="xml">
-                <calendar string="Tenant Contracts" date_start="date_start" allday="1" mode="month"
-                          date_stop="date_end" display="[display_name]" color="reservation" quick_add="False"
-                          event_open_popup="%(rem.view_rem_tenant_contract_form)s">
+                <calendar string="Tenant Contracts" date_start="date_start"
+                          date_stop="date_end"
+                          readonly_form_view_id="%(rem.view_rem_tenant_contract_form)s"
+                          event_open_popup="true">
                     <field name="display_name"/>
                     <field name="partner_id"/>
                     <field name="date_start"/>

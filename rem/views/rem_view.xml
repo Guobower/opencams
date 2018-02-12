@@ -682,7 +682,7 @@
                             <field name="listing_menu_id" invisible="1"/>
                         </group>
                         <group>
-                            <field name="menu_name"/>
+                            <field name="menu_name" placeholder="Menu name"/>
                             <group attrs="{'invisible': [('is_computed', '=', False)]}">
                                 <label for="unit_name_format"/>
                                 <div name="unit_name_format">
@@ -695,8 +695,7 @@
                         </group>
                         <group>
                             <button name="create_offer_type_menu" string="Create Menu" type="object"
-                                    class="oe_highlight" icon="fa-plus"
-                                    attrs="{'invisible': [('listing_menu_id', '!=', False)]}"/>
+                                    class="oe_highlight" icon="fa-plus"/>
                         </group>
                     </sheet>
                 </form>

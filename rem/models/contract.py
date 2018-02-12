@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
 from docutils.parsers.rst.directives import flag
-from utils import RentDate
+from .utils import RentDate
 import pytz
 
 
@@ -155,7 +155,7 @@ class RemListingContractType(models.Model):
 class RemListingContract(models.Model):
     _name = 'rem.listing.contract'
     _description = 'Listing Contract'
-    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+    _inherit = ['rem.abstract.contract', 'mail.thread']
 
     unit_id = fields.Many2one('rem.unit', string='Unit', required=True)
     type_id = fields.Many2one('rem.listing.contract.type', string='Type', required=True)
@@ -225,7 +225,7 @@ class RemListingContract(models.Model):
 class RemBuyerContract(models.Model):
     _name = 'rem.buyer.contract'
     _description = 'Buyer Contract'
-    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+    _inherit = ['rem.abstract.contract', 'mail.thread']
 
     type_id = fields.Many2one('rem.buyer.contract.type', string='Type', required=True)
     partner_id = fields.Many2one('res.partner', string='Buyer', required=True)
@@ -236,7 +236,7 @@ class RemBuyerContract(models.Model):
 class RemTenantContract(models.Model):
     _name = 'rem.tenant.contract'
     _description = 'Buyer Contract'
-    _inherit = ['rem.abstract.contract', 'mail.thread', 'ir.needaction_mixin']
+    _inherit = ['rem.abstract.contract', 'mail.thread']
 
     name = fields.Char('Contract Name')
     allday = fields.Boolean('All Day', default=True)
