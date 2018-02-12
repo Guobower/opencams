@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rem_neighborhood,access_rem_neighborhood,model_rem_neighborhood,rem.group_rem_user,1,1,1,1
