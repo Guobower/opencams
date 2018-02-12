@@ -2,8 +2,8 @@
 
 ## Introduction
 
-This module aims to implement a real estate listing site with back-office support
-for the sales team.
+This module aims to implement a real estate platform that will be extensible in many different real estate modules:
+
 The module structure will have 2 modules, one for opensource version and other for paid.
 
 ## Data Model
