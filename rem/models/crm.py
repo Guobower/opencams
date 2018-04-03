@@ -2,14 +2,6 @@
 from odoo import fields, models, api, _
 import datetime
 
-MATCH_RE = {
-    'self.planned_revenue': {'max_planned_revenue': 'self.planned_revenue * 0.1 + self.planned_revenue'},
-    'self.re_offer_type_id': {'search_default_offer_type_id': 'self.re_offer_type_id.id'},
-    'self.re_type': {'search_default_type_id': 'self.re_type.ids[0]'},
-    'self.re_city': {'search_default_city_id': 'self.re_city.id'},
-    'self.re_is_new': {'search_default_is_new': 'self.re_is_new'},
-}
-
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -38,10 +30,7 @@ class CrmLead(models.Model):
     @api.multi
     def action_find_matching_units(self):
         context = dict(self._context or {})
-        for conditions in MATCH_RE:
-            if eval(conditions):
-                for key, val in MATCH_RE[conditions].iteritems():
-                    context[key] = eval(val)
+
         context['from_lead_id'] = self.id
         res = {
             'name': _('Search results'),

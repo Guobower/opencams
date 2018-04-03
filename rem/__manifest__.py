@@ -2,11 +2,11 @@
 {
     'name': 'Real Estate Management',
     'version': '11.0.1.0',
-    'author': 'OdooGAP',
+    'author': 'Diogo Duarte',
     'summary': 'Real Estate Management',
     'description': """
 Manage real estate assets
-===============================================================
+=========================
 This module allows to manage real estate units
 
     """,
