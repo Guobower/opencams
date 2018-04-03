@@ -112,9 +112,9 @@ html_theme = 'alabaster'
 #html_theme_options = {}
 html_theme_options = {
     'logo': 'logo.png',
-    'logo_name': 'REconnect',
-    'github_user': 'odoogap',
-    'github_repo': 'odoogap',
+    'logo_name': 'OpenCams',
+    'github_user': 'opencams',
+    'github_repo': 'opencams',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -189,7 +189,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'RealEstateManagementdoc'
+htmlhelp_basename = 'CommunityManagementdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -209,7 +209,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'RealEstateManagement.tex', u'Real Estate Management Documentation',
+  ('index', 'CommunityManagement.tex', u'Community Management Documentation',
    u'Diogo Duarte', 'manual'),
 ]
 
@@ -239,7 +239,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'realestatemanagement', u'Real Estate Management Documentation',
+    ('index', 'communitymanagement', u'Community Management Documentation',
      [u'Diogo Duarte'], 1)
 ]
 
@@ -253,8 +253,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'RealEstateManagement', u'Real Estate Management Documentation',
-   u'Diogo Duarte', 'RealEstateManagement', 'One line description of project.',
+  ('index', 'CommunityManagement', u'Community Management Documentation',
+   u'Diogo Duarte', 'CommunityManagement', 'One line description of project.',
    'Miscellaneous'),
 ]
 
