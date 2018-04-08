@@ -13,8 +13,6 @@
                     <filter string="Sellers" name="seller" domain="[('seller','=',1), ('parent_id', '=', False)]"/>
                     <filter string="Agent" name="Agent" domain="[('agent','=',1), ('parent_id', '=', False)]"
                             help="Real Estate Agents"/>
-                    <filter string="Neighbors" name="is_neighbor"
-                            domain="[('is_neighbor','=',1), ('parent_id', '=', False)]"/>
                 </filter>
             </field>
         </record>
@@ -62,7 +60,6 @@
                         <field name="buyer"/>
                         <field name="tenant"/>
                         <field name="seller"/>
-                        <field name="is_neighbor"/>
                     </group>
                 </xpath>
                 <xpath expr="//div[@name='button_box']" position="inside">

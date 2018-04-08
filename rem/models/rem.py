@@ -143,7 +143,6 @@ class RemUnitOfferType(models.Model):
                 new_action = offer.listing_action_id
                 new_action.sudo().write(vals)
 
-
             vals = {
                 'name': offer.menu_name,
                 'parent_id': self.env.ref('rem.menu_rem_properties').id,
