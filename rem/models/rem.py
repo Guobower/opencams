@@ -11,6 +11,8 @@ class RemUniType(models.Model):
 
     name = fields.Char(string='Type Name', size=32,
                        required=True, help='Type Name.')
+    sequence = fields.Integer(
+        string='Sequence', help='Used to order stages. Lower is better.')
     notes = fields.Text(string='Notes', help='Description of the type.')
     active = fields.Boolean(string='Active', default=True,
                             help='If the active field is set to False, it will allow you to hide without removing it.')
@@ -119,7 +121,7 @@ class RemUnit(models.Model):
         units = []
         for rec in self:
             unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.base_unit_name_format',
-                                                                                '{street} {street2} {zip} {city}')
+                                                                                '{street} {street2}, {city}, {state} {zip}')
             name = self.get_formated_name(rec, unit_name_format)
             units.append((rec.id, name))
         return units

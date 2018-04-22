@@ -7,6 +7,7 @@
                   web_icon="rem,static/description/icon.png"
                   id="menu_rem_cams"
                   sequence="-1"/>
+
         <!-- Lists -->
         <menuitem id="menu_rem_cams_lists" name="List" parent="menu_rem_cams" sequence="10"/>
         <menuitem name="Units"
@@ -14,6 +15,12 @@
                   action="rem.action_rem_unit"
                   id="rem_cams.menu_rem_unit"
                   sequence="-1"/>
+        <menuitem name="Home Owners"
+                  parent="menu_rem_cams_lists"
+                  action="action_contacts_cams"
+                  id="rem_cams.menu_rem_home_owners"
+                  sequence="-1"/>
+
         <!-- Configuration -->
         <menuitem id="menu_rem_cams_config" name="Configuration" parent="menu_rem_cams" sequence="15" groups="account.group_account_manager"/>
             <menuitem id="menu_rem_cams_config_settings" name="Settings" parent="menu_rem_cams_config" sequence="0" action="action_rem_cams_config"/>

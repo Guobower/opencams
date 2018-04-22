@@ -8,6 +8,11 @@
             <field name="model">rem.unit</field>
             <field name="inherit_id" ref="rem.view_rem_unit_form"/>
             <field name="arch" type="xml">
+                <!-- Don't need the stage field -->
+                <xpath expr="//header/field[@name='stage_id']" position="attributes">
+                    <attribute name="invisible" eval="True"/>
+                </xpath>
+                <!-- New fields -->
                 <xpath expr="//group[hasclass('rem_inherits')]" position="inside">
                     <field name='monthly_fees'/>
                     <field name='special_assessment'/>

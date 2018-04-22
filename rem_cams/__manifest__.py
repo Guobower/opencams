@@ -18,6 +18,7 @@ Feature list:
     'category': 'Real Estate',
     'data': [
         'data/main_data.xml',
+        'views/partner_views.xml',
         'views/rem_views.xml',
         'views/res_config_settings_views.xml',
         'views/root_menu.xml',
