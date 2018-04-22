@@ -14,5 +14,6 @@ class RemUnit(models.Model):
 
     monthly_fees = fields.Monetary('Monthly Fees Amount')
     special_assessment = fields.Monetary('Special Assessment')
-    stage_id = fields.Many2one( default=_get_stage)
+    stage_id = fields.Many2one(default=_get_stage)
     partner_id = fields.Many2one(domain=[('is_home_owner', '=', True)])
+    deed_date = fields.Date('Deed Date', help="Date when the current owner bought this unit.")

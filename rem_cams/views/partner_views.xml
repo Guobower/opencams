@@ -16,7 +16,9 @@
                 <xpath expr="//notebook[last()]" position="inside">
                     <page string="Community Association" name="community_association">
                         <group>
-
+                            <field name="unit_ids" options="{'no_open': True, 'no_create': True}" />
+                            <field name="monthly_fees"/>
+                            <field name="special_assessment"/>
                         </group>
                     </page>
                 </xpath>

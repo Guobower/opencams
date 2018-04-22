@@ -14,8 +14,8 @@
                 </xpath>
                 <!-- New fields -->
                 <xpath expr="//group[hasclass('rem_inherits')]" position="inside">
-                    <field name='monthly_fees'/>
-                    <field name='special_assessment'/>
+                    <field name="monthly_fees"/>
+                    <field name="special_assessment"/>
                 </xpath>
             </field>
         </record>
