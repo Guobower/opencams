@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Top menu item -->
+        <menuitem name="Community Management"
+                  web_icon="rem,static/description/icon.png"
+                  id="menu_rem_cams"
+                  sequence="-1"/>
+        <!-- Lists -->
+        <menuitem id="menu_rem_cams_lists" name="List" parent="menu_rem_cams" sequence="10"/>
+        <menuitem name="Units"
+                  parent="menu_rem_cams_lists"
+                  action="rem.action_rem_unit"
+                  id="rem_cams.menu_rem_unit"
+                  sequence="-1"/>
+        <!-- Configuration -->
+        <menuitem id="menu_rem_cams_config" name="Configuration" parent="menu_rem_cams" sequence="15" groups="account.group_account_manager"/>
+            <menuitem id="menu_rem_cams_config_settings" name="Settings" parent="menu_rem_cams_config" sequence="0" action="action_rem_cams_config"/>
+
+    </data>
+</odoo>

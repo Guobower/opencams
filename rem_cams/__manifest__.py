@@ -14,11 +14,13 @@ Feature list:
 
     """,
     'website': 'http://www.opencams.org',
-    'depends': ['rem', 'l10n_us', 'account_invoicing'],
+    'depends': ['base', 'rem', 'l10n_us', 'account_invoicing'],
     'category': 'Real Estate',
     'data': [
         'data/main_data.xml',
-        'views/cams_menu.xml',
+        'views/rem_views.xml',
+        'views/res_config_settings_views.xml',
+        'views/root_menu.xml',
     ],
     'test': [
     ],

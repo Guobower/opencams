@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-
-        <!-- Link custom fields (ir.model.fields) features (general, indoor or outdoor) to offer.type -->
-        <function model="rem.unit" name="add_features_to_offer_type"/>
-
-    </data>
-</odoo>

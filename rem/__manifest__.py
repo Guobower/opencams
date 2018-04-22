@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Real Estate Management',
+    'name': 'Real Estate Management Core',
     'version': '11.0.1.0',
     'author': 'Diogo Duarte',
     'summary': 'Real Estate Management',
@@ -11,28 +11,12 @@ This module allows to manage real estate units
 
     """,
     'website': 'http://www.odoogap.com',
-    'depends': ['account', 'crm', 'calendar', 'analytic', 'sale', 'project', 'website'],
+    'depends': ['account', 'calendar'],
     'category': 'Real Estate',
     'data': [
-        'data/rem_data.xml',
-        'data/fields_data.xml',
-        'data/rent_cron.xml',
-        'data/project_data.xml',
         'security/rem_security.xml',
         'security/ir.model.access.csv',
-        'views/crm_view.xml',
-        'views/ir_model_view.xml',
-        'views/contract_view.xml',
-        'views/partner_view.xml',
-        'views/project_view.xml',
-        'views/sale_view.xml',
-        'views/rem_menu.xml',
         'views/rem_view.xml',
-        'views/stage_history_form.xml',
-        'views/account_invoice_view.xml',
-        'wizard/event_unit_multi.xml',
-        'views/rem_cron.xml',
-        'res_config_view.xml',
     ],
     'test': [
     ],

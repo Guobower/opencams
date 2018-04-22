@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Offer type config -->
-
-    <record id="offer_type_0" model="offer.type">
-        <field name="name">All Units</field>
-        <field name="menu_name">All Units</field>
-        <field name="unit_name_format">{street:.10}, {street1:.5}</field>
-        <field name="is_rent" eval="0"/>
-        <field name="is_computed" eval="0"/>
-    </record>
-
-    <function model="offer.type" name="create_offer_type_menu" eval="[[ref('rem_cams.offer_type_0')]]"/>
 
 </odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Real Estate Unit Form View -->
+        <record id="view_rem_unit_form" model="ir.ui.view">
+            <field name="name">rem.unit.form</field>
+            <field name="model">rem.unit</field>
+            <field name="inherit_id" ref="rem.view_rem_unit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[hasclass('rem_inherits')]" position="inside">
+                    <field name='monthly_fees'/>
+                    <field name='special_assessment'/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

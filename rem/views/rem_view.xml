@@ -3,345 +3,102 @@
     <data>
 
         <!--
-        	Real Estate Structures (buildings and condos)
-		-->
-        <!-- Real Estate Structures Tree View -->
-        <record id="rem_structure_tree" model="ir.ui.view">
-            <field name="name">Building / Condo</field>
-            <field name="model">rem.structure</field>
-            <field name="arch" type="xml">
-                <tree string="Building / Condo">
-                    <field name="display_name"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Real Estate Structures Search View -->
-        <record id="rem_structure_search" model="ir.ui.view">
-            <field name="name">Building / Condo</field>
-            <field name="model">rem.structure</field>
-            <field name="arch" type="xml">
-                <search string="Building / Condo">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Real Estate Structures Form View -->
-        <record id="rem_structure_form" model="ir.ui.view">
-            <field name="name">Building / Condo</field>
-            <field name="model">rem.structure</field>
-            <field name="arch" type="xml">
-                <form string="Building / Condo">
-                    <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object"
-                                    name="get_units"
-                                    attrs="{'invisible': [('unit_ids_count', '=', 0)]}"
-                                    icon="fa-home" help="Units contained by this structure (for sell or for rent)">
-                                <field string="Unit(s)" name="unit_ids_count" widget="statinfo"/>
-                            </button>
-                        </div>
-                        <group>
-                            <field name="name"/>
-                            <field name="parent_id"/>
-                            <field name="is_view"/>
-                        </group>
-                        <group>
-                            <group>
-                                <!-- Address -->
-                                <label for="street" string="Address"
-                                       attrs="{'invisible': [('parent_id', '!=', False)]}"/>
-                                <div class="o_address_format" attrs="{'invisible': [('parent_id', '!=', False)]}">
-                                    <field name="street" placeholder="Street..." class="o_address_street"
-                                           attrs="{'required': [('parent_id', '=', False)]}"/>
-                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="city_id" placeholder="City" class="o_address_city"
-                                           attrs="{'required': [('parent_id', '=', False)]}"/>
-                                    <field name="zone_id" placeholder="Zone"/>
-                                    <field name="state_id" class="o_address_state" placeholder="State"
-                                           options='{"no_open": True}'/>
-                                    <field name="zip" placeholder="ZIP" class="o_address_zip"
-                                           attrs="{'required': [('parent_id', '=', False)]}"/>
-                                    <field name="country_id" placeholder="Country" class="o_address_country"
-                                           options='{"no_open": True, "no_create": True}'/>
-                                </div>
-                            </group>
-                            <group>
-                                <!-- Geo -->
-                                <field name='latitude' attrs="{'invisible': [('parent_id', '!=', False)]}"/>
-                                <field name='longitude' attrs="{'invisible': [('parent_id', '!=', False)]}"/>
-                                <button name="get_geo_coordinates" type="object"
-                                        attrs="{'invisible': ['|', '|', '|', '|', '|', ('parent_id', '!=', False), ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
-                                        string="Get Coordinates" colspan="2" icon="fa-check"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!-- Kanban View Adjustment -->
-        <template id="rem_assets_backend" name="web_kanban assets" inherit_id="web.assets_backend">
-            <xpath expr="." position="inside">
-                <link rel="stylesheet" href="/rem/static/src/css/kanban.css"/>
-            </xpath>
-        </template>
-
-        <!-- 
-        	Seasonal Rates 
-		-->
-        <!-- Seasonal Rates Tree View -->
-
-        <record model="ir.ui.view" id="view_rent_table_tree">
-            <field name="name">season.rates.tree</field>
-            <field name="model">season.rates</field>
-            <field name="arch" type="xml">
-                <tree string="Seasonal Rates">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Seasonal Rates Search View -->
-
-        <record id="view_rent_table_filter" model="ir.ui.view">
-            <field name="name">season.rates.filter</field>
-            <field name="model">season.rates</field>
-            <field name="arch" type="xml">
-                <search string="Search Seasonal Rates">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Seasonal Rates Form View -->
-
-        <record model="ir.ui.view" id="view_rent_table_form">
-            <field name="name">season.rates.form</field>
-            <field name="model">season.rates</field>
-            <field name="arch" type="xml">
-                <form string="Seasonal Rates">
-                    <sheet>
-                        <div class="oe_title">
-                            <label for="name" class="oe_edit_only"/>
-                            <h1>
-                                <field name="name" placeholder="Describe the discount table"/>
-                            </h1>
-                        </div>
-                        <group>
-                            <field name="line_ids" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="name"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
-                                    <field name="discount" attrs="{'invisible': [('fixed_price', '>', 0)]}"/>
-                                    <field name="fixed_price" attrs="{'invisible': [('discount', '>', 0)]}"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="name"/>
-                                        <field name="date_start"/>
-                                        <field name="date_end"/>
-                                        <field name="discount"/>
-                                        <field name="fixed_price"/>
-                                    </group>
-                                </form>
-                            </field>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!--
-        	Real Estate Asset
+        	Real Estate Unit
         -->
 
-        <!-- Real Estate Asset Tree View -->
+        <!-- Real Estate Unit Tree View -->
         <record id="view_rem_unit_tree" model="ir.ui.view">
             <field name="name">rem.unit.tree</field>
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
-                <tree decoration-info="is_rent == True" string="Real Estate Unit">
-                    <field name="has_lead_id" invisible="1"/>
-                    <field name="is_rent" invisible="1"/>
+                <tree string="Real Estate Unit">
                     <field name="display_name"/>
-                    <field name="user_id"/>
                     <field name="type_id"/>
-                    <field name="offer_type_id"/>
-                    <field name="price" invisible="context.get('is_rent', False)"/>
-                    <field name="rent_price" invisible="not context.get('is_rent', False)"/>
-                    <field name="rent_uom_id" invisible="not context.get('is_rent', False)"/>
-                    <field name="is_new"/>
                     <field name="stage_id"/>
-                    <button name="action_select_unit" string="Select Unit" type="object" icon="fa-check"
-                            invisible="not context.get('from_lead_id', False)"
-                            attrs="{'invisible': [('has_lead_id','=', True)]}"/>
-                    <button name="action_remove_unit" string="Remove Unit" type="object" icon="fa-times"
-                            invisible="not context.get('from_lead_id', False)"
-                            attrs="{'invisible': [('has_lead_id','!=', True)]}"/>
                 </tree>
             </field>
         </record>
 
-        <!-- Real Estate Asset Search View -->
+        <!-- Real Estate Unit Search View -->
         <record id="view_rem_unit_filter" model="ir.ui.view">
             <field name="name">rem.unit.filter</field>
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
                 <search string="Search Real Estate Unit">
                     <field name="name"/>
-                    <field name="offer_type_id"/>
                     <field name="partner_id"/>
                     <field name="type_id"/>
                     <field name="street"/>
                     <field name="street2"/>
-                    <field name="city_id"/>
+                    <field name="city"/>
                     <field name="state_id"/>
                     <field name="zip"/>
                     <field name="country_id"/>
-                    <field name="is_new"/>
                     <separator/>
                     <!-- Geo -->
                     <field name="latitude"/>
                     <field name="longitude"/>
                     <separator/>
-                    <field name="user_id"/>
+
                     <group expand="0" string="Group By">
-                        <filter string="My Units" name="my" domain="[('user_id', '=', uid)]"/>
-                        <filter name="forsale" string="For Sale" domain="[('is_rent', '=', False)]"
-                                help="Units to sell"/>
-                        <filter name="forrent" string="For Rent" domain="[('is_rent', '=', True)]"
-                                help="Rentable units"/>
                         <filter name="inactives" string="Inactives" domain="[('active','=', False)]"
                                 help="Inactive units"/>
-                        <filter name="offertype" string="Offer Type" icon="terp-partner" domain="[]"
-                                help="Offer type (e.g. buy, rent, ..)" context="{'group_by':'offer_type_id'}"/>
-                        <filter string="City" icon="terp-partner" domain="[]" context="{'group_by':'city_id'}"/>
-                        <filter string="Salesman" icon="terp-partner" domain="[]" help="Salesman"
-                                context="{'group_by':'user_id'}"/>
-                        <filter string="Needs Cleaning Services" icon="terp-partner" domain="[]"
-                                context="{'group_by':'cleaning'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
-        <!-- Real Estate Asset Form View -->
+        <!-- Real Estate Unit Form View -->
         <record id="view_rem_unit_form" model="ir.ui.view">
             <field name="name">rem.unit.form</field>
             <field name="model">rem.unit</field>
             <field name="arch" type="xml">
                 <form string="Real Estate Unit">
                     <header>
-                        <field name="stage_id" widget="statusbar" clickable="True"
-                               domain="[('offer_type_id', '=', offer_type_id)]"/>
+                        <field name="stage_id" widget="statusbar" clickable="True"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object"
-                                    name="get_sale_orders"
-                                    attrs="{'invisible': [('order_ids_count', '=', 0)]}"
-                                    icon="fa-usd">
-                                <field string="Sale(s)" name="order_ids_count" widget="statinfo"/>
-                            </button>
                             <button class="oe_stat_button" type="object"
                                     name="get_unit_events"
                                     icon="fa-calendar">
                                 <field string="Event(s)" name="event_ids_count" widget="statinfo"/>
                             </button>
-                            <button class="oe_stat_button" type="action"
-                                    name="%(rem.unit_listing_contract)d"
-                                    icon="fa-file-text"
-                                    attrs="{'invisible': [('listing_contract_count', '=', 0)]}"
-                                    context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
-                                <field string="Contracts" name="listing_contract_count" widget="statinfo"/>
-                            </button>
-                            <button class="oe_stat_button" type="action"
-                                    name="%(rem.unit_tenant_contract)d"
-                                    icon="fa-file-text"
-                                    attrs="{'invisible': [('tenant_contract_count', '=', 0)]}"
-                                    context="{'default_unit_id': active_id,'search_default_unit_id': active_id}">
-                                <field string="Rent Contract(s)" name="tenant_contract_count" widget="statinfo"/>
-                            </button>
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="name2" attrs="{'invisible': [('is_computed', '=', True)]}"/>
-                                <field name="display_name" attrs="{'invisible': [('is_computed', '=', False)]}"/>
+                                <field name="display_name"/>
                             </h1>
                         </div>
                         <group>
                             <group>
-                                <button string="New listing agreement"
-                                        name="%(unit_listing_contract)d" type="action"
-                                        attrs="{'invisible': ['|',('is_rent', '=', True),('listing_contract_count','!=',0)]}"
-                                        class="btn-link"/>
-                                <button string="New rent agreement"
-                                        name="%(unit_tenant_contract)d" type="action"
-                                        attrs="{'invisible': ['|',('is_rent', '=', False),('tenant_contract_count','!=',0)]}"
-                                        class="btn-link"/>
-                                <field name="reference" invisible="1"/>
-                                <field name="offer_type_id" options="{'no_create': True}"
-                                       invisible="context.get('default_offer_type', False)"/>
                                 <field name="type_id"/>
-                                <field name="is_new"/>
-                                <field name="user_id" placeholder="Salesperson"/>
                                 <field name="active" readonly="1"/>
-                                <field name="is_computed" invisible="1"/>
+
                                 <!-- Address -->
-                                <label for="street" string="Address"
-                                       attrs="{'invisible': [('structure_id', '!=', False)]}"/>
-                                <div class="o_address_format" attrs="{'invisible': [('structure_id', '!=', False)]}">
-                                    <field name="street" placeholder="Street..." class="o_address_street"
-                                           attrs="{'required': [('structure_id', '=', False)]}"/>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
                                     <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="city_id" placeholder="City" class="o_address_city"
-                                           attrs="{'required': [('structure_id', '=', False)]}"/>
-                                    <field name="zone_id" placeholder="Zone"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
                                     <field name="state_id" class="o_address_state" placeholder="State"
                                            options='{"no_open": True}'/>
-                                    <field name="zip" placeholder="ZIP" class="o_address_zip"
-                                           attrs="{'required': [('structure_id', '=', False)]}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                     <field name="country_id" placeholder="Country" class="o_address_country"
                                            options='{"no_open": True, "no_create": True}'/>
                                 </div>
                             </group>
                             <group>
-                                <!-- Listings -->
-                                <field name="current_listing_contract_id"
-                                       attrs="{'invisible': [('is_rent', '=', True)]}"/>
-                                <field name="current_tenant_contract_id"
-                                       attrs="{'invisible': [('is_rent', '=', False)]}"/>
                                 <field name="partner_id" context="{'search_default_seller':1, 'default_seller':1}"/>
-                                <field name="price" attrs="{'invisible': [('is_rent', '=', True)]}"/>
-                                <!-- Rentals -->
-                                <field name="is_rent" invisible="1"/>
-                                <label for="rent_price" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-                                <div name="rent_price_div" class="o_row"
-                                     attrs="{'invisible': [('is_rent', '=', False)]}">
-                                    <field name="rent_price"/>€
-                                    <field name="rent_uom_id" options="{'no_create': True, 'no_open': True}"/>
-                                </div>
-                                <field name="table_id" attrs="{'invisible': [('is_rent', '=', False)]}"/>
-
-                                <label for="rent_current_price"
-                                       attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}"/>
-                                <div name="current_rent_price_div" class="o_row"
-                                     attrs="{'invisible': ['|',('is_rent', '=', False),('table_id','=',False)]}">
-                                    <field name="rent_current_price"/>
-                                    <field name="rent_current_uom_id" options="{'no_open': True}"/>
-                                </div>
+                                <field name="sale_price" />
                                 <!-- Geo -->
-                                <field name='latitude' attrs="{'invisible': [('structure_id', '!=', False)]}"/>
-                                <field name='longitude' attrs="{'invisible': [('structure_id', '!=', False)]}"/>
+                                <field name='latitude'/>
+                                <field name='longitude'/>
                                 <button name="get_geo_coordinates" type="object"
-                                        attrs="{'invisible': ['|', '|', '|', '|', '|', ('structure_id', '!=', False), ('street', '=', False), ('zip', '=', False), ('city_id', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}"
-                                        string="Get Coordinates" colspan="2" icon="fa-check"/>
-                                <field name="cleaning"/>
-                                <field name="structure_id"/>
+                                        string="Get Coordinates" colspan="2" icon="fa-check"
+                                        attrs="{'invisible': ['|', '|', '|', '|', ('street', '=', False), ('zip', '=', False), ('city', '=', False), ('state_id', '=', False), ('country_id', '=', False)]}" />
                             </group>
+                            <group class="rem_inherits"></group>
                         </group>
                         <notebook>
                             <page string="General Features" invisible="1">
@@ -362,10 +119,7 @@
                                     <group class="rem_right"></group>
                                 </group>
                             </page>
-                            <page string="Description">
-                                <field name="website_description" widget="html"
-                                       placeholder="Add some important details about your unit ..."/>
-                            </page>
+
                             <page name="Photos" string="Photos">
                                 <group>
                                     <field name="image_ids" mode="kanban" nolabel="1"
@@ -396,129 +150,6 @@
                                 </group>
                             </page>
                         </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!-- Real Estate Asset Kanban View -->
-        <record id="view_rem_unit_kanban" model="ir.ui.view">
-            <field name="name">rem.unit.kanban</field>
-            <field name="model">rem.unit</field>
-            <field name="arch" type="xml">
-                <kanban>
-                    <field name="display_name"/>
-                    <field name="is_rent"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click rem_oe_kanban_global_click">
-                                <div class="o_kanban_image rem_o_kanban_image">
-                                    <img t-att-src="kanban_image('rem.image', 'image', record.id.value)"
-                                         class="rem_kanban_image"/>
-                                </div>
-                                <div class="rem_kanban_transparent_box"></div>
-                                <div class="rem_kanban_display_name">
-                                    <div class="rem_kanban_price">
-                                        <field name="price" invisible="context.get('is_rent', False)"/>
-                                        <field name="rent_price" invisible="not context.get('is_rent', False)"/>
-                                        €
-                                        <field name="rent_uom_id" invisible="not context.get('is_rent', False)"/>
-                                    </div>
-                                    <field name="display_name"/>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
-
-        <function model="rem.unit" name="add_custom_fields_to_rem_unit_form_view"/>
-        <!--
-        	Unit City
-        -->
-
-        <!-- Unit City Tree View -->
-        <record id="view_rem_unit_city_tree" model="ir.ui.view">
-            <field name="name">rem.unit.city.tree</field>
-            <field name="model">rem.unit.city</field>
-            <field name="arch" type="xml">
-                <tree string="Unit City">
-                    <field name="name" string="Name"/>
-                    <field name="state_id" string="State"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Unit City Search View -->
-        <record id="view_rem_unit_city_filter" model="ir.ui.view">
-            <field name="name">rem.unit.city.filter</field>
-            <field name="model">rem.unit.city</field>
-            <field name="arch" type="xml">
-                <search string="Search Unit City">
-                    <field name="name"/>
-                    <field name="state_id"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Unit City Form View -->
-        <record id="view_rem_unit_city_form" model="ir.ui.view">
-            <field name="name">rem.unit.city.form</field>
-            <field name="model">rem.unit.city</field>
-            <field name="arch" type="xml">
-                <form string="Unit City">
-                    <sheet>
-                        <group>
-                            <field name="name" string="Name"/>
-                            <field name="state_id" string="State"/>
-                            <field name="active"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!--
-            Unit Zone
-        -->
-
-        <!-- Unit Zone Tree View -->
-        <record id="view_rem_unit_zone_tree" model="ir.ui.view">
-            <field name="name">rem.unit.zone.tree</field>
-            <field name="model">rem.unit.zone</field>
-            <field name="arch" type="xml">
-                <tree string="Unit Zone">
-                    <field name="name" string="Name"/>
-                    <field name="city_id" string="City"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Unit Zone Search View -->
-        <record id="view_rem_unit_zone_filter" model="ir.ui.view">
-            <field name="name">rem.unit.zone.filter</field>
-            <field name="model">rem.unit.zone</field>
-            <field name="arch" type="xml">
-                <search string="Search Unit Zone">
-                    <field name="name"/>
-                    <field name="city_id"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Unit Zone Form View -->
-        <record id="view_rem_unit_zone_form" model="ir.ui.view">
-            <field name="name">rem.unit.zone.form</field>
-            <field name="model">rem.unit.zone</field>
-            <field name="arch" type="xml">
-                <form string="Unit Zone">
-                    <sheet>
-                        <group>
-                            <field name="name" string="Name"/>
-                            <field name="city_id" string="City"/>
-                            <field name="active"/>
-                        </group>
                     </sheet>
                 </form>
             </field>
@@ -578,9 +209,6 @@
                 <tree string="Unit Stage">
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
-                    <field name="offer_type_id"/>
-                    <field name="force_show"/>
-                    <field name="force_hide"/>
                 </tree>
             </field>
         </record>
@@ -592,11 +220,6 @@
             <field name="arch" type="xml">
                 <search string="Search Unit Stage">
                     <field name="name"/>
-                    <field name="offer_type_id"/>
-                    <group string="Group By" expand="1">
-                        <filter string="Type" name="grouppertype" context="{'group_by':'offer_type_id'}" domain="[]"
-                                help="Contract Type"/>
-                    </group>
                 </search>
             </field>
         </record>
@@ -623,9 +246,6 @@
                         </div>
                         <group>
                             <group>
-                                <field name="offer_type_id"/>
-                                <field name="force_show"/>
-                                <field name="force_hide"/>
                                 <field name="create_date" string="Date"/>
                             </group>
                         </group>
@@ -634,155 +254,15 @@
             </field>
         </record>
 
-        <!-- 
-        	Real Estate Offer Type 
-		-->
-
-        <!-- Real Estate Offer Type Tree View -->
-        <record id="view_re_offer_type_tree" model="ir.ui.view">
-            <field name="name">offer.type.tree</field>
-            <field name="model">offer.type</field>
-            <field name="arch" type="xml">
-                <tree string="Offer Type">
-                    <field name="name"/>
-
-                </tree>
-            </field>
-        </record>
-
-        <!-- Real Estate Contract Type Search View -->
-        <record id="view_re_offer_type_filter" model="ir.ui.view">
-            <field name="name">offer.type.filter</field>
-            <field name="model">offer.type</field>
-            <field name="arch" type="xml">
-                <search string="Offer Type">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Real Estate Contract Type Form View -->
-        <record id="view_re_offer_type_form" model="ir.ui.view">
-            <field name="name">offer.type.form</field>
-            <field name="model">offer.type</field>
-            <field name="arch" type="xml">
-                <form string="Offer Type">
-                    <sheet>
-                        <div class="oe_title">
-                            <label for="name" class="oe_edit_only"/>
-                            <h1>
-                                <field name="name" placeholder="Offer Type Description"/>
-                            </h1>
-                        </div>
-                        <group>
-                            <field name="create_date" string="Date"/>
-                            <field name="is_rent"/>
-                            <field name="is_computed"/>
-                            <field name="showfields_ids" widget="many2many_tags" options="{'no_open': True}"/>
-                            <field name="listing_menu_id" invisible="1"/>
-                        </group>
-                        <group>
-                            <field name="menu_name" placeholder="Menu name"/>
-                            <group attrs="{'invisible': [('is_computed', '=', False)]}">
-                                <label for="unit_name_format"/>
-                                <div name="unit_name_format">
-                                    <div name="unit_name_format" class="oe_inline">
-                                        <field name="unit_name_format"
-                                               attrs="{'required': [('is_computed', '=', True)]}"/>
-                                    </div>
-                                </div>
-                            </group>
-                        </group>
-                        <group>
-                            <button name="create_offer_type_menu" string="Create Menu" type="object"
-                                    class="oe_highlight" icon="fa-plus"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!--
-            Reason for Buy
-        -->
-
-        <!-- Reason for Buy Tree View -->
-        <record id="view_reason_for_buy_tree" model="ir.ui.view">
-            <field name="name">reason.for.buy.tree</field>
-            <field name="model">reason.for.buy</field>
-            <field name="arch" type="xml">
-                <tree string="Reason for Buy">
-                    <field name="name" string="Name"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Reason for Buy Search View -->
-        <record id="view_reason_for_buy_filter" model="ir.ui.view">
-            <field name="name">reason.for.buy.filter</field>
-            <field name="model">reason.for.buy</field>
-            <field name="arch" type="xml">
-                <search string="Search Reason for Buy">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Reason for Buy Form View -->
-        <record id="view_reason_for_buy_form" model="ir.ui.view">
-            <field name="name">reason.for.buy.form</field>
-            <field name="model">reason.for.buy</field>
-            <field name="arch" type="xml">
-                <form string="Reason for Buy">
-                    <sheet>
-                        <group>
-                            <field name="name" string="Name"/>
-                            <field name="active"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!--
-            Location Preferences
-        -->
-
-        <!-- Location Preferences Tree View -->
-        <record id="view_location_preferences_tree" model="ir.ui.view">
-            <field name="name">location.preferences.tree</field>
-            <field name="model">location.preferences</field>
-            <field name="arch" type="xml">
-                <tree string="Location Preferences">
-                    <field name="name" string="Name"/>
-                </tree>
-            </field>
-        </record>
-
-        <!-- Location Preferences Search View -->
-        <record id="view_location_preferences_filter" model="ir.ui.view">
-            <field name="name">location.preferences.filter</field>
-            <field name="model">location.preferences</field>
-            <field name="arch" type="xml">
-                <search string="Search Location Preferences">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- Location Preferences Form View -->
-        <record id="view_location_preferences_form" model="ir.ui.view">
-            <field name="name">location.preferences.form</field>
-            <field name="model">location.preferences</field>
-            <field name="arch" type="xml">
-                <form string="Location Preferences">
-                    <sheet>
-                        <group>
-                            <field name="name" string="Name"/>
-                            <field name="active"/>
-                        </group>
-                    </sheet>
-                </form>
+        <record id="action_rem_unit_stage" model="ir.actions.act_window">
+            <field name="name">Stages</field>
+            <field name="res_model">rem.unit.stage</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new stage.
+              </p>
             </field>
         </record>
 
@@ -837,39 +317,17 @@
             </field>
         </record>
 
-        <!--
-            Rem Unit Search
-        -->
-
-        <!-- Rem Unit Search Wizard Form -->
-        <record id="wizard_populate_rem_unit_search_view" model="ir.ui.view">
-            <field name="name">Populate Rem Unit Search</field>
-            <field name="model">wizard.rem.unit.search</field>
-            <field name="arch" type="xml">
-                <form>
-                    <footer>
-                        <button name="do_populate_rem_unit_search" string="Populate Rem Unit Search" type="object"
-                                class="oe_highlight"/>
-                        or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
-                    </footer>
-                </form>
+        <record id="action_rem_unit" model="ir.actions.act_window">
+            <field name="name">Units</field>
+            <field name="res_model">rem.unit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new unit.
+              </p>
             </field>
         </record>
-
-        <!-- Rem Unit Search Wizard Action -->
-        <act_window id="action_wizard_populate_rem_unit_search"
-                    name="Populate Rem Unit Search"
-                    res_model="wizard.rem.unit.search"
-                    view_type="form"
-                    view_mode="form"
-                    view_id="wizard_populate_rem_unit_search_view"
-                    target="new"
-                    groups="base.group_system"/>
-
-        <!-- Rem Unit Search Wizard Menu -->
-        <menuitem action="action_wizard_populate_rem_unit_search" id="menu_setting_wizard_populate_rem_unit_search"
-                  parent="base.menu_users" groups="base.group_system"/>
 
     </data>
 </odoo>
