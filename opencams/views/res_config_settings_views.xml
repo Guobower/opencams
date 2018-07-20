@@ -22,7 +22,7 @@
             <field name="res_model">res.config.settings</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
-            <field name="context">{'module' : 'rem_cams'}</field>
+            <field name="context">{'module' : 'opencams'}</field>
         </record>
 
     </data>

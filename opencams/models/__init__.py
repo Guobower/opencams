@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from . import rem
 from . import res_partner
-from . import calendar
+from . import res_config_settings

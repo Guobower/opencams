@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Home Owners View -->
+
+        <record model="ir.ui.view" id="partner_view_cams_form">
+            <field name="name">partner.view.community.association.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!--<div name="button_box" position="inside">-->
+
+                <!-- Hide if is a Unit -->
+                <field name="company_type" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="function" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="email" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="title" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="website" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='mobile']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='phone']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+
+
+                <xpath expr="//group[@name='sale']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='purchase']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@autofocus='autofocus']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'required' : [('type', '=', 'contact')], 'invisible': [('is_unit','=',True)]}</attribute>
+                </field>
+                <field name="name" position="after">
+                    <field name="display_name" attrs="{'invisible': [('is_unit','=',False)]}"/>
+                </field>
+
+                <xpath expr="//notebook/page[@name='internal_notes']" position="before">
+                    <page string="Unit" name="community_association_unit" attrs="{'invisible': [('is_unit','=',False)]}">
+                        <group>
+                            <field name="is_unit" invisible="1"/>
+                            <field name="owner_id" context="{'default_is_home_owner': True, 'search_default_is_home_owner': True}"/>
+                            <field name="monthly_fees"/>
+                            <field name="special_assessment"/>
+                        </group>
+                    </page>
+                    <page string="Home Owner" name="community_association_owner" attrs="{'invisible': [('is_home_owner','=',False)]}">
+                        <group>
+                            <field name="is_home_owner" invisible="1"/>
+                            <field name="unit_count"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="action_homeowners_cams" model="ir.actions.act_window">
+            <field name="name">Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_home_owner', '=', True )]</field>
+            <field name="context">{'default_is_home_owner': 1}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your contacts directory.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to
+                    a customer: discussions, history of business opportunities,
+                    documents, etc.
+                </p>
+            </field>
+        </record>
+        <record id="action_contacts_view_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="action_homeowners_cams"/>
+        </record>
+        <record id="action_contacts_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_homeowners_cams"/>
+        </record>
+        <record id="action_contacts_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="partner_view_cams_form"/>
+            <field name="act_window_id" ref="action_homeowners_cams"/>
+        </record>
+
+        <record id="action_rem_unit" model="ir.actions.act_window">
+            <field name="name">Units</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_unit', '=', True)]</field>
+            <field name="context">{'default_is_unit': True, 'default_type': 'other'}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a contact in your contacts directory.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to
+                    a customer: discussions, history of business opportunities,
+                    documents, etc.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

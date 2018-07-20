@@ -12,13 +12,13 @@
         <menuitem id="menu_rem_cams_lists" name="List" parent="menu_rem_cams" sequence="10"/>
         <menuitem name="Units"
                   parent="menu_rem_cams_lists"
-                  action="rem.action_rem_unit"
-                  id="rem_cams.menu_rem_unit"
+                  action="action_rem_unit"
+                  id="menu_rem_unit"
                   sequence="-1"/>
         <menuitem name="Home Owners"
                   parent="menu_rem_cams_lists"
-                  action="action_contacts_cams"
-                  id="rem_cams.menu_rem_home_owners"
+                  action="action_homeowners_cams"
+                  id="menu_rem_home_owners"
                   sequence="-1"/>
 
         <!-- Configuration -->
