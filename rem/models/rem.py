@@ -18,20 +18,6 @@ class RemUniType(models.Model):
                             help='If the active field is set to False, it will allow you to hide without removing it.')
 
 
-class RemUnitStage(models.Model):
-    _name = 'rem.unit.stage'
-    _description = 'Unit Stage'
-    _order = "sequence,id"
-
-    name = fields.Char(
-        string='Stage Name', size=32, required=True, help='Stage Name.')
-    sequence = fields.Integer(
-        string='Sequence', help='Used to order stages. Lower is better.')
-    notes = fields.Text(string='Notes', help='Description of the stage.')
-    active = fields.Boolean(string='Active', default=True,
-                            help='If the active field is set to False, it will allow you to hide the analytic journal without removing it.')
-
-
 class RemImage(models.Model):
     _name = 'rem.image'
     _description = 'Unit Image'
@@ -69,6 +55,7 @@ class RemImage(models.Model):
 
 class RemUnit(models.Model):
     _name = 'rem.unit'
+    _inherit = 'res.partner'
     _description = 'Real Estate Unit'
 
     def get_formated_name(self, rec, mask):
@@ -144,8 +131,7 @@ class RemUnit(models.Model):
 
     type_id = fields.Many2one('rem.unit.type', string='Type')
     name = fields.Char(string='Name', compute='_compute_name', store=True)
-    stage_id = fields.Many2one('rem.unit.stage', string='Stage')
-    partner_id = fields.Many2one('res.partner', string='Current Owner', help="Owner of the unit")
+    owner_id = fields.Many2one('res.partner', string='Current Owner', help="Owner of the unit")
     sale_price = fields.Float(string='Sale Price', digits=dp.get_precision('Product Price'))
     area = fields.Float(string='Unit Area')
     active = fields.Boolean('Active', default=True)
@@ -159,26 +145,25 @@ class RemUnit(models.Model):
     # Unit photo's set
     image_ids = fields.One2many(
         'rem.image', 'unit_id', string='Photos', ondelete='cascade')
+
     # TODO: set a default image for unit if it doesn't have any to show in kanban view
     main_img = fields.Binary('Main Image', compute='_get_main_image', attachment=True, store=True)
     main_img_id = fields.Integer('Main Image ID', compute='_get_main_image')
 
-    # Attachments e.g contracts and other documents
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'rem.unit')],
-                                     string='Attachments')
-
-    # Location
-    street = fields.Char(string='Street')
-    street2 = fields.Char(string='Street2')
-    zip = fields.Char(string='Zip', change_default=True)
-    city = fields.Char(string='City')
-    state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict')
-    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
-
-    # Geo
-    latitude = fields.Float(string='Geo Latitude', digits=(16, 5))
-    longitude = fields.Float(string='Geo Longitude', digits=(16, 5))
-
     # Currency
     currency_id = fields.Many2one(related="company_id.currency_id", string="Currency", readonly=True)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id, ondelete='cascade')
+
+    @api.multi
+    def get_unit_events(self):
+        unit_ids = []
+        for unit in self:
+            unit_ids.append(unit.id)
+        return {
+            'name': _('Appointments/Meetings'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'calendar,tree,form',
+            'res_model': 'calendar.event',
+            'domain': [('unit_ids', 'in', unit_ids)],
+            'context': {'default_unit_ids': unit_ids, 'default_duration': 4.0}
+        }

@@ -2,3 +2,4 @@
 
 from . import rem
 from . import res_partner
+from . import calendar

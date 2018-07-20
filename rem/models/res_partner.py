@@ -12,4 +12,4 @@ class ResPartner(models.Model):
             })
 
     unit_count = fields.Integer(compute='_unit_count')
-    unit_ids = fields.One2many('rem.unit', 'partner_id', string='Unit(s)')
+    unit_ids = fields.One2many('rem.unit', 'owner_id', string='Unit(s)')

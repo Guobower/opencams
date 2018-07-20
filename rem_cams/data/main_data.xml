@@ -2,11 +2,6 @@
 <odoo>
 
     <data noupdate="1">
-        <!-- Default Stage -->
-        <record id="rem_unit_stage_new" model="rem.unit.stage">
-            <field name="name">New</field>
-            <field name="sequence" eval="1"/>
-        </record>
         <!-- Unit Types -->
         <record id="rem_unit_type_sfh" model="rem.unit.type">
             <field name="name">Single-Family Home</field>
