@@ -3,7 +3,7 @@
     <data>
 
         <!-- Top menu item -->
-        <menuitem name="Community Management"
+        <menuitem name="My Community"
                   web_icon="rem,static/description/icon.png"
                   id="menu_rem_cams"
                   sequence="-1"/>

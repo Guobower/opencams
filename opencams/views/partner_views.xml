@@ -12,40 +12,29 @@
                 <!--<div name="button_box" position="inside">-->
 
                 <!-- Hide if is a Unit -->
-                <field name="company_type" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="parent_id" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="function" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="lang" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="email" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="title" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <field name="website" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </field>
-                <xpath expr="//field[@name='mobile']" position="attributes">
+                <xpath expr="//sheet/group/group[2]" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='phone']" position="attributes">
+                <xpath expr="//sheet/group/group[2]" position="after">
+                    <group attrs="{'invisible': [('is_unit','=',False)]}">
+                        <field name="u_function" placeholder="e.g. Sales Director"
+                               attrs="{'invisible': [('is_company','=', True)]}"/>
+                        <field name="u_phone" widget="phone"/>
+                        <field name="u_mobile" widget="phone"/>
+                        <field name="u_email" widget="email" context="{'gravatar_image': True}"
+                               attrs="{'required': [('user_ids','!=', [])]}"/>
+                        <field name="u_website" widget="url" placeholder="e.g. www.odoo.com"/>
+                        <field name="u_title" options='{"no_open": True}'
+                               attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="lang"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
                 </xpath>
-                <xpath expr="//label[@for='mobile']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="u_vat" attrs="{'invisible': [('is_unit','=',False)]}"/>
                 </xpath>
-                <xpath expr="//label[@for='phone']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
-                </xpath>
-
 
                 <xpath expr="//group[@name='sale']" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
@@ -57,22 +46,32 @@
                     <attribute name="attrs">{'invisible': [('is_unit','=',True)]}</attribute>
                 </xpath>
                 <field name="name" position="attributes">
-                    <attribute name="attrs">{'required' : [('type', '=', 'contact')], 'invisible': [('is_unit','=',True)]}</attribute>
+                    <attribute name="attrs">{'required' : [('type', '=', 'contact')], 'invisible':
+                        [('is_unit','=',True)]}
+                    </attribute>
                 </field>
                 <field name="name" position="after">
                     <field name="display_name" attrs="{'invisible': [('is_unit','=',False)]}"/>
                 </field>
 
                 <xpath expr="//notebook/page[@name='internal_notes']" position="before">
-                    <page string="Unit" name="community_association_unit" attrs="{'invisible': [('is_unit','=',False)]}">
+                    <page string="Unit" name="community_association_unit"
+                          attrs="{'invisible': [('is_unit','=',False)]}">
                         <group>
                             <field name="is_unit" invisible="1"/>
-                            <field name="owner_id" context="{'default_is_home_owner': True, 'search_default_is_home_owner': True}"/>
+                            <field name="owner_id"
+                                   context="{'default_is_home_owner': True, 'search_default_is_home_owner': True}"/>
                             <field name="monthly_fees"/>
                             <field name="special_assessment"/>
+                            <label for="ownership_percentage"/>
+                            <div class="o_row">
+                                <field name="ownership_percentage" widget="float"/>
+                                <span>%%</span>
+                            </div>
                         </group>
                     </page>
-                    <page string="Home Owner" name="community_association_owner" attrs="{'invisible': [('is_home_owner','=',False)]}">
+                    <page string="Home Owner" name="community_association_owner"
+                          attrs="{'invisible': [('is_home_owner','=',False)]}">
                         <group>
                             <field name="is_home_owner" invisible="1"/>
                             <field name="unit_count"/>

@@ -44,14 +44,12 @@ class ResPartner(models.Model):
     def name_get(self):
         res = []
         for record in self:
-
             if record.is_unit:
                 unit_name_format = self.env['ir.config_parameter'].sudo().get_param('rem.base_unit_name_format',
                                                                                     '{street} {street2}, {city}, {state} {zip}')
                 name = self.get_formated_name(record, unit_name_format)
             else:
                 name = super(ResPartner, self).name_get()[0][1]
-
             res.append((record.id, name))
         return res
 
@@ -66,8 +64,19 @@ class ResPartner(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     owner_id = fields.Many2one('res.partner', string='Current Owner', help="Owner of the unit",
                                domain=[('is_home_owner', '=', True)])
+
+    # Related Owner
+    u_title = fields.Many2one(related='owner_id.title', help="This field is stored in the Owner file")
+    u_function = fields.Char(related='owner_id.function', help="This field is stored in the Owner file")
+    u_email = fields.Char(related='owner_id.email', help="This field is stored in the Owner file")
+    u_phone = fields.Char(related='owner_id.phone', help="This field is stored in the Owner file")
+    u_mobile = fields.Char(related='owner_id.mobile', help="This field is stored in the Owner file")
+    u_website = fields.Char(related='owner_id.website', help="This field is stored in the Owner file")
+    u_vat = fields.Char(related='owner_id.vat', string="TIN", help="This field is stored in the Owner file")
+
     area = fields.Float(string='Unit Area')
-    monthly_fees = fields.Monetary('Monthly Fees Amount')
+    ownership_percentage = fields.Float(string='Ownership', help="Ownership percentage of the property")
+    monthly_fees = fields.Monetary('Monthly Fees')
     special_assessment = fields.Monetary('Special Assessment')
     deed_date = fields.Date('Deed Date', help="Date when the current owner bought this unit.")
 

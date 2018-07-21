@@ -9,7 +9,7 @@
             <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="Community Management" string="Community Management" data-key="rem_cams">
+                    <div class="app_settings_block" data-string="OpenCAMS" string="Community Management" data-key="opencams">
 
                     </div>
                 </xpath>

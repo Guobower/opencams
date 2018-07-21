@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- cams.violation.reason -->
+
+    <!-- Tree View cams.violation.reason -->
+    <record id="cams_violation_reason_tree" model="ir.ui.view">
+        <field name="name">cams.violation.reason.tree</field>
+        <field name="model">cams.violation.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Violation Reason">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View cams.violation.reason -->
+    <record id="cams_violation_reason_search" model="ir.ui.view">
+        <field name="name">cams.violation.reason.search</field>
+        <field name="model">cams.violation.reason</field>
+        <field name="arch" type="xml">
+            <search string="Violation Reason">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View cams.violation.reason -->
+    <record id="cams_violation_reason_form" model="ir.ui.view">
+        <field name="name">cams.violation.reason.form</field>
+        <field name="model">cams.violation.reason</field>
+        <field name="arch" type="xml">
+            <form string="Violation Reason">
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action cams.violation -->
+    <record id="action_cams_violation_reason_list" model="ir.actions.act_window">
+        <field name="name">Violation Reason</field>
+        <field name="res_model">cams.violation.reason</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- cams.violation -->
+
+    <!-- Tree View cams.violation -->
+    <record id="cams_violation_tree" model="ir.ui.view">
+        <field name="name">cams.violation.tree</field>
+        <field name="model">cams.violation</field>
+        <field name="arch" type="xml">
+            <tree string="Enforcement">
+                <field name="name"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View cams.violation -->
+    <record id="cams_violation_search" model="ir.ui.view">
+        <field name="name">cams.violation.search</field>
+        <field name="model">cams.violation</field>
+        <field name="arch" type="xml">
+            <search string="Enforcement">
+                <field name="name"/>
+                <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter name="group_by_month" string="Creation date (month)" domain="[]"
+                            context="{'group_by':'create_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View cams.violation -->
+    <record id="cams_violation_form" model="ir.ui.view">
+        <field name="name">cams.violation.form</field>
+        <field name="model">cams.violation</field>
+        <field name="arch" type="xml">
+            <form string="Enforcement">
+                <header>
+                    <field name="state" widget="statusbar" readonly="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="notes"/>
+                        <field name="image_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action cams.violation -->
+    <record id="action_cams_violation_list" model="ir.actions.act_window">
+        <field name="name">Enforcement</field>
+        <field name="res_model">cams.violation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

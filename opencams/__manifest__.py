@@ -17,6 +17,9 @@ Feature list:
     'depends': ['base', 'l10n_us', 'account_invoicing'],
     'category': 'Real Estate',
     'data': [
+        'security/rem_security.xml',
+        'security/ir.model.access.csv',
+
         'data/main_data.xml',
         'views/partner_views.xml',
         'views/unit_views.xml',
@@ -26,6 +29,6 @@ Feature list:
     'test': [
     ],
     'installable': True,
-    'application': False,
+    'application': True,
     'auto_install': False,
 }
