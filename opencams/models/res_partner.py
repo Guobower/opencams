@@ -64,6 +64,8 @@ class ResPartner(models.Model):
     type_id = fields.Many2one('rem.unit.type', string='Type')
     owner_id = fields.Many2one('res.partner', string='Current Owner', help="Owner of the unit",
                                domain=[('is_home_owner', '=', True)])
+    architecture_count = fields.Integer(compute='_architecture_count')
+    architecture_ids = fields.One2many('architectural.request', 'unit_id', string='Arch. Request(s)')
 
     # Related Owner
     u_title = fields.Many2one(related='owner_id.title', help="This field is stored in the Owner file")
@@ -80,13 +82,16 @@ class ResPartner(models.Model):
     special_assessment = fields.Monetary('Special Assessment')
     deed_date = fields.Date('Deed Date', help="Date when the current owner bought this unit.")
 
+    @api.depends('architecture_ids')
+    def _architecture_count(self):
+        for partner in self:
+            partner.update({
+                'architecture_count': len(partner.architecture_ids)
+            })
+
     @api.depends('unit_ids')
     def _unit_count(self):
         for partner in self:
             partner.update({
                 'unit_count': len(partner.unit_ids)
             })
-
-    # Currency
-    # currency_id = fields.Many2one(related="company_id.currency_id", string="Currency", readonly=True)
-    # company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id, ondelete='cascade')

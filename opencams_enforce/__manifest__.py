@@ -19,7 +19,7 @@ Feature list:
     'data': [
         'security/ir.model.access.csv',
 
-        'views/enforcement_views.xml',
+        'views/violation_views.xml',
         'views/partner_views.xml',
     ],
     'test': [

@@ -21,6 +21,7 @@ Feature list:
         'security/ir.model.access.csv',
 
         'data/main_data.xml',
+        'views/architecture_views.xml',
         'views/partner_views.xml',
         'views/unit_views.xml',
         'views/res_config_settings_views.xml',

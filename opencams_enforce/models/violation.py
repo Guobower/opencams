@@ -26,10 +26,14 @@ class Enforcement(models.Model):
     reason_id = fields.Many2one('cams.violation.reason', string="Violation Reason", required=True)
     name = fields.Char(string='Subject')
     notes = fields.Text(string='Notes', help='Description of the type.')
-    unit_id = fields.Many2one('res.partner', string='Partner', domain=[('is_unit', '=', True)])
+    unit_id = fields.Many2one('res.partner', string='Unit', domain=[('is_unit', '=', True)])
     state = fields.Selection([
             ('normal', 'Normal'),
             ('disputed', 'Disputed'),
             ('reversed', 'Reversed'),
-            ], string='Status', readonly=True, index=True, copy=False, default='normal', track_visibility='onchange')
+            ], string='Status', index=True, copy=False, default='normal', track_visibility='onchange')
     image_ids = fields.One2many('cams.violation.image', 'violation_id', string='Images')
+    fine_amount = fields.Monetary(string='Fine Value')
+    sale_order_id = fields.Many2one('sale.order', 'Billed At')
+    currency_id = fields.Many2one('res.currency', string='Currency', required=True,
+                                  default=lambda self: self.env.user.company_id.currency_id)

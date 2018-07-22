@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_rem_unit_type,access_rem_unit_type,model_rem_unit_type,,1,1,1,1
+access_architectural_request,access_architectural_request,model_architectural_request,,1,1,1,1

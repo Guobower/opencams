@@ -19,6 +19,17 @@
             <field name="name">Multi-Family Home</field>
             <field name="sequence" eval="4"/>
         </record>
+
+        <!-- Defaults for assessments -->
+        <record model="ir.config_parameter" id="current_year_regular_accessment">
+            <field name="key">opencams.curent_year_regular_accessment</field>
+            <field name="value">0</field>
+        </record>
+
+        <record model="ir.config_parameter" id="current_year_special_accessment">
+            <field name="key">opencams.current_year_special_accessment</field>
+            <field name="value">0</field>
+        </record>
     </data>
 
     <data>
@@ -28,6 +39,7 @@
             <field name="value">{street} {street2}</field>
             <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
         </record>
+
     </data>
 
 </odoo>

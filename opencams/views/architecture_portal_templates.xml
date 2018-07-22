@@ -1,0 +1,82 @@
+<odoo>
+    <template id="portal_my_home_menu_requests" name="Portal layout : Architectural Requests" inherit_id="portal.portal_layout" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'request'">
+                <a t-if="sales_order" t-attf-href="/my/orders?{{ keep_query() }}">Sales Orders</a>
+                <t t-else="">Sales Orders</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_requests" name="Portal My Home : Architectural Requests" inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//ul[hasclass('o_portal_docs')]" position="inside">
+            <li t-if="request_count" class="list-group-item">
+                <span class="badge" t-esc="order_count"/>
+                <a href="/my/architectural/requests">Architectural Requests</a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_requests" name="My Architectural Requests">
+      <t t-call="portal.portal_layout">
+        <h3>My Architectural Requests
+            <t t-call="portal.portal_searchbar"/>
+        </h3>
+        <t t-if="not arch_requests">
+            <p>There are currently no requests for your account.</p>
+        </t>
+        <div t-if="arch_requests" class="panel panel-default">
+            <div class="table-responsive"><table class="table table-hover o_portal_my_doc_table">
+                <thead>
+                  <tr class="active">
+                    <th>
+                      <span class='hidden-xs'>Arch. Request #</span>
+                      <span class='visible-xs'>Ref.</span>
+                    </th>
+                    <th>Create Date</th>
+                    <th ></th>
+                  </tr>
+                </thead>
+                <t t-foreach="arch_requests" t-as="arch_request">
+                    <tr>
+                        <td>
+                            <a t-attf-href="/my/architectural/requests/{{arch_request.id}}?{{keep_query()}}"><t t-esc="arch_request.name"/></a>
+                        </td>
+                        <td>
+                          <span t-field="arch_request.create_date" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                          <span class='hidden-xs' t-field="request.create_date" t-options="{'time_only': True}"/>
+                        </td>
+                        <td>
+                            <t>
+                                <span class="label label-info"><i class="fa fa-fw fa-clock-o"></i><span t-esc="arch_request.state"></span></span>
+                            </t>
+                        </td>
+                    </tr>
+                </t>
+            </table></div>
+            <div t-if="pager" class="o_portal_pager text-center">
+              <t t-call="portal.pager"/>
+            </div>
+        </div>
+      </t>
+    </template>
+
+    <template id="portal_order_error" name="Order error/warning display">
+        <div class="row mr16">
+            <div t-attf-class="'col-md-12 mr16 ml16 alert alert-dismissable' #{'alert-danger' if error else 'alert-warning'}">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <t t-if="error == 'generic'" name="generic">
+                    There was an error processing this page.
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="portal_order_success" name="Order success display">
+        <div class="row mr16">
+            <div class="col-md-12 mr16 ml16 alert alert-dismissable alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+            </div>
+        </div>
+    </template>
+</odoo>

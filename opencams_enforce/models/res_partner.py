@@ -5,7 +5,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     violation_count = fields.Integer(compute='_violation_count')
-    violation_ids = fields.One2many('cams.violation', 'unit_id', string='Unit(s)')
+    violation_ids = fields.One2many('cams.violation', 'unit_id', string='Violation(s)')
 
     @api.depends('violation_ids')
     def _violation_count(self):

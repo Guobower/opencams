@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- architectural.request -->
+
+    <!-- Tree View architectural.request -->
+    <record id="architectural_request_tree" model="ir.ui.view">
+        <field name="name">architectural.request.tree</field>
+        <field name="model">architectural.request</field>
+        <field name="arch" type="xml">
+            <tree string="Architectural Request">
+                <field name="name"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View architectural.request -->
+    <record id="architectural_request_search" model="ir.ui.view">
+        <field name="name">architectural.request.search</field>
+        <field name="model">architectural.request</field>
+        <field name="arch" type="xml">
+            <search string="Architectural Request">
+                <field name="name"/>
+                <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter name="group_by_month" string="Creation date (month)" domain="[]"
+                            context="{'group_by':'create_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View architectural.request -->
+    <record id="architectural_request_form" model="ir.ui.view">
+        <field name="name">architectural.request.form</field>
+        <field name="model">architectural.request</field>
+        <field name="arch" type="xml">
+            <form string="Architectural Request">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="create_date"/>
+                        <field name="unit_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="notes" widget="html" editor_height="450px"/>
+                        </page>
+                        <page string="Attachment" name="attachments">
+                            <group>
+                                <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action architectural.request -->
+    <record id="action_architectural_request_list" model="ir.actions.act_window">
+        <field name="name">Architectural Request</field>
+        <field name="res_model">architectural.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

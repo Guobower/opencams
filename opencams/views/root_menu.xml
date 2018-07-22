@@ -9,17 +9,24 @@
                   sequence="-1"/>
 
         <!-- Lists -->
-        <menuitem id="menu_rem_cams_lists" name="List" parent="menu_rem_cams" sequence="10"/>
+        <menuitem name="List"
+                  parent="menu_rem_cams"
+                  id="menu_rem_cams_lists" sequence="10"/>
+
         <menuitem name="Units"
                   parent="menu_rem_cams_lists"
                   action="action_rem_unit"
-                  id="menu_rem_unit"
-                  sequence="-1"/>
+                  id="menu_rem_unit" sequence="0"/>
+
         <menuitem name="Home Owners"
                   parent="menu_rem_cams_lists"
                   action="action_homeowners_cams"
-                  id="menu_rem_home_owners"
-                  sequence="-1"/>
+                  id="menu_rem_home_owners" sequence="1"/>
+
+        <menuitem name="Arch. Requests"
+                  parent="menu_rem_cams_lists"
+                  action="action_architectural_request_list"
+                  id="menu_rem_architectural_request" sequence="4"/>
 
         <!-- Configuration -->
         <menuitem id="menu_rem_cams_config" name="Configuration" parent="menu_rem_cams" sequence="15" groups="account.group_account_manager"/>

@@ -87,14 +87,44 @@
         <field name="arch" type="xml">
             <form string="Enforcement">
                 <header>
-                    <field name="state" widget="statusbar" readonly="1"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="unit_id"/>
+                        <field name="reason_id"/>
                         <field name="notes"/>
-                        <field name="image_ids" widget="many2many_binary"/>
                     </group>
+                    <group>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="fine_amount"/>
+                    </group>
+                    <notebook>
+                        <page string="Images">
+                            <field name="image_ids" mode="kanban"
+                                   context="{'default_name': name, 'default_product_tmpl_id': active_id}">
+                                <kanban string="Product Images">
+                                    <field name="name"/>
+                                    <field name="image"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                                <div class="o_kanban_image">
+                                                    <img t-if="record.image.raw_value"
+                                                         t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -107,5 +137,11 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <menuitem name="Violations"
+              parent="opencams.menu_rem_cams_lists"
+              action="action_cams_violation_list"
+              id="menu_opencams_enforce_violations"
+              sequence="2"/>
 
 </odoo>
