@@ -9,7 +9,7 @@
                   sequence="-1"/>
 
         <!-- Lists -->
-        <menuitem name="List"
+        <menuitem name="Community"
                   parent="menu_rem_cams"
                   id="menu_rem_cams_lists" sequence="10"/>
 

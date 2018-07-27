@@ -21,11 +21,13 @@ Feature list:
         'security/ir.model.access.csv',
 
         'data/main_data.xml',
+        'wizard/invoice_re_unit_views.xml',
         'views/architecture_views.xml',
         'views/partner_views.xml',
         'views/unit_views.xml',
         'views/res_config_settings_views.xml',
         'views/root_menu.xml',
+        'data/main_demo.xml'
     ],
     'test': [
     ],

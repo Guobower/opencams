@@ -3,7 +3,6 @@
     <data>
 
         <!-- Home Owners View -->
-
         <record model="ir.ui.view" id="partner_view_cams_form">
             <field name="name">partner.view.community.association.form</field>
             <field name="model">res.partner</field>
@@ -65,6 +64,7 @@
                           attrs="{'invisible': [('is_unit','=',False)]}">
                         <group>
                             <field name="is_unit" invisible="1"/>
+                            <field name="type_id"/>
                             <field name="owner_id"
                                    context="{'default_is_home_owner': True, 'search_default_is_home_owner': True}"/>
                             <field name="monthly_fees"/>
@@ -88,8 +88,40 @@
             </field>
         </record>
 
+        <record id="partner_view_cams_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree.opencams.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="display_name" position="after">
+                    <field name="type_id"/>
+                    <field name="owner_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="partner_view_cams_kanban">
+            <field name="name">res.partner.kanban.opencams.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_image')]" position="replace">
+                    <div class="o_kanban_image">
+                        <svg aria-hidden="true" data-prefix="far" data-icon="home" role="img"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="57px" height="56px"
+                             class="svg-inline--fa fa-home fa-w-18 fa-3x">
+                            <path fill="currentColor"
+                                  d="M557.1 240.7L512 203.8V104c0-4.4-3.6-8-8-8h-32c-4.4 0-8 3.6-8 8v60.5L313.4 41.1c-14.7-12.1-36-12.1-50.7 0L18.9 240.7c-3.4 2.8-3.9 7.8-1.1 11.3l20.3 24.8c2.8 3.4 7.8 3.9 11.3 1.1l14.7-12V464c0 8.8 7.2 16 16 16h168c4.4 0 8-3.6 8-8V344h64v128c0 4.4 3.6 8 8 8h168c8.8 0 16-7.2 16-16V265.8l14.7 12c3.4 2.8 8.5 2.3 11.3-1.1l20.3-24.8c2.6-3.4 2.1-8.4-1.3-11.2zM464 432h-96V304c0-4.4-3.6-8-8-8H216c-4.4 0-8 3.6-8 8v128h-96V226.5l170.9-140c2.9-2.4 7.2-2.4 10.1 0l170.9 140V432z"
+                                  class=""></path>
+                        </svg>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
         <record id="action_homeowners_cams" model="ir.actions.act_window">
-            <field name="name">Contacts</field>
+            <field name="name">Units</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -97,34 +129,20 @@
             <field name="domain">[('is_home_owner', '=', True )]</field>
             <field name="context">{'default_is_home_owner': 1}</field>
             <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('base.res_partner_kanban_view')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('base.view_partner_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_form')})]"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to add a contact in your contacts directory.
                 </p>
                 <p>
-                    Odoo helps you easily track all activities related to
-                    a customer: discussions, history of business opportunities,
+                    OpenCAMS helps you easily track all activities related to
+                    a home owner: discussions, history of communication,
                     documents, etc.
                 </p>
             </field>
-        </record>
-        <record id="action_contacts_view_kanban" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
-            <field name="view_mode">kanban</field>
-            <field name="view_id" ref="base.res_partner_kanban_view"/>
-            <field name="act_window_id" ref="action_homeowners_cams"/>
-        </record>
-        <record id="action_contacts_view_tree" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
-            <field name="act_window_id" ref="action_homeowners_cams"/>
-        </record>
-        <record id="action_contacts_view_form" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="partner_view_cams_form"/>
-            <field name="act_window_id" ref="action_homeowners_cams"/>
         </record>
 
         <record id="action_rem_unit" model="ir.actions.act_window">
@@ -136,14 +154,17 @@
             <field name="domain">[('is_unit', '=', True)]</field>
             <field name="context">{'default_is_unit': True, 'default_type': 'other'}</field>
             <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'kanban', 'view_id': ref('opencams.partner_view_cams_kanban')}),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('base.view_partner_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_form')})]"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to add a contact in your contacts directory.
                 </p>
                 <p>
-                    Odoo helps you easily track all activities related to
-                    a customer: discussions, history of business opportunities,
-                    documents, etc.
+                    OpenCAMS helps you easily track all activities related to
+                    a unit: discussions, history, documents, etc.
                 </p>
             </field>
         </record>
